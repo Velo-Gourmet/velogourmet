@@ -3,191 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Velo Gourmet Berlin</title>
+    <title>VELO GOURMET - Dein Mietkoch</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-        
         body {
-            font-family: Arial, sans-serif;
-            background-color: #FFF9D2;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fcfcfc;
             color: #333;
-            display: flex;
-            flex-direction: column;
-            padding: 15px;
-            min-height: 100dvh;
-        }
-
-        .main-content {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
             text-align: center;
-            min-height: 100dvh;
         }
-
-        .logo {
-            max-width: 220px;
-            max-height: 40dvh;
-            height: auto;
-            object-fit: contain;
-            margin-bottom: 15px;
-        }
-
-        p {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 25px;
-            padding: 0 10px;
-        }
-
-        .button-bar {
-            display: flex;
-            gap: 15px;
-            width: 100%;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 15px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: bold;
-            text-decoration: none;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .btn-contact { background-color: #27ae60; color: white; }
-        .btn-inspiration { background-color: #34495e; color: white; }
-
-        .inspiration-section {
-            min-height: 100dvh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 0;
-        }
-
-        .inspiration-section h2 {
-            font-size: 1.4rem;
-            margin-bottom: 25px;
-            color: #333;
-        }
-
-        .collage-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-auto-rows: 150px;
-            gap: 15px;
-            width: 100%;
-            max-width: 600px;
-            grid-auto-flow: dense;
-        }
-
-        .kachel {
-            background-color: #f0ead6;
-            border-radius: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #777;
-            font-size: 0.9rem;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .kachel-quer { grid-column: span 2; }
-        .kachel-hoch { grid-row: span 2; }
-        .kachel img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; }
-
-        .contact-section {
-            min-height: 100dvh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 40px 0;
-        }
-
-        .contact-section h2 { font-size: 1.4rem; margin-bottom: 25px; color: #333; }
-        .contact-links { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 400px; }
         
-        .contact-btn {
-            padding: 15px;
+        /* Minimalistischer Header ohne Menü oben links */
+        header {
+            padding: 50px 20px 20px;
+        }
+        header h1 {
+            font-size: 2.5em;
+            letter-spacing: 3px;
+            margin: 0;
+            text-transform: uppercase;
+            color: #2c3e50;
+        }
+        header p {
+            font-size: 1.2em;
+            color: #7f8c8d;
+            margin-top: 10px;
+        }
+
+        /* Collage-Bereich */
+        .collage {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 40px 20px;
+            flex-wrap: wrap;
+        }
+        .collage-item {
+            width: 300px;
+            height: 250px;
+            background-color: #ecf0f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border-radius: 8px;
-            font-size: 1rem;
-            font-weight: bold;
-            text-decoration: none;
-            text-align: center;
-            color: white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            color: #95a5a6;
+            /* Hier später die echten Bilder per CSS background-image oder <img> Tag einfügen */
         }
 
-        .whatsapp-btn { background-color: #25D366; }
-        .insta-btn { background-color: #E1306C; }
-        .email-btn { background-color: #2980b9; }
-
-        /* Footer für rechtliche Links */
-        .footer {
-            margin-top: auto;
-            text-align: center;
-            padding: 20px 0;
-            font-size: 0.8rem;
+        /* Buttons (Zwei Stück, wie besprochen) */
+        .actions {
+            margin: 30px 0 60px;
         }
-        .footer a {
-            color: #666;
-            margin: 0 10px;
+        .btn {
+            display: inline-block;
+            margin: 10px 15px;
+            padding: 15px 40px;
+            font-size: 1.1em;
             text-decoration: none;
+            color: #fff;
+            background-color: #27ae60; /* Frisches Grün, passend zum Koch-Thema */
+            border-radius: 30px;
+            transition: background-color 0.3s ease;
         }
-        .footer a:hover {
+        .btn-secondary {
+            background-color: #2c3e50;
+        }
+        .btn:hover {
+            background-color: #2ecc71;
+        }
+        .btn-secondary:hover {
+            background-color: #34495e;
+        }
+
+        /* Footer mit rechtlichen Links */
+        footer {
+            background-color: #2c3e50;
+            color: #bdc3c7;
+            padding: 40px 20px;
+            font-size: 0.9em;
+        }
+        footer a {
+            color: #ecf0f1;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+        footer a:hover {
             text-decoration: underline;
+        }
+        .privacy-box {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #7f8c8d;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+            font-size: 0.85em;
+            line-height: 1.5;
         }
     </style>
 </head>
 <body>
 
-    <div class="main-content">
-        <img src="1577.png" alt="Velo Gourmet Berlin Logo" class="logo">
-        <p>Feinstes Essen, CO2-frei direkt zu dir geliefert.</p>
+    <header>
+        <!-- Platzhalter für dein Cargo-Bike Logo -->
+        <h1>VELO GOURMET</h1>
+        <p>Dein Mietkoch</p>
+    </header>
+
+    <main>
+        <!-- Collage-Bereich -->
+        <div class="collage">
+            <div class="collage-item">Platzhalter: Dein Lastenrad</div>
+            <div class="collage-item">Platzhalter: Kulinarisches Highlight</div>
+        </div>
+
+        <!-- Call-to-Action Buttons -->
+        <div class="actions">
+            <a href="#kontakt" class="btn">Termin anfragen</a>
+            <a href="#angebot" class="btn btn-secondary">Mein Angebot</a>
+        </div>
+    </main>
+
+    <!-- Footer-Bereich -->
+    <footer>
+        <div class="legal-links">
+            <a href="#impressum">Impressum</a> | 
+            <a href="#datenschutz">Datenschutzerklärung</a>
+        </div>
         
-        <div class="button-bar">
-            <a href="#kontakt" class="btn btn-contact">Kontakt</a>
-            <a href="#inspiration" class="btn btn-inspiration">Inspiration</a>
+        <!-- Integrierter Datenschutz-Text für PayPal etc. -->
+        <div id="datenschutz" class="privacy-box">
+            <strong>Datenschutzhinweis:</strong><br><br>
+            Verantwortlich für die Datenverarbeitung ist Velo Gourmet Berlin. Wir erheben personenbezogene Daten ausschließlich, um deine Anfragen zu bearbeiten und unsere Dienstleistungen für dich zu erbringen.<br><br>
+            Für die Zahlungsabwicklung nutzen wir den Dienst PayPal. Dabei werden Daten, die für die Zahlung notwendig sind, an PayPal übermittelt. Es gilt die Datenschutzerklärung von PayPal. Du kannst jederzeit Auskunft über deine gespeicherten Daten verlangen.
         </div>
-    </div>
-
-    <div id="inspiration" class="inspiration-section">
-        <h2>Inspiration</h2>
-        <div class="collage-grid">
-            <div class="kachel kachel-quer">Bild 1 (Querformat)</div>
-            <div class="kachel">Bild 2</div>
-            <div class="kachel kachel-hoch">Bild 3 (Hochformat)</div>
-            <div class="kachel">Bild 4</div>
-            <div class="kachel">Bild 5</div>
+        
+        <div style="margin-top: 20px;">
+            &copy; 2026 Velo Gourmet
         </div>
-    </div>
-
-    <div id="kontakt" class="contact-section">
-        <h2>Wähle deinen Kanal</h2>
-        <div class="contact-links">
-            <a href="https://wa.me/DEINE_NUMMER" target="_blank" class="contact-btn whatsapp-btn">WhatsApp / Anrufen</a>
-            <a href="https://www.instagram.com/velogourmet" target="_blank" class="contact-btn insta-btn">Instagram</a>
-            <a href="mailto:deine-email@example.com" class="contact-btn email-btn">E-Mail schreiben</a>
-        </div>
-    </div>
-
-    <div class="footer">
-        <a href="#impressum">Impressum</a>
-        <a href="#datenschutz">Datenschutzerklärung</a>
-    </div>
+    </footer>
 
 </body>
 </html>
