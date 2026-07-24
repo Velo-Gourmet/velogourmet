@@ -18,6 +18,12 @@
         header {
             padding: 50px 20px 20px;
         }
+        .logo-placeholder {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
         header h1 {
             font-size: 2.5em;
             letter-spacing: 3px;
@@ -48,7 +54,9 @@
             justify-content: center;
             border-radius: 8px;
             color: #95a5a6;
-            /* Hier später die echten Bilder per CSS background-image oder <img> Tag einfügen */
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         /* Buttons (Zwei Stück, wie besprochen) */
@@ -76,38 +84,19 @@
             background-color: #34495e;
         }
 
-        /* Footer mit rechtlichen Links */
+        /* Footer */
         footer {
             background-color: #2c3e50;
             color: #bdc3c7;
             padding: 40px 20px;
-            font-size: 0.9em;
-        }
-        footer a {
-            color: #ecf0f1;
-            text-decoration: none;
-            margin: 0 15px;
-        }
-        footer a:hover {
-            text-decoration: underline;
-        }
-        .privacy-box {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #7f8c8d;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: left;
-            font-size: 0.85em;
-            line-height: 1.5;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <!-- Platzhalter für dein Cargo-Bike Logo -->
+        <!-- Hier kommt später dein 3D-Logo mit dem Cargo-Bike und den angepassten Texturen hin -->
+        <div class="logo-placeholder">[Platzhalter Logo-Grafik]</div>
         <h1>VELO GOURMET</h1>
         <p>Dein Mietkoch</p>
     </header>
@@ -115,7 +104,7 @@
     <main>
         <!-- Collage-Bereich -->
         <div class="collage">
-            <div class="collage-item">Platzhalter: Dein Lastenrad</div>
+            <div class="collage-item">Platzhalter: Impressionen Lastenrad</div>
             <div class="collage-item">Platzhalter: Kulinarisches Highlight</div>
         </div>
 
@@ -126,7 +115,7 @@
         </div>
     </main>
 
-         <!-- Footer-Bereich -->
+    <!-- Footer-Bereich mit einklappbaren Rechtstexten -->
     <footer>
         <div style="max-width: 700px; margin: 0 auto; text-align: left; padding: 0 20px;">
             
@@ -155,12 +144,10 @@
 
         </div>
         
-        <div style="margin-top: 40px; text-align: center;">
+        <div style="margin-top: 40px; text-align: center; font-size: 0.9em;">
             &copy; 2026 Velo Gourmet
         </div>
     </footer>
-
-      
 
 </body>
 </html>
