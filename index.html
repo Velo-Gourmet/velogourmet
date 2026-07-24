@@ -12,8 +12,9 @@
             color: #333;
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
-            padding: 20px;
+            /* 100dvh passt sich dynamisch an die Handy-Menüleisten an */
+            min-height: 100dvh;
+            padding: 15px;
         }
         .main-content {
             flex: 1;
@@ -24,14 +25,17 @@
             text-align: center;
         }
         .logo {
-            max-width: 250px;
+            max-width: 220px; /* Minimal verkleinert */
+            max-height: 40dvh; /* Verhindert, dass das Logo vertikal zu viel Platz frisst */
             height: auto;
-            margin-bottom: 20px;
+            object-fit: contain;
+            margin-bottom: 15px;
         }
         p {
             font-size: 1.1rem;
             color: #666;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+            padding: 0 10px;
         }
         .button-bar {
             display: flex;
@@ -39,7 +43,7 @@
             width: 100%;
             max-width: 400px;
             margin: 0 auto;
-            padding-bottom: 20px;
+            padding-bottom: 10px; /* Abstand nach unten reduziert */
         }
         .btn {
             flex: 1;
@@ -65,7 +69,6 @@
 <body>
 
     <div class="main-content">
-        <!-- Das Logo-Bild -->
         <img src="1541.png" alt="Velo Gourmet Logo" class="logo">
         <p>Feinstes Essen, CO2-frei direkt zu dir geliefert.</p>
     </div>
