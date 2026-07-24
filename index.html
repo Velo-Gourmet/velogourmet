@@ -6,16 +6,20 @@
     <title>Velo Gourmet</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        /* Ermöglicht das weiche Scrollen auf der Website */
+        html { scroll-behavior: smooth; }
+        
         body {
             font-family: Arial, sans-serif;
             background-color: #f9f9f9;
             color: #333;
             display: flex;
             flex-direction: column;
-            /* 100dvh passt sich dynamisch an die Handy-Menüleisten an */
             min-height: 100dvh;
             padding: 15px;
         }
+
+        /* Erster Bildschirmbereich (Hero) */
         .main-content {
             flex: 1;
             display: flex;
@@ -23,28 +27,32 @@
             justify-content: center;
             align-items: center;
             text-align: center;
+            min-height: 100dvh;
         }
+
         .logo {
-            max-width: 220px; /* Minimal verkleinert */
-            max-height: 40dvh; /* Verhindert, dass das Logo vertikal zu viel Platz frisst */
+            max-width: 220px;
+            max-height: 40dvh;
             height: auto;
             object-fit: contain;
             margin-bottom: 15px;
         }
+
         p {
             font-size: 1.1rem;
             color: #666;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             padding: 0 10px;
         }
+
         .button-bar {
             display: flex;
             gap: 15px;
             width: 100%;
             max-width: 400px;
             margin: 0 auto;
-            padding-bottom: 10px; /* Abstand nach unten reduziert */
         }
+
         .btn {
             flex: 1;
             padding: 15px;
@@ -56,26 +64,86 @@
             text-align: center;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
+
         .btn-contact {
             background-color: #27ae60;
             color: white;
         }
+
         .btn-gallery {
             background-color: #34495e;
             color: white;
         }
+
+        /* Zweiter Bildschirmbereich: Die Kontakt-Sektion */
+        .contact-section {
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .contact-section h2 {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .contact-btn {
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Farbanpassungen für die modernen Kanäle */
+        .whatsapp-btn { background-color: #25D366; }
+        .insta-btn { background-color: #E1306C; }
+        .email-btn { background-color: #2980b9; }
     </style>
 </head>
 <body>
 
+    <!-- Startbereich -->
     <div class="main-content">
         <img src="1541.png" alt="Velo Gourmet Logo" class="logo">
         <p>Feinstes Essen, CO2-frei direkt zu dir geliefert.</p>
+        
+        <div class="button-bar">
+            <!-- Verweist per Anker auf die Kontakt-Sektion unten -->
+            <a href="#kontakt" class="btn btn-contact">Kontakt</a>
+            <a href="#galerie" class="btn btn-gallery">Galerie</a>
+        </div>
     </div>
 
-    <div class="button-bar">
-        <a href="mailto:deine-email@example.com" class="btn btn-contact">Kontakt</a>
-        <a href="#galerie" class="btn btn-gallery">Galerie</a>
+    <!-- Kontakt-Sektion (wird durch das weiche Scrollen erreicht) -->
+    <div id="kontakt" class="contact-section">
+        <h2>Wähle deinen Kanal</h2>
+        <div class="contact-links">
+            <!-- Ersetze DEINE_NUMMER später mit deiner echten WhatsApp/Telefonnummer (Format: +49...) -->
+            <a href="https://wa.me/DEINE_NUMMER" target="_blank" class="contact-btn whatsapp-btn">WhatsApp / Anrufen</a>
+            
+            <!-- Ersetze DEIN_INSTAGRAM_NAME mit deinem Profil -->
+            <a href="https://instagram.com/DEIN_INSTAGRAM_NAME" target="_blank" class="contact-btn insta-btn">Instagram</a>
+            
+            <!-- Ersetze deine-email@example.com mit deiner Adresse -->
+            <a href="mailto:deine-email@example.com" class="contact-btn email-btn">E-Mail schreiben</a>
+        </div>
     </div>
 
 </body>
