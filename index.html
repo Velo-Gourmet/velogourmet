@@ -23,18 +23,61 @@
             align-items: center;
             text-align: center;
         }
-        h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-            color: #2c3e50;
+        /* Styling für das Logo-Bild */
+        .logo {
+            max-width: 250px; /* Begrenzt die Breite auf Handys */
+            height: auto; /* Behält das Seitenverhältnis bei */
+            margin-bottom: 20px; /* Abstand zum Text darunter */
         }
         p {
             font-size: 1.1rem;
             color: #666;
+            margin-bottom: 30px;
         }
-        /* Die Leiste für die zwei Buttons am unteren Bildschirm */
         .button-bar {
             display: flex;
+            gap: 15px;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            padding-bottom: 20px;
+        }
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .btn-contact {
+            background-color: #27ae60;
+            color: white;
+        }
+        .btn-gallery {
+            background-color: #34495e;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-content">
+        <!-- Das Logo-Bild wird hier eingefügt -->
+        <img src="1541.png" alt="Velo Gourmet Logo" class="logo">
+        <p>Feinstes Essen, CO2-frei direkt zu dir geliefert.</p>
+    </div>
+
+    <div class="button-bar">
+        <a href="mailto:deine-email@example.com" class="btn btn-contact">Kontakt</a>
+        <a href="#galerie" class="btn btn-gallery">Galerie</a>
+    </div>
+
+</body>
+</html>            display: flex;
             gap: 15px;
             width: 100%;
             max-width: 400px;
