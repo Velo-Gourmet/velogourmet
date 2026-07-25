@@ -14,21 +14,53 @@
             text-align: center;
         }
         
-        /* Minimalistischer Header ohne Menü oben links */
+        /* Fixed Header Container für sanftes Verkleinern beim Scrollen */
         header {
-            padding: 50px 20px 20px;
+            position: sticky;
+            top: 0;
+            background-color: rgba(252, 252, 252, 0.95);
+            backdrop-filter: blur(5px);
+            padding: 30px 20px 15px;
+            z-index: 1000;
+            transition: all 0.3s ease;
         }
+
+        /* Logo: Prozentuale Größe basierend auf Bildschirmbreite (vw) */
+        .logo {
+            width: 25vw;
+            min-width: 120px;
+            max-width: 280px;
+            height: auto;
+            transition: width 0.3s ease, transform 0.3s ease;
+            display: block;
+            margin: 0 auto 10px;
+        }
+
+        /* CSS-Klasse beim Scrollen: Verkleinert das Logo prozentual */
+        header.scrolled {
+            padding: 10px 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        header.scrolled .logo {
+            width: 12vw;
+            min-width: 80px;
+            max-width: 140px;
+        }
+        header.scrolled h1, header.scrolled p {
+            display: none; /* Blendet Titel ab gewisser Scrolltiefe aus für maximalen Fokus */
+        }
+
         header h1 {
-            font-size: 2.5em;
+            font-size: 2em;
             letter-spacing: 3px;
             margin: 0;
             text-transform: uppercase;
             color: #2c3e50;
         }
         header p {
-            font-size: 1.2em;
+            font-size: 1.1em;
             color: #7f8c8d;
-            margin-top: 10px;
+            margin-top: 5px;
         }
 
         /* Collage-Bereich */
@@ -88,9 +120,9 @@
 </head>
 <body>
 
-    <header>
-        <!-- Integriertes Logo -->
-        <img src="1577_2.png" alt="Velo Gourmet Berlin Logo" style="max-width: 250px; height: auto; margin-bottom: 15px;">
+    <header id="main-header">
+        <!-- Flexibles Logo mit CSS-Klasse -->
+        <img src="1577_2.png" alt="Velo Gourmet Berlin Logo" class="logo">
         
         <h1>VELO GOURMET</h1>
         <p>Dein Mietkoch</p>
@@ -143,6 +175,18 @@
             &copy; 2026 Velo Gourmet
         </div>
     </footer>
+
+    <!-- Skript für die Scroll-Animation des Logos -->
+    <script>
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
 
 </body>
 </html>
