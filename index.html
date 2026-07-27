@@ -28,13 +28,22 @@
             background-color: #fcfcfc;
         }
 
-        /* Maximierte Logo-Präsenz */
-        .logo {
+        /* Wrapper: Beschneidet das Bild unten, um den im Bild integrierten Text zu verdecken */
+        .logo-wrapper {
             width: 90vw;
             max-width: 750px;
+            max-height: 55vh; /* Begrenzt die Höhe, um die untere Textzeile der Grafik auszublenden */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin: 0 auto;
+        }
+
+        .logo-wrapper img {
+            width: 100%;
             height: auto;
             display: block;
-            margin: 0 auto;
         }
 
         /* Bildschirm 2: Buttons (Zentral verankert) */
@@ -94,9 +103,11 @@
 </head>
 <body>
 
-    <!-- Section 1: Hero (Ausschließlich das Logo) -->
+    <!-- Section 1: Hero (Nur das Logo-Symbol, Text im Bild wird unten abgeschnitten) -->
     <section class="hero-section" id="hero">
-        <img src="1577_2.png" alt="Velo Gourmet Berlin Logo" class="logo">
+        <div class="logo-wrapper">
+            <img src="1577_2.png" alt="Velo Gourmet Berlin Logo">
+        </div>
     </section>
 
     <!-- Section 2: Feste, zentral verankerte Buttons -->
