@@ -18,9 +18,9 @@
             text-align: center;
         }
 
-        /* Bildschirm 1: Logo & Branding */
+        /* Bildschirm 1: Hero / Logo (Exakt 100vh) */
         .hero-section {
-            min-height: 100vh;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -52,9 +52,9 @@
             margin-top: 5px;
         }
 
-        /* Bildschirm 2: Buttons (Perfekt zentriert) */
+        /* Bildschirm 2: Buttons (Feste 100vh Höhe für exakt zentrale Verankerung) */
         .content-section {
-            min-height: 100vh;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -65,18 +65,24 @@
 
         .actions {
             margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
         }
 
         .btn {
             display: inline-block;
-            margin: 10px 15px;
-            padding: 15px 40px;
+            min-width: 200px;
+            padding: 16px 40px;
             font-size: 1.1em;
             text-decoration: none;
             color: #fff;
             background-color: #27ae60;
             border-radius: 30px;
             transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
 
         .btn-secondary {
@@ -110,7 +116,7 @@
         <p>Dein Mietkoch</p>
     </section>
 
-    <!-- Section 2: Exakt zentrierte Buttons -->
+    <!-- Section 2: Feste, zentral verankerte Buttons -->
     <section class="content-section" id="buttons-section">
         <main>
             <div class="actions">
@@ -152,7 +158,7 @@
         </footer>
     </section>
 
-    <!-- Zuverlässiges Skript für den automatischen Übergang -->
+    <!-- Sofort auflösender Scroll-Trigger -->
     <script>
         let isAnimating = false;
         const targetSection = document.getElementById('buttons-section');
@@ -161,39 +167,40 @@
             if (isAnimating) return;
             isAnimating = true;
 
+            // Führt den Besucher mit fixer Geschwindigkeit genau zur verankerten Section
             targetSection.scrollIntoView({ behavior: 'smooth' });
 
-            // Entsperren nach 1 Sekunde, wenn die Animation durchgelaufen ist
+            // Sperre kurz aufrechterhalten, damit der Scroll sauber abschließt
             setTimeout(() => {
                 isAnimating = false;
-            }, 1000);
+            }, 800);
         }
 
-        // 1. Mausrad auf Desktop
+        // 1. Sofortiges Reagieren auf dem PC (Mausrad)
         window.addEventListener('wheel', (e) => {
-            // Nur auslösen, wenn der Nutzer ganz oben auf der Seite ist und nach unten scrollt
-            if (window.scrollY < 100 && e.deltaY > 0) {
+            if (window.scrollY < 50 && e.deltaY > 0) {
                 e.preventDefault();
                 scrollToButtons();
             }
         }, { passive: false });
 
-        // 2. Touch-Gesten auf Smartphones / Tablets
+        // 2. Sofortiges Reagieren bei der ersten Fingerbewegung (Smartphone/Tablet)
         let touchStartY = 0;
 
         window.addEventListener('touchstart', (e) => {
             touchStartY = e.touches[0].clientY;
         }, { passive: true });
 
-        window.addEventListener('touchend', (e) => {
-            const touchEndY = e.changedTouches[0].clientY;
-            const diffY = touchStartY - touchEndY;
+        window.addEventListener('touchmove', (e) => {
+            const currentY = e.touches[0].clientY;
+            const diffY = touchStartY - currentY;
 
-            // Wenn mehr als 30px nach oben gewischt wurde (Scroll nach unten) und man oben steht
-            if (window.scrollY < 100 && diffY > 30) {
+            // BEREITS BEI 5 PIXELN Bewegung schlägt der Trigger sofort an!
+            if (window.scrollY < 50 && diffY > 5) {
+                if (e.cancelable) e.preventDefault();
                 scrollToButtons();
             }
-        }, { passive: true });
+        }, { passive: false });
     </script>
 
 </body>
