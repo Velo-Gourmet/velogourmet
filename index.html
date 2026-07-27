@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VELO GOURMET - Dein Mietkoch</title>
     <style>
+        /* Smooth Scrolling & Snap-Verhalten für die gesamte Seite */
+        html {
+            scroll-behavior: smooth;
+            scroll-snap-type: y mandatory; /* Wischt automatisch zum nächsten Abschnitt */
+        }
+
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
             margin: 0;
@@ -14,49 +20,82 @@
             text-align: center;
         }
         
-        /* Sticky Header */
-        header {
-            position: sticky;
-            top: 0;
+        /* Abschnitte als Snap-Punkte definieren */
+        section {
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+        }
+
+        /* Hero / Header Section (Bildschirm 1) */
+        .hero-section {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding: 20px 15px;
+            box-sizing: border-box;
+            position: sticky;
+            top: 0;
             background-color: rgba(252, 252, 252, 0.95);
             backdrop-filter: blur(5px);
-            padding: 20px 15px;
             z-index: 1000;
-            box-sizing: border-box;
-            transition: min-height 0.1s linear, padding 0.1s linear, box-shadow 0.2s ease;
+            
+            /* Feste Übergangsgeschwindigkeit für alle Größen- & Höheneigenschaften */
+            transition: min-height 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
+                        padding 0.6s cubic-bezier(0.25, 1, 0.5, 1),
+                        box-shadow 0.6s ease;
         }
 
-        /* Dynamisches Logo */
+        /* Logo-Anpassung mit fester CSS-Animation */
         .logo {
-            width: 80vw;           /* Startgröße: 80% der Bildschirmbreite */
+            width: 80vw;
             max-width: 450px;
             height: auto;
             display: block;
             margin: 0 auto 15px;
-            will-change: width;    /* Garantiert butterweiche Animationen auf Mobilgeräten */
+            /* Feste Verkleinerungsgeschwindigkeit (0.6 Sekunden) */
+            transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
+                        margin 0.6s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        header h1 {
-            font-size: 2em;
-            letter-spacing: 3px;
-            margin: 0;
-            text-transform: uppercase;
-            color: #2c3e50;
-        }
-        header p {
-            font-size: 1.1em;
-            color: #7f8c8d;
-            margin-top: 5px;
+        header h1, header p {
+            transition: opacity 0.4s ease, transform 0.4s ease;
         }
 
-        /* Shadow-Effekt beim Scrollen */
-        header.has-shadow {
+        /* Zustand sobald nach unten gescrollt wurde (Kompakte Ansicht oben) */
+        .hero-section.scrolled {
+            min-height: 80px;
+            padding: 10px 15px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .hero-section.scrolled .logo {
+            width: 25vw;
+            min-width: 90px;
+            max-width: 130px;
+            margin: 0 auto;
+        }
+
+        .hero-section.scrolled h1, 
+        .hero-section.scrolled p {
+            opacity: 0;
+            transform: translateY(-10px);
+            pointer-events: none;
+            margin: 0;
+            height: 0;
+            overflow: hidden;
+        }
+
+        /* Hauptinhalt Container */
+        .content-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding-top: 100px; /* Platz für den kompakten Sticky Header */
+            box-sizing: border-box;
         }
 
         /* Collage-Bereich */
@@ -64,12 +103,12 @@
             display: flex;
             justify-content: center;
             gap: 20px;
-            padding: 40px 20px;
+            padding: 20px;
             flex-wrap: wrap;
         }
         .collage-item {
             width: 300px;
-            height: 250px;
+            height: 220px;
             background-color: #ecf0f1;
             display: flex;
             align-items: center;
@@ -83,7 +122,7 @@
 
         /* Buttons */
         .actions {
-            margin: 30px 0 60px;
+            margin: 30px 0 40px;
         }
         .btn {
             display: inline-block;
@@ -116,90 +155,74 @@
 </head>
 <body>
 
-    <header id="main-header">
-        <img src="1577_2.png" alt="Velo Gourmet Berlin Logo" class="logo" id="main-logo">
-        <h1 id="header-title">VELO GOURMET</h1>
-        <p id="header-subtitle">Dein Mietkoch</p>
-    </header>
+    <!-- Hero-Bereich mit Logo & Titel -->
+    <section>
+        <header class="hero-section" id="main-header">
+            <img src="1577_2.png" alt="Velo Gourmet Berlin Logo" class="logo">
+            <h1>VELO GOURMET</h1>
+            <p>Dein Mietkoch</p>
+        </header>
+    </section>
 
-    <main>
-        <!-- Collage-Bereich -->
-        <div class="collage">
-            <div class="collage-item">Platzhalter: Impressionen Lastenrad</div>
-            <div class="collage-item">Platzhalter: Kulinarisches Highlight</div>
-        </div>
+    <!-- Inhalts-Bereich mit Galerie/Collage & Buttons -->
+    <section class="content-section">
+        <main>
+            <!-- Galerie / Collage -->
+            <div class="collage">
+                <div class="collage-item">Platzhalter: Impressionen Lastenrad</div>
+                <div class="collage-item">Platzhalter: Kulinarisches Highlight</div>
+            </div>
 
-        <!-- Call-to-Action Buttons -->
-        <div class="actions">
-            <a href="#kontakt" class="btn">Termin anfragen</a>
-            <a href="#angebot" class="btn btn-secondary">Mein Angebot</a>
-        </div>
-    </main>
+            <!-- Call-to-Action Buttons -->
+            <div class="actions">
+                <a href="#kontakt" class="btn">Termin anfragen</a>
+                <a href="#angebot" class="btn btn-secondary">Mein Angebot</a>
+            </div>
+        </main>
+    </section>
 
-    <!-- Footer-Bereich mit einklappbaren Rechtstexten -->
-    <footer>
-        <div style="max-width: 700px; margin: 0 auto; text-align: left; padding: 0 20px;">
-            <details style="margin-bottom: 15px; cursor: pointer;">
-                <summary style="font-weight: bold; outline: none; color: #ecf0f1;">Impressum</summary>
-                <div style="padding-top: 10px; font-size: 0.85em; line-height: 1.5; color: #bdc3c7;">
-                    <strong>Velo Gourmet Berlin</strong><br>
-                    [Dein Vor- und Nachname]<br>
-                    [Deine Straße und Hausnummer]<br>
-                    [Deine PLZ] Berlin<br>
-                    E-Mail: [Deine E-Mail-Adresse]<br>
-                    Telefon: [Deine Telefonnummer]
-                </div>
-            </details>
+    <!-- Footer-Bereich -->
+    <section>
+        <footer>
+            <div style="max-width: 700px; margin: 0 auto; text-align: left; padding: 0 20px;">
+                <details style="margin-bottom: 15px; cursor: pointer;">
+                    <summary style="font-weight: bold; outline: none; color: #ecf0f1;">Impressum</summary>
+                    <div style="padding-top: 10px; font-size: 0.85em; line-height: 1.5; color: #bdc3c7;">
+                        <strong>Velo Gourmet Berlin</strong><br>
+                        [Dein Vor- und Nachname]<br>
+                        [Deine Straße und Hausnummer]<br>
+                        [Deine PLZ] Berlin<br>
+                        E-Mail: [Deine E-Mail-Adresse]<br>
+                        Telefon: [Deine Telefonnummer]
+                    </div>
+                </details>
 
-            <details style="cursor: pointer;">
-                <summary style="font-weight: bold; outline: none; color: #ecf0f1;">Datenschutzerklärung</summary>
-                <div style="padding-top: 10px; font-size: 0.85em; line-height: 1.5; color: #bdc3c7;">
-                    <strong>Datenschutzhinweis:</strong><br><br>
-                    Verantwortlich für die Datenverarbeitung ist Velo Gourmet Berlin. Wir erheben personenbezogene Daten ausschließlich, um deine Anfragen zu bearbeiten und unsere Dienstleistungen für dich zu erbringen.<br><br>
-                    Für die Zahlungsabwicklung nutzen wir den Dienst PayPal. Dabei werden Daten, die für die Zahlung notwendig sind, an PayPal übermittelt. Es gilt die Datenschutzerklärung von PayPal. Du kannst jederzeit Auskunft über deine gespeicherten Daten verlangen.
-                </div>
-            </details>
-        </div>
-        
-        <div style="margin-top: 40px; text-align: center; font-size: 0.9em;">
-            &copy; 2026 Velo Gourmet
-        </div>
-    </footer>
+                <details style="cursor: pointer;">
+                    <summary style="font-weight: bold; outline: none; color: #ecf0f1;">Datenschutzerklärung</summary>
+                    <div style="padding-top: 10px; font-size: 0.85em; line-height: 1.5; color: #bdc3c7;">
+                        <strong>Datenschutzhinweis:</strong><br><br>
+                        Verantwortlich für die Datenverarbeitung ist Velo Gourmet Berlin. Wir erheben personenbezogene Daten ausschließlich, um deine Anfragen zu bearbeiten und unsere Dienstleistungen für dich zu erbringen.<br><br>
+                        Für die Zahlungsabwicklung nutzen wir den Dienst PayPal. Dabei werden Daten, die für die Zahlung notwendig sind, an PayPal übermittelt. Es gilt die Datenschutzerklärung von PayPal. Du kannst jederzeit Auskunft über deine gespeicherten Daten verlangen.
+                    </div>
+                </details>
+            </div>
+            
+            <div style="margin-top: 40px; text-align: center; font-size: 0.9em;">
+                &copy; 2026 Velo Gourmet
+            </div>
+        </footer>
+    </section>
 
-    <!-- Skript für die kontinuierliche, wisch-synchrone Verkleinerung -->
+    <!-- Skript zur Auslösung der festgelegten CSS-Animation -->
     <script>
         const header = document.getElementById('main-header');
-        const logo = document.getElementById('main-logo');
-        const title = document.getElementById('header-title');
-        const subtitle = document.getElementById('header-subtitle');
 
         window.addEventListener('scroll', function() {
-            const scrollY = window.scrollY;
-            const maxScroll = 250; // Nach 250px Wischen ist die minimale Größe erreicht
-
-            // Berechnung des Fortschritts von 0 (Start) bis 1 (vollständig gescrollt)
-            let progress = Math.min(scrollY / maxScroll, 1);
-
-            // 1. Logo-Breite stufenlos verkleinern (von 80vw runter auf 25vw)
-            let currentWidth = 80 - (progress * 55); 
-            logo.style.width = currentWidth + 'vw';
-
-            // 2. Header-Höhe stufenlos anpassen (von 100vh schrumpfen)
-            let currentHeaderHeight = 100 - (progress * 85); 
-            header.style.minHeight = Math.max(currentHeaderHeight, 15) + 'vh';
-            
-            // 3. Padding schrumpfen lassen
-            header.style.padding = (20 - (progress * 12)) + 'px 15px';
-
-            // 4. Text sanft ausblenden für einen aufgeräumten Header
-            title.style.opacity = 1 - progress;
-            subtitle.style.opacity = 1 - progress;
-
-            // Subtle Shadow ab kleiner Scroll-Bewegung aktivieren
-            if (scrollY > 20) {
-                header.classList.add('has-shadow');
+            // Auslösung ab 30px Scrollweg mit fester Übergangszeit
+            if (window.scrollY > 30) {
+                header.classList.add('scrolled');
             } else {
-                header.classList.remove('has-shadow');
+                header.classList.remove('scrolled');
             }
         });
     </script>
