@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VELO GOURMET - Dein Mietkoch</title>
     <style>
-        /* Smooth Scrolling & Snap-Verhalten für die gesamte Seite */
+        /* Smooth Scrolling & Snap-Verhalten */
         html {
             scroll-behavior: smooth;
             scroll-snap-type: y mandatory;
@@ -20,13 +20,38 @@
             text-align: center;
         }
         
-        /* Abschnitte als Snap-Punkte definieren */
+        /* Abschnitte als Snap-Punkte */
         section {
             scroll-snap-align: start;
             scroll-snap-stop: always;
         }
 
-        /* Hero / Header Section (Bildschirm 1) */
+        /* Keyframe-Animationen für das Verkleinern und Ausblenden */
+        @keyframes logo-shrink {
+            to {
+                width: 25vw;
+                min-width: 90px;
+                max-width: 130px;
+                margin: 0 auto;
+            }
+        }
+
+        @keyframes header-shrink {
+            to {
+                min-height: 80px;
+                padding: 10px 15px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            }
+        }
+
+        @keyframes text-fade {
+            to {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+        }
+
+        /* Hero / Header Section */
         .hero-section {
             min-height: 100vh;
             display: flex;
@@ -40,51 +65,32 @@
             background-color: rgba(252, 252, 252, 0.95);
             backdrop-filter: blur(5px);
             z-index: 1000;
-            
-            /* Sehr ruhiges, langsames Tempo (0.9s) */
-            transition: min-height 0.9s cubic-bezier(0.22, 1, 0.36, 1), 
-                        padding 0.9s cubic-bezier(0.22, 1, 0.36, 1),
-                        box-shadow 0.9s ease;
+
+            /* Scroll-Driven Animation für den Header-Container */
+            animation: header-shrink linear both;
+            animation-timeline: scroll(root);
+            animation-range: 0px 350px; /* Erweiterte Distanz simuliert das langsame Tempo (1.5s Gefühl) */
         }
 
-        /* Logo-Anpassung mit langsamerer, sanfter Bewegung */
+        /* Logo mit Scroll-Driven Animation */
         .logo {
             width: 80vw;
             max-width: 450px;
             height: auto;
             display: block;
             margin: 0 auto 15px;
-            /* Auf 0.9 Sekunden entschleunigt */
-            transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1), 
-                        margin 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+
+            /* Reine CSS Scroll Animation ohne JavaScript */
+            animation: logo-shrink linear both;
+            animation-timeline: scroll(root);
+            animation-range: 0px 350px;
         }
 
+        /* Titel & Untertitel verblassen beim Scrollen */
         header h1, header p {
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-
-        /* Zustand sobald nach unten gescrollt wurde (Kompakte Ansicht oben) */
-        .hero-section.scrolled {
-            min-height: 80px;
-            padding: 10px 15px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-        }
-
-        .hero-section.scrolled .logo {
-            width: 25vw;
-            min-width: 90px;
-            max-width: 130px;
-            margin: 0 auto;
-        }
-
-        .hero-section.scrolled h1, 
-        .hero-section.scrolled p {
-            opacity: 0;
-            transform: translateY(-8px);
-            pointer-events: none;
-            margin: 0;
-            height: 0;
-            overflow: hidden;
+            animation: text-fade linear both;
+            animation-timeline: scroll(root);
+            animation-range: 0px 200px;
         }
 
         /* Hauptinhalt Container */
@@ -135,7 +141,7 @@
 
     <!-- Hero-Bereich mit Logo & Titel -->
     <section>
-        <header class="hero-section" id="main-header">
+        <header class="hero-section">
             <img src="1577_2.png" alt="Velo Gourmet Berlin Logo" class="logo">
             <h1>VELO GOURMET</h1>
             <p>Dein Mietkoch</p>
@@ -183,19 +189,6 @@
             </div>
         </footer>
     </section>
-
-    <!-- Skript zur Auslösung der festgelegten CSS-Animation -->
-    <script>
-        const header = document.getElementById('main-header');
-
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 20) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-    </script>
 
 </body>
 </html>
