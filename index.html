@@ -8,7 +8,7 @@
         /* Smooth Scrolling & Snap-Verhalten für die gesamte Seite */
         html {
             scroll-behavior: smooth;
-            scroll-snap-type: y mandatory; /* Wischt automatisch zum nächsten Abschnitt */
+            scroll-snap-type: y mandatory;
         }
 
         body {
@@ -54,7 +54,6 @@
             height: auto;
             display: block;
             margin: 0 auto 15px;
-            /* Feste Verkleinerungsgeschwindigkeit (0.6 Sekunden) */
             transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
                         margin 0.6s cubic-bezier(0.25, 1, 0.5, 1);
         }
@@ -94,29 +93,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding-top: 100px; /* Platz für den kompakten Sticky Header */
-            box-sizing: border-box;
-        }
-
-        /* Collage-Bereich */
-        .collage {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            padding: 20px;
-            flex-wrap: wrap;
-        }
-        .collage-item {
-            width: 300px;
-            height: 220px;
-            background-color: #ecf0f1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            color: #95a5a6;
-            text-align: center;
-            padding: 20px;
+            padding-top: 100px;
             box-sizing: border-box;
         }
 
@@ -164,16 +141,9 @@
         </header>
     </section>
 
-    <!-- Inhalts-Bereich mit Galerie/Collage & Buttons -->
+    <!-- Inhalts-Bereich mit Call-to-Action Buttons -->
     <section class="content-section">
         <main>
-            <!-- Galerie / Collage -->
-            <div class="collage">
-                <div class="collage-item">Platzhalter: Impressionen Lastenrad</div>
-                <div class="collage-item">Platzhalter: Kulinarisches Highlight</div>
-            </div>
-
-            <!-- Call-to-Action Buttons -->
             <div class="actions">
                 <a href="#kontakt" class="btn">Termin anfragen</a>
                 <a href="#angebot" class="btn btn-secondary">Mein Angebot</a>
@@ -218,7 +188,6 @@
         const header = document.getElementById('main-header');
 
         window.addEventListener('scroll', function() {
-            // Auslösung ab 30px Scrollweg mit fester Übergangszeit
             if (window.scrollY > 30) {
                 header.classList.add('scrolled');
             } else {
