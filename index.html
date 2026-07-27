@@ -41,25 +41,25 @@
             backdrop-filter: blur(5px);
             z-index: 1000;
             
-            /* Feste Übergangsgeschwindigkeit für alle Größen- & Höheneigenschaften */
-            transition: min-height 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
-                        padding 0.6s cubic-bezier(0.25, 1, 0.5, 1),
-                        box-shadow 0.6s ease;
+            /* Angenehmes Tempo (0.4s) mit eleganter Abbremsung (cubic-bezier) */
+            transition: min-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                        padding 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.4s ease;
         }
 
-        /* Logo-Anpassung mit fester CSS-Animation */
+        /* Logo-Anpassung mit flüssiger, harmonischer Animation */
         .logo {
             width: 80vw;
             max-width: 450px;
             height: auto;
             display: block;
             margin: 0 auto 15px;
-            transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
-                        margin 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                        margin 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         header h1, header p {
-            transition: opacity 0.4s ease, transform 0.4s ease;
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
         /* Zustand sobald nach unten gescrollt wurde (Kompakte Ansicht oben) */
@@ -79,7 +79,7 @@
         .hero-section.scrolled h1, 
         .hero-section.scrolled p {
             opacity: 0;
-            transform: translateY(-10px);
+            transform: translateY(-8px);
             pointer-events: none;
             margin: 0;
             height: 0;
@@ -188,7 +188,7 @@
         const header = document.getElementById('main-header');
 
         window.addEventListener('scroll', function() {
-            if (window.scrollY > 30) {
+            if (window.scrollY > 20) {
                 header.classList.add('scrolled');
             } else {
                 header.classList.remove('scrolled');
