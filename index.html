@@ -26,32 +26,7 @@
             scroll-snap-stop: always;
         }
 
-        /* Keyframe-Animationen für das Verkleinern und Ausblenden */
-        @keyframes logo-shrink {
-            to {
-                width: 25vw;
-                min-width: 90px;
-                max-width: 130px;
-                margin: 0 auto;
-            }
-        }
-
-        @keyframes header-shrink {
-            to {
-                min-height: 80px;
-                padding: 10px 15px;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-            }
-        }
-
-        @keyframes text-fade {
-            to {
-                opacity: 0;
-                transform: translateY(-8px);
-            }
-        }
-
-        /* Hero / Header Section */
+        /* Hero / Screen 1: Nimmt die volle Höhe ein & zentriert das Logo */
         .hero-section {
             min-height: 100vh;
             display: flex;
@@ -60,47 +35,39 @@
             align-items: center;
             padding: 20px 15px;
             box-sizing: border-box;
-            position: sticky;
-            top: 0;
-            background-color: rgba(252, 252, 252, 0.95);
-            backdrop-filter: blur(5px);
-            z-index: 1000;
-
-            /* Scroll-Driven Animation für den Header-Container */
-            animation: header-shrink linear both;
-            animation-timeline: scroll(root);
-            animation-range: 0px 350px; /* Erweiterte Distanz simuliert das langsame Tempo (1.5s Gefühl) */
+            background-color: #fcfcfc;
         }
 
-        /* Logo mit Scroll-Driven Animation */
+        /* Logo-Größe für die Startansicht */
         .logo {
-            width: 80vw;
-            max-width: 450px;
+            width: 70vw;
+            max-width: 420px;
             height: auto;
             display: block;
-            margin: 0 auto 15px;
-
-            /* Reine CSS Scroll Animation ohne JavaScript */
-            animation: logo-shrink linear both;
-            animation-timeline: scroll(root);
-            animation-range: 0px 350px;
+            margin: 0 auto 20px;
         }
 
-        /* Titel & Untertitel verblassen beim Scrollen */
-        header h1, header p {
-            animation: text-fade linear both;
-            animation-timeline: scroll(root);
-            animation-range: 0px 200px;
+        .hero-section h1 {
+            font-size: 2em;
+            letter-spacing: 3px;
+            margin: 0;
+            text-transform: uppercase;
+            color: #2c3e50;
         }
 
-        /* Hauptinhalt Container */
+        .hero-section p {
+            font-size: 1.1em;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+
+        /* Screen 2: Inhalt mit den Buttons */
         .content-section {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding-top: 100px;
             box-sizing: border-box;
         }
 
@@ -117,16 +84,18 @@
             color: #fff;
             background-color: #27ae60;
             border-radius: 30px;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
         .btn-secondary {
             background-color: #2c3e50;
         }
         .btn:hover {
             background-color: #2ecc71;
+            transform: translateY(-2px);
         }
         .btn-secondary:hover {
             background-color: #34495e;
+            transform: translateY(-2px);
         }
 
         /* Footer */
@@ -139,16 +108,14 @@
 </head>
 <body>
 
-    <!-- Hero-Bereich mit Logo & Titel -->
-    <section>
-        <header class="hero-section">
-            <img src="1577_2.png" alt="Velo Gourmet Berlin Logo" class="logo">
-            <h1>VELO GOURMET</h1>
-            <p>Dein Mietkoch</p>
-        </header>
+    <!-- Bildschirm 1: Logo & Titel (scrollt beim Wischen ganz normal nach oben weg) -->
+    <section class="hero-section">
+        <img src="1577_2.png" alt="Velo Gourmet Berlin Logo" class="logo">
+        <h1>VELO GOURMET</h1>
+        <p>Dein Mietkoch</p>
     </section>
 
-    <!-- Inhalts-Bereich mit Call-to-Action Buttons -->
+    <!-- Bildschirm 2: Buttons -->
     <section class="content-section">
         <main>
             <div class="actions">
@@ -158,7 +125,7 @@
         </main>
     </section>
 
-    <!-- Footer-Bereich -->
+    <!-- Bildschirm 3: Footer -->
     <section>
         <footer>
             <div style="max-width: 700px; margin: 0 auto; text-align: left; padding: 0 20px;">
