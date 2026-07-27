@@ -13,7 +13,6 @@
             background-color: #fcfcfc;
             color: #333;
             text-align: center;
-            /* Auf der Startseite blockieren wir das Standard-Ruckeln */
             overflow-x: hidden;
         }
 
@@ -29,9 +28,10 @@
             background-color: #fcfcfc;
         }
 
+        /* Logo – Um 20 % vergrößert */
         .logo {
-            width: 70vw;
-            max-width: 420px;
+            width: 84vw;          /* Vorher 70vw */
+            max-width: 504px;     /* Vorher 420px */
             height: auto;
             display: block;
             margin: 0 auto 20px;
@@ -166,7 +166,6 @@
             if (isAnimating) return;
             isAnimating = true;
 
-            // Sanfte und übergangslose Fahrt zum Button-Bereich
             targetSection.scrollIntoView({ behavior: 'smooth' });
 
             setTimeout(() => {
@@ -177,7 +176,6 @@
         // 1. Abfangen von Touch-Events direkt beim Ansetzen der Geste
         window.addEventListener('touchstart', (e) => {
             if (window.scrollY < 50) {
-                // Verhindert den nativen Scroll-Anlauf des Smartphones komplett
                 e.preventDefault();
                 smoothTransition();
             }
