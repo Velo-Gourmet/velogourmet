@@ -41,25 +41,26 @@
             backdrop-filter: blur(5px);
             z-index: 1000;
             
-            /* Angenehmes Tempo (0.4s) mit eleganter Abbremsung (cubic-bezier) */
-            transition: min-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-                        padding 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-                        box-shadow 0.4s ease;
+            /* Sehr ruhiges, langsames Tempo (0.9s) */
+            transition: min-height 0.9s cubic-bezier(0.22, 1, 0.36, 1), 
+                        padding 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+                        box-shadow 0.9s ease;
         }
 
-        /* Logo-Anpassung mit flüssiger, harmonischer Animation */
+        /* Logo-Anpassung mit langsamerer, sanfter Bewegung */
         .logo {
             width: 80vw;
             max-width: 450px;
             height: auto;
             display: block;
             margin: 0 auto 15px;
-            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-                        margin 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            /* Auf 0.9 Sekunden entschleunigt */
+            transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1), 
+                        margin 0.9s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         header h1, header p {
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
         /* Zustand sobald nach unten gescrollt wurde (Kompakte Ansicht oben) */
