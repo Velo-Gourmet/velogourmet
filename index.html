@@ -28,11 +28,11 @@
             background-color: #fcfcfc;
         }
 
-        /* Wrapper: Beschneidet das Bild unten, um den im Bild integrierten Text zu verdecken */
+        /* Wrapper: Beschneidet das Bild unten, um die untere Textzeile auszublenden */
         .logo-wrapper {
             width: 90vw;
             max-width: 750px;
-            max-height: 55vh; /* Begrenzt die Höhe, um die untere Textzeile der Grafik auszublenden */
+            max-height: 55vh;
             overflow: hidden;
             display: flex;
             justify-content: center;
@@ -42,28 +42,32 @@
 
         .logo-wrapper img {
             width: 100%;
-            height: auto;
+            height auto;
             display: block;
         }
 
-        /* Bildschirm 2: Buttons (Zentral verankert) */
+        /* Bildschirm 2: Perfekt zentrierte Buttons (Vertikal & Horizontal) */
         .content-section {
             height: 100vh;
+            width: 100vw;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            justify-content: center; /* Horizontale Zentrierung */
+            align-items: center;     /* Vertikale Zentrierung */
             box-sizing: border-box;
+            padding: 0;
+            margin: 0;
             background-color: #fcfcfc;
         }
 
         .actions {
             margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
             gap: 15px;
             align-items: center;
             justify-content: center;
+            width: 100%;
         }
 
         .btn {
@@ -103,21 +107,19 @@
 </head>
 <body>
 
-    <!-- Section 1: Hero (Nur das Logo-Symbol, Text im Bild wird unten abgeschnitten) -->
+    <!-- Section 1: Hero -->
     <section class="hero-section" id="hero">
         <div class="logo-wrapper">
             <img src="1577_2.png" alt="Velo Gourmet Berlin Logo">
         </div>
     </section>
 
-    <!-- Section 2: Feste, zentral verankerte Buttons -->
+    <!-- Section 2: Exakt vertikal & horizontal zentrierte Buttons -->
     <section class="content-section" id="buttons-section">
-        <main>
-            <div class="actions">
-                <a href="#kontakt" class="btn">Termin anfragen</a>
-                <a href="#angebot" class="btn btn-secondary">Mein Angebot</a>
-            </div>
-        </main>
+        <div class="actions">
+            <a href="#kontakt" class="btn">Termin anfragen</a>
+            <a href="#angebot" class="btn btn-secondary">Mein Angebot</a>
+        </div>
     </section>
 
     <!-- Section 3: Footer -->
@@ -152,7 +154,7 @@
         </footer>
     </section>
 
-    <!-- Nahtloses, unterbrechungsfreies Scroll-Skript -->
+    <!-- Nahtloses Scroll-Skript -->
     <script>
         let isAnimating = false;
         const targetSection = document.getElementById('buttons-section');
@@ -168,7 +170,7 @@
             }, 700);
         }
 
-        // 1. Abfangen von Touch-Events direkt beim Ansetzen der Geste
+        // 1. Abfangen von Touch-Events
         window.addEventListener('touchstart', (e) => {
             if (window.scrollY < 50) {
                 e.preventDefault();
@@ -176,7 +178,7 @@
             }
         }, { passive: false });
 
-        // 2. Abfangen von Mausrad-Events auf PC
+        // 2. Abfangen von Mausrad-Events
         window.addEventListener('wheel', (e) => {
             if (window.scrollY < 50 && e.deltaY > 0) {
                 e.preventDefault();
