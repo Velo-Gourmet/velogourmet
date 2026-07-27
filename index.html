@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VELO GOURMET - Dein Mietkoch</title>
     <style>
+        /* Erzwingt sanftes Gleiten im gesamten Browser */
         html {
             scroll-behavior: smooth;
         }
@@ -16,30 +17,32 @@
             background-color: #fcfcfc;
             color: #333;
             text-align: center;
+            /* Verhindert überschüssiges "Gummiband"-Scrollen auf iOS */
             overscroll-behavior-y: none; 
         }
 
-        /* Haupt-Hero-Bereich: Deutlich kompaktere Höhe */
+        /* Bildschirm 1: Logo & Branding */
         .hero-section {
-            padding: 60px 15px 30px; /* Reduzierter Abstand nach unten */
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding: 20px 15px;
             box-sizing: border-box;
             background-color: #fcfcfc;
         }
 
         .logo {
-            width: 65vw;
-            max-width: 380px;
+            width: 70vw;
+            max-width: 420px;
             height: auto;
             display: block;
-            margin: 0 auto 15px;
+            margin: 0 auto 20px;
         }
 
         .hero-section h1 {
-            font-size: 1.8em;
+            font-size: 2em;
             letter-spacing: 3px;
             margin: 0;
             text-transform: uppercase;
@@ -47,14 +50,14 @@
         }
 
         .hero-section p {
-            font-size: 1em;
+            font-size: 1.1em;
             color: #7f8c8d;
             margin-top: 5px;
         }
 
-        /* Buttons-Bereich: Enger an das Logo herangerückt */
+        /* Bildschirm 2: Buttons (Zentriert & fest positioniert) */
         .content-section {
-            padding: 10px 15px 80px; /* Kurzer oberer Abstand */
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -64,14 +67,14 @@
         }
 
         .actions {
-            margin: 10px 0;
+            margin: 0;
         }
 
         .btn {
             display: inline-block;
-            margin: 8px 12px;
-            padding: 14px 35px;
-            font-size: 1em;
+            margin: 10px 15px;
+            padding: 15px 40px;
+            font-size: 1.1em;
             text-decoration: none;
             color: #fff;
             background-color: #27ae60;
@@ -110,7 +113,7 @@
         <p>Dein Mietkoch</p>
     </section>
 
-    <!-- Section 2: Nah platzierte Buttons -->
+    <!-- Section 2: Exakt zentrierte Buttons -->
     <section class="content-section" id="buttons-section">
         <main>
             <div class="actions">
@@ -152,40 +155,36 @@
         </footer>
     </section>
 
-    <!-- Kurzer, angepasster Scroll-Trigger -->
+    <!-- Skript für das feste, kontrollierte Übergangstempo -->
     <script>
         let isScrolling = false;
+        const targetSection = document.getElementById('buttons-section');
 
-        function triggerShortScroll(e) {
-            // Reagiert nur ganz oben auf der Seite
-            if (window.scrollY < 100 && !isScrolling) {
+        function triggerFixedScroll(e) {
+            if (window.scrollY < window.innerHeight * 0.5 && !isScrolling) {
                 const delta = e.deltaY || (e.touches ? -e.touches[0].clientY : 0);
                 
                 if (delta > 0 || e.type === 'wheel' && e.deltaY > 0) {
                     if (e.cancelable) e.preventDefault();
                     isScrolling = true;
 
-                    // Kurze, sanfte Scroll-Fahrt um exakt 220px nach unten
-                    window.scrollBy({
-                        top: 220,
-                        behavior: 'smooth'
-                    });
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
 
                     setTimeout(() => {
                         isScrolling = false;
-                    }, 500); // Kürzere Animationsdauer
+                    }, 800);
                 }
             }
         }
 
-        window.addEventListener('wheel', triggerShortScroll, { passive: false });
+        window.addEventListener('wheel', triggerFixedScroll, { passive: false });
         
         let touchStartY = 0;
         window.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, { passive: true });
         window.addEventListener('touchmove', e => {
             const touchEndY = e.touches[0].clientY;
-            if (touchStartY - touchEndY > 25) {
-                triggerShortScroll(e);
+            if (touchStartY - touchEndY > 30) {
+                triggerFixedScroll(e);
             }
         }, { passive: false });
     </script>
