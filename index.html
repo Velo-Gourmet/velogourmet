@@ -5,20 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VELO GOURMET - Dein Mietkoch</title>
     <style>
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
+        /* Verhindert das native 'Ruckeln' der Browser-Engine beim Start */
+        html, body {
             margin: 0;
             padding: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
             background-color: #fcfcfc;
             color: #333;
             text-align: center;
+            /* Auf der Startseite blockieren wir das Standard-Ruckeln */
+            overflow-x: hidden;
         }
 
-        /* Bildschirm 1: Hero / Logo (Exakt 100vh) */
+        /* Bildschirm 1: Hero / Logo */
         .hero-section {
             height: 100vh;
             display: flex;
@@ -52,7 +51,7 @@
             margin-top: 5px;
         }
 
-        /* Bildschirm 2: Buttons (Feste 100vh Höhe für exakt zentrale Verankerung) */
+        /* Bildschirm 2: Buttons (Zentral verankert) */
         .content-section {
             height: 100vh;
             display: flex;
@@ -158,47 +157,37 @@
         </footer>
     </section>
 
-    <!-- Sofort auflösender Scroll-Trigger -->
+    <!-- Nahtloses, unterbrechungsfreies Scroll-Skript -->
     <script>
         let isAnimating = false;
         const targetSection = document.getElementById('buttons-section');
 
-        function scrollToButtons() {
+        function smoothTransition() {
             if (isAnimating) return;
             isAnimating = true;
 
-            // Führt den Besucher mit fixer Geschwindigkeit genau zur verankerten Section
+            // Sanfte und übergangslose Fahrt zum Button-Bereich
             targetSection.scrollIntoView({ behavior: 'smooth' });
 
-            // Sperre kurz aufrechterhalten, damit der Scroll sauber abschließt
             setTimeout(() => {
                 isAnimating = false;
-            }, 800);
+            }, 700);
         }
 
-        // 1. Sofortiges Reagieren auf dem PC (Mausrad)
-        window.addEventListener('wheel', (e) => {
-            if (window.scrollY < 50 && e.deltaY > 0) {
+        // 1. Abfangen von Touch-Events direkt beim Ansetzen der Geste
+        window.addEventListener('touchstart', (e) => {
+            if (window.scrollY < 50) {
+                // Verhindert den nativen Scroll-Anlauf des Smartphones komplett
                 e.preventDefault();
-                scrollToButtons();
+                smoothTransition();
             }
         }, { passive: false });
 
-        // 2. Sofortiges Reagieren bei der ersten Fingerbewegung (Smartphone/Tablet)
-        let touchStartY = 0;
-
-        window.addEventListener('touchstart', (e) => {
-            touchStartY = e.touches[0].clientY;
-        }, { passive: true });
-
-        window.addEventListener('touchmove', (e) => {
-            const currentY = e.touches[0].clientY;
-            const diffY = touchStartY - currentY;
-
-            // BEREITS BEI 5 PIXELN Bewegung schlägt der Trigger sofort an!
-            if (window.scrollY < 50 && diffY > 5) {
-                if (e.cancelable) e.preventDefault();
-                scrollToButtons();
+        // 2. Abfangen von Mausrad-Events auf PC
+        window.addEventListener('wheel', (e) => {
+            if (window.scrollY < 50 && e.deltaY > 0) {
+                e.preventDefault();
+                smoothTransition();
             }
         }, { passive: false });
     </script>
