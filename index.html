@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VELO GOURMET - Dein Mietkoch</title>
     <style>
-        /* Erzwingt sanftes Gleiten im gesamten Browser */
+        /* Sanftes Grund-Scrollverhalten */
         html {
             scroll-behavior: smooth;
         }
@@ -17,7 +17,7 @@
             background-color: #fcfcfc;
             color: #333;
             text-align: center;
-            /* Verhindert überschüssiges "Gummiband"-Scrollen auf iOS */
+            /* Verhindert unruhiges 'Gummiband'-Scrollen auf mobilen Geräten */
             overscroll-behavior-y: none; 
         }
 
@@ -55,7 +55,7 @@
             margin-top: 5px;
         }
 
-        /* Bildschirm 2: Buttons (Zentriert & fest positioniert) */
+        /* Bildschirm 2: Buttons (Perfekt zentriert) */
         .content-section {
             min-height: 100vh;
             display: flex;
@@ -155,21 +155,25 @@
         </footer>
     </section>
 
-    <!-- Skript für das feste, kontrollierte Übergangstempo -->
+    <!-- Skript für die feste, kontrollierte Scroll-Animation -->
     <script>
         let isScrolling = false;
         const targetSection = document.getElementById('buttons-section');
 
         function triggerFixedScroll(e) {
+            // Reagiert nur, wenn sich der Besucher auf dem ersten Bildschirm befindet
             if (window.scrollY < window.innerHeight * 0.5 && !isScrolling) {
                 const delta = e.deltaY || (e.touches ? -e.touches[0].clientY : 0);
                 
-                if (delta > 0 || e.type === 'wheel' && e.deltaY > 0) {
+                // Sobald nach unten gescrollt oder gewischt wird
+                if (delta > 0 || (e.type === 'wheel' && e.deltaY > 0)) {
                     if (e.cancelable) e.preventDefault();
                     isScrolling = true;
 
+                    // Löst die gleichmäßige, elegante Fahrt zu den Buttons aus
                     targetSection.scrollIntoView({ behavior: 'smooth' });
 
+                    // Blockiert Mehrfach-Triggern während der Bewegung (800ms Dauer)
                     setTimeout(() => {
                         isScrolling = false;
                     }, 800);
@@ -177,12 +181,18 @@
             }
         }
 
+        // Event-Listener für Mausrad (PC)
         window.addEventListener('wheel', triggerFixedScroll, { passive: false });
         
+        // Event-Listener für Wischgesten (Smartphone/Tablet)
         let touchStartY = 0;
-        window.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, { passive: true });
+        window.addEventListener('touchstart', e => { 
+            touchStartY = e.touches[0].clientY; 
+        }, { passive: true });
+
         window.addEventListener('touchmove', e => {
             const touchEndY = e.touches[0].clientY;
+            // Wischen nach oben (Seite bewegt sich nach unten)
             if (touchStartY - touchEndY > 30) {
                 triggerFixedScroll(e);
             }
