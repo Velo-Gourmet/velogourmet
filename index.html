@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VELO GOURMET</title>
     <style>
-        /* Verhindert das native 'Ruckeln' der Browser-Engine beim Start */
         html, body {
             margin: 0;
             padding: 0;
@@ -28,7 +27,6 @@
             background-color: #fcfcfc;
         }
 
-        /* Wrapper: Beschneidet das Bild unten, um die untere Textzeile auszublenden */
         .logo-wrapper {
             width: 90vw;
             max-width: 750px;
@@ -42,17 +40,17 @@
 
         .logo-wrapper img {
             width: 100%;
-            height auto;
+            height: auto;
             display: block;
         }
 
-        /* Bildschirm 2: Perfekt zentrierte Buttons (Vertikal & Horizontal) */
+        /* Bildschirm 2: Perfekt zentrierte Artistische SVG-Buttons */
         .content-section {
             height: 100vh;
             width: 100vw;
             display: flex;
-            justify-content: center; /* Horizontale Zentrierung */
-            align-items: center;     /* Vertikale Zentrierung */
+            justify-content: center;
+            align-items: center;
             box-sizing: border-box;
             padding: 0;
             margin: 0;
@@ -64,37 +62,44 @@
             padding: 0;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 25px;
             align-items: center;
             justify-content: center;
             width: 100%;
         }
 
-        .btn {
+        /* Styling der SVG-Buttons */
+        .artist-btn {
             display: inline-block;
-            min-width: 200px;
-            padding: 16px 40px;
-            font-size: 1.1em;
+            width: 280px;
+            max-width: 85vw;
+            height: auto;
             text-decoration: none;
-            color: #fff;
-            background-color: #27ae60;
-            border-radius: 30px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.25s ease;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.05));
         }
 
-        .btn-secondary {
-            background-color: #2c3e50;
+        .artist-btn svg {
+            width: 100%;
+            height: auto;
+            display: block;
         }
 
-        .btn:hover {
-            background-color: #2ecc71;
-            transform: translateY(-2px);
+        .artist-btn:hover {
+            transform: scale(1.04) translateY(-2px);
+            filter: drop-shadow(0 8px 18px rgba(0,0,0,0.1));
         }
 
-        .btn-secondary:hover {
-            background-color: #34495e;
-            transform: translateY(-2px);
+        .artist-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Text-Style innerhalb des SVGs */
+        .btn-text {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         /* Footer */
@@ -114,11 +119,42 @@
         </div>
     </section>
 
-    <!-- Section 2: Exakt vertikal & horizontal zentrierte Buttons -->
+    <!-- Section 2: Zentrierte Artistische SVG-Buttons -->
     <section class="content-section" id="buttons-section">
         <div class="actions">
-            <a href="#kontakt" class="btn">Termin anfragen</a>
-            <a href="#angebot" class="btn btn-secondary">Mein Angebot</a>
+            
+            <!-- Button 1: Grüner Marker (Termin anfragen) -->
+            <a href="#kontakt" class="artist-btn" aria-label="Termin anfragen">
+                <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#8CFF9E" d="M 25,22 
+                             C 40,16 110,18 160,15 
+                             C 220,12 280,20 298,28 
+                             C 310,38 305,68 290,82 
+                             C 260,95 180,88 120,94 
+                             C 75,98 35,92 18,80 
+                             C 8,68 10,35 25,22 Z" />
+                    <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#1A3322" class="btn-text">
+                        Termin anfragen
+                    </text>
+                </svg>
+            </a>
+
+            <!-- Button 2: Rosé Marker (Mein Angebot) -->
+            <a href="#angebot" class="artist-btn" aria-label="Mein Angebot">
+                <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#FFD6D8" d="M 22,25 
+                             C 55,18 130,14 180,18 
+                             C 240,21 275,15 295,25 
+                             C 308,35 312,65 292,80 
+                             C 265,92 195,96 130,90 
+                             C 80,86 40,95 20,82 
+                             C 5,70 8,38 22,25 Z" />
+                    <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#3A2325" class="btn-text">
+                        Mein Angebot
+                    </text>
+                </svg>
+            </a>
+
         </div>
     </section>
 
@@ -170,7 +206,6 @@
             }, 700);
         }
 
-        // 1. Abfangen von Touch-Events
         window.addEventListener('touchstart', (e) => {
             if (window.scrollY < 50) {
                 e.preventDefault();
@@ -178,7 +213,6 @@
             }
         }, { passive: false });
 
-        // 2. Abfangen von Mausrad-Events
         window.addEventListener('wheel', (e) => {
             if (window.scrollY < 50 && e.deltaY > 0) {
                 e.preventDefault();
