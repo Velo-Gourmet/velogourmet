@@ -83,17 +83,23 @@
             user-select: none;
             outline: none !important;
             border: none !important;
+            cursor: pointer;
         }
 
         .artist-btn svg {
             width: 100%;
             height: auto;
             display: block;
+            pointer-events: none; /* Stellt sicher, dass das SVG Klicks an das <a> Tag durchreicht */
         }
 
         .artist-btn:hover {
             transform: scale(1.04) translateY(-2px);
             filter: drop-shadow(0 8px 18px rgba(0,0,0,0.1));
+        }
+
+        .artist-btn:active {
+            transform: scale(0.98);
         }
 
         .btn-text {
@@ -212,6 +218,7 @@
             padding: 30px 20px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+            box-sizing: border-box;
         }
 
         .contact-box h3 {
@@ -266,7 +273,8 @@
     <!-- Section 2: Buttons -->
     <section class="page-section content-section" id="buttons-section">
         <div class="actions">
-            <a href="#auswahl" class="artist-btn" aria-label="Mach ma fertig!">
+            
+            <a href="#auswahl" class="artist-btn" id="btn-mach-ma-fertig" aria-label="Mach ma fertig!">
                 <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
                     <path fill="#c1ff72" d="M 25,22 C 40,16 110,18 160,15 C 220,12 280,20 298,28 C 310,38 305,68 290,82 C 260,95 180,88 120,94 C 75,98 35,92 18,80 C 8,68 10,35 25,22 Z" />
                     <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#1a2e05" class="btn-text">
@@ -283,6 +291,7 @@
                     </text>
                 </svg>
             </a>
+
         </div>
     </section>
 
@@ -372,35 +381,13 @@
         </div>
     </footer>
 
-    <!-- JS für flüssigen Scroll-Übergang -->
+    <!-- Saubere Navigation per JS -->
     <script>
-        let isAnimating = false;
-        const targetSection = document.getElementById('buttons-section');
-
-        function smoothTransition() {
-            if (isAnimating) return;
-            isAnimating = true;
-
-            targetSection.scrollIntoView({ behavior: 'smooth' });
-
-            setTimeout(() => {
-                isAnimating = false;
-            }, 700);
-        }
-
-        window.addEventListener('touchstart', (e) => {
-            if (window.scrollY < 50) {
-                e.preventDefault();
-                smoothTransition();
-            }
-        }, { passive: false });
-
-        window.addEventListener('wheel', (e) => {
-            if (window.scrollY < 50 && e.deltaY > 0) {
-                e.preventDefault();
-                smoothTransition();
-            }
-        }, { passive: false });
+        // Sanftes Weiterleiten beim Klick auf den Button
+        document.getElementById('btn-mach-ma-fertig').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('auswahl').scrollIntoView({ behavior: 'smooth' });
+        });
     </script>
 
 </body>
