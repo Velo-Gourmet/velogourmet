@@ -13,21 +13,35 @@
             margin: 0;
             padding: 0;
             font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: #fcfcfc;
+            background-color: #f9f9f9;
             color: #333;
             text-align: center;
             overflow-x: hidden;
+        }
+
+        /* FIXER PARALLAX-HINTERGRUND (Pflasterstein-Muster in Weiß/Hellgrau) */
+        .parallax-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 120vh; /* Etwas höher für den Parallax-Versatz */
+            z-index: -1;
+            /* Subtiles SVG-Kopfsteinpflaster-Muster */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M0 0h28v18H0zM30 0h28v18H30zM15 20h28v18H15zM0 20h13v18H0zM45 20h13v18H45zM0 40h28v18H0zM30 40h28v18H30z' fill='%20%23e6e6e6' fill-opacity='0.45' stroke='%20%23ffffff' stroke-width='2.5' rx='3'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            will-change: transform;
+            transition: transform 0.1s linear;
         }
 
         .page-section {
             min-height: 100vh;
             width: 100vw;
             box-sizing: border-box;
-            background-color: #fcfcfc;
             position: relative;
         }
 
-        /* Section 1: Hero */
+        /* Section 1: Hero mit Kinetischer Skalierung */
         .hero-section {
             display: flex;
             flex-direction: column;
@@ -35,6 +49,7 @@
             align-items: center;
             padding: 10px 15px;
             height: 100vh;
+            touch-action: pan-y;
         }
 
         .logo-wrapper {
@@ -46,6 +61,9 @@
             justify-content: center;
             align-items: flex-start;
             margin: 0 auto;
+            transform-origin: center center;
+            will-change: transform, opacity;
+            transition: transform 0.1s linear, opacity 0.1s linear;
         }
 
         .logo-wrapper img {
@@ -78,7 +96,7 @@
             height: auto;
             text-decoration: none;
             transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.25s ease;
-            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.05));
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.06));
             -webkit-tap-highlight-color: transparent !important;
             user-select: none;
             outline: none !important;
@@ -95,7 +113,7 @@
 
         .artist-btn:hover {
             transform: scale(1.04) translateY(-2px);
-            filter: drop-shadow(0 8px 18px rgba(0,0,0,0.1));
+            filter: drop-shadow(0 8px 18px rgba(0,0,0,0.12));
         }
 
         .artist-btn:active {
@@ -134,11 +152,11 @@
             margin-bottom: 50px;
         }
 
-        /* Interaktive Menü-Karten */
         .menu-card {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(8px);
             border-radius: 16px;
-            border: 2px solid #f0f0f0;
+            border: 2px solid #eaeaea;
             overflow: hidden;
             text-align: left;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
@@ -215,15 +233,16 @@
             color: #3A2325;
         }
 
-        /* Kontakt-Optionen darunter */
         .contact-box {
             width: 100%;
             max-width: 500px;
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
             padding: 30px 20px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.04);
             box-sizing: border-box;
+            border: 1px solid #eaeaea;
         }
 
         .contact-box h3 {
@@ -256,8 +275,6 @@
         .btn-email { background-color: #111111; color: white; }
         .btn-phone { background-color: #f0f0f0; color: #111; }
 
-        .contact-btn:hover { opacity: 0.9; }
-
         footer {
             background-color: #2c3e50;
             color: #bdc3c7;
@@ -268,9 +285,12 @@
 </head>
 <body>
 
+    <!-- FIXER PARALLAX HINTERGRUND -->
+    <div class="parallax-bg" id="parallax-bg"></div>
+
     <!-- Section 1: Hero -->
     <section class="page-section hero-section" id="hero">
-        <div class="logo-wrapper">
+        <div class="logo-wrapper" id="logo-wrapper">
             <img src="1577_2.png" alt="Velo Gourmet Berlin Logo">
         </div>
     </section>
@@ -302,11 +322,9 @@
 
     <!-- Section 3: Saisonaler Speiseplan & Kontakt -->
     <section class="page-section selection-section" id="auswahl">
-        
         <h2 class="section-title">Saisonale Vorschläge</h2>
 
         <div class="menu-container">
-            
             <!-- Menü 1: Hermannplatz -->
             <details class="menu-card">
                 <summary class="menu-header">
@@ -336,10 +354,8 @@
                     <p><em>[Platzhalter: Dessert]</em></p>
                 </div>
             </details>
-
         </div>
 
-        <!-- Kontaktbereich -->
         <div class="contact-box">
             <h3>Hunger bekommen?</h3>
             <p style="color: #666; margin-bottom: 20px; font-size: 15px;">
@@ -353,7 +369,6 @@
                 <a href="tel:+49123456789" class="contact-btn btn-phone">Telefon</a>
             </div>
         </div>
-
     </section>
 
     <!-- Footer -->
@@ -386,38 +401,68 @@
         </div>
     </footer>
 
-    <!-- SKRIPT: Wiederherstellung der nahtlosen Übergänge -->
+    <!-- SKRIPT: PARALLAX & KINETIC SCROLLING -->
     <script>
-        let isAnimating = false;
+        const parallaxBg = document.getElementById('parallax-bg');
+        const logoWrapper = document.getElementById('logo-wrapper');
+        const heroSection = document.getElementById('hero');
         const buttonsSection = document.getElementById('buttons-section');
         const btnMachMaFertig = document.getElementById('btn-mach-ma-fertig');
 
-        // Funktion für sanften Übergang vom Hero zu den Buttons
-        function smoothToButtons() {
-            if (isAnimating) return;
-            isAnimating = true;
+        // 1. Kinetic Parallax beim Scrollen
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            const viewportHeight = window.innerHeight;
 
+            // Parallax für das Pflasterstein-Muster (bewegt sich halb so schnell)
+            parallaxBg.style.transform = `translateY(${scrolled * 0.4}px)`;
+
+            // Kinetische Skalierung & Blur für das Logo beim Verlassen des ersten Bildschirms
+            if (scrolled <= viewportHeight) {
+                const progress = scrolled / viewportHeight;
+                const scale = 1 - (progress * 0.12); // verkleinert sich leicht um max 12%
+                const opacity = 1 - (progress * 0.6); // verblasst leicht
+
+                logoWrapper.style.transform = `scale(${scale})`;
+                logoWrapper.style.opacity = opacity;
+            }
+        });
+
+        // 2. Touch-Gleit-Erkennung (Hero -> Buttons)
+        let touchStartY = 0;
+        let isTransitioning = false;
+
+        function scrollToButtons() {
+            if (isTransitioning) return;
+            isTransitioning = true;
+            
             buttonsSection.scrollIntoView({ behavior: 'smooth' });
 
             setTimeout(() => {
-                isAnimating = false;
-            }, 700);
+                isTransitioning = false;
+            }, 800);
         }
 
-        // 1. Scroll-Trigger von Hero -> Buttons (bei Touch & Wheel ganz oben auf der Seite)
-        window.addEventListener('touchstart', (e) => {
-            if (window.scrollY < 50) {
-                smoothToButtons();
+        heroSection.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+
+        heroSection.addEventListener('touchend', (e) => {
+            const touchEndY = e.changedTouches[0].clientY;
+            const deltaY = touchStartY - touchEndY;
+
+            if (deltaY > 30 && window.scrollY < 100) {
+                scrollToButtons();
             }
         }, { passive: true });
 
         window.addEventListener('wheel', (e) => {
             if (window.scrollY < 50 && e.deltaY > 0) {
-                smoothToButtons();
+                scrollToButtons();
             }
         }, { passive: true });
 
-        // 2. Klick-Trigger vom Button -> Menü-Auswahl
+        // 3. Klick-Verhalten für den Button
         btnMachMaFertig.addEventListener('click', function(e) {
             e.preventDefault();
             document.getElementById('auswahl').scrollIntoView({ behavior: 'smooth' });
