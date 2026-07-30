@@ -13,27 +13,38 @@
             margin: 0;
             padding: 0;
             font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: #f9f9f9;
+            background-color: #fcfcfc;
             color: #333;
             text-align: center;
             overflow-x: hidden;
         }
 
-        /* FIXER PARALLAX-HINTERGRUND (Pflasterstein-Muster in Weiß/Hellgrau) */
-        .parallax-bg {
+        /* FIXER PFLASTERSTEIN-HINTERGRUND (Hero-Ebene) */
+        .hero-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
-            height: 120vh; /* Etwas höher für den Parallax-Versatz */
-            z-index: -1;
-            /* Subtiles SVG-Kopfsteinpflaster-Muster */
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M0 0h28v18H0zM30 0h28v18H30zM15 20h28v18H15zM0 20h13v18H0zM45 20h13v18H45zM0 40h28v18H0zM30 40h28v18H30z' fill='%20%23e6e6e6' fill-opacity='0.45' stroke='%20%23ffffff' stroke-width='2.5' rx='3'/%3E%3C/svg%3E");
-            background-repeat: repeat;
-            will-change: transform;
-            transition: transform 0.1s linear;
+            height: 100vh;
+            z-index: 1;
+            background-image: url('1806.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
+        /* Sanftes, helles Overlay für perfekte Lesbarkeit des Logos */
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(253, 253, 253, 0.35); /* Dezente Aufhellung */
+        }
+
+        /* SEKTIONEN-STYLING */
         .page-section {
             min-height: 100vh;
             width: 100vw;
@@ -41,7 +52,7 @@
             position: relative;
         }
 
-        /* Section 1: Hero mit Kinetischer Skalierung */
+        /* Section 1: Hero (Transparent über dem festen Pflasterstein) */
         .hero-section {
             display: flex;
             flex-direction: column;
@@ -49,6 +60,8 @@
             align-items: center;
             padding: 10px 15px;
             height: 100vh;
+            z-index: 2;
+            position: relative;
             touch-action: pan-y;
         }
 
@@ -70,6 +83,17 @@
             width: 100%;
             height: auto;
             display: block;
+            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.15));
+        }
+
+        /* LAYER 2 & 3: Schieben sich wie ein Vorhang über das Pflasterstein-Bild */
+        .layer-content {
+            position: relative;
+            z-index: 3;
+            background-color: #fcfcfc;
+            box-shadow: 0 -15px 35px rgba(0, 0, 0, 0.12); /* Schatten erzeugt den Ebenen-Effekt */
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
         }
 
         /* Section 2: Buttons */
@@ -153,10 +177,9 @@
         }
 
         .menu-card {
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(8px);
+            background: #ffffff;
             border-radius: 16px;
-            border: 2px solid #eaeaea;
+            border: 2px solid #f0f0f0;
             overflow: hidden;
             text-align: left;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
@@ -236,8 +259,7 @@
         .contact-box {
             width: 100%;
             max-width: 500px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(8px);
+            background: #ffffff;
             padding: 30px 20px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.04);
@@ -285,150 +307,150 @@
 </head>
 <body>
 
-    <!-- FIXER PARALLAX HINTERGRUND -->
-    <div class="parallax-bg" id="parallax-bg"></div>
+    <!-- FIXER HINTERGRUND: PFLASTERSTEIN (1806.png) -->
+    <div class="hero-bg"></div>
 
-    <!-- Section 1: Hero -->
+    <!-- Section 1: Hero (Liegt direkt über dem Pflasterstein) -->
     <section class="page-section hero-section" id="hero">
         <div class="logo-wrapper" id="logo-wrapper">
             <img src="1577_2.png" alt="Velo Gourmet Berlin Logo">
         </div>
     </section>
 
-    <!-- Section 2: Buttons -->
-    <section class="page-section content-section" id="buttons-section">
-        <div class="actions">
-            
-            <a href="#auswahl" class="artist-btn" id="btn-mach-ma-fertig" aria-label="Mach ma fertig!">
-                <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="#c1ff72" d="M 25,22 C 40,16 110,18 160,15 C 220,12 280,20 298,28 C 310,38 305,68 290,82 C 260,95 180,88 120,94 C 75,98 35,92 18,80 C 8,68 10,35 25,22 Z" />
-                    <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#1a2e05" class="btn-text">
-                        Mach ma fertig!
-                    </text>
-                </svg>
-            </a>
+    <!-- LAYER-ABSCHNITT: Schiebt sich über den Pflasterstein -->
+    <div class="layer-content">
 
-            <a href="#angebot" class="artist-btn" aria-label="Mein Angebot">
-                <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="#FFD6D8" d="M 22,25 C 55,18 130,14 180,18 C 240,21 275,15 295,25 C 308,35 312,65 292,80 C 265,92 195,96 130,90 C 80,86 40,95 20,82 C 5,70 8,38 22,25 Z" />
-                    <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#3A2325" class="btn-text">
-                        Mein Angebot
-                    </text>
-                </svg>
-            </a>
+        <!-- Section 2: Buttons -->
+        <section class="page-section content-section" id="buttons-section">
+            <div class="actions">
+                
+                <a href="#auswahl" class="artist-btn" id="btn-mach-ma-fertig" aria-label="Mach ma fertig!">
+                    <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#c1ff72" d="M 25,22 C 40,16 110,18 160,15 C 220,12 280,20 298,28 C 310,38 305,68 290,82 C 260,95 180,88 120,94 C 75,98 35,92 18,80 C 8,68 10,35 25,22 Z" />
+                        <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#1a2e05" class="btn-text">
+                            Mach ma fertig!
+                        </text>
+                    </svg>
+                </a>
 
-        </div>
-    </section>
+                <a href="#angebot" class="artist-btn" aria-label="Mein Angebot">
+                    <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#FFD6D8" d="M 22,25 C 55,18 130,14 180,18 C 240,21 275,15 295,25 C 308,35 312,65 292,80 C 265,92 195,96 130,90 C 80,86 40,95 20,82 C 5,70 8,38 22,25 Z" />
+                        <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#3A2325" class="btn-text">
+                            Mein Angebot
+                        </text>
+                    </svg>
+                </a>
 
-    <!-- Section 3: Saisonaler Speiseplan & Kontakt -->
-    <section class="page-section selection-section" id="auswahl">
-        <h2 class="section-title">Saisonale Vorschläge</h2>
-
-        <div class="menu-container">
-            <!-- Menü 1: Hermannplatz -->
-            <details class="menu-card">
-                <summary class="menu-header">
-                    <div>
-                        <span class="menu-title">Hermannplatz</span>
-                        <span class="menu-tag tag-hermannplatz">Mediterran / Levante</span>
-                    </div>
-                </summary>
-                <div class="menu-content">
-                    <p><em>[Platzhalter: Vorspeise / Mezze]</em></p>
-                    <p><em>[Platzhalter: Hauptgang]</em></p>
-                    <p><em>[Platzhalter: Dessert]</em></p>
-                </div>
-            </details>
-
-            <!-- Menü 2: Prenzlauer Berg -->
-            <details class="menu-card">
-                <summary class="menu-header">
-                    <div>
-                        <span class="menu-title">Prenzlauer Berg</span>
-                        <span class="menu-tag tag-prenzlauer">Pflanzlich / Vegan</span>
-                    </div>
-                </summary>
-                <div class="menu-content">
-                    <p><em>[Platzhalter: Vorspeise mit Sprossen & Kräutern]</em></p>
-                    <p><em>[Platzhalter: Bohnen-Bratlinge & Beilagen]</em></p>
-                    <p><em>[Platzhalter: Dessert]</em></p>
-                </div>
-            </details>
-        </div>
-
-        <div class="contact-box">
-            <h3>Hunger bekommen?</h3>
-            <p style="color: #666; margin-bottom: 20px; font-size: 15px;">
-                Schreib mir direkt für Anfragen, Termine oder individuelle Menüwünsche:
-            </p>
-
-            <div class="contact-links">
-                <a href="https://wa.me/49123456789" class="contact-btn btn-whatsapp" target="_blank">WhatsApp</a>
-                <a href="https://instagram.com/velogourmet" class="contact-btn btn-instagram" target="_blank">Instagram</a>
-                <a href="mailto:hallo@velogourmet.de" class="contact-btn btn-email">E-Mail</a>
-                <a href="tel:+49123456789" class="contact-btn btn-phone">Telefon</a>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Footer -->
-    <footer>
-        <div style="max-width: 700px; margin: 0 auto; text-align: left; padding: 0 20px;">
-            <details style="margin-bottom: 15px; cursor: pointer;">
-                <summary style="font-weight: bold; outline: none; color: #ecf0f1;">Impressum</summary>
-                <div style="padding-top: 10px; font-size: 0.85em; line-height: 1.5; color: #bdc3c7;">
-                    <strong>Velo Gourmet Berlin</strong><br>
-                    [Dein Vor- und Nachname]<br>
-                    [Deine Straße und Hausnummer]<br>
-                    [Deine PLZ] Berlin<br>
-                    E-Mail: [Deine E-Mail-Adresse]<br>
-                    Telefon: [Deine Telefonnummer]
+        <!-- Section 3: Saisonaler Speiseplan & Kontakt -->
+        <section class="page-section selection-section" id="auswahl">
+            <h2 class="section-title">Saisonale Vorschläge</h2>
+
+            <div class="menu-container">
+                <!-- Menü 1: Hermannplatz -->
+                <details class="menu-card">
+                    <summary class="menu-header">
+                        <div>
+                            <span class="menu-title">Hermannplatz</span>
+                            <span class="menu-tag tag-hermannplatz">Mediterran / Levante</span>
+                        </div>
+                    </summary>
+                    <div class="menu-content">
+                        <p><em>[Platzhalter: Vorspeise / Mezze]</em></p>
+                        <p><em>[Platzhalter: Hauptgang]</em></p>
+                        <p><em>[Platzhalter: Dessert]</em></p>
+                    </div>
+                </details>
+
+                <!-- Menü 2: Prenzlauer Berg -->
+                <details class="menu-card">
+                    <summary class="menu-header">
+                        <div>
+                            <span class="menu-title">Prenzlauer Berg</span>
+                            <span class="menu-tag tag-prenzlauer">Pflanzlich / Vegan</span>
+                        </div>
+                    </summary>
+                    <div class="menu-content">
+                        <p><em>[Platzhalter: Vorspeise mit Sprossen & Kräutern]</em></p>
+                        <p><em>[Platzhalter: Bohnen-Bratlinge & Beilagen]</em></p>
+                        <p><em>[Platzhalter: Dessert]</em></p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="contact-box">
+                <h3>Hunger bekommen?</h3>
+                <p style="color: #666; margin-bottom: 20px; font-size: 15px;">
+                    Schreib mir direkt für Anfragen, Termine oder individuelle Menüwünsche:
+                </p>
+
+                <div class="contact-links">
+                    <a href="https://wa.me/49123456789" class="contact-btn btn-whatsapp" target="_blank">WhatsApp</a>
+                    <a href="https://instagram.com/velogourmet" class="contact-btn btn-instagram" target="_blank">Instagram</a>
+                    <a href="mailto:hallo@velogourmet.de" class="contact-btn btn-email">E-Mail</a>
+                    <a href="tel:+49123456789" class="contact-btn btn-phone">Telefon</a>
                 </div>
-            </details>
+            </div>
+        </section>
 
-            <details style="cursor: pointer;">
-                <summary style="font-weight: bold; outline: none; color: #ecf0f1;">Datenschutzerklärung</summary>
-                <div style="padding-top: 10px; font-size: 0.85em; line-height: 1.5; color: #bdc3c7;">
-                    <strong>Datenschutzhinweis:</strong><br><br>
-                    Verantwortlich für die Datenverarbeitung ist Velo Gourmet Berlin. Wir erheben personenbezogene Daten ausschließlich, um deine Anfragen zu bearbeiten und unsere Dienstleistungen für dich zu erbringen.<br><br>
-                    Für die Zahlungsabwicklung nutzen wir den Dienst PayPal. Dabei werden Daten, die für die Zahlung notwendig sind, an PayPal übermittelt. Es gilt die Datenschutzerklärung von PayPal.
-                </div>
-            </details>
-        </div>
-        
-        <div style="margin-top: 40px; text-align: center; font-size: 0.9em;">
-            &copy; 2026 Velo Gourmet
-        </div>
-    </footer>
+        <!-- Footer -->
+        <footer>
+            <div style="max-width: 700px; margin: 0 auto; text-align: left; padding: 0 20px;">
+                <details style="margin-bottom: 15px; cursor: pointer;">
+                    <summary style="font-weight: bold; outline: none; color: #ecf0f1;">Impressum</summary>
+                    <div style="padding-top: 10px; font-size: 0.85em; line-height: 1.5; color: #bdc3c7;">
+                        <strong>Velo Gourmet Berlin</strong><br>
+                        [Dein Vor- und Nachname]<br>
+                        [Deine Straße und Hausnummer]<br>
+                        [Deine PLZ] Berlin<br>
+                        E-Mail: [Deine E-Mail-Adresse]<br>
+                        Telefon: [Deine Telefonnummer]
+                    </div>
+                </details>
 
-    <!-- SKRIPT: PARALLAX & KINETIC SCROLLING -->
+                <details style="cursor: pointer;">
+                    <summary style="font-weight: bold; outline: none; color: #ecf0f1;">Datenschutzerklärung</summary>
+                    <div style="padding-top: 10px; font-size: 0.85em; line-height: 1.5; color: #bdc3c7;">
+                        <strong>Datenschutzhinweis:</strong><br><br>
+                        Verantwortlich für die Datenverarbeitung ist Velo Gourmet Berlin. Wir erheben personenbezogene Daten ausschließlich, um deine Anfragen zu bearbeiten und unsere Dienstleistungen für dich zu erbringen.<br><br>
+                        Für die Zahlungsabwicklung nutzen wir den Dienst PayPal. Dabei werden Daten, die für die Zahlung notwendig sind, an PayPal übermittelt. Es gilt die Datenschutzerklärung von PayPal.
+                    </div>
+                </details>
+            </div>
+            
+            <div style="margin-top: 40px; text-align: center; font-size: 0.9em;">
+                &copy; 2026 Velo Gourmet
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- JS-STEUERUNG FÜR FLÜSSIGE EBENEN & SCROLLEN -->
     <script>
-        const parallaxBg = document.getElementById('parallax-bg');
-        const logoWrapper = document.getElementById('logo-wrapper');
         const heroSection = document.getElementById('hero');
         const buttonsSection = document.getElementById('buttons-section');
         const btnMachMaFertig = document.getElementById('btn-mach-ma-fertig');
+        const logoWrapper = document.getElementById('logo-wrapper');
 
-        // 1. Kinetic Parallax beim Scrollen
+        // Kinetische Logo-Verkleinerung beim Hoch-Scrollen
         window.addEventListener('scroll', () => {
             const scrolled = window.scrollY;
             const viewportHeight = window.innerHeight;
 
-            // Parallax für das Pflasterstein-Muster (bewegt sich halb so schnell)
-            parallaxBg.style.transform = `translateY(${scrolled * 0.4}px)`;
-
-            // Kinetische Skalierung & Blur für das Logo beim Verlassen des ersten Bildschirms
             if (scrolled <= viewportHeight) {
                 const progress = scrolled / viewportHeight;
-                const scale = 1 - (progress * 0.12); // verkleinert sich leicht um max 12%
-                const opacity = 1 - (progress * 0.6); // verblasst leicht
+                const scale = 1 - (progress * 0.15); // logo verkleinert sich leicht
+                const opacity = 1 - (progress * 0.7);
 
                 logoWrapper.style.transform = `scale(${scale})`;
                 logoWrapper.style.opacity = opacity;
             }
         });
 
-        // 2. Touch-Gleit-Erkennung (Hero -> Buttons)
+        // Touch-Gleit-Erkennung (Hero -> Buttons)
         let touchStartY = 0;
         let isTransitioning = false;
 
@@ -462,7 +484,7 @@
             }
         }, { passive: true });
 
-        // 3. Klick-Verhalten für den Button
+        // Klick-Verhalten für den Button
         btnMachMaFertig.addEventListener('click', function(e) {
             e.preventDefault();
             document.getElementById('auswahl').scrollIntoView({ behavior: 'smooth' });
