@@ -19,7 +19,7 @@
             overflow-x: hidden;
         }
 
-        /* FIXER PFLASTERSTEIN-HINTERGRUND */
+        /* FIXER PFLASTERSTEIN-HINTERGRUND (Hero-Ebene) */
         .hero-bg {
             position: fixed;
             top: 0;
@@ -33,7 +33,7 @@
             background-repeat: no-repeat;
         }
 
-        /* Subtiles Overlay */
+        /* Sanftes, helles Overlay für beste Lesbarkeit */
         .hero-bg::after {
             content: '';
             position: absolute;
@@ -85,19 +85,28 @@
             filter: drop-shadow(0 8px 20px rgba(0,0,0,0.15));
         }
 
-        /* LAYER-ABSCHNITT MIT MODERNE GRADIENT-TRANSITION IN WEISS */
+        /* LAYER-ABSCHNITT */
         .layer-content {
             position: relative;
             z-index: 3;
-            /* Sanfter Übergang von Transparent zu Vollweiß über 120px */
-            background: linear-gradient(
-                to bottom, 
-                rgba(252, 252, 252, 0) 0%, 
-                rgba(252, 252, 252, 0.85) 40px,
-                #fcfcfc 120px
-            );
-            padding-top: 60px; /* Platz für den sanften Verlauf */
-            margin-top: -80px;  /* Überlappung mit dem Hero */
+            background-color: #fcfcfc;
+        }
+
+        /* WEISSE WELLEN-TRANSITION (Schnittstelle zum Pflasterstein) */
+        .wave-divider {
+            position: relative;
+            top: 1px; /* Verhindert kleinste Pixellücken beim Rendern */
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            margin-top: -95px; /* Schiebt die Welle elegant ins Pflasterstein-Foto hinein */
+        }
+
+        .wave-divider svg {
+            position: relative;
+            display: block;
+            width: 100%;
+            height: 100px;
         }
 
         /* Section 2: Buttons */
@@ -311,7 +320,7 @@
 </head>
 <body>
 
-    <!-- FIXER HINTERGRUND -->
+    <!-- FIXER PFLASTERSTEIN-HINTERGRUND (1806.png) -->
     <div class="hero-bg"></div>
 
     <!-- Section 1: Hero -->
@@ -321,8 +330,15 @@
         </div>
     </section>
 
-    <!-- LAYER-ABSCHNITT MIT SANFTEM WEISS-VERLAUF -->
+    <!-- LAYER-ABSCHNITT MIT ORGANISCHER WELLEN-KANTE -->
     <div class="layer-content">
+
+        <!-- WEISSE WELLEN-DIVIDER (Integrierter SVG-Bogen) -->
+        <div class="wave-divider">
+            <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                <path d="M0,32L60,42.7C120,53,240,75,360,80C480,85,600,75,720,64C840,53,960,43,1080,48C1200,53,1320,75,1380,85.3L1440,96L1440,120L1380,120C1320,120,1200,120,1080,120C960,120,840,120,720,120C600,120,480,120,360,120C240,120,120,120,60,120L0,120Z" fill="#fcfcfc"></path>
+            </svg>
+        </div>
 
         <!-- Section 2: Buttons -->
         <section class="page-section content-section" id="buttons-section">
@@ -437,6 +453,7 @@
         const btnMachMaFertig = document.getElementById('btn-mach-ma-fertig');
         const logoWrapper = document.getElementById('logo-wrapper');
 
+        // Kinetische Logo-Skalierung beim Scrollen
         window.addEventListener('scroll', () => {
             const scrolled = window.scrollY;
             const viewportHeight = window.innerHeight;
@@ -451,6 +468,7 @@
             }
         });
 
+        // Touch-Gleit-Erkennung (Hero -> Buttons)
         let touchStartY = 0;
         let isTransitioning = false;
 
