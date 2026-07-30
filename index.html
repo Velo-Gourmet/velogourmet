@@ -19,7 +19,7 @@
             overflow-x: hidden;
         }
 
-        /* FIXER PFLASTERSTEIN-HINTERGRUND (Hero-Ebene) */
+        /* FIXER PFLASTERSTEIN-HINTERGRUND (1806.png) */
         .hero-bg {
             position: fixed;
             top: 0;
@@ -33,7 +33,7 @@
             background-repeat: no-repeat;
         }
 
-        /* Sanftes, helles Overlay für beste Lesbarkeit */
+        /* Helles Overlay für Lesbarkeit des Logos */
         .hero-bg::after {
             content: '';
             position: absolute;
@@ -51,7 +51,7 @@
             position: relative;
         }
 
-        /* Section 1: Hero */
+        /* Section 1: Hero (Pflasterstein-Bereich) */
         .hero-section {
             display: flex;
             flex-direction: column;
@@ -85,28 +85,36 @@
             filter: drop-shadow(0 8px 20px rgba(0,0,0,0.15));
         }
 
-        /* LAYER-ABSCHNITT */
+        /* WEISSE WELLEN-TRANSITION AM UNTEREN HERO-RAND */
+        .wave-divider-hero {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            z-index: 10; /* Verlässlich über dem Pflasterstein */
+            pointer-events: none;
+        }
+
+        .wave-divider-hero svg {
+            position: relative;
+            display: block;
+            width: 100%;
+            height: 70px; /* Bogenhöhe auf Smartphones */
+        }
+
+        @media (min-width: 768px) {
+            .wave-divider-hero svg {
+                height: 110px; /* Bogenhöhe auf Desktops */
+            }
+        }
+
+        /* CONTENT-LAYER (Weißer Vorhang) */
         .layer-content {
             position: relative;
             z-index: 3;
             background-color: #fcfcfc;
-        }
-
-        /* WEISSE WELLEN-TRANSITION (Schnittstelle zum Pflasterstein) */
-        .wave-divider {
-            position: relative;
-            top: 1px; /* Verhindert kleinste Pixellücken beim Rendern */
-            width: 100%;
-            overflow: hidden;
-            line-height: 0;
-            margin-top: -95px; /* Schiebt die Welle elegant ins Pflasterstein-Foto hinein */
-        }
-
-        .wave-divider svg {
-            position: relative;
-            display: block;
-            width: 100%;
-            height: 100px;
         }
 
         /* Section 2: Buttons */
@@ -114,7 +122,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 90vh;
+            min-height: 100vh;
         }
 
         .actions {
@@ -320,7 +328,7 @@
 </head>
 <body>
 
-    <!-- FIXER PFLASTERSTEIN-HINTERGRUND (1806.png) -->
+    <!-- FIXER PFLASTERSTEIN-HINTERGRUND -->
     <div class="hero-bg"></div>
 
     <!-- Section 1: Hero -->
@@ -328,17 +336,17 @@
         <div class="logo-wrapper" id="logo-wrapper">
             <img src="1577_2.png" alt="Velo Gourmet Berlin Logo">
         </div>
-    </section>
 
-    <!-- LAYER-ABSCHNITT MIT ORGANISCHER WELLEN-KANTE -->
-    <div class="layer-content">
-
-        <!-- WEISSE WELLEN-DIVIDER (Integrierter SVG-Bogen) -->
-        <div class="wave-divider">
+        <!-- DIE WEISSE WELLE (Fest am unteren Rand verankert) -->
+        <div class="wave-divider-hero">
             <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
                 <path d="M0,32L60,42.7C120,53,240,75,360,80C480,85,600,75,720,64C840,53,960,43,1080,48C1200,53,1320,75,1380,85.3L1440,96L1440,120L1380,120C1320,120,1200,120,1080,120C960,120,840,120,720,120C600,120,480,120,360,120C240,120,120,120,60,120L0,120Z" fill="#fcfcfc"></path>
             </svg>
         </div>
+    </section>
+
+    <!-- LAYER-ABSCHNITT (Inhalt schiebt sich hoch) -->
+    <div class="layer-content">
 
         <!-- Section 2: Buttons -->
         <section class="page-section content-section" id="buttons-section">
