@@ -19,7 +19,7 @@
             overflow-x: hidden;
         }
 
-        /* FIXER PFLASTERSTEIN-HINTERGRUND (Hero-Ebene) */
+        /* FIXER PFLASTERSTEIN-HINTERGRUND */
         .hero-bg {
             position: fixed;
             top: 0;
@@ -33,7 +33,7 @@
             background-repeat: no-repeat;
         }
 
-        /* Sanftes, helles Overlay für perfekte Lesbarkeit des Logos */
+        /* Subtiles Overlay */
         .hero-bg::after {
             content: '';
             position: absolute;
@@ -41,10 +41,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(253, 253, 253, 0.35); /* Dezente Aufhellung */
+            background: rgba(253, 253, 253, 0.25);
         }
 
-        /* SEKTIONEN-STYLING */
         .page-section {
             min-height: 100vh;
             width: 100vw;
@@ -52,7 +51,7 @@
             position: relative;
         }
 
-        /* Section 1: Hero (Transparent über dem festen Pflasterstein) */
+        /* Section 1: Hero */
         .hero-section {
             display: flex;
             flex-direction: column;
@@ -86,14 +85,19 @@
             filter: drop-shadow(0 8px 20px rgba(0,0,0,0.15));
         }
 
-        /* LAYER 2 & 3: Schieben sich wie ein Vorhang über das Pflasterstein-Bild */
+        /* LAYER-ABSCHNITT MIT MODERNE GRADIENT-TRANSITION IN WEISS */
         .layer-content {
             position: relative;
             z-index: 3;
-            background-color: #fcfcfc;
-            box-shadow: 0 -15px 35px rgba(0, 0, 0, 0.12); /* Schatten erzeugt den Ebenen-Effekt */
-            border-top-left-radius: 24px;
-            border-top-right-radius: 24px;
+            /* Sanfter Übergang von Transparent zu Vollweiß über 120px */
+            background: linear-gradient(
+                to bottom, 
+                rgba(252, 252, 252, 0) 0%, 
+                rgba(252, 252, 252, 0.85) 40px,
+                #fcfcfc 120px
+            );
+            padding-top: 60px; /* Platz für den sanften Verlauf */
+            margin-top: -80px;  /* Überlappung mit dem Hero */
         }
 
         /* Section 2: Buttons */
@@ -101,7 +105,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 90vh;
         }
 
         .actions {
@@ -307,17 +311,17 @@
 </head>
 <body>
 
-    <!-- FIXER HINTERGRUND: PFLASTERSTEIN (1806.png) -->
+    <!-- FIXER HINTERGRUND -->
     <div class="hero-bg"></div>
 
-    <!-- Section 1: Hero (Liegt direkt über dem Pflasterstein) -->
+    <!-- Section 1: Hero -->
     <section class="page-section hero-section" id="hero">
         <div class="logo-wrapper" id="logo-wrapper">
             <img src="1577_2.png" alt="Velo Gourmet Berlin Logo">
         </div>
     </section>
 
-    <!-- LAYER-ABSCHNITT: Schiebt sich über den Pflasterstein -->
+    <!-- LAYER-ABSCHNITT MIT SANFTEM WEISS-VERLAUF -->
     <div class="layer-content">
 
         <!-- Section 2: Buttons -->
@@ -345,12 +349,11 @@
             </div>
         </section>
 
-        <!-- Section 3: Saisonaler Speiseplan & Kontakt -->
+        <!-- Section 3: Menü & Kontakt -->
         <section class="page-section selection-section" id="auswahl">
             <h2 class="section-title">Saisonale Vorschläge</h2>
 
             <div class="menu-container">
-                <!-- Menü 1: Hermannplatz -->
                 <details class="menu-card">
                     <summary class="menu-header">
                         <div>
@@ -365,7 +368,6 @@
                     </div>
                 </details>
 
-                <!-- Menü 2: Prenzlauer Berg -->
                 <details class="menu-card">
                     <summary class="menu-header">
                         <div>
@@ -428,21 +430,20 @@
 
     </div>
 
-    <!-- JS-STEUERUNG FÜR FLÜSSIGE EBENEN & SCROLLEN -->
+    <!-- JS STEUERUNG -->
     <script>
         const heroSection = document.getElementById('hero');
         const buttonsSection = document.getElementById('buttons-section');
         const btnMachMaFertig = document.getElementById('btn-mach-ma-fertig');
         const logoWrapper = document.getElementById('logo-wrapper');
 
-        // Kinetische Logo-Verkleinerung beim Hoch-Scrollen
         window.addEventListener('scroll', () => {
             const scrolled = window.scrollY;
             const viewportHeight = window.innerHeight;
 
             if (scrolled <= viewportHeight) {
                 const progress = scrolled / viewportHeight;
-                const scale = 1 - (progress * 0.15); // logo verkleinert sich leicht
+                const scale = 1 - (progress * 0.15);
                 const opacity = 1 - (progress * 0.7);
 
                 logoWrapper.style.transform = `scale(${scale})`;
@@ -450,7 +451,6 @@
             }
         });
 
-        // Touch-Gleit-Erkennung (Hero -> Buttons)
         let touchStartY = 0;
         let isTransitioning = false;
 
@@ -484,7 +484,6 @@
             }
         }, { passive: true });
 
-        // Klick-Verhalten für den Button
         btnMachMaFertig.addEventListener('click', function(e) {
             e.preventDefault();
             document.getElementById('auswahl').scrollIntoView({ behavior: 'smooth' });
