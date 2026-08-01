@@ -1,536 +1,360 @@
-
-            <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VELO GOURMET</title>
+    <title>VELO GOURMET — Uni Projekt</title>
     <style>
-        html {
-            scroll-behavior: smooth;
+        /* ==========================================
+           1. SETUP & CSS-VARIABLEN (Natur & Minimalismus)
+           ========================================== */
+        :root {
+            --bg-sand: #f4f1ea;
+            --bg-sage: #e2e8dd;
+            --brand-green: #c1ff72;
+            --brand-rose: #FFD6D8;
+            --text-dark: #1b241e;
+            --card-white: rgba(255, 255, 255, 0.85);
+            
+            /* Platzhalter für deine zukünftigen SVG-Dateien */
+            --svg-bg-hero: url('hero-pattern.svg');
+            --svg-bg-content: url('st.svg');
         }
 
-        body {
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: #f7f5f0;
-            color: #333;
-            text-align: center;
+        }
+
+        /* 2. INTUITIVES SCROLL-SNAP & CONTAINER */
+        html {
+            scroll-behavior: smooth;
+            scroll-snap-type: y mandatory; /* Rastet beim Wischen sauber ein */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-sand);
+            color: var(--text-dark);
             overflow-x: hidden;
         }
 
-        /* FIXER PFLASTERSTEIN-HINTERGRUND (1806.png) */
-        .hero-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
+        /* Standard Section Setup */
+        .section {
             height: 100vh;
-            z-index: 1;
-            background-image: url('1806.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            width: 100vw;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow: hidden;
         }
 
-        /* Helles Overlay für Lesbarkeit des Logos */
-        .hero-bg::after {
-            content: '';
+        /* ==========================================
+           3. HERO SEKTION (Pflasterstein / SVG & Parallax)
+           ========================================== */
+        .hero-bg {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background: rgba(253, 253, 253, 0.25);
-        }
-
-        .page-section {
-            min-height: 100vh;
-            width: 100vw;
-            box-sizing: border-box;
-            position: relative;
-        }
-
-        /* Section 1: Hero */
-        .hero-section {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 10px 15px;
-            height: 100vh;
-            z-index: 2;
-            position: relative;
-            touch-action: pan-y;
-        }
-
-        .logo-wrapper {
-            width: 98vw;
-            max-width: 1687px;
-            max-height: 95vh;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            margin: 0 auto;
-            transform-origin: center center;
-            will-change: transform, opacity;
-            transition: transform 0.1s linear, opacity 0.1s linear;
-        }
-
-        .logo-wrapper img {
-            width: 100%;
-            height: auto;
-            display: block;
-            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.15));
-        }
-
-        /* LAYER-ABSCHNITT MIT DER SPACHTEL-SVG (st.svg) */
-        .layer-content {
-            position: relative;
-            z-index: 3;
-            margin-top: 0;
-            
-            background-image: url('st.svg');
+            height: 120%; /* Mehr Höhe für Parallax-Spielraum */
+            background-image: var(--svg-bg-hero), url('1806.png');
             background-size: cover;
-            background-position: center top;
-            background-repeat: no-repeat;
-            
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 120px);
-            mask-image: linear-gradient(to bottom, transparent 0%, black 120px);
+            background-position: center;
+            z-index: 1;
+            will-change: transform;
+            /* Sanftes Weichzeichnen für Tiefenschärfe */
+            filter: contrast(95%) brightness(98%);
         }
 
-        /* Section 2: Buttons */
-        .content-section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 85vh;
-            padding-top: 60px;
-            padding-bottom: 60px;
+        .hero-content {
+            z-index: 2;
+            text-align: center;
+            transition: transform 0.5s ease-out, opacity 0.5s ease-out;
         }
 
+        .logo-img {
+            width: 85vw;
+            max-width: 500px;
+            height: auto;
+            filter: drop-shadow(0 12px 24px rgba(0,0,0,0.12));
+            /* Organische Einblendung beim Laden */
+            animation: fadeInMorph 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Swipe Indicator */
+        .swipe-hint {
+            position: absolute;
+            bottom: 30px;
+            z-index: 2;
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.6;
+            animation: floatBounce 2s infinite ease-in-out;
+        }
+
+        /* ==========================================
+           4. CONTENT LAYER (Spachtel / Organischer Look)
+           ========================================== */
+        .layer-content {
+            background-color: var(--bg-sand);
+            background-image: var(--svg-bg-content);
+            background-size: cover;
+            background-position: top center;
+            border-top-left-radius: 30px;
+            border-top-right-radius: 30px;
+            box-shadow: 0 -20px 40px rgba(0,0,0,0.06);
+            z-index: 3;
+        }
+
+        /* SVG Morphing-Welle oben */
+        .organic-edge {
+            position: absolute;
+            top: -50px;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            fill: var(--bg-sand);
+            pointer-events: none;
+        }
+
+        /* Buttons Layout */
         .actions {
             display: flex;
             flex-direction: column;
-            gap: 25px;
-            align-items: center;
-            justify-content: center;
+            gap: 20px;
             width: 100%;
+            max-width: 340px;
+            z-index: 2;
         }
 
         .artist-btn {
-            display: inline-block;
-            width: 322px;
-            max-width: 90vw;
-            height: auto;
+            display: block;
+            width: 100%;
             text-decoration: none;
-            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.25s ease;
-            filter: drop-shadow(0 6px 16px rgba(0,0,0,0.08));
-            -webkit-tap-highlight-color: transparent !important;
-            user-select: none;
-            outline: none !important;
-            border: none !important;
-            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .artist-btn:hover, .artist-btn:active {
+            transform: scale(1.03) translateY(-3px);
         }
 
         .artist-btn svg {
             width: 100%;
             height: auto;
-            display: block;
-            pointer-events: none;
-        }
-
-        .artist-btn:hover {
-            transform: scale(1.04) translateY(-2px);
-            filter: drop-shadow(0 10px 22px rgba(0,0,0,0.14));
-        }
-
-        .artist-btn:active {
-            transform: scale(0.98);
+            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.06));
         }
 
         .btn-text {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            font-size: 23px;
+            font-size: 22px;
             font-weight: 600;
-            letter-spacing: 0.5px;
         }
 
-        /* Section 3: Menü & Kontakt */
-        .selection-section {
-            padding: 60px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background-color: #ffffff;
-            border-top: 1px solid #eaeaea;
+        /* ==========================================
+           5. MODERN 2026 GALERIE-SECTION
+           ========================================== */
+        .gallery-section {
+            background-color: var(--bg-sage);
+            z-index: 4;
         }
 
-        .section-title {
-            font-size: 28px;
+        .gallery-title {
+            font-size: 26px;
             font-weight: 700;
-            margin-bottom: 30px;
-            color: #111;
+            margin-bottom: 25px;
+            letter-spacing: -0.5px;
         }
 
-        .menu-container {
+        /* Interactive Card Deck Gallery */
+        .gallery-deck {
+            display: flex;
+            gap: 20px;
             width: 100%;
-            max-width: 500px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 50px;
+            max-width: 900px;
+            overflow-x: auto;
+            padding: 20px 10px;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            /* Versteckt den Scrollbalken für minimalistischen Look */
+            scrollbar-width: none;
         }
 
-        .menu-card {
-            background: #ffffff;
-            border-radius: 16px;
-            border: 2px solid #eaeaea;
-            overflow: hidden;
-            text-align: left;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .menu-card[open] {
-            border-color: #c1ff72;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-        }
-
-        .menu-header {
-            padding: 20px 25px;
-            cursor: pointer;
-            list-style: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            user-select: none;
-            color: #111;
-        }
-
-        .menu-header::-webkit-details-marker {
+        .gallery-deck::-webkit-scrollbar {
             display: none;
         }
 
-        .menu-title {
-            font-size: 22px;
-            font-weight: 700;
-            color: #111;
-            display: block;
-            margin-bottom: 4px;
-        }
-
-        .menu-header::after {
-            content: '+';
-            font-size: 24px;
-            font-weight: 400;
-            color: #888;
-            transition: transform 0.3s ease;
-        }
-
-        .menu-card[open] .menu-header::after {
-            content: '−';
-            color: #111;
-        }
-
-        .menu-content {
-            padding: 0 25px 25px 25px;
-            color: #555;
-            line-height: 1.6;
-            font-size: 15px;
-            border-top: 1px solid #f5f5f5;
-            margin-top: 5px;
-            padding-top: 15px;
-        }
-
-        .menu-tag {
-            display: inline-block;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
-            padding: 3px 8px;
-            border-radius: 6px;
-        }
-
-        .tag-hermannplatz {
-            background-color: rgba(193, 255, 114, 0.4);
-            color: #1a2e05;
-        }
-
-        .tag-prenzlauer {
-            background-color: rgba(255, 214, 216, 0.6);
-            color: #3A2325;
-        }
-
-        .contact-box {
-            width: 100%;
-            max-width: 500px;
-            background: #ffffff;
-            padding: 30px 20px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
-            box-sizing: border-box;
-            border: 1px solid #eaeaea;
-        }
-
-        .contact-box h3 {
-            margin-top: 0;
-            font-size: 22px;
-            color: #111;
-        }
-
-        .contact-links {
+        .gallery-card {
+            flex: 0 0 280px;
+            height: 380px;
+            background: var(--card-white);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.6);
+            scroll-snap-align: center;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-top: 20px;
+            justify-content: space-between;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            
+            /* Morphing & Parallax-Transitionen per Card */
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.4s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .contact-btn {
+        /* Hover/Touch Morphing Effect */
+        .gallery-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-radius: 12px 36px 12px 36px; /* Organische Formänderung */
+        }
+
+        .card-image-placeholder {
+            width: 100%;
+            height: 200px;
+            background: rgba(0,0,0,0.04);
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 14px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 16px;
-            transition: opacity 0.2s;
+            font-size: 14px;
+            color: #777;
+            /* Platzhalter für Food/Catering Fotos */
+            background-size: cover;
+            background-position: center;
         }
 
-        .btn-whatsapp { background-color: #25D366; color: white; }
-        .btn-instagram { background-color: #E1306C; color: white; }
-        .btn-email { background-color: #111111; color: white; }
-        .btn-phone { background-color: #e0e0e0; color: #111; }
-
-        footer {
-            background-color: #2c3e50;
-            color: #bdc3c7;
-            padding: 40px 20px;
-            margin-top: 60px;
+        .card-info h4 {
+            font-size: 20px;
+            margin-bottom: 6px;
         }
 
-        /* =========================================================
-           QUERFORMAT-OPTIMIERUNGEN (LANDSCAPE MODUS)
-           ========================================================= */
-        @media (orientation: landscape) and (max-height: 600px) {
-            .hero-section {
-                height: 100vh;
-                padding: 15px 0;
-            }
+        .card-info p {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.4;
+        }
 
-            .logo-wrapper {
-                max-width: 550px;
-                max-height: 80vh;
+        /* ==========================================
+           6. ANIMATIONEN (Keyframes)
+           ========================================== */
+        @keyframes fadeInMorph {
+            0% {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+                filter: blur(8px);
             }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+                filter: blur(0);
+            }
+        }
 
-            .content-section {
-                min-height: auto;
-                padding: 80px 20px 60px 20px;
-            }
+        @keyframes floatBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(8px); }
+        }
 
-            /* Buttons im Querformat nebeneinander anordnen */
-            .actions {
-                flex-direction: row;
-                justify-content: center;
-                gap: 20px;
-            }
-
-            .artist-btn {
-                width: 260px;
-            }
-
-            .selection-section {
-                padding: 40px 20px;
-            }
+        /* Querformat-Optimierung */
+        @media (orientation: landscape) and (max-height: 500px) {
+            .actions { flex-direction: row; max-width: 600px; }
+            .gallery-card { flex: 0 0 240px; height: 260px; }
+            .card-image-placeholder { height: 110px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- FIXER PFLASTERSTEIN-HINTERGRUND -->
-    <div class="hero-bg"></div>
+    <!-- SECTION 1: HERO -->
+    <section class="section" id="hero">
+        <div class="hero-bg" id="hero-bg"></div>
+        <div class="hero-content">
+            <div class="logo-wrapper">
+                <img src="1577_2.png" alt="Velo Gourmet Logo" class="logo-img">
+            </div>
+        </div>
+        <div class="swipe-hint">↓ Wischen</div>
+    </section>
 
-    <!-- Section 1: Hero -->
-    <section class="page-section hero-section" id="hero">
-        <div class="logo-wrapper" id="logo-wrapper">
-            <img src="1577_2.png" alt="Velo Gourmet Berlin Logo">
+    <!-- SECTION 2: BUTTONS & INTUITIVE NAVIGATION -->
+    <section class="section layer-content" id="navigation">
+        <!-- Organische Trennkante -->
+        <svg class="organic-edge" viewBox="0 0 500 150" preserveAspectRatio="none">
+            <path d="M0,0 C150,90 350,-40 500,65 L500,150 L0,150 Z"></path>
+        </svg>
+
+        <div class="actions">
+            <a href="#galerie" class="artist-btn" aria-label="Mach ma fertig!">
+                <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="var(--brand-green)" d="M 25,22 C 40,16 110,18 160,15 C 220,12 280,20 298,28 C 310,38 305,68 290,82 C 260,95 180,88 120,94 C 75,98 35,92 18,80 C 8,68 10,35 25,22 Z" />
+                    <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#1a2e05" class="btn-text">
+                        Mach ma fertig!
+                    </text>
+                </svg>
+            </a>
+
+            <a href="#galerie" class="artist-btn" aria-label="Mein Angebot">
+                <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="var(--brand-rose)" d="M 22,25 C 55,18 130,14 180,18 C 240,21 275,15 295,25 C 308,35 312,65 292,80 C 265,92 195,96 130,90 C 80,86 40,95 20,82 C 5,70 8,38 22,25 Z" />
+                    <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#3A2325" class="btn-text">
+                        Mein Angebot
+                    </text>
+                </svg>
+            </a>
         </div>
     </section>
 
-    <!-- LAYER-ABSCHNITT MIT DER SPACHTEL-SVG (st.svg) -->
-    <div class="layer-content">
-
-        <!-- Section 2: Buttons -->
-        <section class="page-section content-section" id="buttons-section">
-            <div class="actions">
-                
-                <a href="#auswahl" class="artist-btn" id="btn-mach-ma-fertig" aria-label="Mach ma fertig!">
-                    <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
-                        <path fill="#c1ff72" d="M 25,22 C 40,16 110,18 160,15 C 220,12 280,20 298,28 C 310,38 305,68 290,82 C 260,95 180,88 120,94 C 75,98 35,92 18,80 C 8,68 10,35 25,22 Z" />
-                        <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#1a2e05" class="btn-text">
-                            Mach ma fertig!
-                        </text>
-                    </svg>
-                </a>
-
-                <a href="#angebot" class="artist-btn" aria-label="Mein Angebot">
-                    <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
-                        <path fill="#FFD6D8" d="M 22,25 C 55,18 130,14 180,18 C 240,21 275,15 295,25 C 308,35 312,65 292,80 C 265,92 195,96 130,90 C 80,86 40,95 20,82 C 5,70 8,38 22,25 Z" />
-                        <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#3A2325" class="btn-text">
-                            Mein Angebot
-                        </text>
-                    </svg>
-                </a>
-
-            </div>
-        </section>
-
-        <!-- Section 3: Menü & Kontakt -->
-        <section class="page-section selection-section" id="auswahl">
-            <h2 class="section-title">Saisonale Vorschläge</h2>
-
-            <div class="menu-container">
-                <details class="menu-card">
-                    <summary class="menu-header">
-                        <div>
-                            <span class="menu-title">Hermannplatz</span>
-                            <span class="menu-tag tag-hermannplatz">Mediterran / Levante</span>
-                        </div>
-                    </summary>
-                    <div class="menu-content">
-                        <p><em>[Platzhalter: Vorspeise / Mezze]</em></p>
-                        <p><em>[Platzhalter: Hauptgang]</em></p>
-                        <p><em>[Platzhalter: Dessert]</em></p>
-                    </div>
-                </details>
-
-                <details class="menu-card">
-                    <summary class="menu-header">
-                        <div>
-                            <span class="menu-title">Prenzlauer Berg</span>
-                            <span class="menu-tag tag-prenzlauer">Pflanzlich / Vegan</span>
-                        </div>
-                    </summary>
-                    <div class="menu-content">
-                        <p><em>[Platzhalter: Vorspeise mit Sprossen & Kräutern]</em></p>
-                        <p><em>[Platzhalter: Bohnen-Bratlinge & Beilagen]</em></p>
-                        <p><em>[Platzhalter: Dessert]</em></p>
-                    </div>
-                </details>
-            </div>
-
-            <div class="contact-box">
-                <h3>Hunger bekommen?</h3>
-                <p style="color: #666; margin-bottom: 20px; font-size: 15px;">
-                    Schreib mir direkt für Anfragen, Termine oder individuelle Menüwünsche:
-                </p>
-
-                <div class="contact-links">
-                    <a href="https://wa.me/49123456789" class="contact-btn btn-whatsapp" target="_blank">WhatsApp</a>
-                    <a href="https://instagram.com/velogourmet" class="contact-btn btn-instagram" target="_blank">Instagram</a>
-                    <a href="mailto:hallo@velogourmet.de" class="contact-btn btn-email">E-Mail</a>
-                    <a href="tel:+49123456789" class="contact-btn btn-phone">Telefon</a>
+    <!-- SECTION 3: MODERNE 2026 GALERIE -->
+    <section class="section gallery-section" id="galerie">
+        <h2 class="gallery-title">Saisonale Impressionen</h2>
+        
+        <div class="gallery-deck">
+            <!-- Karte 1 -->
+            <div class="gallery-card">
+                <div class="card-image-placeholder">Foto: Hermannplatz</div>
+                <div class="card-info">
+                    <h4>Hermannplatz</h4>
+                    <p>Levante & mediterrane Mezze direkt vom Lastenrad.</p>
                 </div>
             </div>
-        </section>
 
-        <!-- Footer -->
-        <footer>
-            <div style="max-width: 700px; margin: 0 auto; text-align: left; padding: 0 20px;">
-                <details style="margin-bottom: 15px; cursor: pointer;">
-                    <summary style="font-weight: bold; outline: none; color: #ecf0f1;">Impressum</summary>
-                    <div style="padding-top: 10px; font-size: 0.85em; line-height: 1.5; color: #bdc3c7;">
-                        <strong>Velo Gourmet Berlin</strong><br>
-                        [Dein Vor- und Nachname]<br>
-                        [Deine Straße und Hausnummer]<br>
-                        [Deine PLZ] Berlin<br>
-                        E-Mail: [Deine E-Mail-Adresse]<br>
-                        Telefon: [Deine Telefonnummer]
-                    </div>
-                </details>
-
-                <details style="cursor: pointer;">
-                    <summary style="font-weight: bold; outline: none; color: #ecf0f1;">Datenschutzerklärung</summary>
-                    <div style="padding-top: 10px; font-size: 0.85em; line-height: 1.5; color: #bdc3c7;">
-                        <strong>Datenschutzhinweis:</strong><br><br>
-                        Verantwortlich für die Datenverarbeitung ist Velo Gourmet Berlin. Wir erheben personenbezogene Daten ausschließlich, um deine Anfragen zu bearbeiten und unsere Dienstleistungen für dich zu erbringen.<br><br>
-                        Für die Zahlungsabwicklung nutzen wir den Dienst PayPal. Dabei werden Daten, die für die Zahlung notwendig sind, an PayPal übermittelt. Es gilt die Datenschutzerklärung von PayPal.
-                    </div>
-                </details>
+            <!-- Karte 2 -->
+            <div class="gallery-card">
+                <div class="card-image-placeholder">Foto: Prenzlauer Berg</div>
+                <div class="card-info">
+                    <h4>Prenzlauer Berg</h4>
+                    <p>Pflanzliche Gourmet-Variationen & frische Kräuter.</p>
+                </div>
             </div>
-            
-            <div style="margin-top: 40px; text-align: center; font-size: 0.9em;">
-                &copy; 2026 Velo Gourmet
+
+            <!-- Karte 3 -->
+            <div class="gallery-card">
+                <div class="card-image-placeholder">Foto: Velo Gourmet Event</div>
+                <div class="card-info">
+                    <h4>Catering & Events</h4>
+                    <p>Nachhaltiges Setup für urbane Feiern in Berlin.</p>
+                </div>
             </div>
-        </footer>
+        </div>
+    </section>
 
-    </div>
-
-    <!-- JS STEUERUNG -->
+    <!-- Leichtes JS für sanften Parallax-Effekt (CSS-Unterstützung) -->
     <script>
-        const heroSection = document.getElementById('hero');
-        const buttonsSection = document.getElementById('buttons-section');
-        const btnMachMaFertig = document.getElementById('btn-mach-ma-fertig');
-        const logoWrapper = document.getElementById('logo-wrapper');
-
-        // Kinetische Logo-Skalierung beim Scrollen
+        const heroBg = document.getElementById('hero-bg');
+        
         window.addEventListener('scroll', () => {
             const scrolled = window.scrollY;
-            const viewportHeight = window.innerHeight;
-
-            if (scrolled <= viewportHeight) {
-                const progress = scrolled / viewportHeight;
-                const scale = 1 - (progress * 0.15);
-                const opacity = 1 - (progress * 0.7);
-
-                logoWrapper.style.transform = `scale(${scale})`;
-                logoWrapper.style.opacity = opacity;
+            // Parallax-Verschiebung des Hintergrunds
+            if (scrolled < window.innerHeight) {
+                heroBg.style.transform = `translateY(${scrolled * 0.35}px)`;
             }
-        });
-
-        // Touch-Gleit-Erkennung (Hero -> Buttons)
-        let touchStartY = 0;
-        let isTransitioning = false;
-
-        function scrollToButtons() {
-            if (isTransitioning) return;
-            isTransitioning = true;
-            
-            buttonsSection.scrollIntoView({ behavior: 'smooth' });
-
-            setTimeout(() => {
-                isTransitioning = false;
-            }, 800);
-        }
-
-        heroSection.addEventListener('touchstart', (e) => {
-            touchStartY = e.touches[0].clientY;
-        }, { passive: true });
-
-        heroSection.addEventListener('touchend', (e) => {
-            const touchEndY = e.changedTouches[0].clientY;
-            const deltaY = touchStartY - touchEndY;
-
-            if (deltaY > 30 && window.scrollY < 100) {
-                scrollToButtons();
-            }
-        }, { passive: true });
-
-        window.addEventListener('wheel', (e) => {
-            if (window.scrollY < 50 && e.deltaY > 0) {
-                scrollToButtons();
-            }
-        }, { passive: true });
-
-        btnMachMaFertig.addEventListener('click', function(e) {
-            e.preventDefault();
-            document.getElementById('auswahl').scrollIntoView({ behavior: 'smooth' });
         });
     </script>
-
 </body>
 </html>
