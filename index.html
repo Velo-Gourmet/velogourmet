@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+            <!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
@@ -85,19 +86,17 @@
             filter: drop-shadow(0 8px 20px rgba(0,0,0,0.15));
         }
 
-        /* LAYER-ABSCHNITT MIT DER NEUEN SPACHTEL-SVG (st.svg) */
+        /* LAYER-ABSCHNITT MIT DER SPACHTEL-SVG (st.svg) */
         .layer-content {
             position: relative;
             z-index: 3;
             margin-top: 0;
             
-            /* Einbindung der SVG-Grafik st.svg */
             background-image: url('st.svg');
             background-size: cover;
             background-position: center top;
             background-repeat: no-repeat;
             
-            /* Weicher Transparenz-Verlauf oben zum Pflasterstein */
             -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 120px);
             mask-image: linear-gradient(to bottom, transparent 0%, black 120px);
         }
@@ -312,6 +311,41 @@
             color: #bdc3c7;
             padding: 40px 20px;
             margin-top: 60px;
+        }
+
+        /* =========================================================
+           QUERFORMAT-OPTIMIERUNGEN (LANDSCAPE MODUS)
+           ========================================================= */
+        @media (orientation: landscape) and (max-height: 600px) {
+            .hero-section {
+                height: 100vh;
+                padding: 15px 0;
+            }
+
+            .logo-wrapper {
+                max-width: 550px;
+                max-height: 80vh;
+            }
+
+            .content-section {
+                min-height: auto;
+                padding: 80px 20px 60px 20px;
+            }
+
+            /* Buttons im Querformat nebeneinander anordnen */
+            .actions {
+                flex-direction: row;
+                justify-content: center;
+                gap: 20px;
+            }
+
+            .artist-btn {
+                width: 260px;
+            }
+
+            .selection-section {
+                padding: 40px 20px;
+            }
         }
     </style>
 </head>
