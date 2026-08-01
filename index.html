@@ -13,7 +13,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: #fcfcfc;
+            background-color: #f7f5f0;
             color: #333;
             text-align: center;
             overflow-x: hidden;
@@ -51,7 +51,7 @@
             position: relative;
         }
 
-        /* Section 1: Hero (Erster Bildschirm - absolut clean) */
+        /* Section 1: Hero */
         .hero-section {
             display: flex;
             flex-direction: column;
@@ -85,43 +85,30 @@
             filter: drop-shadow(0 8px 20px rgba(0,0,0,0.15));
         }
 
-        /* LAYER-ABSCHNITT (MIT DURCHGEHENDEM HALFTONE-BACKGROUND: ht.png) */
+        /* LAYER-ABSCHNITT MIT DER NEUEN SPACHTEL-TEXTUR (st.png) */
         .layer-content {
             position: relative;
             z-index: 3;
-            margin-top: 0; /* Erst beim Scrollen/Wischen sichtbar */
-            box-shadow: 0 -15px 35px rgba(0, 0, 0, 0.12);
+            margin-top: 0;
             
-            /* ht.png als nahtloser, durchgehender Hintergrund */
-            background-image: url('ht.png');
-            background-size: 320px auto; /* Optimale Dichte des Rastermusters */
-            background-repeat: repeat;
-            background-position: top center;
-        }
-
-        /* ÜBERGANGSGRAFIK: tr.png */
-        .wave-transition {
-            width: 100%;
-            height: 180px; /* Höhe der Kante auf Mobilgeräten */
-            background-image: url('tr.png');
-            background-size: 100% 100%;
+            /* st.png als Hintergrund */
+            background-image: url('st.png');
+            background-size: cover;
             background-position: top center;
             background-repeat: no-repeat;
-            pointer-events: none;
+            
+            /* Weicher Transparenz-Verlauf oben zum Pflasterstein */
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 120px);
+            mask-image: linear-gradient(to bottom, transparent 0%, black 120px);
         }
 
-        @media (min-width: 768px) {
-            .wave-transition {
-                height: 280px;
-            }
-        }
-
-        /* Section 2: Buttons (Nutzt den ht.png Hintergrund des Eltern-Containers) */
+        /* Section 2: Buttons */
         .content-section {
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 60vh;
+            min-height: 85vh;
+            padding-top: 60px;
             padding-bottom: 60px;
         }
 
@@ -141,7 +128,7 @@
             height: auto;
             text-decoration: none;
             transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.25s ease;
-            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.06));
+            filter: drop-shadow(0 6px 16px rgba(0,0,0,0.08));
             -webkit-tap-highlight-color: transparent !important;
             user-select: none;
             outline: none !important;
@@ -158,7 +145,7 @@
 
         .artist-btn:hover {
             transform: scale(1.04) translateY(-2px);
-            filter: drop-shadow(0 8px 18px rgba(0,0,0,0.12));
+            filter: drop-shadow(0 10px 22px rgba(0,0,0,0.14));
         }
 
         .artist-btn:active {
@@ -172,14 +159,14 @@
             letter-spacing: 0.5px;
         }
 
-        /* Section 3: Menü & Kontakt (Ende des Muster-Hintergrunds, sauberer Abschluss) */
+        /* Section 3: Menü & Kontakt */
         .selection-section {
             padding: 60px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background-color: #ffffff; /* Beendet das Muster für beste Lesbarkeit */
+            background-color: #ffffff;
             border-top: 1px solid #eaeaea;
         }
 
@@ -340,11 +327,8 @@
         </div>
     </section>
 
-    <!-- LAYER-ABSCHNITT (VORHANG MIT HALFTONE-BACKGROUND ht.png) -->
+    <!-- LAYER-ABSCHNITT MIT DER SPACHTEL-TEXTUR (st.png) -->
     <div class="layer-content">
-
-        <!-- ÜBERGANGSKANTE (tr.png) -->
-        <div class="wave-transition"></div>
 
         <!-- Section 2: Buttons -->
         <section class="page-section content-section" id="buttons-section">
@@ -371,7 +355,7 @@
             </div>
         </section>
 
-        <!-- Section 3: Menü & Kontakt (Ab hier wieder sauberer weißer Grund) -->
+        <!-- Section 3: Menü & Kontakt -->
         <section class="page-section selection-section" id="auswahl">
             <h2 class="section-title">Saisonale Vorschläge</h2>
 
