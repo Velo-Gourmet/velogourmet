@@ -16,8 +16,8 @@
             --text-dark: #1b241e;
             --card-white: rgba(255, 255, 255, 0.85);
             
-            /* Platzhalter für deine zukünftigen SVG-Dateien */
-            --svg-bg-hero: url('hero-pattern.svg');
+            /* Neue SVG für den Hero-Hintergrund */
+            --svg-bg-hero: url('cs.svg');
             --svg-bg-content: url('st.svg');
         }
 
@@ -53,7 +53,7 @@
         }
 
         /* ==========================================
-           3. HERO SEKTION (Pflasterstein / SVG & Parallax)
+           3. HERO SEKTION (Neue cs.svg & Parallax)
            ========================================== */
         .hero-bg {
             position: absolute;
@@ -61,12 +61,11 @@
             left: 0;
             width: 100%;
             height: 120%; /* Mehr Höhe für Parallax-Spielraum */
-            background-image: var(--svg-bg-hero), url('1806.png');
+            background-image: var(--svg-bg-hero);
             background-size: cover;
             background-position: center;
             z-index: 1;
             will-change: transform;
-            /* Sanftes Weichzeichnen für Tiefenschärfe */
             filter: contrast(95%) brightness(98%);
         }
 
@@ -81,7 +80,6 @@
             max-width: 500px;
             height: auto;
             filter: drop-shadow(0 12px 24px rgba(0,0,0,0.12));
-            /* Organische Einblendung beim Laden */
             animation: fadeInMorph 1.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -156,7 +154,7 @@
         }
 
         /* ==========================================
-           5. MODERN 2026 GALERIE-SECTION
+           5. MODERN GALERIE-SECTION
            ========================================== */
         .gallery-section {
             background-color: var(--bg-sage);
@@ -180,7 +178,6 @@
             padding: 20px 10px;
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
-            /* Versteckt den Scrollbalken für minimalistischen Look */
             scrollbar-width: none;
         }
 
@@ -201,17 +198,14 @@
             flex-direction: column;
             justify-content: space-between;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            
-            /* Morphing & Parallax-Transitionen per Card */
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.4s ease;
             position: relative;
             overflow: hidden;
         }
 
-        /* Hover/Touch Morphing Effect */
         .gallery-card:hover {
             transform: translateY(-10px) scale(1.02);
-            border-radius: 12px 36px 12px 36px; /* Organische Formänderung */
+            border-radius: 12px 36px 12px 36px;
         }
 
         .card-image-placeholder {
@@ -224,7 +218,6 @@
             justify-content: center;
             font-size: 14px;
             color: #777;
-            /* Platzhalter für Food/Catering Fotos */
             background-size: cover;
             background-position: center;
         }
@@ -284,7 +277,6 @@
 
     <!-- SECTION 2: BUTTONS & INTUITIVE NAVIGATION -->
     <section class="section layer-content" id="navigation">
-        <!-- Organische Trennkante -->
         <svg class="organic-edge" viewBox="0 0 500 150" preserveAspectRatio="none">
             <path d="M0,0 C150,90 350,-40 500,65 L500,150 L0,150 Z"></path>
         </svg>
@@ -310,12 +302,11 @@
         </div>
     </section>
 
-    <!-- SECTION 3: MODERNE 2026 GALERIE -->
+    <!-- SECTION 3: MODERNE GALERIE -->
     <section class="section gallery-section" id="galerie">
         <h2 class="gallery-title">Saisonale Impressionen</h2>
         
         <div class="gallery-deck">
-            <!-- Karte 1 -->
             <div class="gallery-card">
                 <div class="card-image-placeholder">Foto: Hermannplatz</div>
                 <div class="card-info">
@@ -324,7 +315,6 @@
                 </div>
             </div>
 
-            <!-- Karte 2 -->
             <div class="gallery-card">
                 <div class="card-image-placeholder">Foto: Prenzlauer Berg</div>
                 <div class="card-info">
@@ -333,7 +323,6 @@
                 </div>
             </div>
 
-            <!-- Karte 3 -->
             <div class="gallery-card">
                 <div class="card-image-placeholder">Foto: Velo Gourmet Event</div>
                 <div class="card-info">
@@ -344,13 +333,11 @@
         </div>
     </section>
 
-    <!-- Leichtes JS für sanften Parallax-Effekt (CSS-Unterstützung) -->
     <script>
         const heroBg = document.getElementById('hero-bg');
         
         window.addEventListener('scroll', () => {
             const scrolled = window.scrollY;
-            // Parallax-Verschiebung des Hintergrunds
             if (scrolled < window.innerHeight) {
                 heroBg.style.transform = `translateY(${scrolled * 0.35}px)`;
             }
