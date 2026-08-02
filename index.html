@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>VELO GOURMET — Uni Projekt</title>
-   <!-- Temporäre Anti-Cache Tags für die Entwicklungsphase -->
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
     
+    <!-- Temporäre Anti-Cache Tags für die Entwicklungsphase -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
+    <title>VELO GOURMET — Uni Projekt</title>
     <style>
         /* ==========================================
-           1. SETUP & CSS-VARIABLEN
+           1. SETUP & CSS-VARIABLEN (Natur & Minimalismus)
            ========================================== */
         :root {
             --bg-sand: #f4f1ea;
@@ -21,6 +22,7 @@
             --text-dark: #1b241e;
             --card-white: rgba(255, 255, 255, 0.85);
             
+            /* SVG-Dateien für Hintergründe */
             --svg-bg-hero: url('cs.svg');
             --svg-bg-content: url('st.svg');
         }
@@ -31,16 +33,17 @@
             padding: 0;
         }
 
-        /* 2. INTUITIVES SCROLL-SNAP */
+        /* 2. INTUITIVES SCROLL-SNAP & CONTAINER */
         html {
             scroll-behavior: smooth;
             scroll-snap-type: y mandatory;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--text-dark); /* Dunkler Hintergrund verstärkt den Tiefeneffekt */
+            background-color: var(--text-dark); /* Verstärkt den Tiefeneffekt beim Parallax */
             color: var(--text-dark);
             overflow-x: hidden;
         }
 
+        /* Standard Section Setup mit dvh für mobile Adresszeilen */
         .section {
             height: 100dvh;
             width: 100vw;
@@ -56,10 +59,11 @@
         }
 
         /* ==========================================
-           3. HERO SEKTION (Mit Stacking & Depth)
+           3. HERO SEKTION & PERFEKTE LOGO-ZENTRIERUNG
            ========================================== */
         .hero-section {
             background-color: var(--text-dark);
+            position: relative;
             justify-content: center;
             align-items: center;
         }
@@ -74,6 +78,7 @@
             background-size: cover;
             background-position: center;
             z-index: 1;
+            will-change: transform;
             filter: contrast(95%) brightness(98%);
         }
 
@@ -85,6 +90,7 @@
             align-items: center;
         }
 
+        /* Logo-Container für alle Display-Größen */
         .logo-wrapper {
             display: flex;
             justify-content: center;
@@ -99,8 +105,10 @@
             max-height: 70dvh;
             object-fit: contain;
             filter: drop-shadow(0 12px 24px rgba(0,0,0,0.12));
+            animation: fadeInMorph 1.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
+        /* Swipe Indicator */
         .swipe-hint {
             position: absolute;
             bottom: max(20px, env(safe-area-inset-bottom));
@@ -114,7 +122,7 @@
         }
 
         /* ==========================================
-           4. CTA / ACTION LAYER (Parallax-Overlay)
+           4. CTA LAYER (Spachtel / Organischer Look)
            ========================================== */
         .layer-content {
             background-color: var(--bg-sand);
@@ -123,8 +131,7 @@
             background-position: top center;
             border-top-left-radius: 30px;
             border-top-right-radius: 30px;
-            /* Verstärkter Schatten für räumliche Tiefe über dem Hero */
-            box-shadow: 0 -30px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 -30px 60px rgba(0,0,0,0.3); /* Tiefer Schatten für Parallax */
             z-index: 3;
         }
 
@@ -193,21 +200,35 @@
             overflow-x: auto;
             padding: 20px 10px;
             scroll-snap-type: x mandatory;
-            scrollbar-width: none;
             -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .gallery-deck::-webkit-scrollbar {
+            display: none;
         }
 
         .gallery-card {
             flex: 0 0 280px;
             height: 380px;
             background: var(--card-white);
+            backdrop-filter: blur(10px);
             border-radius: 24px;
             padding: 20px;
+            border: 1px solid rgba(255,255,255,0.6);
             scroll-snap-align: center;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-radius: 12px 36px 12px 36px;
         }
 
         .card-image-placeholder {
@@ -222,12 +243,41 @@
             color: #777;
         }
 
+        .card-info h4 {
+            font-size: 20px;
+            margin-bottom: 6px;
+        }
+
+        .card-info p {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.4;
+        }
+
         /* ==========================================
-           6. 2026 SCROLL-DRIVEN ANIMATIONS (Native CSS)
+           6. ANIMATIONEN & 2026 SCROLL-DRIVEN (Native CSS)
            ========================================== */
+        @keyframes fadeInMorph {
+            0% {
+                opacity: 0;
+                transform: scale(0.9);
+                filter: blur(8px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes floatBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(8px); }
+        }
+
         @supports (animation-timeline: view()) {
             
-            /* HERO DEPTH EFFECT: Kühlt ab und skaliert beim Verlassen des Viewports */
+            /* HERO DEPTH EFFECT */
             .hero-bg, .hero-content {
                 animation: depthFade linear both;
                 animation-timeline: view();
@@ -242,7 +292,7 @@
                 }
             }
 
-            /* ORGANIC MORPH: Die Kante spannt sich beim Scrollen */
+            /* ORGANIC MORPH */
             .organic-edge {
                 animation: stretchEdge linear both;
                 animation-timeline: view();
@@ -254,14 +304,13 @@
                 100% { transform: scaleY(1); opacity: 1; }
             }
 
-            /* SCROLL-REVEAL: Buttons sliden exakt passend zur Scroll-Geschwindigkeit rein */
+            /* SCROLL-REVEAL CTA BUTTONS */
             .artist-btn:nth-child(1) {
                 animation: revealCta linear both;
                 animation-timeline: view();
                 animation-range: entry 10% cover 40%;
             }
 
-            /* Versetztes Timing (Stagger) für den zweiten Button */
             .artist-btn:nth-child(2) {
                 animation: revealCta linear both;
                 animation-timeline: view();
@@ -280,16 +329,21 @@
             }
         }
 
-        @keyframes floatBounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(8px); }
+        /* Querformat-Optimierung für flache Bildschirme */
+        @media (orientation: landscape) and (max-height: 500px) {
+            .logo-img {
+                width: clamp(200px, 35vw, 400px);
+                max-height: 60dvh;
+            }
+            .actions { flex-direction: row; max-width: 600px; }
+            .gallery-card { flex: 0 0 240px; height: 260px; }
+            .card-image-placeholder { height: 110px; }
         }
-
     </style>
 </head>
 <body>
 
-    <!-- HERO SECTION -->
+    <!-- SECTION 1: HERO (Absolut zentriert) -->
     <section class="section hero-section" id="hero">
         <div class="hero-bg" id="hero-bg"></div>
         <div class="hero-content">
@@ -300,7 +354,7 @@
         <div class="swipe-hint">↓ Wischen</div>
     </section>
 
-    <!-- ACTION / CTA SECTION -->
+    <!-- SECTION 2: CTA LAYER / NAVIGATION -->
     <section class="section layer-content" id="navigation">
         <svg class="organic-edge" viewBox="0 0 500 150" preserveAspectRatio="none">
             <path d="M0,0 C150,90 350,-40 500,65 L500,150 L0,150 Z"></path>
@@ -327,20 +381,32 @@
         </div>
     </section>
 
-    <!-- GALERIE SECTION -->
+    <!-- SECTION 3: MODERNE GALERIE -->
     <section class="section gallery-section" id="galerie">
         <h2 class="gallery-title">Saisonale Impressionen</h2>
+        
         <div class="gallery-deck">
             <div class="gallery-card">
                 <div class="card-image-placeholder">Foto: Hermannplatz</div>
                 <div class="card-info">
                     <h4>Hermannplatz</h4>
+                    <p>Levante & mediterrane Mezze direkt vom Lastenrad.</p>
                 </div>
             </div>
+
             <div class="gallery-card">
                 <div class="card-image-placeholder">Foto: Prenzlauer Berg</div>
                 <div class="card-info">
                     <h4>Prenzlauer Berg</h4>
+                    <p>Pflanzliche Gourmet-Variationen & frische Kräuter.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card">
+                <div class="card-image-placeholder">Foto: Velo Gourmet Event</div>
+                <div class="card-info">
+                    <h4>Catering & Events</h4>
+                    <p>Nachhaltiges Setup für urbane Feiern in Berlin.</p>
                 </div>
             </div>
         </div>
