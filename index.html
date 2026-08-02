@@ -16,7 +16,7 @@
             --text-dark: #1b241e;
             --card-white: rgba(255, 255, 255, 0.85);
             
-            /* Neue SVG für den Hero-Hintergrund */
+            /* SVG-Dateien für Hintergründe */
             --svg-bg-hero: url('cs.svg');
             --svg-bg-content: url('st.svg');
         }
@@ -30,7 +30,7 @@
         /* 2. INTUITIVES SCROLL-SNAP & CONTAINER */
         html {
             scroll-behavior: smooth;
-            scroll-snap-type: y mandatory; /* Rastet beim Wischen sauber ein */
+            scroll-snap-type: y mandatory;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-sand);
             color: var(--text-dark);
@@ -53,14 +53,14 @@
         }
 
         /* ==========================================
-           3. HERO SEKTION (Neue cs.svg & Parallax)
+           3. HERO SEKTION (cs.svg & Parallax)
            ========================================== */
         .hero-bg {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 120%; /* Mehr Höhe für Parallax-Spielraum */
+            height: 120%;
             background-image: var(--svg-bg-hero);
             background-size: cover;
             background-position: center;
@@ -269,7 +269,8 @@
         <div class="hero-bg" id="hero-bg"></div>
         <div class="hero-content">
             <div class="logo-wrapper">
-                <img src="1577_2.png" alt="Velo Gourmet Logo" class="logo-img">
+                <!-- NEUES SVG LOGO: lo.svg -->
+                <img src="lo.svg" alt="Velo Gourmet Berlin Logo" class="logo-img">
             </div>
         </div>
         <div class="swipe-hint">↓ Wischen</div>
