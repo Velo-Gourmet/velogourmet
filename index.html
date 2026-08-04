@@ -35,7 +35,6 @@
         /* 2. PRÄZISES SCROLL-SNAP SYSTEM */
         html {
             height: 100dvh;
-            /* Zwingt das Einrasten bei jeder Wischgeste */
             scroll-snap-type: y mandatory;
             scroll-behavior: smooth;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -53,7 +52,6 @@
         .section {
             height: 100dvh;
             width: 100vw;
-            /* Garantiert das exakte Einrasten am oberen Rand */
             scroll-snap-align: start;
             scroll-snap-stop: always;
             position: relative;
@@ -66,11 +64,12 @@
         }
 
         /* ==========================================
-           3. HERO SEKTION & PARALLAX LOGO
+           3. HERO SEKTION & PARALLAX LOGO (EXAKT ZENTRIERT)
            ========================================== */
         .hero-section {
             background-color: var(--bg-sand);
             position: relative;
+            display: flex;
             justify-content: center;
             align-items: center;
         }
@@ -80,7 +79,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 120%; /* Etwas höher für Parallax-Spielraum */
+            height: 120%;
             background-image: var(--svg-bg-hero);
             background-size: cover;
             background-position: center center;
@@ -90,7 +89,12 @@
             filter: contrast(95%) brightness(98%);
         }
 
+        /* Absolute Positionierung zur exakten vertikalen und horizontalen Mitte */
         .hero-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             z-index: 2;
             width: 100%;
             display: flex;
@@ -107,11 +111,10 @@
             padding: 0 10px;
         }
 
-        /* Nochmals um 50% vergrößertes Logo */
         .logo-img {
             width: clamp(630px, 95vw, 1460px);
             height: auto;
-            max-height: 90dvh;
+            max-height: 75dvh;
             object-fit: contain;
             filter: drop-shadow(0 25px 45px rgba(0,0,0,0.22));
             animation: fadeInMorph 1.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -143,14 +146,13 @@
             z-index: 3;
         }
 
-        /* Exakte Positionierung der Welle direkt über dem Layer */
         .organic-edge-wrapper {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 60px;
-            transform: translateY(-99%); /* Verbindet die Welle lückenlos */
+            transform: translateY(-99%);
             pointer-events: none;
             overflow: hidden;
         }
@@ -167,7 +169,7 @@
             width: 100%;
             max-width: 340px;
             z-index: 2;
-            margin-top: 40px; /* Platz für die Wellen-Silhouetten */
+            margin-top: 40px;
         }
 
         .artist-btn {
@@ -276,12 +278,12 @@
         @keyframes fadeInMorph {
             0% {
                 opacity: 0;
-                transform: scale(0.9);
+                transform: translate(-50%, -50%) scale(0.9);
                 filter: blur(8px);
             }
             100% {
                 opacity: 1;
-                transform: scale(1);
+                transform: translate(-50%, -50%) scale(1);
                 filter: blur(0);
             }
         }
@@ -291,11 +293,11 @@
             50% { transform: translateY(8px); }
         }
 
-        /* Vergrößerung im Querformat (Landscape) */
+        /* Querformat-Anpassung */
         @media (orientation: landscape) and (max-height: 500px) {
             .logo-img {
                 width: clamp(450px, 75vw, 900px);
-                max-height: 80dvh;
+                max-height: 75dvh;
             }
             .actions { flex-direction: row; max-width: 600px; margin-top: 20px; }
             .gallery-card { flex: 0 0 240px; height: 260px; }
@@ -305,7 +307,7 @@
 </head>
 <body>
 
-    <!-- SECTION 1: HERO MIT PARALLAX LOGO -->
+    <!-- SECTION 1: HERO MIT ZENTRIERTEM PARALLAX LOGO -->
     <section class="section hero-section" id="hero">
         <div class="hero-bg" id="hero-bg"></div>
         <div class="hero-content" id="hero-content">
@@ -376,7 +378,7 @@
         </div>
     </section>
 
-    <!-- SYNCHRONISIERTER PARALLAX-SCRIPTHANDLER -->
+    <!-- KORRIGIERTER PARALLAX-SCRIPTHANDLER -->
     <script>
         const heroBg = document.getElementById('hero-bg');
         const heroContent = document.getElementById('hero-content');
@@ -391,14 +393,15 @@
             if (scrolled <= heroHeight) {
                 const progress = scrolled / heroHeight;
 
-                // 1. Hintergrund bewegt sich langsamer (Parallax-Tiefenwirkung)
+                // 1. Hintergrund-Parallax
                 heroBg.style.transform = `translateY(${scrolled * 0.4}px)`;
 
-                // 2. Logo/Content hebt sich leicht an & wird beim Hochwischen transparent
-                heroContent.style.transform = `translateY(${scrolled * -0.15}px) scale(${1 - progress * 0.1})`;
+                // 2. Behält die Zentrierung bei (-50%, -50%) und versetzt sanft auf der Y-Achse
+                const translateY = -50 + (progress * -15);
+                heroContent.style.transform = `translate(-50%, ${translateY}%) scale(${1 - progress * 0.1})`;
                 heroContent.style.opacity = 1 - (progress * 1.2);
 
-                // 3. Wisch-Hinweis blendet schnell aus
+                // 3. Wisch-Hinweis
                 swipeHint.style.opacity = 1 - (progress * 2.5);
             }
             ticking = false;
