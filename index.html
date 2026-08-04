@@ -66,16 +66,13 @@
         }
 
         /* ==========================================
-           3. HERO SEKTION — NATIVE 3D-PARALLAX LOGO
+           3. HERO SEKTION & LOGO EINSTELLUNGEN
            ========================================== */
         .hero-section {
             background-color: var(--bg-sand);
             position: relative;
             justify-content: center;
             align-items: center;
-            /* Aktiviert die optische Tiefe für den Parallax-Effekt */
-            perspective: 1000px;
-            transform-style: preserve-3d;
         }
 
         .hero-bg {
@@ -89,8 +86,6 @@
             background-position: center center;
             background-repeat: no-repeat;
             z-index: 1;
-            /* Hintere Ebene im Raum */
-            transform: translateZ(-100px) scale(1.1);
             filter: contrast(95%) brightness(98%);
         }
 
@@ -100,9 +95,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /* Vordere Ebene im Raum — hebt das Logo spürbar ab */
-            transform: translateZ(60px);
-            will-change: transform;
         }
 
         .logo-wrapper {
@@ -118,9 +110,10 @@
             height: auto;
             max-height: 70dvh;
             object-fit: contain;
-            /* Breiterer Schatten unterstreicht den Schwebe-Effekt */
-            filter: drop-shadow(0 25px 35px rgba(0,0,0,0.18));
+            filter: drop-shadow(0 15px 30px rgba(0,0,0,0.15));
             animation: fadeInMorph 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, filter;
+            transition: transform 0.05s linear;
         }
 
         .swipe-hint {
@@ -296,8 +289,6 @@
         }
 
         @supports (animation-timeline: view()) {
-            
-            /* LIQUID MORPHING EDGE */
             .liquid-path {
                 animation: liquidMorph linear both;
                 animation-timeline: view();
@@ -316,7 +307,6 @@
                 }
             }
 
-            /* SCROLL-REVEAL CTA BUTTONS */
             .artist-btn:nth-child(1) {
                 animation: revealCta linear both;
                 animation-timeline: view();
@@ -426,5 +416,17 @@
         </div>
     </section>
 
+    <!-- ROBUSTER PARALLAX-FIX MIT SCROLL-LISTENER -->
+    <script>
+        const logoImg = document.querySelector('.logo-img');
+
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            if (scrolled <= window.innerHeight) {
+                // Das Logo wandert langsamer als die Seite (35% Geschwindigkeitsfaktor)
+                logoImg.style.transform = `translateY(${scrolled * 0.35}px) scale(${1 - (scrolled * 0.0004)})`;
+            }
+        });
+    </script>
 </body>
 </html>
