@@ -123,15 +123,25 @@
             animation: fadeInMorph 1.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
+        /* Wisch-Hinweis mit Frosted-Glass-Effekt */
         .swipe-hint {
             position: absolute;
-            bottom: max(15px, env(safe-area-inset-bottom));
+            bottom: max(30px, env(safe-area-inset-bottom));
             z-index: 2;
             font-size: 13px;
             letter-spacing: 2px;
             text-transform: uppercase;
+            font-weight: 600;
             color: var(--text-dark);
-            opacity: 0.8;
+            
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 10px 22px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            
             animation: floatBounce 2s infinite ease-in-out;
             will-change: transform, opacity;
         }
