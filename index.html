@@ -123,7 +123,9 @@
             animation: fadeInMorph 1.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Wisch-Hinweis mit Frosted-Glass-Effekt */
+        /* ==========================================
+           WISCH-HINWEIS (MIT FALLBACK)
+           ========================================== */
         .swipe-hint {
             position: absolute;
             bottom: max(30px, env(safe-area-inset-bottom));
@@ -134,9 +136,8 @@
             font-weight: 600;
             color: var(--text-dark);
             
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            /* Standard-Hintergrund für Browser/Geräte OHNE Milchglas-Unterstützung */
+            background: rgba(255, 255, 255, 0.85); 
             padding: 10px 22px;
             border-radius: 30px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
@@ -144,6 +145,15 @@
             
             animation: floatBounce 2s infinite ease-in-out;
             will-change: transform, opacity;
+        }
+
+        /* WENN der Browser Milchglas kann, nutze diesen Code: */
+        @supports (backdrop-filter: blur(8px)) or (-webkit-backdrop-filter: blur(8px)) {
+            .swipe-hint {
+                background: rgba(255, 255, 255, 0.4);
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+            }
         }
 
         /* ==========================================
