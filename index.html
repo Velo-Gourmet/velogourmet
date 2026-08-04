@@ -39,7 +39,7 @@
             height: 100%;
             margin: 0;
             padding: 0;
-            background-color: var(--bg-sand); /* Sandton als Fallback verhindert schwarze Ränder */
+            background-color: var(--bg-sand);
             overflow-x: hidden;
         }
 
@@ -66,7 +66,7 @@
         }
 
         /* ==========================================
-           3. HERO SEKTION & PERFEKTE BACKGROUND-SKALIERUNG
+           3. HERO SEKTION & PARALLAX LOGO
            ========================================== */
         .hero-section {
             background-color: var(--bg-sand);
@@ -105,6 +105,7 @@
             align-items: center;
             width: 100%;
             padding: 0 20px;
+            perspective: 1000px; /* Ermöglicht räumliche Tiefe */
         }
 
         .logo-img {
@@ -114,6 +115,7 @@
             object-fit: contain;
             filter: drop-shadow(0 12px 24px rgba(0,0,0,0.12));
             animation: fadeInMorph 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, filter;
         }
 
         /* Swipe Indicator */
@@ -264,7 +266,7 @@
         }
 
         /* ==========================================
-           6. ANIMATIONEN & 2026 SCROLL-DRIVEN (Native CSS)
+           6. ANIMATIONEN & 2026 SCROLL-DRIVEN PARALLAX
            ========================================== */
         @keyframes fadeInMorph {
             0% {
@@ -286,6 +288,26 @@
 
         @supports (animation-timeline: view()) {
             
+            /* LOGO PARALLAX: Logo hebt sich beim Scrollen plastisch vom Hintergrund ab */
+            .logo-img {
+                animation: logoParallax linear both;
+                animation-timeline: view();
+                animation-range: exit 0% exit 100%;
+            }
+
+            @keyframes logoParallax {
+                0% {
+                    transform: translateY(0) scale(1);
+                    filter: drop-shadow(0 12px 24px rgba(0,0,0,0.12));
+                }
+                100% {
+                    /* Das Logo bewegt sich schneller heraus als die Sektion, wodurch der 3D-Effekt entsteht */
+                    transform: translateY(-35vh) scale(0.9);
+                    filter: drop-shadow(0 30px 45px rgba(0,0,0,0.25));
+                    opacity: 0.2;
+                }
+            }
+
             /* ORGANIC MORPH */
             .organic-edge {
                 animation: stretchEdge linear both;
@@ -337,7 +359,7 @@
 </head>
 <body>
 
-    <!-- SECTION 1: HERO -->
+    <!-- SECTION 1: HERO MET PARALLAX LOGO -->
     <section class="section hero-section" id="hero">
         <div class="hero-bg" id="hero-bg"></div>
         <div class="hero-content">
