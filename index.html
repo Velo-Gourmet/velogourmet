@@ -112,8 +112,9 @@
             padding: 0 10px;
         }
 
+        /* Standard-Größe für Smartphones (Mobile First) */
         .logo-img {
-            width: clamp(630px, 95vw, 1460px);
+            width: clamp(300px, 80vw, 600px);
             height: auto;
             max-height: 75svh;
             object-fit: contain;
@@ -274,7 +275,7 @@
         }
 
         /* ==========================================
-           6. ANIMATIONEN & RESPONSIVE
+           6. ANIMATIONEN & RESPONSIVE (MEDIA QUERIES)
            ========================================== */
         @keyframes fadeInMorph {
             0% {
@@ -293,7 +294,16 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(8px); }
         }
+        
+        /* 1. Vergrößerung ab Tablet/Desktop (Hoch- & Querformat) */
+        @media (min-width: 768px) {
+            .logo-img {
+                width: clamp(630px, 95vw, 1460px);
+                max-height: 90svh;
+            }
+        }
 
+        /* 2. Spezifische Querformat-Anpassung für sehr niedrige Bildschirme (Smartphone Landscape) */
         @media (orientation: landscape) and (max-height: 500px) {
             .logo-img {
                 width: clamp(450px, 75vw, 900px);
