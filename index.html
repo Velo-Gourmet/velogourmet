@@ -66,7 +66,7 @@
         }
 
         /* ==========================================
-           3. HERO SEKTION & PARALLAX LOGO (EXAKT ZENTRIERT)
+           3. HERO SEKTION & PARALLAX LOGO
            ========================================== */
         .hero-section {
             background-color: var(--bg-sand);
@@ -102,6 +102,8 @@
             justify-content: center;
             align-items: center;
             will-change: transform, opacity;
+            /* NEU: Der CSS-Stoßdämpfer für samtweiche Trägheit (Inertia) */
+            transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.25s ease-out;
         }
 
         .logo-wrapper {
@@ -112,9 +114,7 @@
             padding: 0 10px;
         }
 
-        /* Standard-Größe für Smartphones (Mobile First) */
         .logo-img {
-            /* Quadrat-Vorgabe */
             aspect-ratio: 1 / 1;
             width: clamp(250px, 80vw, 500px);
             height: auto;
@@ -136,18 +136,17 @@
             font-weight: 600;
             color: var(--text-dark);
             
-            /* Standard-Hintergrund für Browser/Geräte OHNE Milchglas-Unterstützung */
             background: rgba(255, 255, 255, 0.85); 
             padding: 10px 22px;
             border-radius: 30px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            /* Der weiße Rand wurde hier entfernt */
             
             animation: floatBounce 2s infinite ease-in-out;
             will-change: transform, opacity;
+            /* Stoßdämpfer auch hier anwenden, damit es parallel zum Logo ausblendet */
+            transition: opacity 0.25s ease-out;
         }
 
-        /* WENN der Browser Milchglas kann, nutze diesen Code: */
         @supports (backdrop-filter: blur(8px)) or (-webkit-backdrop-filter: blur(8px)) {
             .swipe-hint {
                 background: rgba(255, 255, 255, 0.4);
@@ -316,7 +315,6 @@
             50% { transform: translateY(8px); }
         }
         
-        /* 1. Quadrat-Logos für Tablets & Desktop (Identische Größe in allen Ausrichtungen) */
         @media (min-width: 768px) {
             .logo-img {
                 width: clamp(400px, 75vmin, 800px);
@@ -325,7 +323,6 @@
             }
         }
 
-        /* 2. Spezifische Querformat-Anpassung für sehr niedrige Bildschirme (Smartphone Landscape) */
         @media (orientation: landscape) and (max-height: 500px) {
             .logo-img {
                 width: clamp(250px, 75vh, 400px); 
@@ -339,7 +336,6 @@
 </head>
 <body>
 
-    <!-- SECTION 1: HERO MIT ZENTRIERTEM PARALLAX LOGO -->
     <section class="section hero-section" id="hero">
         <div class="hero-bg" id="hero-bg"></div>
         <div class="hero-content" id="hero-content">
@@ -350,7 +346,6 @@
         <div class="swipe-hint" id="swipe-hint">↓ Wischen</div>
     </section>
 
-    <!-- SECTION 2: CTA LAYER MIT LIQUID MORPHING EDGE -->
     <section class="section layer-content" id="navigation">
         <div class="organic-edge-wrapper">
             <svg viewBox="0 0 500 60" preserveAspectRatio="none" style="width: 100%; height: 100%;">
@@ -379,7 +374,6 @@
         </div>
     </section>
 
-    <!-- SECTION 3: MODERNE GALERIE -->
     <section class="section gallery-section" id="galerie">
         <h2 class="gallery-title">Saisonale Impressionen</h2>
         
@@ -410,7 +404,6 @@
         </div>
     </section>
 
-    <!-- KORRIGIERTER PARALLAX-SCRIPTHANDLER -->
     <script>
         const heroBg = document.getElementById('hero-bg');
         const heroContent = document.getElementById('hero-content');
@@ -421,6 +414,9 @@
         function updateParallax() {
             const scrolled = window.scrollY || document.documentElement.scrollTop;
             const heroHeight = window.innerHeight;
+            
+            // NEU: Die Format-Weiche prüft, ob das Gerät im Hochformat ist
+            const isPortrait = window.innerHeight > window.innerWidth;
 
             if (scrolled <= heroHeight) {
                 const progress = scrolled / heroHeight;
@@ -428,10 +424,18 @@
                 // 1. Hintergrund-Parallax
                 heroBg.style.transform = `translateY(${scrolled * 0.4}px)`;
 
-                // 2. Behält die Zentrierung bei (-50%, -50%) und versetzt sanft auf der Y-Achse
-                const translateY = -50 + (progress * -15);
-                heroContent.style.transform = `translate(-50%, ${translateY}%) scale(${1 - progress * 0.1})`;
-                heroContent.style.opacity = 1 - (progress * 1.2);
+                // 2. Format-Weiche für die Logo-Werte
+                // Im Hochformat (-8) bewegt sich das Logo weniger stark nach oben als im Querformat (-15)
+                const speedMultiplierY = isPortrait ? -8 : -15; 
+                // Im Hochformat (0.8) verblasst es langsamer als im Querformat (1.2)
+                const fadeMultiplier = isPortrait ? 0.8 : 1.2;
+                // Minimales Schrumpfen, um die Flucht nach hinten zu simulieren
+                const scale = 1 - progress * (isPortrait ? 0.05 : 0.1);
+
+                const translateY = -50 + (progress * speedMultiplierY);
+                
+                heroContent.style.transform = `translate(-50%, ${translateY}%) scale(${scale})`;
+                heroContent.style.opacity = 1 - (progress * fadeMultiplier);
 
                 // 3. Wisch-Hinweis
                 swipeHint.style.opacity = 1 - (progress * 2.5);
