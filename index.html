@@ -66,13 +66,16 @@
         }
 
         /* ==========================================
-           3. HERO SEKTION & PARALLAX LOGO
+           3. HERO SEKTION — NATIVE 3D-PARALLAX LOGO
            ========================================== */
         .hero-section {
             background-color: var(--bg-sand);
             position: relative;
             justify-content: center;
             align-items: center;
+            /* Aktiviert die optische Tiefe für den Parallax-Effekt */
+            perspective: 1000px;
+            transform-style: preserve-3d;
         }
 
         .hero-bg {
@@ -86,7 +89,8 @@
             background-position: center center;
             background-repeat: no-repeat;
             z-index: 1;
-            will-change: transform;
+            /* Hintere Ebene im Raum */
+            transform: translateZ(-100px) scale(1.1);
             filter: contrast(95%) brightness(98%);
         }
 
@@ -96,6 +100,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            /* Vordere Ebene im Raum — hebt das Logo spürbar ab */
+            transform: translateZ(60px);
+            will-change: transform;
         }
 
         .logo-wrapper {
@@ -104,7 +111,6 @@
             align-items: center;
             width: 100%;
             padding: 0 20px;
-            perspective: 1000px;
         }
 
         .logo-img {
@@ -112,9 +118,9 @@
             height: auto;
             max-height: 70dvh;
             object-fit: contain;
-            filter: drop-shadow(0 12px 24px rgba(0,0,0,0.12));
+            /* Breiterer Schatten unterstreicht den Schwebe-Effekt */
+            filter: drop-shadow(0 25px 35px rgba(0,0,0,0.18));
             animation: fadeInMorph 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: transform, filter;
         }
 
         .swipe-hint {
@@ -142,7 +148,6 @@
             z-index: 3;
         }
 
-        /* Die flüssige SVG-Schnittkante oberhalb des Content-Layers */
         .organic-edge-wrapper {
             position: absolute;
             top: -65px;
@@ -155,7 +160,6 @@
 
         .liquid-path {
             fill: var(--bg-sand);
-            /* Standard-Kurve für Browser ohne View-Timeline */
             d: path("M0,70 C150,20 350,60 500,25 L500,70 L0,70 Z");
             transition: d 0.2s ease-out;
             will-change: d;
@@ -271,7 +275,7 @@
         }
 
         /* ==========================================
-           6. ANIMATIONEN & 2026 LIQUID MORPHING (Native CSS)
+           6. ANIMATIONEN & SCROLL-EFFECTS
            ========================================== */
         @keyframes fadeInMorph {
             0% {
@@ -293,26 +297,7 @@
 
         @supports (animation-timeline: view()) {
             
-            /* LOGO PARALLAX EFFEKT */
-            .logo-img {
-                animation: logoParallax linear both;
-                animation-timeline: view();
-                animation-range: exit 0% exit 100%;
-            }
-
-            @keyframes logoParallax {
-                0% {
-                    transform: translateY(0) scale(1);
-                    filter: drop-shadow(0 12px 24px rgba(0,0,0,0.12));
-                }
-                100% {
-                    transform: translateY(-35vh) scale(0.9);
-                    filter: drop-shadow(0 30px 45px rgba(0,0,0,0.25));
-                    opacity: 0.2;
-                }
-            }
-
-            /* LIQUID MORPHING EDGE: Passt die SVG-Kurve dynamisch an die Scroll-Position an */
+            /* LIQUID MORPHING EDGE */
             .liquid-path {
                 animation: liquidMorph linear both;
                 animation-timeline: view();
@@ -320,15 +305,12 @@
             }
 
             @keyframes liquidMorph {
-                /* Start: Flachere, geschwungene Eingangswelle */
                 0% {
                     d: path("M0,70 C120,55 380,65 500,45 L500,70 L0,70 Z");
                 }
-                /* Mitte: Bauchige, gespannte Flüssigkeitswelle beim Hochziehen */
                 50% {
                     d: path("M0,70 C160,5 340,90 500,10 L500,70 L0,70 Z");
                 }
-                /* Ende: Ausgeglichene Zielform */
                 100% {
                     d: path("M0,70 C200,35 320,45 500,30 L500,70 L0,70 Z");
                 }
