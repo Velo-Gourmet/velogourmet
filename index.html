@@ -34,7 +34,7 @@
 
         /* 2. RUCKELFREIES SCROLL-SNAP SYSTEM (TABLET FIX) */
         html {
-            height: 100svh;
+            height: 100dvh; /* HIER NEU: dvh statt svh */
             scroll-snap-type: y mandatory;
             scroll-behavior: smooth;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -52,7 +52,7 @@
         }
 
         .section {
-            height: 100svh;
+            height: 100dvh; /* HIER NEU: dvh statt svh */
             width: 100vw;
             scroll-snap-align: start;
             scroll-snap-stop: always;
@@ -102,7 +102,7 @@
             justify-content: center;
             align-items: center;
             will-change: transform, opacity;
-            /* NEU: Der CSS-Stoßdämpfer für samtweiche Trägheit (Inertia) */
+            /* Der CSS-Stoßdämpfer für samtweiche Trägheit (Inertia) */
             transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.25s ease-out;
         }
 
@@ -415,7 +415,7 @@
             const scrolled = window.scrollY || document.documentElement.scrollTop;
             const heroHeight = window.innerHeight;
             
-            // NEU: Die Format-Weiche prüft, ob das Gerät im Hochformat ist
+            // Die Format-Weiche prüft, ob das Gerät im Hochformat ist
             const isPortrait = window.innerHeight > window.innerWidth;
 
             if (scrolled <= heroHeight) {
@@ -425,11 +425,8 @@
                 heroBg.style.transform = `translateY(${scrolled * 0.4}px)`;
 
                 // 2. Format-Weiche für die Logo-Werte
-                // Im Hochformat (-8) bewegt sich das Logo weniger stark nach oben als im Querformat (-15)
                 const speedMultiplierY = isPortrait ? -8 : -15; 
-                // Im Hochformat (0.8) verblasst es langsamer als im Querformat (1.2)
                 const fadeMultiplier = isPortrait ? 0.8 : 1.2;
-                // Minimales Schrumpfen, um die Flucht nach hinten zu simulieren
                 const scale = 1 - progress * (isPortrait ? 0.05 : 0.1);
 
                 const translateY = -50 + (progress * speedMultiplierY);
