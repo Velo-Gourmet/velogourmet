@@ -2,430 +2,63 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    
-    <!-- Temporäre Anti-Cache Tags für die Entwicklungsphase -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    
-    <title>VELO GOURMET — Uni Projekt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parallax Test</title>
     <style>
-        /* ==========================================
-           1. SETUP & CSS-VARIABLEN (Natur & Minimalismus)
-           ========================================== */
-        :root {
-            --bg-sand: #f4f1ea;
-            --bg-sage: #e2e8dd;
-            --brand-green: #c1ff72;
-            --brand-rose: #FFD6D8;
-            --text-dark: #1b241e;
-            --card-white: rgba(255, 255, 255, 0.85);
-            
-            /* SVG-Dateien für Hintergründe */
-            --svg-bg-hero: url('cs.svg');
-            --svg-bg-content: url('st.svg');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* Kein Scroll-Snap für diesen Test, um Konflikte auszuschließen */
+        body {
+            font-family: sans-serif;
+            background: #f4f1ea;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* 2. INTUITIVES SCROLL-SNAP & CONTAINER */
-        html, body {
-            width: 100vw;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-sand);
-            overflow-x: hidden;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            scroll-snap-type: y mandatory;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            color: var(--text-dark);
-        }
-
-        /* Standard Section Setup mit dvh für mobile Adresszeilen */
-        .section {
-            height: 100dvh;
-            width: 100vw;
-            scroll-snap-align: start;
-            scroll-snap-stop: always;
-            position: relative;
+        .hero {
+            height: 100vh;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            position: relative;
+            background: #e2e8dd;
             overflow: hidden;
         }
 
-        /* ==========================================
-           3. HERO SEKTION & LOGO EINSTELLUNGEN
-           ========================================== */
-        .hero-section {
-            background-color: var(--bg-sand);
-            position: relative;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .hero-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: var(--svg-bg-hero);
-            background-size: cover;
-            background-position: center center;
-            background-repeat: no-repeat;
-            z-index: 1;
-            filter: contrast(95%) brightness(98%);
-        }
-
-        .hero-content {
+        .logo {
+            width: 250px;
             z-index: 2;
-            width: 100%;
+            /* Wichtig für die flüssige Bewegung */
+            will-change: transform;
+        }
+
+        .content {
+            height: 100vh;
+            background: #1b241e;
+            color: white;
             display: flex;
             justify-content: center;
             align-items: center;
-        }
-
-        .logo-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            padding: 0 20px;
-        }
-
-        .logo-img {
-            width: clamp(280px, 60vw, 650px);
-            height: auto;
-            max-height: 70dvh;
-            object-fit: contain;
-            filter: drop-shadow(0 15px 30px rgba(0,0,0,0.15));
-            animation: fadeInMorph 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: transform, filter;
-            transition: transform 0.05s linear;
-        }
-
-        .swipe-hint {
-            position: absolute;
-            bottom: max(20px, env(safe-area-inset-bottom));
-            z-index: 2;
-            font-size: 13px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--text-dark);
-            opacity: 0.8;
-            animation: floatBounce 2s infinite ease-in-out;
-        }
-
-        /* ==========================================
-           4. CTA LAYER MIT LIQUID MORPHING EDGE
-           ========================================== */
-        .layer-content {
-            background-color: var(--bg-sand);
-            background-image: var(--svg-bg-content);
-            background-size: cover;
-            background-position: center top;
-            background-repeat: no-repeat;
-            box-shadow: 0 -25px 50px rgba(0,0,0,0.06);
-            z-index: 3;
-        }
-
-        .organic-edge-wrapper {
-            position: absolute;
-            top: -65px;
-            left: 0;
-            width: 100%;
-            height: 70px;
-            pointer-events: none;
-            overflow: hidden;
-        }
-
-        .liquid-path {
-            fill: var(--bg-sand);
-            d: path("M0,70 C150,20 350,60 500,25 L500,70 L0,70 Z");
-            transition: d 0.2s ease-out;
-            will-change: d;
-        }
-
-        .actions {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            width: 100%;
-            max-width: 340px;
-            z-index: 2;
-        }
-
-        .artist-btn {
-            display: block;
-            width: 100%;
-            text-decoration: none;
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .artist-btn:hover, .artist-btn:active {
-            transform: scale(1.03) translateY(-3px);
-        }
-
-        .artist-btn svg {
-            width: 100%;
-            height: auto;
-            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.06));
-        }
-
-        .btn-text {
-            font-size: 22px;
-            font-weight: 600;
-        }
-
-        /* ==========================================
-           5. MODERN GALERIE-SECTION
-           ========================================== */
-        .gallery-section {
-            background-color: var(--bg-sage);
-            z-index: 4;
-        }
-
-        .gallery-title {
-            font-size: 26px;
-            font-weight: 700;
-            margin-bottom: 25px;
-            letter-spacing: -0.5px;
-        }
-
-        .gallery-deck {
-            display: flex;
-            gap: 20px;
-            width: 100%;
-            max-width: 900px;
-            overflow-x: auto;
-            padding: 20px 10px;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-        }
-
-        .gallery-deck::-webkit-scrollbar {
-            display: none;
-        }
-
-        .gallery-card {
-            flex: 0 0 280px;
-            height: 380px;
-            background: var(--card-white);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            padding: 20px;
-            border: 1px solid rgba(255,255,255,0.6);
-            scroll-snap-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .gallery-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-radius: 12px 36px 12px 36px;
-        }
-
-        .card-image-placeholder {
-            width: 100%;
-            height: 200px;
-            background: rgba(0,0,0,0.04);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            color: #777;
-        }
-
-        .card-info h4 {
-            font-size: 20px;
-            margin-bottom: 6px;
-        }
-
-        .card-info p {
-            font-size: 14px;
-            color: #555;
-            line-height: 1.4;
-        }
-
-        /* ==========================================
-           6. ANIMATIONEN & SCROLL-EFFECTS
-           ========================================== */
-        @keyframes fadeInMorph {
-            0% {
-                opacity: 0;
-                transform: scale(0.9);
-                filter: blur(8px);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-                filter: blur(0);
-            }
-        }
-
-        @keyframes floatBounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(8px); }
-        }
-
-        @supports (animation-timeline: view()) {
-            .liquid-path {
-                animation: liquidMorph linear both;
-                animation-timeline: view();
-                animation-range: entry 0% cover 45%;
-            }
-
-            @keyframes liquidMorph {
-                0% {
-                    d: path("M0,70 C120,55 380,65 500,45 L500,70 L0,70 Z");
-                }
-                50% {
-                    d: path("M0,70 C160,5 340,90 500,10 L500,70 L0,70 Z");
-                }
-                100% {
-                    d: path("M0,70 C200,35 320,45 500,30 L500,70 L0,70 Z");
-                }
-            }
-
-            .artist-btn:nth-child(1) {
-                animation: revealCta linear both;
-                animation-timeline: view();
-                animation-range: entry 10% cover 40%;
-            }
-
-            .artist-btn:nth-child(2) {
-                animation: revealCta linear both;
-                animation-timeline: view();
-                animation-range: entry 20% cover 50%;
-            }
-
-            @keyframes revealCta {
-                0% {
-                    opacity: 0;
-                    transform: translateY(80px) scale(0.9);
-                }
-                100% {
-                    opacity: 1;
-                    transform: translateY(0) scale(1);
-                }
-            }
-        }
-
-        /* Querformat-Optimierung */
-        @media (orientation: landscape) and (max-height: 500px) {
-            .logo-img {
-                width: clamp(200px, 35vw, 400px);
-                max-height: 60dvh;
-            }
-            .actions { flex-direction: row; max-width: 600px; }
-            .gallery-card { flex: 0 0 240px; height: 260px; }
-            .card-image-placeholder { height: 110px; }
+            font-size: 24px;
         }
     </style>
 </head>
 <body>
 
-    <!-- SECTION 1: HERO MET PARALLAX LOGO -->
-    <section class="section hero-section" id="hero">
-        <div class="hero-bg" id="hero-bg"></div>
-        <div class="hero-content">
-            <div class="logo-wrapper">
-                <img src="lo.svg" alt="Velo Gourmet Berlin Logo" class="logo-img">
-            </div>
-        </div>
-        <div class="swipe-hint">↓ Wischen</div>
+    <section class="hero">
+        <!-- Nutzen wir dein lo.svg. Falls nicht vorhanden, zeigt er den Alt-Text -->
+        <img src="lo.svg" alt="VELO GOURMET LOGO" class="logo" id="parallax-logo">
     </section>
 
-    <!-- SECTION 2: CTA LAYER MIT LIQUID MORPHING EDGE -->
-    <section class="section layer-content" id="navigation">
-        <div class="organic-edge-wrapper">
-            <svg viewBox="0 0 500 70" preserveAspectRatio="none" style="width: 100%; height: 100%;">
-                <path class="liquid-path"></path>
-            </svg>
-        </div>
-
-        <div class="actions">
-            <a href="#galerie" class="artist-btn" aria-label="Mach ma fertig!">
-                <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="var(--brand-green)" d="M 25,22 C 40,16 110,18 160,15 C 220,12 280,20 298,28 C 310,38 305,68 290,82 C 260,95 180,88 120,94 C 75,98 35,92 18,80 C 8,68 10,35 25,22 Z" />
-                    <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#1a2e05" class="btn-text">
-                        Mach ma fertig!
-                    </text>
-                </svg>
-            </a>
-
-            <a href="#galerie" class="artist-btn" aria-label="Mein Angebot">
-                <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="var(--brand-rose)" d="M 22,25 C 55,18 130,14 180,18 C 240,21 275,15 295,25 C 308,35 312,65 292,80 C 265,92 195,96 130,90 C 80,86 40,95 20,82 C 5,70 8,38 22,25 Z" />
-                    <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#3A2325" class="btn-text">
-                        Mein Angebot
-                    </text>
-                </svg>
-            </a>
-        </div>
+    <section class="content">
+        <p>Zweite Sektion (Erfolgstest)</p>
     </section>
 
-    <!-- SECTION 3: MODERNE GALERIE -->
-    <section class="section gallery-section" id="galerie">
-        <h2 class="gallery-title">Saisonale Impressionen</h2>
-        
-        <div class="gallery-deck">
-            <div class="gallery-card">
-                <div class="card-image-placeholder">Foto: Hermannplatz</div>
-                <div class="card-info">
-                    <h4>Hermannplatz</h4>
-                    <p>Levante & mediterrane Mezze direkt vom Lastenrad.</p>
-                </div>
-            </div>
-
-            <div class="gallery-card">
-                <div class="card-image-placeholder">Foto: Prenzlauer Berg</div>
-                <div class="card-info">
-                    <h4>Prenzlauer Berg</h4>
-                    <p>Pflanzliche Gourmet-Variationen & frische Kräuter.</p>
-                </div>
-            </div>
-
-            <div class="gallery-card">
-                <div class="card-image-placeholder">Foto: Catering & Events</div>
-                <div class="card-info">
-                    <h4>Catering & Events</h4>
-                    <p>Nachhaltiges Setup für urbane Feiern in Berlin.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ROBUSTER PARALLAX-FIX MIT SCROLL-LISTENER -->
     <script>
-        const logoImg = document.querySelector('.logo-img');
+        const logo = document.getElementById('parallax-logo');
 
-        window.addEventListener('scroll', () => {
-            const scrolled = window.scrollY;
-            if (scrolled <= window.innerHeight) {
-                // Das Logo wandert langsamer als die Seite (35% Geschwindigkeitsfaktor)
-                logoImg.style.transform = `translateY(${scrolled * 0.35}px) scale(${1 - (scrolled * 0.0004)})`;
-            }
+        document.addEventListener('scroll', () => {
+            const value = window.scrollY;
+            // Verschiebt das Logo beim Scrollen spürbar nach unten
+            logo.style.transform = `translateY(${value * 0.5}px)`;
         });
     </script>
 </body>
