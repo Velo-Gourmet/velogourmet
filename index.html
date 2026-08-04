@@ -295,7 +295,7 @@
             50% { transform: translateY(8px); }
         }
         
-        /* 1. Vergrößerung ab Tablet/Desktop (Hoch- & Querformat) */
+        /* 1. Vergrößerung ab Tablet/Desktop (Hochformat Basis) */
         @media (min-width: 768px) {
             .logo-img {
                 width: clamp(630px, 95vw, 1460px);
@@ -303,7 +303,17 @@
             }
         }
 
-        /* 2. Spezifische Querformat-Anpassung für sehr niedrige Bildschirme (Smartphone Landscape) */
+        /* 2. NEU: Tablet/Desktop im Querformat (Höhenbremse gelöst) */
+        @media (min-width: 768px) and (orientation: landscape) {
+            .logo-img {
+                /* Exakt gleiche physische Breite wie im Hochformat erzwingen */
+                width: clamp(630px, 70vw, 1460px);
+                /* Höhenbremse komplett lösen, damit es nicht schrumpft */
+                max-height: 100svh;
+            }
+        }
+
+        /* 3. Spezifische Querformat-Anpassung für sehr niedrige Bildschirme (Smartphone Landscape) */
         @media (orientation: landscape) and (max-height: 500px) {
             .logo-img {
                 width: clamp(450px, 75vw, 900px);
