@@ -35,11 +35,12 @@
 
         /* 2. INTUITIVES SCROLL-SNAP & CONTAINER */
         html, body {
-            width: 100%;
+            width: 100vw;
             height: 100%;
             margin: 0;
             padding: 0;
-            background-color: var(--text-dark);
+            background-color: var(--bg-sand); /* Sandton als Fallback verhindert schwarze Ränder */
+            overflow-x: hidden;
         }
 
         html {
@@ -47,7 +48,6 @@
             scroll-snap-type: y mandatory;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             color: var(--text-dark);
-            overflow-x: hidden;
         }
 
         /* Standard Section Setup mit dvh für mobile Adresszeilen */
@@ -62,14 +62,14 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
-            overflow: hidden; /* Verhindert das Herausragen skalierter Hintergründe */
+            overflow: hidden;
         }
 
         /* ==========================================
            3. HERO SEKTION & PERFEKTE BACKGROUND-SKALIERUNG
            ========================================== */
         .hero-section {
-            background-color: var(--text-dark);
+            background-color: var(--bg-sand);
             position: relative;
             justify-content: center;
             align-items: center;
@@ -77,12 +77,10 @@
 
         .hero-bg {
             position: absolute;
-            /* Leichter Negativ-Offset (-2%) und vergrößerter Bereich (104%), 
-               damit bei keiner Auflösung ein Weißrand entsteht */
-            top: -2%;
-            left: -2%;
-            width: 104%;
-            height: 124%; /* Mehr Höhe für den Parallax-Effekt */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-image: var(--svg-bg-hero);
             background-size: cover;
             background-position: center center;
@@ -90,7 +88,6 @@
             z-index: 1;
             will-change: transform;
             filter: contrast(95%) brightness(98%);
-            transform: scale(1.02); /* Minimales Überskalieren eliminiert Kantenfehler komplett */
         }
 
         .hero-content {
@@ -127,7 +124,7 @@
             font-size: 13px;
             letter-spacing: 2px;
             text-transform: uppercase;
-            color: var(--bg-sand);
+            color: var(--text-dark);
             opacity: 0.8;
             animation: floatBounce 2s infinite ease-in-out;
         }
@@ -143,13 +140,13 @@
             background-repeat: no-repeat;
             border-top-left-radius: 30px;
             border-top-right-radius: 30px;
-            box-shadow: 0 -30px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 -20px 40px rgba(0,0,0,0.08);
             z-index: 3;
         }
 
         .organic-edge {
             position: absolute;
-            top: -49px; /* leichtes Overlap (49px statt 50px) zur Vermeidung von Blitzer-Spalten */
+            top: -49px;
             left: -1px;
             width: 102%;
             height: 50px;
@@ -289,21 +286,6 @@
 
         @supports (animation-timeline: view()) {
             
-            /* HERO DEPTH EFFECT */
-            .hero-bg, .hero-content {
-                animation: depthFade linear both;
-                animation-timeline: view();
-                animation-range: exit 0% exit 100%;
-            }
-
-            @keyframes depthFade {
-                100% {
-                    transform: scale(0.85) translateY(10vh);
-                    opacity: 0.3;
-                    filter: brightness(0.3) blur(6px);
-                }
-            }
-
             /* ORGANIC MORPH */
             .organic-edge {
                 animation: stretchEdge linear both;
@@ -415,7 +397,7 @@
             </div>
 
             <div class="gallery-card">
-                <div class="card-image-placeholder">Foto: Velo Gourmet Event</div>
+                <div class="card-image-placeholder">Foto: Catering & Events</div>
                 <div class="card-info">
                     <h4>Catering & Events</h4>
                     <p>Nachhaltiges Setup für urbane Feiern in Berlin.</p>
