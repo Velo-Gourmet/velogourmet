@@ -104,22 +104,22 @@
             justify-content: center;
             align-items: center;
             width: 100%;
-            padding: 0 20px;
+            padding: 0 10px;
         }
 
-        /* Um 50% vergrößertes Logo */
+        /* Nochmals um 50% vergrößertes Logo */
         .logo-img {
-            width: clamp(420px, 90vw, 975px);
+            width: clamp(630px, 95vw, 1460px);
             height: auto;
-            max-height: 85dvh;
+            max-height: 90dvh;
             object-fit: contain;
-            filter: drop-shadow(0 20px 35px rgba(0,0,0,0.18));
+            filter: drop-shadow(0 25px 45px rgba(0,0,0,0.22));
             animation: fadeInMorph 1.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .swipe-hint {
             position: absolute;
-            bottom: max(20px, env(safe-area-inset-bottom));
+            bottom: max(15px, env(safe-area-inset-bottom));
             z-index: 2;
             font-size: 13px;
             letter-spacing: 2px;
@@ -291,11 +291,11 @@
             50% { transform: translateY(8px); }
         }
 
-        /* Anpassungen für Landscape / Querformat */
+        /* Vergrößerung im Querformat (Landscape) */
         @media (orientation: landscape) and (max-height: 500px) {
             .logo-img {
-                width: clamp(300px, 50vw, 600px);
-                max-height: 75dvh;
+                width: clamp(450px, 75vw, 900px);
+                max-height: 80dvh;
             }
             .actions { flex-direction: row; max-width: 600px; margin-top: 20px; }
             .gallery-card { flex: 0 0 240px; height: 260px; }
