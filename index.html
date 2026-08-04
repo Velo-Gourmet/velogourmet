@@ -32,25 +32,27 @@
             padding: 0;
         }
 
-        /* 2. PRÄZISES SCROLL-SNAP SYSTEM */
+        /* 2. RUCKELFREIES SCROLL-SNAP SYSTEM (TABLET FIX) */
         html {
-            height: 100dvh;
+            height: 100svh;
             scroll-snap-type: y mandatory;
             scroll-behavior: smooth;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             color: var(--text-dark);
             overflow-y: scroll;
             overflow-x: hidden;
+            overscroll-behavior-y: none;
         }
 
         body {
             background-color: var(--bg-sand);
             margin: 0;
             padding: 0;
+            height: 100%;
         }
 
         .section {
-            height: 100dvh;
+            height: 100svh;
             width: 100vw;
             scroll-snap-align: start;
             scroll-snap-stop: always;
@@ -89,7 +91,6 @@
             filter: contrast(95%) brightness(98%);
         }
 
-        /* Absolute Positionierung zur exakten vertikalen und horizontalen Mitte */
         .hero-content {
             position: absolute;
             top: 50%;
@@ -114,7 +115,7 @@
         .logo-img {
             width: clamp(630px, 95vw, 1460px);
             height: auto;
-            max-height: 75dvh;
+            max-height: 75svh;
             object-fit: contain;
             filter: drop-shadow(0 25px 45px rgba(0,0,0,0.22));
             animation: fadeInMorph 1.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -293,11 +294,10 @@
             50% { transform: translateY(8px); }
         }
 
-        /* Querformat-Anpassung */
         @media (orientation: landscape) and (max-height: 500px) {
             .logo-img {
                 width: clamp(450px, 75vw, 900px);
-                max-height: 75dvh;
+                max-height: 75svh;
             }
             .actions { flex-direction: row; max-width: 600px; margin-top: 20px; }
             .gallery-card { flex: 0 0 240px; height: 260px; }
