@@ -34,7 +34,10 @@
 
         /* 2. RUCKELFREIES SCROLL-SNAP SYSTEM (TABLET FIX) */
         html {
-            height: 100dvh; /* HIER NEU: dvh statt svh */
+            /* Fallback für alte Browser */
+            height: 100vh; 
+            /* Unsere eingefrorene, maßgeschneiderte Höhe */
+            height: calc(var(--vh, 1vh) * 100); 
             scroll-snap-type: y mandatory;
             scroll-behavior: smooth;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -52,7 +55,8 @@
         }
 
         .section {
-            height: 100dvh; /* HIER NEU: dvh statt svh */
+            height: 100vh;
+            height: calc(var(--vh, 1vh) * 100);
             width: 100vw;
             scroll-snap-align: start;
             scroll-snap-stop: always;
@@ -404,6 +408,21 @@
         </div>
     </section>
 
+    <!-- FROZEN VIEWPORT SCRIPT -->
+    <script>
+        function setCustomViewport() {
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+
+        setCustomViewport();
+
+        window.addEventListener('orientationchange', () => {
+            setTimeout(setCustomViewport, 200); 
+        });
+    </script>
+
+    <!-- DEIN EINGEFRORENES PARALLAX SCRIPT -->
     <script>
         const heroBg = document.getElementById('hero-bg');
         const heroContent = document.getElementById('hero-content');
