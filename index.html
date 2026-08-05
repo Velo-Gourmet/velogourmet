@@ -336,7 +336,7 @@
         }
 
         /* ==========================================
-           7. CONTACT ACTION SHEET (MODAL)
+           7. CONTACT ACTION SHEET (MODAL) - VON OBEN
            ========================================== */
         .contact-overlay {
             position: fixed;
@@ -360,22 +360,22 @@
 
         .contact-sheet {
             position: absolute;
-            bottom: 0;
+            top: 0; /* Hängt sich an die Decke des Bildschirms */
             left: 0;
             width: 100%;
             background: var(--bg-sand);
-            border-radius: 32px 32px 0 0;
-            padding: 40px 20px max(40px, env(safe-area-inset-bottom));
-            transform: translateY(100%);
+            border-radius: 0 0 32px 32px; /* Abgerundete Ecken unten */
+            padding: max(40px, env(safe-area-inset-top)) 20px 40px; /* Sicheres Padding für Notch */
+            transform: translateY(-100%); /* Versteckt sich über dem oberen Rand */
             transition: transform 0.5s cubic-bezier(0.32, 1.15, 0.6, 1);
             display: flex;
             flex-direction: column;
             gap: 12px;
-            box-shadow: 0 -10px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1); /* Schatten fällt nach unten */
         }
 
         .contact-overlay.is-active .contact-sheet {
-            transform: translateY(0);
+            transform: translateY(0); /* Fährt auf Position 0 (ganz oben) herunter */
         }
 
         .sheet-title {
@@ -444,7 +444,7 @@
             </div>
 
             <div class="actions">
-                <!-- NEU: Button öffnet das Action Sheet per onclick -->
+                <!-- Button öffnet das Action Sheet per onclick -->
                 <a href="#" class="artist-btn" aria-label="Mach ma fertig!" onclick="openContact(event)">
                     <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
                         <path fill="var(--brand-green)" d="M 25,22 C 40,16 110,18 160,15 C 220,12 280,20 298,28 C 310,38 305,68 290,82 C 260,95 180,88 120,94 C 75,98 35,92 18,80 C 8,68 10,35 25,22 Z" />
