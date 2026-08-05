@@ -36,7 +36,7 @@
         html {
             /* Fallback für alte Browser */
             height: 100vh; 
-            /* Unsere eingefrorene, maßgeschneiderte Höhe */
+            /* Unsere eingefrorene, maßgeschneiderte Höhe (Frozen Viewport) */
             height: calc(var(--vh, 1vh) * 100); 
             scroll-snap-type: y mandatory;
             scroll-behavior: smooth;
@@ -55,6 +55,7 @@
         }
 
         .section {
+            /* Fallback und maßgeschneiderte Höhe wie beim html-Tag */
             height: 100vh;
             height: calc(var(--vh, 1vh) * 100);
             width: 100vw;
