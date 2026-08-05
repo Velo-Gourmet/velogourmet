@@ -192,8 +192,7 @@
             gap: 20px;
             width: 100%;
             max-width: 340px;
-            z-index: 10; /* Erhöht, damit nichts die Buttons überdeckt */
-            position: relative; /* Wichtig, damit z-index greift */
+            z-index: 2;
             margin-top: 40px;
         }
 
@@ -201,7 +200,7 @@
             display: block;
             width: 100%;
             text-decoration: none;
-            cursor: pointer; /* Signalisiert mobilen Browsern absolute Klickbarkeit */
+            /* Verfeinerter Stoßdämpfer für sanftes Hover/Active-Feedback */
             transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.4s ease;
             -webkit-tap-highlight-color: transparent;
         }
@@ -221,7 +220,6 @@
             width: 100%;
             height: auto;
             filter: drop-shadow(0 8px 16px rgba(0,0,0,0.08));
-            pointer-events: none; /* DAS IST DER FIX FÜR DEN KLICK-FEHLER */
         }
 
         .btn-text {
@@ -338,7 +336,7 @@
         }
 
         /* ==========================================
-           7. CONTACT ACTION SHEET & MORPHING
+           7. CONTACT ACTION SHEET (MODAL)
            ========================================== */
         .contact-overlay {
             position: fixed;
@@ -349,7 +347,7 @@
             background: rgba(27, 36, 30, 0.4);
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
-            z-index: 1000; /* Z-Index massiv erhöht, damit es sicher über allem liegt */
+            z-index: 100;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.4s ease;
@@ -357,7 +355,7 @@
 
         .contact-overlay.is-active {
             opacity: 1;
-            pointer-events: auto; /* FIX: 'auto' statt 'all' für HTML-Kompatibilität */
+            pointer-events: all;
         }
 
         .contact-sheet {
@@ -372,6 +370,7 @@
             transition: transform 0.5s cubic-bezier(0.32, 1.15, 0.6, 1);
             display: flex;
             flex-direction: column;
+            gap: 12px;
             box-shadow: 0 -10px 40px rgba(0,0,0,0.1);
         }
 
@@ -379,74 +378,12 @@
             transform: translateY(0);
         }
 
-        .sheet-header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-
         .sheet-title {
             font-size: 22px;
             font-weight: 700;
             text-align: center;
+            margin-bottom: 15px;
             letter-spacing: -0.5px;
-            margin-bottom: 5px;
-        }
-
-        .info-toggle {
-            background: none;
-            border: none;
-            color: #777;
-            font-size: 14px;
-            text-decoration: underline;
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-            margin-top: 5px;
-        }
-
-        .sheet-content {
-            display: flex;
-            width: 100%;
-            transition: all 0.4s cubic-bezier(0.32, 1.15, 0.6, 1);
-        }
-
-        .sheet-info {
-            width: 0;
-            opacity: 0;
-            overflow: hidden;
-            transition: all 0.4s ease;
-            font-size: 14px;
-            color: #444;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            white-space: nowrap;
-        }
-
-        .sheet-info h4 {
-            margin-bottom: 12px;
-            font-size: 16px;
-            color: var(--text-dark);
-        }
-
-        .sheet-info ol {
-            padding-left: 20px;
-            margin: 0;
-            line-height: 1.5;
-            white-space: normal;
-        }
-        
-        .sheet-info li {
-            margin-bottom: 8px;
-        }
-
-        .sheet-actions {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            transition: all 0.4s cubic-bezier(0.32, 1.15, 0.6, 1);
         }
 
         .contact-option {
@@ -462,7 +399,7 @@
             color: var(--text-dark);
             font-weight: 600;
             font-size: 18px;
-            transition: all 0.4s cubic-bezier(0.32, 1.15, 0.6, 1), background 0.2s, transform 0.2s;
+            transition: transform 0.2s, background 0.2s;
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -471,24 +408,8 @@
             background: var(--brand-green);
         }
 
-        .contact-sheet.show-info .sheet-info {
-            width: 65%;
-            opacity: 1;
-            padding-right: 15px;
-        }
-
-        .contact-sheet.show-info .sheet-actions {
-            width: 35%;
-        }
-
-        .contact-sheet.show-info .contact-option {
-            padding: 12px 0;
-            font-size: 14px;
-            border-radius: 12px;
-        }
-
         .sheet-close {
-            margin-top: 15px;
+            margin-top: 8px;
             background: none;
             border: none;
             color: #777;
@@ -523,8 +444,8 @@
             </div>
 
             <div class="actions">
-                <!-- FIX: Inline onclick entfernt, ID vergeben -->
-                <a href="#" id="btn-contact" class="artist-btn" aria-label="Mach ma fertig!">
+                <!-- NEU: Button öffnet das Action Sheet per onclick -->
+                <a href="#" class="artist-btn" aria-label="Mach ma fertig!" onclick="openContact(event)">
                     <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
                         <path fill="var(--brand-green)" d="M 25,22 C 40,16 110,18 160,15 C 220,12 280,20 298,28 C 310,38 305,68 290,82 C 260,95 180,88 120,94 C 75,98 35,92 18,80 C 8,68 10,35 25,22 Z" />
                         <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#1a2e05" class="btn-text">
@@ -533,8 +454,7 @@
                     </svg>
                 </a>
 
-                <!-- FIX: ID vergeben für sanftes Scrollen per Script -->
-                <a href="#galerie" id="btn-gallery" class="artist-btn" aria-label="Mein Angebot">
+                <a href="#galerie" class="artist-btn" aria-label="Mein Angebot">
                     <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
                         <path fill="var(--brand-rose)" d="M 22,25 C 55,18 130,14 180,18 C 240,21 275,15 295,25 C 308,35 312,65 292,80 C 265,92 195,96 130,90 C 80,86 40,95 20,82 C 5,70 8,38 22,25 Z" />
                         <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#3A2325" class="btn-text">
@@ -577,27 +497,81 @@
 
     </main>
 
-    <!-- DAS CONTACT ACTION SHEET (MODAL) MIT MORPHING -->
-    <div class="contact-overlay" id="contact-overlay">
-        <div class="contact-sheet" id="contact-sheet">
+    <!-- DAS CONTACT ACTION SHEET (MODAL) -->
+    <div class="contact-overlay" id="contact-overlay" onclick="closeContact(event)">
+        <!-- event.stopPropagation() verhindert, dass ein Klick auf das Menü es schließt -->
+        <div class="contact-sheet" onclick="event.stopPropagation()">
+            <h3 class="sheet-title">Lass uns schnacken!</h3>
             
-            <div class="sheet-header">
-                <h3 class="sheet-title">Lass uns schnacken!</h3>
-                <button class="info-toggle" id="info-toggle">Wie läuft eine Anfrage ab?</button>
-            </div>
+            <a href="https://wa.me/4915100000000" target="_blank" class="contact-option">
+                WhatsApp
+            </a>
             
-            <div class="sheet-content">
-                <div class="sheet-info">
-                    <h4>Ganz entspannt:</h4>
-                    <ol>
-                        <li>Wann & wo steigt dein Event?</li>
-                        <li>Grobe Gästezahl nennen.</li>
-                        <li>Ich melde mich mit einem Menü-Vorschlag.</li>
-                    </ol>
-                </div>
+            <a href="tel:+4915100000000" class="contact-option">
+                Telefon
+            </a>
+            
+            <a href="mailto:hallo@velogourmet.berlin" class="contact-option">
+                E-Mail
+            </a>
+            
+            <button class="sheet-close" onclick="closeContact(event)">Abbrechen</button>
+        </div>
+    </div>
 
-                <div class="sheet-actions">
-                    <a href="https://wa.me/4915100000000" target="_blank" class="contact-option">WhatsApp</a>
-                    <a href="tel:+4915100000000" class="contact-option">Telefon</a>
-                    <a href="mailto:hallo@velogourmet.berlin" class="contact-option">E-Mail</a>
-    
+    <!-- JAVASCRIPT (PARALLAX & MENÜ) -->
+    <script>
+        // Kontakt-Menü Steuerung
+        function openContact(e) {
+            e.preventDefault(); 
+            document.getElementById('contact-overlay').classList.add('is-active');
+        }
+
+        function closeContact(e) {
+            if(e) e.preventDefault();
+            document.getElementById('contact-overlay').classList.remove('is-active');
+        }
+
+        // Parallax Steuerung
+        const scrollContainer = document.getElementById('scroll-container');
+        const heroBg = document.getElementById('hero-bg');
+        const heroContent = document.getElementById('hero-content');
+        const swipeHint = document.getElementById('swipe-hint');
+
+        let ticking = false;
+
+        function updateParallax() {
+            const scrolled = scrollContainer.scrollTop;
+            const containerHeight = scrollContainer.clientHeight;
+            const containerWidth = scrollContainer.clientWidth;
+            
+            const isPortrait = containerHeight > containerWidth;
+
+            if (scrolled <= containerHeight) {
+                const progress = scrolled / containerHeight;
+
+                heroBg.style.transform = `translateY(${scrolled * 0.4}px)`;
+
+                const speedMultiplierY = isPortrait ? -8 : -15; 
+                const fadeMultiplier = isPortrait ? 0.8 : 1.2;
+                const scale = 1 - progress * (isPortrait ? 0.05 : 0.1);
+
+                const translateY = -50 + (progress * speedMultiplierY);
+                
+                heroContent.style.transform = `translate(-50%, ${translateY}%) scale(${scale})`;
+                heroContent.style.opacity = 1 - (progress * fadeMultiplier);
+
+                swipeHint.style.opacity = 1 - (progress * 2.5);
+            }
+            ticking = false;
+        }
+
+        scrollContainer.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(updateParallax);
+                ticking = true;
+            }
+        });
+    </script>
+</body>
+</html>
