@@ -192,7 +192,8 @@
             gap: 20px;
             width: 100%;
             max-width: 340px;
-            z-index: 2;
+            z-index: 10; /* Erhöht, damit nichts die Buttons überdeckt */
+            position: relative; /* Wichtig, damit z-index greift */
             margin-top: 40px;
         }
 
@@ -200,6 +201,7 @@
             display: block;
             width: 100%;
             text-decoration: none;
+            cursor: pointer; /* Signalisiert mobilen Browsern absolute Klickbarkeit */
             transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.4s ease;
             -webkit-tap-highlight-color: transparent;
         }
@@ -219,6 +221,7 @@
             width: 100%;
             height: auto;
             filter: drop-shadow(0 8px 16px rgba(0,0,0,0.08));
+            pointer-events: none; /* DAS IST DER FIX FÜR DEN KLICK-FEHLER */
         }
 
         .btn-text {
@@ -346,7 +349,7 @@
             background: rgba(27, 36, 30, 0.4);
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
-            z-index: 100;
+            z-index: 1000; /* Z-Index massiv erhöht, damit es sicher über allem liegt */
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.4s ease;
@@ -354,7 +357,7 @@
 
         .contact-overlay.is-active {
             opacity: 1;
-            pointer-events: all;
+            pointer-events: auto; /* FIX: 'auto' statt 'all' für HTML-Kompatibilität */
         }
 
         .contact-sheet {
@@ -408,7 +411,6 @@
             transition: all 0.4s cubic-bezier(0.32, 1.15, 0.6, 1);
         }
 
-        /* Die Info-Box (Links) - Startet mit Breite 0 */
         .sheet-info {
             width: 0;
             opacity: 0;
@@ -439,7 +441,6 @@
             margin-bottom: 8px;
         }
 
-        /* Die Action-Buttons (Rechts) - Starten mit 100% */
         .sheet-actions {
             width: 100%;
             display: flex;
@@ -470,7 +471,6 @@
             background: var(--brand-green);
         }
 
-        /* ZUSTAND: WENN INFO GEÖFFNET IST (.show-info) */
         .contact-sheet.show-info .sheet-info {
             width: 65%;
             opacity: 1;
@@ -523,7 +523,8 @@
             </div>
 
             <div class="actions">
-                <a href="#" class="artist-btn" aria-label="Mach ma fertig!" onclick="openContact(event)">
+                <!-- FIX: Inline onclick entfernt, ID vergeben -->
+                <a href="#" id="btn-contact" class="artist-btn" aria-label="Mach ma fertig!">
                     <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
                         <path fill="var(--brand-green)" d="M 25,22 C 40,16 110,18 160,15 C 220,12 280,20 298,28 C 310,38 305,68 290,82 C 260,95 180,88 120,94 C 75,98 35,92 18,80 C 8,68 10,35 25,22 Z" />
                         <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#1a2e05" class="btn-text">
@@ -532,7 +533,8 @@
                     </svg>
                 </a>
 
-                <a href="#galerie" class="artist-btn" aria-label="Mein Angebot">
+                <!-- FIX: ID vergeben für sanftes Scrollen per Script -->
+                <a href="#galerie" id="btn-gallery" class="artist-btn" aria-label="Mein Angebot">
                     <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
                         <path fill="var(--brand-rose)" d="M 22,25 C 55,18 130,14 180,18 C 240,21 275,15 295,25 C 308,35 312,65 292,80 C 265,92 195,96 130,90 C 80,86 40,95 20,82 C 5,70 8,38 22,25 Z" />
                         <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#3A2325" class="btn-text">
@@ -576,12 +578,12 @@
     </main>
 
     <!-- DAS CONTACT ACTION SHEET (MODAL) MIT MORPHING -->
-    <div class="contact-overlay" id="contact-overlay" onclick="closeContact(event)">
-        <div class="contact-sheet" id="contact-sheet" onclick="event.stopPropagation()">
+    <div class="contact-overlay" id="contact-overlay">
+        <div class="contact-sheet" id="contact-sheet">
             
             <div class="sheet-header">
                 <h3 class="sheet-title">Lass uns schnacken!</h3>
-                <button class="info-toggle" onclick="toggleInfo()">Wie läuft eine Anfrage ab?</button>
+                <button class="info-toggle" id="info-toggle">Wie läuft eine Anfrage ab?</button>
             </div>
             
             <div class="sheet-content">
@@ -598,14 +600,4 @@
                     <a href="https://wa.me/4915100000000" target="_blank" class="contact-option">WhatsApp</a>
                     <a href="tel:+4915100000000" class="contact-option">Telefon</a>
                     <a href="mailto:hallo@velogourmet.berlin" class="contact-option">E-Mail</a>
-                </div>
-            </div>
-            
-            <button class="sheet-close" onclick="closeContact(event)">Abbrechen</button>
-        </div>
-    </div>
-
-    <!-- JAVASCRIPT (PARALLAX & MENÜ) -->
-    <script>
-        // Kontakt-Menü Steuerung & Morphing
-        function openContact(e)
+    
