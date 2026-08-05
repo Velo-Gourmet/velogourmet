@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
     <!-- Temporäre Anti-Cache Tags -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -32,33 +32,39 @@
             padding: 0;
         }
 
-        /* 2. RUCKELFREIES SCROLL-SNAP SYSTEM (TABLET FIX) */
-        html {
-            /* Fallback für alte Browser */
-            height: 100vh; 
-            /* Unsere eingefrorene, maßgeschneiderte Höhe (Frozen Viewport) */
-            height: calc(var(--vh, 1vh) * 100); 
-            scroll-snap-type: y mandatory;
-            scroll-behavior: smooth;
+        /* ==========================================
+           2. DER "APP-CONTAINER" (DIE LÖSUNG FÜR DAS RUCKELN)
+           ========================================== */
+        
+        /* Wir frieren den Hintergrund (Body/HTML) komplett ein */
+        html, body {
+            height: 100%;
+            width: 100%;
+            position: fixed; /* Verhindert das Ausblenden der Adresszeile */
+            top: 0;
+            left: 0;
+            overflow: hidden; /* Unterdrückt das native Browser-Scrollen */
+            background-color: var(--bg-sand);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             color: var(--text-dark);
+            -webkit-text-size-adjust: 100%;
+        }
+
+        /* Der neue Container übernimmt das butterweiche Snapping */
+        .scroll-container {
+            width: 100%;
+            height: 100%;
             overflow-y: scroll;
             overflow-x: hidden;
-            overscroll-behavior-y: none;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch; /* Wichtig für ältere iOS Versionen */
         }
 
-        body {
-            background-color: var(--bg-sand);
-            margin: 0;
-            padding: 0;
-            height: 100%;
-        }
-
+        /* Sektionen sind nun exakt 100% des Containers hoch - keine vh/dvh-Hacks mehr nötig */
         .section {
-            /* Fallback und maßgeschneiderte Höhe wie beim html-Tag */
-            height: 100vh;
-            height: calc(var(--vh, 1vh) * 100);
-            width: 100vw;
+            height: 100%;
+            width: 100%;
             scroll-snap-align: start;
             scroll-snap-stop: always;
             position: relative;
@@ -75,10 +81,7 @@
            ========================================== */
         .hero-section {
             background-color: var(--bg-sand);
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            z-index: 1;
         }
 
         .hero-bg {
@@ -107,7 +110,6 @@
             justify-content: center;
             align-items: center;
             will-change: transform, opacity;
-            /* Der CSS-Stoßdämpfer für samtweiche Trägheit (Inertia) */
             transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.25s ease-out;
         }
 
@@ -129,7 +131,7 @@
         }
 
         /* ==========================================
-           WISCH-HINWEIS (MIT FALLBACK)
+           WISCH-HINWEIS
            ========================================== */
         .swipe-hint {
             position: absolute;
@@ -148,7 +150,6 @@
             
             animation: floatBounce 2s infinite ease-in-out;
             will-change: transform, opacity;
-            /* Stoßdämpfer auch hier anwenden, damit es parallel zum Logo ausblendet */
             transition: opacity 0.25s ease-out;
         }
 
@@ -300,19 +301,11 @@
         }
 
         /* ==========================================
-           6. ANIMATIONEN & RESPONSIVE (MEDIA QUERIES)
+           6. ANIMATIONEN & RESPONSIVE
            ========================================== */
         @keyframes fadeInMorph {
-            0% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.9);
-                filter: blur(8px);
-            }
-            100% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-                filter: blur(0);
-            }
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); filter: blur(8px); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: blur(0); }
         }
 
         @keyframes floatBounce {
@@ -324,7 +317,6 @@
             .logo-img {
                 width: clamp(400px, 75vmin, 800px);
                 height: clamp(400px, 75vmin, 800px);
-                max-height: none; 
             }
         }
 
@@ -341,90 +333,82 @@
 </head>
 <body>
 
-    <section class="section hero-section" id="hero">
-        <div class="hero-bg" id="hero-bg"></div>
-        <div class="hero-content" id="hero-content">
-            <div class="logo-wrapper">
-                <img src="lo.svg" alt="Velo Gourmet Berlin Logo" class="logo-img">
-            </div>
-        </div>
-        <div class="swipe-hint" id="swipe-hint">↓ Wischen</div>
-    </section>
-
-    <section class="section layer-content" id="navigation">
-        <div class="organic-edge-wrapper">
-            <svg viewBox="0 0 500 60" preserveAspectRatio="none" style="width: 100%; height: 100%;">
-                <path class="liquid-path"></path>
-            </svg>
-        </div>
-
-        <div class="actions">
-            <a href="#galerie" class="artist-btn" aria-label="Mach ma fertig!">
-                <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="var(--brand-green)" d="M 25,22 C 40,16 110,18 160,15 C 220,12 280,20 298,28 C 310,38 305,68 290,82 C 260,95 180,88 120,94 C 75,98 35,92 18,80 C 8,68 10,35 25,22 Z" />
-                    <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#1a2e05" class="btn-text">
-                        Mach ma fertig!
-                    </text>
-                </svg>
-            </a>
-
-            <a href="#galerie" class="artist-btn" aria-label="Mein Angebot">
-                <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="var(--brand-rose)" d="M 22,25 C 55,18 130,14 180,18 C 240,21 275,15 295,25 C 308,35 312,65 292,80 C 265,92 195,96 130,90 C 80,86 40,95 20,82 C 5,70 8,38 22,25 Z" />
-                    <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#3A2325" class="btn-text">
-                        Mein Angebot
-                    </text>
-                </svg>
-            </a>
-        </div>
-    </section>
-
-    <section class="section gallery-section" id="galerie">
-        <h2 class="gallery-title">Saisonale Impressionen</h2>
+    <!-- NEUER CONTAINER, DER DAS GESAMTE SCROLLEN ÜBERNIMMT -->
+    <main class="scroll-container" id="scroll-container">
         
-        <div class="gallery-deck">
-            <div class="gallery-card">
-                <div class="card-image-placeholder">Foto: Hermannplatz</div>
-                <div class="card-info">
-                    <h4>Hermannplatz</h4>
-                    <p>Levante & mediterrane Mezze direkt vom Lastenrad.</p>
+        <section class="section hero-section" id="hero">
+            <div class="hero-bg" id="hero-bg"></div>
+            <div class="hero-content" id="hero-content">
+                <div class="logo-wrapper">
+                    <img src="lo.svg" alt="Velo Gourmet Berlin Logo" class="logo-img">
                 </div>
             </div>
+            <div class="swipe-hint" id="swipe-hint">↓ Wischen</div>
+        </section>
 
-            <div class="gallery-card">
-                <div class="card-image-placeholder">Foto: Prenzlauer Berg</div>
-                <div class="card-info">
-                    <h4>Prenzlauer Berg</h4>
-                    <p>Pflanzliche Gourmet-Variationen & frische Kräuter.</p>
-                </div>
+        <section class="section layer-content" id="navigation">
+            <div class="organic-edge-wrapper">
+                <svg viewBox="0 0 500 60" preserveAspectRatio="none" style="width: 100%; height: 100%;">
+                    <path class="liquid-path"></path>
+                </svg>
             </div>
 
-            <div class="gallery-card">
-                <div class="card-image-placeholder">Foto: Catering & Events</div>
-                <div class="card-info">
-                    <h4>Catering & Events</h4>
-                    <p>Nachhaltiges Setup für urbane Feiern in Berlin.</p>
+            <div class="actions">
+                <a href="#galerie" class="artist-btn" aria-label="Mach ma fertig!">
+                    <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="var(--brand-green)" d="M 25,22 C 40,16 110,18 160,15 C 220,12 280,20 298,28 C 310,38 305,68 290,82 C 260,95 180,88 120,94 C 75,98 35,92 18,80 C 8,68 10,35 25,22 Z" />
+                        <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#1a2e05" class="btn-text">
+                            Mach ma fertig!
+                        </text>
+                    </svg>
+                </a>
+
+                <a href="#galerie" class="artist-btn" aria-label="Mein Angebot">
+                    <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="var(--brand-rose)" d="M 22,25 C 55,18 130,14 180,18 C 240,21 275,15 295,25 C 308,35 312,65 292,80 C 265,92 195,96 130,90 C 80,86 40,95 20,82 C 5,70 8,38 22,25 Z" />
+                        <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#3A2325" class="btn-text">
+                            Mein Angebot
+                        </text>
+                    </svg>
+                </a>
+            </div>
+        </section>
+
+        <section class="section gallery-section" id="galerie">
+            <h2 class="gallery-title">Saisonale Impressionen</h2>
+            
+            <div class="gallery-deck">
+                <div class="gallery-card">
+                    <div class="card-image-placeholder">Foto: Hermannplatz</div>
+                    <div class="card-info">
+                        <h4>Hermannplatz</h4>
+                        <p>Levante & mediterrane Mezze direkt vom Lastenrad.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-card">
+                    <div class="card-image-placeholder">Foto: Prenzlauer Berg</div>
+                    <div class="card-info">
+                        <h4>Prenzlauer Berg</h4>
+                        <p>Pflanzliche Gourmet-Variationen & frische Kräuter.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-card">
+                    <div class="card-image-placeholder">Foto: Catering & Events</div>
+                    <div class="card-info">
+                        <h4>Catering & Events</h4>
+                        <p>Nachhaltiges Setup für urbane Feiern in Berlin.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+        
+    </main>
 
-    <!-- FROZEN VIEWPORT SCRIPT -->
+    <!-- ANGEPASSTES PARALLAX SCRIPT -->
     <script>
-        function setCustomViewport() {
-            let vh = window.innerHeight * 0.01;
-            document.documentElement.style.setProperty('--vh', `${vh}px`);
-        }
-
-        setCustomViewport();
-
-        window.addEventListener('orientationchange', () => {
-            setTimeout(setCustomViewport, 200); 
-        });
-    </script>
-
-    <!-- DEIN EINGEFRORENES PARALLAX SCRIPT -->
-    <script>
+        const scrollContainer = document.getElementById('scroll-container');
         const heroBg = document.getElementById('hero-bg');
         const heroContent = document.getElementById('hero-content');
         const swipeHint = document.getElementById('swipe-hint');
@@ -432,19 +416,18 @@
         let ticking = false;
 
         function updateParallax() {
-            const scrolled = window.scrollY || document.documentElement.scrollTop;
-            const heroHeight = window.innerHeight;
+            // WICHTIG: Wir lesen den Scroll-Wert jetzt vom neuen Container ab, nicht mehr vom Window!
+            const scrolled = scrollContainer.scrollTop; 
+            const containerHeight = scrollContainer.clientHeight;
+            const containerWidth = scrollContainer.clientWidth;
             
-            // Die Format-Weiche prüft, ob das Gerät im Hochformat ist
-            const isPortrait = window.innerHeight > window.innerWidth;
+            const isPortrait = containerHeight > containerWidth;
 
-            if (scrolled <= heroHeight) {
-                const progress = scrolled / heroHeight;
+            if (scrolled <= containerHeight) {
+                const progress = scrolled / containerHeight;
 
-                // 1. Hintergrund-Parallax
                 heroBg.style.transform = `translateY(${scrolled * 0.4}px)`;
 
-                // 2. Format-Weiche für die Logo-Werte
                 const speedMultiplierY = isPortrait ? -8 : -15; 
                 const fadeMultiplier = isPortrait ? 0.8 : 1.2;
                 const scale = 1 - progress * (isPortrait ? 0.05 : 0.1);
@@ -454,13 +437,13 @@
                 heroContent.style.transform = `translate(-50%, ${translateY}%) scale(${scale})`;
                 heroContent.style.opacity = 1 - (progress * fadeMultiplier);
 
-                // 3. Wisch-Hinweis
                 swipeHint.style.opacity = 1 - (progress * 2.5);
             }
             ticking = false;
         }
 
-        window.addEventListener('scroll', () => {
+        // Der Event-Listener liegt nun auch auf dem Container
+        scrollContainer.addEventListener('scroll', () => {
             if (!ticking) {
                 window.requestAnimationFrame(updateParallax);
                 ticking = true;
