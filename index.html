@@ -33,24 +33,21 @@
         }
 
         /* ==========================================
-           2. DER "APP-CONTAINER" (DIE LÖSUNG FÜR DAS RUCKELN)
+           2. APP-SHELL FIX (STARRER VIEWPORT)
            ========================================== */
-        
-        /* Wir frieren den Hintergrund (Body/HTML) komplett ein */
         html, body {
-            height: 100%;
             width: 100%;
-            position: fixed; /* Verhindert das Ausblenden der Adresszeile */
+            height: 100%;
+            position: fixed;
             top: 0;
             left: 0;
-            overflow: hidden; /* Unterdrückt das native Browser-Scrollen */
+            overflow: hidden;
             background-color: var(--bg-sand);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             color: var(--text-dark);
             -webkit-text-size-adjust: 100%;
         }
 
-        /* Der neue Container übernimmt das butterweiche Snapping */
         .scroll-container {
             width: 100%;
             height: 100%;
@@ -58,10 +55,9 @@
             overflow-x: hidden;
             scroll-snap-type: y mandatory;
             scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch; /* Wichtig für ältere iOS Versionen */
+            -webkit-overflow-scrolling: touch;
         }
 
-        /* Sektionen sind nun exakt 100% des Containers hoch - keine vh/dvh-Hacks mehr nötig */
         .section {
             height: 100%;
             width: 100%;
@@ -204,23 +200,32 @@
             display: block;
             width: 100%;
             text-decoration: none;
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            /* Verfeinerter Stoßdämpfer für sanftes Hover/Active-Feedback */
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.4s ease;
             -webkit-tap-highlight-color: transparent;
         }
 
-        .artist-btn:hover, .artist-btn:active {
-            transform: scale(1.03) translateY(-3px);
+        .artist-btn:hover {
+            transform: scale(1.04) translateY(-4px);
+            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15)); 
+        }
+
+        .artist-btn:active {
+            transform: scale(0.97) translateY(2px);
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+            transition: transform 0.1s ease-out;
         }
 
         .artist-btn svg {
             width: 100%;
             height: auto;
-            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.06));
+            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.08));
         }
 
         .btn-text {
             font-size: 22px;
-            font-weight: 600;
+            font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
         /* ==========================================
@@ -329,13 +334,98 @@
             .gallery-card { flex: 0 0 240px; height: 260px; }
             .card-image-placeholder { height: 110px; }
         }
+
+        /* ==========================================
+           7. CONTACT ACTION SHEET (MODAL)
+           ========================================== */
+        .contact-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(27, 36, 30, 0.4);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .contact-overlay.is-active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .contact-sheet {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--bg-sand);
+            border-radius: 32px 32px 0 0;
+            padding: 40px 20px max(40px, env(safe-area-inset-bottom));
+            transform: translateY(100%);
+            transition: transform 0.5s cubic-bezier(0.32, 1.15, 0.6, 1);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.1);
+        }
+
+        .contact-overlay.is-active .contact-sheet {
+            transform: translateY(0);
+        }
+
+        .sheet-title {
+            font-size: 22px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+        }
+
+        .contact-option {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 18px;
+            background: var(--card-white);
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 18px;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 18px;
+            transition: transform 0.2s, background 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .contact-option:active {
+            transform: scale(0.97);
+            background: var(--brand-green);
+        }
+
+        .sheet-close {
+            margin-top: 8px;
+            background: none;
+            border: none;
+            color: #777;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 12px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
     </style>
 </head>
 <body>
 
-    <!-- NEUER CONTAINER, DER DAS GESAMTE SCROLLEN ÜBERNIMMT -->
+    <!-- DER UNABHÄNGIGE SCROLL-CONTAINER -->
     <main class="scroll-container" id="scroll-container">
-        
+
         <section class="section hero-section" id="hero">
             <div class="hero-bg" id="hero-bg"></div>
             <div class="hero-content" id="hero-content">
@@ -354,7 +444,8 @@
             </div>
 
             <div class="actions">
-                <a href="#galerie" class="artist-btn" aria-label="Mach ma fertig!">
+                <!-- NEU: Button öffnet das Action Sheet per onclick -->
+                <a href="#" class="artist-btn" aria-label="Mach ma fertig!" onclick="openContact(event)">
                     <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
                         <path fill="var(--brand-green)" d="M 25,22 C 40,16 110,18 160,15 C 220,12 280,20 298,28 C 310,38 305,68 290,82 C 260,95 180,88 120,94 C 75,98 35,92 18,80 C 8,68 10,35 25,22 Z" />
                         <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#1a2e05" class="btn-text">
@@ -403,11 +494,45 @@
                 </div>
             </div>
         </section>
-        
+
     </main>
 
-    <!-- ANGEPASSTES PARALLAX SCRIPT -->
+    <!-- DAS CONTACT ACTION SHEET (MODAL) -->
+    <div class="contact-overlay" id="contact-overlay" onclick="closeContact(event)">
+        <!-- event.stopPropagation() verhindert, dass ein Klick auf das Menü es schließt -->
+        <div class="contact-sheet" onclick="event.stopPropagation()">
+            <h3 class="sheet-title">Lass uns schnacken!</h3>
+            
+            <a href="https://wa.me/4915100000000" target="_blank" class="contact-option">
+                WhatsApp
+            </a>
+            
+            <a href="tel:+4915100000000" class="contact-option">
+                Telefon
+            </a>
+            
+            <a href="mailto:hallo@velogourmet.berlin" class="contact-option">
+                E-Mail
+            </a>
+            
+            <button class="sheet-close" onclick="closeContact(event)">Abbrechen</button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT (PARALLAX & MENÜ) -->
     <script>
+        // Kontakt-Menü Steuerung
+        function openContact(e) {
+            e.preventDefault(); 
+            document.getElementById('contact-overlay').classList.add('is-active');
+        }
+
+        function closeContact(e) {
+            if(e) e.preventDefault();
+            document.getElementById('contact-overlay').classList.remove('is-active');
+        }
+
+        // Parallax Steuerung
         const scrollContainer = document.getElementById('scroll-container');
         const heroBg = document.getElementById('hero-bg');
         const heroContent = document.getElementById('hero-content');
@@ -416,8 +541,7 @@
         let ticking = false;
 
         function updateParallax() {
-            // WICHTIG: Wir lesen den Scroll-Wert jetzt vom neuen Container ab, nicht mehr vom Window!
-            const scrolled = scrollContainer.scrollTop; 
+            const scrolled = scrollContainer.scrollTop;
             const containerHeight = scrollContainer.clientHeight;
             const containerWidth = scrollContainer.clientWidth;
             
@@ -442,7 +566,6 @@
             ticking = false;
         }
 
-        // Der Event-Listener liegt nun auch auf dem Container
         scrollContainer.addEventListener('scroll', () => {
             if (!ticking) {
                 window.requestAnimationFrame(updateParallax);
