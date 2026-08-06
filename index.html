@@ -4,11 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <!-- Temporäre Anti-Cache Tags -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    
     <title>VELO GOURMET — Uni Projekt</title>
     <style>
         /* ==========================================
@@ -138,12 +133,10 @@
             text-transform: uppercase;
             font-weight: 600;
             color: var(--text-dark);
-            
             background: rgba(255, 255, 255, 0.85); 
             padding: 10px 22px;
             border-radius: 30px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            
             animation: floatBounce 2s infinite ease-in-out;
             will-change: transform, opacity;
             transition: opacity 0.25s ease-out;
@@ -219,6 +212,7 @@
             width: 100%;
             height: auto;
             filter: drop-shadow(0 8px 16px rgba(0,0,0,0.08));
+            pointer-events: none; /* WICHTIG: Leitet den Klick an den Button weiter! */
         }
 
         .btn-text {
@@ -324,18 +318,8 @@
             }
         }
 
-        @media (orientation: landscape) and (max-height: 500px) {
-            .logo-img {
-                width: clamp(250px, 75vh, 400px); 
-                height: clamp(250px, 75vh, 400px);
-            }
-            .actions { flex-direction: row; max-width: 600px; margin-top: 20px; }
-            .gallery-card { flex: 0 0 240px; height: 260px; }
-            .card-image-placeholder { height: 110px; }
-        }
-
         /* ==========================================
-           7. ACTION OVERLAY (SPLIT SCREEN DRAWERS)
+           7. ACTION OVERLAY (FLEXBOX SPLIT SCREEN)
            ========================================== */
         .contact-overlay {
             position: fixed;
@@ -357,45 +341,41 @@
             pointer-events: all;
         }
 
+        /* NEU: Der gemeinsame Wrapper hält beide Hälften exakt gleich hoch */
+        .drawer-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex; 
+            transform: translateY(-100%);
+            transition: transform 0.5s cubic-bezier(0.32, 1.15, 0.6, 1);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            border-radius: 0 0 32px 32px;
+            overflow: hidden; /* Sorgt dafür, dass die äußeren Ecken sauber abgerundet bleiben */
+        }
+
+        .contact-overlay.is-active .drawer-wrapper {
+            transform: translateY(0); 
+        }
+
         /* Schublade Links: Ablauf-Infos */
         .info-sheet {
-            position: absolute;
-            top: 0; 
-            left: 0; 
-            width: 50%; /* Halbe Breite */
-            background: var(--bg-sage); /* Salbeigrün hebt es visuell ab */
-            border-radius: 0 0 32px 0; /* Nur unten rechts abgerundet */
+            width: 50%; 
+            background: var(--bg-sage); 
             padding: max(40px, env(safe-area-inset-top)) 15px 25px; 
-            transform: translateY(-100%); 
-            transition: transform 0.5s cubic-bezier(0.32, 1.15, 0.6, 1);
             display: flex;
             flex-direction: column;
-            box-shadow: 5px 10px 30px rgba(0,0,0,0.08);
-            z-index: 2;
         }
 
         /* Schublade Rechts: Kontakt-Buttons */
         .contact-sheet {
-            position: absolute;
-            top: 0; 
-            right: 0; 
-            width: 50%; /* Halbe Breite */
+            width: 50%; 
             background: var(--bg-sand);
-            border-radius: 0 0 0 32px; /* Nur unten links abgerundet */
             padding: max(40px, env(safe-area-inset-top)) 15px 25px; 
-            transform: translateY(-100%); 
-            transition: transform 0.5s cubic-bezier(0.32, 1.15, 0.6, 1.05); /* 1.05 erzeugt einen minimal anderen Bounce */
             display: flex;
             flex-direction: column;
             gap: 10px;
-            box-shadow: -5px 10px 30px rgba(0,0,0,0.08);
-            z-index: 1;
-        }
-
-        /* Beide Schubladen fahren bei Aktivierung runter */
-        .contact-overlay.is-active .info-sheet,
-        .contact-overlay.is-active .contact-sheet {
-            transform: translateY(0); 
         }
 
         .sheet-title {
@@ -532,33 +512,38 @@
 
     </main>
 
-    <!-- DAS ACTION OVERLAY (SPLIT SCREEN DRAWERS) -->
+    <!-- DAS ACTION OVERLAY (FLEXBOX SPLIT SCREEN) -->
     <div class="contact-overlay" id="contact-overlay" onclick="closeContact(event)">
         
-        <!-- LINKE SCHUBLADE (INFO) -->
-        <div class="info-sheet" onclick="event.stopPropagation()">
-            <h3 class="sheet-title">Ablauf</h3>
-            <ol class="info-list">
-                <li>Wann & Wo?</li>
-                <li>Wie viele Gäste?</li>
-                <li>Menü erhalten!</li>
-            </ol>
-        </div>
+        <!-- DER GEMEINSAME WRAPPER (hält beide Hälften in Balance) -->
+        <div class="drawer-wrapper" onclick="event.stopPropagation()">
+            
+            <!-- LINKE SCHUBLADE (INFO) -->
+            <div class="info-sheet">
+                <h3 class="sheet-title">Ablauf</h3>
+                <ol class="info-list">
+                    <li>Wann & Wo?</li>
+                    <li>Wie viele Gäste?</li>
+                    <li>Menü erhalten!</li>
+                </ol>
+            </div>
 
-        <!-- RECHTE SCHUBLADE (KONTAKT) -->
-        <div class="contact-sheet" onclick="event.stopPropagation()">
-            <h3 class="sheet-title">Anfrage</h3>
-            <a href="https://wa.me/4915100000000" target="_blank" class="contact-option">WhatsApp</a>
-            <a href="tel:+4915100000000" class="contact-option">Telefon</a>
-            <a href="mailto:hallo@velogourmet.berlin" class="contact-option">E-Mail</a>
-            <button class="sheet-close" onclick="closeContact(event)">Schließen</button>
+            <!-- RECHTE SCHUBLADE (KONTAKT) -->
+            <div class="contact-sheet">
+                <h3 class="sheet-title">Anfrage</h3>
+                <a href="https://wa.me/4915100000000" target="_blank" class="contact-option">WhatsApp</a>
+                <a href="tel:+4915100000000" class="contact-option">Telefon</a>
+                <a href="mailto:hallo@velogourmet.berlin" class="contact-option">E-Mail</a>
+                <button class="sheet-close" onclick="closeContact(event)">Schließen</button>
+            </div>
+            
         </div>
 
     </div>
 
     <!-- JAVASCRIPT (PARALLAX & MENÜ) -->
     <script>
-        // Kontakt-Menü Steuerung (Beide Schubladen)
+        // Kontakt-Menü Steuerung
         function openContact(e) {
             e.preventDefault(); 
             document.getElementById('contact-overlay').classList.add('is-active');
@@ -587,4 +572,22 @@
             if (scrolled <= containerHeight) {
                 const progress = scrolled / containerHeight;
 
-      
+                heroBg.style.transform = `translateY(${scrolled * 0.4}px)`;
+
+                const speedMultiplierY = isPortrait ? -8 : -15; 
+                const fadeMultiplier = isPortrait ? 0.8 : 1.2;
+                const scale = 1 - progress * (isPortrait ? 0.05 : 0.1);
+
+                const translateY = -50 + (progress * speedMultiplierY);
+                
+                heroContent.style.transform = `translate(-50%, ${translateY}%) scale(${scale})`;
+                heroContent.style.opacity = 1 - (progress * fadeMultiplier);
+
+                swipeHint.style.opacity = 1 - (progress * 2.5);
+            }
+            ticking = false;
+        }
+
+        scrollContainer.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimation
