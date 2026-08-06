@@ -200,7 +200,6 @@
             display: block;
             width: 100%;
             text-decoration: none;
-            /* Verfeinerter Stoßdämpfer für sanftes Hover/Active-Feedback */
             transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.4s ease;
             -webkit-tap-highlight-color: transparent;
         }
@@ -336,7 +335,7 @@
         }
 
         /* ==========================================
-           7. CONTACT ACTION SHEET (MODAL) - VON OBEN
+           7. CONTACT ACTION SHEET (MODAL) - VON OBEN & RECHTS
            ========================================== */
         .contact-overlay {
             position: fixed;
@@ -360,26 +359,27 @@
 
         .contact-sheet {
             position: absolute;
-            top: 0; /* Hängt sich an die Decke des Bildschirms */
-            left: 0;
-            width: 100%;
+            top: 0; 
+            right: 0; /* Hängt die Kachel an die rechte Seite */
+            left: auto; /* Hebt die alte linke Ausrichtung auf */
+            width: 50%; /* Exakt die halbe Bildschirmbreite */
             background: var(--bg-sand);
-            border-radius: 0 0 32px 32px; /* Abgerundete Ecken unten */
-            padding: max(40px, env(safe-area-inset-top)) 20px 40px; /* Sicheres Padding für Notch */
-            transform: translateY(-100%); /* Versteckt sich über dem oberen Rand */
+            border-radius: 0 0 0 32px; /* Nur noch unten links abgerundet, rechts bündig */
+            padding: max(40px, env(safe-area-inset-top)) 15px 30px; /* Minimal weniger Padding für die schmalere Breite */
+            transform: translateY(-100%); 
             transition: transform 0.5s cubic-bezier(0.32, 1.15, 0.6, 1);
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1); /* Schatten fällt nach unten */
+            gap: 10px;
+            box-shadow: -10px 10px 40px rgba(0,0,0,0.1); /* Schatten fällt nun leicht nach links unten */
         }
 
         .contact-overlay.is-active .contact-sheet {
-            transform: translateY(0); /* Fährt auf Position 0 (ganz oben) herunter */
+            transform: translateY(0); 
         }
 
         .sheet-title {
-            font-size: 22px;
+            font-size: 18px; /* Etwas kleiner, damit es in die halbe Breite passt */
             font-weight: 700;
             text-align: center;
             margin-bottom: 15px;
@@ -391,14 +391,14 @@
             align-items: center;
             justify-content: center;
             width: 100%;
-            padding: 18px;
+            padding: 14px 10px; /* Kompakteres Padding */
             background: var(--card-white);
             border: 1px solid rgba(0,0,0,0.05);
-            border-radius: 18px;
+            border-radius: 14px;
             text-decoration: none;
             color: var(--text-dark);
             font-weight: 600;
-            font-size: 18px;
+            font-size: 15px; /* Schriftgröße für den schmalen Raum optimiert */
             transition: transform 0.2s, background 0.2s;
             -webkit-tap-highlight-color: transparent;
         }
@@ -413,7 +413,7 @@
             background: none;
             border: none;
             color: #777;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             padding: 12px;
             cursor: pointer;
@@ -444,7 +444,6 @@
             </div>
 
             <div class="actions">
-                <!-- Button öffnet das Action Sheet per onclick -->
                 <a href="#" class="artist-btn" aria-label="Mach ma fertig!" onclick="openContact(event)">
                     <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
                         <path fill="var(--brand-green)" d="M 25,22 C 40,16 110,18 160,15 C 220,12 280,20 298,28 C 310,38 305,68 290,82 C 260,95 180,88 120,94 C 75,98 35,92 18,80 C 8,68 10,35 25,22 Z" />
