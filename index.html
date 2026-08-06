@@ -525,11 +525,14 @@
             <!-- LINKE HÄLFTE (INFO) -->
             <div class="sheet-half info-half">
                 <h3 class="sheet-title">Ablauf</h3>
-                <ol class="info-list">
-                    <li>Wann & Wo?</li>
-                    <li>Gästezahl?</li>
-                    <li>Menü erhalten!</li>
-                </ol>
+                <div style="font-size: 13px; font-weight: 500; margin-bottom: 10px; line-height: 1.4;">
+                    Es gibt was zu feiern und du brauchst einen Koch?<br><br>Sag mir einfach:
+                </div>
+                <ul class="info-list">
+                    <li><strong>WO</strong> und <strong>WANN</strong></li>
+                    <li><strong>WIE VIELE</strong> Gäste kommen werden</li>
+                    <li><strong>WAS</strong> auf den Tisch kommt und ob es Wünsche oder <strong>ALLERGIEN</strong> gibt</li>
+                </ul>
             </div>
 
             <!-- RECHTE HÄLFTE (KONTAKT) -->
@@ -585,17 +588,4 @@
                 heroContent.style.transform = `translate(-50%, ${translateY}%) scale(${scale})`;
                 heroContent.style.opacity = 1 - (progress * fadeMultiplier);
 
-                swipeHint.style.opacity = 1 - (progress * 2.5);
-            }
-            ticking = false;
-        }
-
-        scrollContainer.addEventListener('scroll', () => {
-            if (!ticking) {
-                window.requestAnimationFrame(updateParallax);
-                ticking = true;
-            }
-        });
-    </script>
-</body>
-</html>
+                swipeHint
