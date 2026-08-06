@@ -214,6 +214,7 @@
             transition: transform 0.1s ease-out;
         }
 
+        /* HIER WAR DER FEHLER: pointer-events: none wurde gelöscht! */
         .artist-btn svg {
             width: 100%;
             height: auto;
@@ -392,29 +393,17 @@
             letter-spacing: -0.5px;
         }
 
-        /* NEUES TEXT-STYLING FÜR DIE LINKE SEITE */
-        .info-intro {
-            font-size: 14px;
-            color: var(--text-dark);
-            line-height: 1.4;
-            margin-bottom: 10px;
-            font-weight: 500;
-        }
-
         .info-list {
             padding-left: 18px;
-            font-size: 13.5px;
+            font-size: 14px;
             color: var(--text-dark);
-            line-height: 1.5;
+            line-height: 1.6;
+            margin-top: 5px;
         }
 
         .info-list li {
-            margin-bottom: 8px;
-        }
-
-        .info-list strong {
-            font-weight: 700;
-            color: #000;
+            margin-bottom: 12px;
+            font-weight: 500;
         }
 
         .contact-option {
@@ -533,15 +522,14 @@
         <!-- DIE GEMEINSAME KACHEL -->
         <div class="split-sheet" onclick="event.stopPropagation()">
             
-            <!-- LINKE HÄLFTE (INFO) MIT NEUEM TEXT -->
+            <!-- LINKE HÄLFTE (INFO) -->
             <div class="sheet-half info-half">
                 <h3 class="sheet-title">Ablauf</h3>
-                <p class="info-intro">Es gibt was zu feiern und du brauchst einen Koch?<br><br>Sag mir einfach:</p>
-                <ul class="info-list">
-                    <li><strong>WO</strong> und <strong>WANN</strong></li>
-                    <li><strong>WIE VIELE</strong> Gäste kommen werden</li>
-                    <li><strong>WAS</strong> auf den Tisch kommt und ob es Wünsche oder <strong>ALLERGIEN</strong> gibt</li>
-                </ul>
+                <ol class="info-list">
+                    <li>Wann & Wo?</li>
+                    <li>Gästezahl?</li>
+                    <li>Menü erhalten!</li>
+                </ol>
             </div>
 
             <!-- RECHTE HÄLFTE (KONTAKT) -->
@@ -594,4 +582,22 @@
 
                 const translateY = -50 + (progress * speedMultiplierY);
                 
-                heroContent.style.transform = `translate(-50%, ${translateY}%) sc
+                heroContent.style.transform = `translate(-50%, ${translateY}%) scale(${scale})`;
+                heroContent.style.opacity = 1 - (progress * fadeMultiplier);
+
+                swipeHint.style.opacity = 1 - (progress * 2.5);
+            }
+            ticking = false;
+        }
+
+        scrollContainer.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(updateParallax);
+                ticking = true;
+            }
+        });
+    </script>
+</body>
+</html>
+
+Sollte der neue Mastercode nicht funktioni
