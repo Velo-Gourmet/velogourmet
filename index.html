@@ -126,9 +126,6 @@
             animation: fadeInMorph 1.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* ==========================================
-           WISCH-HINWEIS
-           ========================================== */
         .swipe-hint {
             position: absolute;
             bottom: max(30px, env(safe-area-inset-bottom));
@@ -194,46 +191,34 @@
             margin-top: 40px;
         }
 
-        /* BUGFIX: BUTTON-STYLING MIT UNSICHTBARER SCHUTZSCHICHT */
+        /* BUGFIX FÜR DEN BUTTON: Unerschütterliche Klick-Fläche */
         .artist-btn {
             display: block;
             width: 100%;
             text-decoration: none;
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.4s ease;
             -webkit-tap-highlight-color: transparent;
             cursor: pointer;
-            position: relative; /* WICHTIG: Erlaubt die unsichtbare Ebene darüber */
+            /* Mikroskopisch sichtbarer Hintergrund, damit Safari den Button physisch spürt */
+            background-color: rgba(255, 255, 255, 0.001); 
         }
 
-        /* Das ist der Gamechanger: Eine massive, durchsichtige Blockade, 
-           die jeden Touch abfängt, egal wo der Finger landet */
-        .artist-btn::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 10;
-        }
-
-        .artist-btn:hover {
-            transform: scale(1.04) translateY(-4px);
-            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15)); 
-        }
-
-        .artist-btn:active {
-            transform: scale(0.97) translateY(2px);
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
-            transition: transform 0.1s ease-out;
-        }
-
+        /* Die Animationen wandern nur auf die Grafik. Die Klickfläche bleibt starr. */
         .artist-btn svg {
             width: 100%;
             height: auto;
             filter: drop-shadow(0 8px 16px rgba(0,0,0,0.08));
-            position: relative;
-            z-index: 1;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.4s ease;
+        }
+
+        .artist-btn:hover svg {
+            transform: scale(1.04) translateY(-4px);
+            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15)); 
+        }
+
+        .artist-btn:active svg {
+            transform: scale(0.97) translateY(2px);
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+            transition: transform 0.1s ease-out;
         }
 
         .btn-text {
@@ -340,7 +325,7 @@
         }
 
         /* ==========================================
-           7. ACTION OVERLAY (SPLIT SCREEN)
+           7. ACTION OVERLAY (REPARIERTER SPLIT SCREEN)
            ========================================== */
         .contact-overlay {
             position: fixed;
@@ -355,6 +340,11 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.4s ease;
+            
+            /* BUGFIX: Flexbox-Container zwingt die Kacheln, sichtbar zu rendern! */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
         }
 
         .contact-overlay.is-active {
@@ -363,9 +353,7 @@
         }
 
         .split-sheet {
-            position: absolute;
-            top: 0;
-            left: 0;
+            /* KEIN position: absolute mehr! */
             width: 100%;
             display: flex; 
             flex-direction: row;
@@ -486,7 +474,6 @@
             </div>
 
             <div class="actions">
-                <!-- BUGFIX: href="#" wurde wieder eingefügt! -->
                 <a href="#" class="artist-btn" aria-label="Mach ma fertig!" onclick="openContact(event)">
                     <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
                         <path fill="var(--brand-green)" d="M 25,22 C 40,16 110,18 160,15 C 220,12 280,20 298,28 C 310,38 305,68 290,82 C 260,95 180,88 120,94 C 75,98 35,92 18,80 C 8,68 10,35 25,22 Z" />
@@ -543,7 +530,6 @@
         
         <div class="split-sheet" onclick="event.stopPropagation()">
             
-            <!-- LINKE HÄLFTE (INFO) -->
             <div class="sheet-half info-half">
                 <h3 class="sheet-title">Ablauf</h3>
                 <p class="info-intro">Es gibt was zu feiern und du brauchst einen Koch?<br><br>Sag mir einfach:</p>
@@ -554,7 +540,6 @@
                 </ul>
             </div>
 
-            <!-- RECHTE HÄLFTE (KONTAKT) -->
             <div class="sheet-half contact-half">
                 <h3 class="sheet-title">Anfrage</h3>
                 <a href="https://wa.me/4915100000000" target="_blank" class="contact-option">WhatsApp</a>
@@ -598,4 +583,11 @@
 
                 heroBg.style.transform = `translateY(${scrolled * 0.4}px)`;
 
-                const speedMultiplierY = isPortrai
+                const speedMultiplierY = isPortrait ? -8 : -15; 
+                const fadeMultiplier = isPortrait ? 0.8 : 1.2;
+                const scale = 1 - progress * (isPortrait ? 0.05 : 0.1);
+
+                const translateY = -50 + (progress * speedMultiplierY);
+                
+                heroContent.style.transform = `translate(-50%, ${translateY}%) scale(${scale})`;
+       
