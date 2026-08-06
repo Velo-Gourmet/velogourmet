@@ -214,7 +214,6 @@
             transition: transform 0.1s ease-out;
         }
 
-        /* HIER WAR DER FEHLER: pointer-events: none wurde gelöscht! */
         .artist-btn svg {
             width: 100%;
             height: auto;
@@ -393,17 +392,29 @@
             letter-spacing: -0.5px;
         }
 
-        .info-list {
-            padding-left: 18px;
+        /* TEXT-STYLING (LINKS) UPDATE */
+        .info-intro {
             font-size: 14px;
             color: var(--text-dark);
-            line-height: 1.6;
-            margin-top: 5px;
+            line-height: 1.4;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .info-list {
+            padding-left: 18px;
+            font-size: 13.5px;
+            color: var(--text-dark);
+            line-height: 1.5;
         }
 
         .info-list li {
-            margin-bottom: 12px;
-            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .info-list strong {
+            font-weight: 700;
+            color: #000;
         }
 
         .contact-option {
@@ -464,7 +475,6 @@
             </div>
 
             <div class="actions">
-                <!-- BUTTON WURDE REPARIERT -->
                 <a class="artist-btn" aria-label="Mach ma fertig!" onclick="openContact(event)">
                     <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
                         <path fill="var(--brand-green)" d="M 25,22 C 40,16 110,18 160,15 C 220,12 280,20 298,28 C 310,38 305,68 290,82 C 260,95 180,88 120,94 C 75,98 35,92 18,80 C 8,68 10,35 25,22 Z" />
@@ -522,14 +532,15 @@
         <!-- DIE GEMEINSAME KACHEL -->
         <div class="split-sheet" onclick="event.stopPropagation()">
             
-            <!-- LINKE HÄLFTE (INFO) -->
+            <!-- LINKE HÄLFTE (INFO) UPDATE -->
             <div class="sheet-half info-half">
                 <h3 class="sheet-title">Ablauf</h3>
-                <ol class="info-list">
-                    <li>Wann & Wo?</li>
-                    <li>Gästezahl?</li>
-                    <li>Menü erhalten!</li>
-                </ol>
+                <p class="info-intro">Es gibt was zu feiern und du brauchst einen Koch?<br><br>Sag mir einfach:</p>
+                <ul class="info-list">
+                    <li><strong>WO</strong> und <strong>WANN</strong></li>
+                    <li><strong>WIE VIELE</strong> Gäste kommen werden</li>
+                    <li><strong>WAS</strong> auf den Tisch kommt und ob es Wünsche oder <strong>ALLERGIEN</strong> gibt</li>
+                </ul>
             </div>
 
             <!-- RECHTE HÄLFTE (KONTAKT) -->
@@ -583,19 +594,4 @@
                 const translateY = -50 + (progress * speedMultiplierY);
                 
                 heroContent.style.transform = `translate(-50%, ${translateY}%) scale(${scale})`;
-                heroContent.style.opacity = 1 - (progress * fadeMultiplier);
-
-                swipeHint.style.opacity = 1 - (progress * 2.5);
-            }
-            ticking = false;
-        }
-
-        scrollContainer.addEventListener('scroll', () => {
-            if (!ticking) {
-                window.requestAnimationFrame(updateParallax);
-                ticking = true;
-            }
-        });
-    </script>
-</body>
-</html>
+                heroContent.style.opacity = 1 - (pr
