@@ -194,7 +194,6 @@
             margin-top: 40px;
         }
 
-        /* --- ANDROID BUTTON FIX --- */
         .artist-btn {
             display: block;
             width: 100%;
@@ -202,15 +201,6 @@
             transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.4s ease;
             -webkit-tap-highlight-color: transparent;
             cursor: pointer;
-            position: relative; /* Wichtig für die Schutzschicht */
-        }
-
-        /* Durchsichtige Schutzschicht, damit der Klick nicht im SVG-Pfad verpufft */
-        .artist-btn::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            z-index: 10;
         }
 
         .artist-btn:hover {
@@ -224,6 +214,7 @@
             transition: transform 0.1s ease-out;
         }
 
+        /* HIER WAR DER FEHLER: pointer-events: none wurde gelöscht! */
         .artist-btn svg {
             width: 100%;
             height: auto;
@@ -334,7 +325,7 @@
         }
 
         /* ==========================================
-           7. ACTION OVERLAY (SPLIT SCREEN)
+           7. ACTION OVERLAY (FEHLERFREIER SPLIT SCREEN)
            ========================================== */
         .contact-overlay {
             position: fixed;
@@ -356,6 +347,7 @@
             pointer-events: all;
         }
 
+        /* Die Box, die beide Hälften beinhaltet */
         .split-sheet {
             position: absolute;
             top: 0;
@@ -366,6 +358,8 @@
             border-radius: 0 0 32px 32px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.15);
             overflow: hidden; 
+            
+            /* Animation Setup */
             transform: translateY(-100%);
             transition: transform 0.5s cubic-bezier(0.32, 1.15, 0.6, 1);
         }
@@ -374,6 +368,7 @@
             transform: translateY(0);
         }
 
+        /* Eigenschaften der einzelnen Hälften */
         .sheet-half {
             width: 50%;
             padding: max(40px, env(safe-area-inset-top)) 15px 25px;
@@ -398,29 +393,17 @@
             letter-spacing: -0.5px;
         }
 
-        /* SAUBERES STYLING FÜR DEINEN NEUEN TEXT */
-        .info-intro {
-            font-size: 14px;
-            color: var(--text-dark);
-            line-height: 1.4;
-            margin-bottom: 10px;
-            font-weight: 500;
-        }
-
         .info-list {
             padding-left: 18px;
-            font-size: 13.5px;
+            font-size: 14px;
             color: var(--text-dark);
-            line-height: 1.5;
+            line-height: 1.6;
+            margin-top: 5px;
         }
 
         .info-list li {
-            margin-bottom: 8px;
-        }
-
-        .info-list strong {
-            font-weight: 700;
-            color: #000;
+            margin-bottom: 12px;
+            font-weight: 500;
         }
 
         .contact-option {
@@ -481,8 +464,8 @@
             </div>
 
             <div class="actions">
-                <!-- ANDROID FIX: href hinzugefügt, damit das Smartphone reagiert -->
-                <a href="javascript:void(0);" class="artist-btn" aria-label="Mach ma fertig!" onclick="openContact(event)">
+                <!-- BUTTON WURDE REPARIERT -->
+                <a class="artist-btn" aria-label="Mach ma fertig!" onclick="openContact(event)">
                     <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
                         <path fill="var(--brand-green)" d="M 25,22 C 40,16 110,18 160,15 C 220,12 280,20 298,28 C 310,38 305,68 290,82 C 260,95 180,88 120,94 C 75,98 35,92 18,80 C 8,68 10,35 25,22 Z" />
                         <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#1a2e05" class="btn-text">
@@ -536,19 +519,20 @@
     <!-- DAS ACTION OVERLAY -->
     <div class="contact-overlay" id="contact-overlay" onclick="closeContact(event)">
         
+        <!-- DIE GEMEINSAME KACHEL -->
         <div class="split-sheet" onclick="event.stopPropagation()">
             
-            <!-- HIER IST DEIN NEUER TEXT -->
+            <!-- LINKE HÄLFTE (INFO) -->
             <div class="sheet-half info-half">
                 <h3 class="sheet-title">Ablauf</h3>
-                <p class="info-intro">Es gibt was zu feiern und du brauchst einen Koch?<br><br>Sag mir einfach:</p>
-                <ul class="info-list">
-                    <li><strong>WO</strong> und <strong>WANN</strong></li>
-                    <li><strong>WIE VIELE</strong> Gäste kommen werden</li>
-                    <li><strong>WAS</strong> auf den Tisch kommt und ob es Wünsche oder <strong>ALLERGIEN</strong> gibt</li>
-                </ul>
+                <ol class="info-list">
+                    <li>Wann & Wo?</li>
+                    <li>Gästezahl?</li>
+                    <li>Menü erhalten!</li>
+                </ol>
             </div>
 
+            <!-- RECHTE HÄLFTE (KONTAKT) -->
             <div class="sheet-half contact-half">
                 <h3 class="sheet-title">Anfrage</h3>
                 <a href="https://wa.me/4915100000000" target="_blank" class="contact-option">WhatsApp</a>
@@ -594,4 +578,26 @@
 
                 const speedMultiplierY = isPortrait ? -8 : -15; 
                 const fadeMultiplier = isPortrait ? 0.8 : 1.2;
-                const scale = 1 - progress * (isPortrait ? 0.05 : 0
+                const scale = 1 - progress * (isPortrait ? 0.05 : 0.1);
+
+                const translateY = -50 + (progress * speedMultiplierY);
+                
+                heroContent.style.transform = `translate(-50%, ${translateY}%) scale(${scale})`;
+                heroContent.style.opacity = 1 - (progress * fadeMultiplier);
+
+                swipeHint.style.opacity = 1 - (progress * 2.5);
+            }
+            ticking = false;
+        }
+
+        scrollContainer.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(updateParallax);
+                ticking = true;
+            }
+        });
+    </script>
+</body>
+</html>
+
+Sollte der neue Mastercode nicht funktioni
