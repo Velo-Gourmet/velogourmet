@@ -522,14 +522,17 @@
         <!-- DIE GEMEINSAME KACHEL -->
         <div class="split-sheet" onclick="event.stopPropagation()">
             
-            <!-- LINKE HÄLFTE (INFO) -->
+            <!-- LINKE HÄLFTE (INFO) MIT INLINE-STYLING UM FEHLER ZU VERMEIDEN -->
             <div class="sheet-half info-half">
                 <h3 class="sheet-title">Ablauf</h3>
-                <ol class="info-list">
-                    <li>Wann & Wo?</li>
-                    <li>Gästezahl?</li>
-                    <li>Menü erhalten!</li>
-                </ol>
+                <div style="font-size: 14px; color: var(--text-dark); line-height: 1.4; margin-bottom: 10px; font-weight: 500;">
+                    Es gibt was zu feiern und du brauchst einen Koch?<br><br>Sag mir einfach:
+                </div>
+                <ul class="info-list">
+                    <li><strong style="font-weight: 700; color: #000;">WO</strong> und <strong style="font-weight: 700; color: #000;">WANN</strong></li>
+                    <li><strong style="font-weight: 700; color: #000;">WIE VIELE</strong> Gäste kommen werden</li>
+                    <li><strong style="font-weight: 700; color: #000;">WAS</strong> auf den Tisch kommt und ob es Wünsche oder <strong style="font-weight: 700; color: #000;">ALLERGIEN</strong> gibt</li>
+                </ul>
             </div>
 
             <!-- RECHTE HÄLFTE (KONTAKT) -->
@@ -580,24 +583,4 @@
                 const fadeMultiplier = isPortrait ? 0.8 : 1.2;
                 const scale = 1 - progress * (isPortrait ? 0.05 : 0.1);
 
-                const translateY = -50 + (progress * speedMultiplierY);
-                
-                heroContent.style.transform = `translate(-50%, ${translateY}%) scale(${scale})`;
-                heroContent.style.opacity = 1 - (progress * fadeMultiplier);
-
-                swipeHint.style.opacity = 1 - (progress * 2.5);
-            }
-            ticking = false;
-        }
-
-        scrollContainer.addEventListener('scroll', () => {
-            if (!ticking) {
-                window.requestAnimationFrame(updateParallax);
-                ticking = true;
-            }
-        });
-    </script>
-</body>
-</html>
-
-Sollte der neue Mastercode nicht funktioni
+                const trans
