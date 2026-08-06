@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
+    <!-- Temporäre Anti-Cache Tags -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
     <title>VELO GOURMET — Uni Projekt</title>
     <style>
         /* ==========================================
@@ -212,7 +217,7 @@
             width: 100%;
             height: auto;
             filter: drop-shadow(0 8px 16px rgba(0,0,0,0.08));
-            pointer-events: none; /* WICHTIG: Leitet den Klick an den Button weiter! */
+            pointer-events: none; 
         }
 
         .btn-text {
@@ -319,8 +324,9 @@
         }
 
         /* ==========================================
-           7. ACTION OVERLAY (FLEXBOX SPLIT SCREEN)
+           7. ACTION OVERLAY (BULLETPROOF SPLIT SCREEN)
            ========================================== */
+        
         .contact-overlay {
             position: fixed;
             top: 0;
@@ -334,6 +340,12 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.4s ease;
+            
+            /* BUGFIX: Das Overlay ist jetzt ein Flex-Container. 
+               Dadurch verliert die Kachel niemals ihre korrekte Höhe! */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; 
         }
 
         .contact-overlay.is-active {
@@ -341,40 +353,41 @@
             pointer-events: all;
         }
 
-        /* NEU: Der gemeinsame Wrapper hält beide Hälften exakt gleich hoch */
-        .drawer-wrapper {
-            position: absolute;
-            top: 0;
-            left: 0;
+        /* DIE NEUE GEMEINSAME KACHEL */
+        .split-sheet {
             width: 100%;
-            display: flex; 
+            display: flex; /* Baut die beiden Hälften nebeneinander auf */
+            flex-direction: row;
+            border-radius: 0 0 32px 32px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            overflow: hidden; 
+            
+            /* Startet oben außerhalb des Bildschirms */
             transform: translateY(-100%);
             transition: transform 0.5s cubic-bezier(0.32, 1.15, 0.6, 1);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            border-radius: 0 0 32px 32px;
-            overflow: hidden; /* Sorgt dafür, dass die äußeren Ecken sauber abgerundet bleiben */
         }
 
-        .contact-overlay.is-active .drawer-wrapper {
-            transform: translateY(0); 
+        /* Wenn das Overlay aktiv ist, fährt die Kachel auf Position 0 (in den Bildschirm) */
+        .contact-overlay.is-active .split-sheet {
+            transform: translateY(0);
         }
 
-        /* Schublade Links: Ablauf-Infos */
-        .info-sheet {
-            width: 50%; 
-            background: var(--bg-sage); 
-            padding: max(40px, env(safe-area-inset-top)) 15px 25px; 
+        /* GEMEINSAME EIGENSCHAFTEN DER HÄLFTEN */
+        .sheet-half {
+            width: 50%;
+            padding: max(40px, env(safe-area-inset-top)) 15px 25px;
             display: flex;
             flex-direction: column;
         }
 
-        /* Schublade Rechts: Kontakt-Buttons */
-        .contact-sheet {
-            width: 50%; 
+        /* LINKE HÄLFTE */
+        .info-half {
+            background: var(--bg-sage);
+        }
+
+        /* RECHTE HÄLFTE */
+        .contact-half {
             background: var(--bg-sand);
-            padding: max(40px, env(safe-area-inset-top)) 15px 25px; 
-            display: flex;
-            flex-direction: column;
             gap: 10px;
         }
 
@@ -386,7 +399,7 @@
             letter-spacing: -0.5px;
         }
 
-        /* Listen-Styling für das Info-Sheet */
+        /* TEXT-STYLING (LINKS) */
         .info-list {
             padding-left: 18px;
             font-size: 14px;
@@ -400,7 +413,7 @@
             font-weight: 500;
         }
 
-        /* Button-Styling für das Kontakt-Sheet */
+        /* BUTTON-STYLING (RECHTS) */
         .contact-option {
             display: flex;
             align-items: center;
@@ -439,9 +452,7 @@
 </head>
 <body>
 
-    <!-- DER UNABHÄNGIGE SCROLL-CONTAINER -->
     <main class="scroll-container" id="scroll-container">
-
         <section class="section hero-section" id="hero">
             <div class="hero-bg" id="hero-bg"></div>
             <div class="hero-content" id="hero-content">
@@ -509,27 +520,26 @@
                 </div>
             </div>
         </section>
-
     </main>
 
-    <!-- DAS ACTION OVERLAY (FLEXBOX SPLIT SCREEN) -->
+    <!-- DAS ACTION OVERLAY (BUG-FREIER SPLIT SCREEN) -->
     <div class="contact-overlay" id="contact-overlay" onclick="closeContact(event)">
         
-        <!-- DER GEMEINSAME WRAPPER (hält beide Hälften in Balance) -->
-        <div class="drawer-wrapper" onclick="event.stopPropagation()">
+        <!-- DIE GEMEINSAME KACHEL -->
+        <div class="split-sheet" onclick="event.stopPropagation()">
             
-            <!-- LINKE SCHUBLADE (INFO) -->
-            <div class="info-sheet">
+            <!-- LINKE HÄLFTE (INFO) -->
+            <div class="sheet-half info-half">
                 <h3 class="sheet-title">Ablauf</h3>
                 <ol class="info-list">
                     <li>Wann & Wo?</li>
-                    <li>Wie viele Gäste?</li>
+                    <li>Gästezahl?</li>
                     <li>Menü erhalten!</li>
                 </ol>
             </div>
 
-            <!-- RECHTE SCHUBLADE (KONTAKT) -->
-            <div class="contact-sheet">
+            <!-- RECHTE HÄLFTE (KONTAKT) -->
+            <div class="sheet-half contact-half">
                 <h3 class="sheet-title">Anfrage</h3>
                 <a href="https://wa.me/4915100000000" target="_blank" class="contact-option">WhatsApp</a>
                 <a href="tel:+4915100000000" class="contact-option">Telefon</a>
@@ -543,7 +553,6 @@
 
     <!-- JAVASCRIPT (PARALLAX & MENÜ) -->
     <script>
-        // Kontakt-Menü Steuerung
         function openContact(e) {
             e.preventDefault(); 
             document.getElementById('contact-overlay').classList.add('is-active');
@@ -554,7 +563,6 @@
             document.getElementById('contact-overlay').classList.remove('is-active');
         }
 
-        // Parallax Steuerung
         const scrollContainer = document.getElementById('scroll-container');
         const heroBg = document.getElementById('hero-bg');
         const heroContent = document.getElementById('hero-content');
@@ -583,11 +591,4 @@
                 heroContent.style.transform = `translate(-50%, ${translateY}%) scale(${scale})`;
                 heroContent.style.opacity = 1 - (progress * fadeMultiplier);
 
-                swipeHint.style.opacity = 1 - (progress * 2.5);
-            }
-            ticking = false;
-        }
-
-        scrollContainer.addEventListener('scroll', () => {
-            if (!ticking) {
-                window.requestAnimation
+                swipeH
