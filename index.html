@@ -200,6 +200,7 @@
             text-decoration: none;
             transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.4s ease;
             -webkit-tap-highlight-color: transparent;
+            cursor: pointer;
         }
 
         .artist-btn:hover {
@@ -213,11 +214,11 @@
             transition: transform 0.1s ease-out;
         }
 
+        /* HIER WAR DER FEHLER: pointer-events: none wurde gelöscht! */
         .artist-btn svg {
             width: 100%;
             height: auto;
             filter: drop-shadow(0 8px 16px rgba(0,0,0,0.08));
-            pointer-events: none; 
         }
 
         .btn-text {
@@ -324,9 +325,8 @@
         }
 
         /* ==========================================
-           7. ACTION OVERLAY (BULLETPROOF SPLIT SCREEN)
+           7. ACTION OVERLAY (FEHLERFREIER SPLIT SCREEN)
            ========================================== */
-        
         .contact-overlay {
             position: fixed;
             top: 0;
@@ -340,12 +340,6 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.4s ease;
-            
-            /* BUGFIX: Das Overlay ist jetzt ein Flex-Container. 
-               Dadurch verliert die Kachel niemals ihre korrekte Höhe! */
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start; 
         }
 
         .contact-overlay.is-active {
@@ -353,26 +347,28 @@
             pointer-events: all;
         }
 
-        /* DIE NEUE GEMEINSAME KACHEL */
+        /* Die Box, die beide Hälften beinhaltet */
         .split-sheet {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            display: flex; /* Baut die beiden Hälften nebeneinander auf */
+            display: flex; 
             flex-direction: row;
             border-radius: 0 0 32px 32px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.15);
             overflow: hidden; 
             
-            /* Startet oben außerhalb des Bildschirms */
+            /* Animation Setup */
             transform: translateY(-100%);
             transition: transform 0.5s cubic-bezier(0.32, 1.15, 0.6, 1);
         }
 
-        /* Wenn das Overlay aktiv ist, fährt die Kachel auf Position 0 (in den Bildschirm) */
         .contact-overlay.is-active .split-sheet {
             transform: translateY(0);
         }
 
-        /* GEMEINSAME EIGENSCHAFTEN DER HÄLFTEN */
+        /* Eigenschaften der einzelnen Hälften */
         .sheet-half {
             width: 50%;
             padding: max(40px, env(safe-area-inset-top)) 15px 25px;
@@ -380,12 +376,10 @@
             flex-direction: column;
         }
 
-        /* LINKE HÄLFTE */
         .info-half {
             background: var(--bg-sage);
         }
 
-        /* RECHTE HÄLFTE */
         .contact-half {
             background: var(--bg-sand);
             gap: 10px;
@@ -399,7 +393,6 @@
             letter-spacing: -0.5px;
         }
 
-        /* TEXT-STYLING (LINKS) */
         .info-list {
             padding-left: 18px;
             font-size: 14px;
@@ -413,7 +406,6 @@
             font-weight: 500;
         }
 
-        /* BUTTON-STYLING (RECHTS) */
         .contact-option {
             display: flex;
             align-items: center;
@@ -447,6 +439,7 @@
             cursor: pointer;
             text-decoration: underline;
             -webkit-tap-highlight-color: transparent;
+            align-self: center;
         }
     </style>
 </head>
@@ -471,7 +464,8 @@
             </div>
 
             <div class="actions">
-                <a href="#" class="artist-btn" aria-label="Mach ma fertig!" onclick="openContact(event)">
+                <!-- BUTTON WURDE REPARIERT -->
+                <a class="artist-btn" aria-label="Mach ma fertig!" onclick="openContact(event)">
                     <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
                         <path fill="var(--brand-green)" d="M 25,22 C 40,16 110,18 160,15 C 220,12 280,20 298,28 C 310,38 305,68 290,82 C 260,95 180,88 120,94 C 75,98 35,92 18,80 C 8,68 10,35 25,22 Z" />
                         <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#1a2e05" class="btn-text">
@@ -522,7 +516,7 @@
         </section>
     </main>
 
-    <!-- DAS ACTION OVERLAY (BUG-FREIER SPLIT SCREEN) -->
+    <!-- DAS ACTION OVERLAY -->
     <div class="contact-overlay" id="contact-overlay" onclick="closeContact(event)">
         
         <!-- DIE GEMEINSAME KACHEL -->
@@ -551,10 +545,10 @@
 
     </div>
 
-    <!-- JAVASCRIPT (PARALLAX & MENÜ) -->
+    <!-- JAVASCRIPT -->
     <script>
         function openContact(e) {
-            e.preventDefault(); 
+            if(e) e.preventDefault(); 
             document.getElementById('contact-overlay').classList.add('is-active');
         }
 
@@ -591,4 +585,17 @@
                 heroContent.style.transform = `translate(-50%, ${translateY}%) scale(${scale})`;
                 heroContent.style.opacity = 1 - (progress * fadeMultiplier);
 
-                swipeH
+                swipeHint.style.opacity = 1 - (progress * 2.5);
+            }
+            ticking = false;
+        }
+
+        scrollContainer.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(updateParallax);
+                ticking = true;
+            }
+        });
+    </script>
+</body>
+</html>
