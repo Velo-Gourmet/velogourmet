@@ -194,6 +194,7 @@
             margin-top: 40px;
         }
 
+        /* --- RESTITUIERTE ANDROID-FUNKTIONALITÄT --- */
         .artist-btn {
             display: block;
             width: 100%;
@@ -201,6 +202,15 @@
             transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.4s ease;
             -webkit-tap-highlight-color: transparent;
             cursor: pointer;
+            position: relative; /* Zwingend erforderlich für die Schutzschicht */
+        }
+
+        /* Transparente Schutzschicht zur Stabilisierung der Touch-Eingabe */
+        .artist-btn::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 10;
         }
 
         .artist-btn:hover {
@@ -406,7 +416,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px; /* Abstand zwischen Icon und Text */
+            gap: 8px;
             width: 100%;
             padding: 14px 10px; 
             background: var(--card-white);
@@ -420,7 +430,6 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Die Icons nehmen automatisch die Textfarbe an */
         .contact-option svg {
             width: 18px;
             height: 18px;
@@ -449,12 +458,6 @@
 </head>
 <body>
 
-    <!-- BEGINN DER KONTROLLVARIABLE -->
-    <div style="background: red; color: white; position: fixed; top: 0; left: 0; width: 100%; z-index: 9999; text-align: center; padding: 10px; font-weight: bold;">
-        SYNCHRONISATIONS-TEST
-    </div>
-    <!-- ENDE DER KONTROLLVARIABLE -->
-    
     <main class="scroll-container" id="scroll-container">
         <section class="section hero-section" id="hero">
             <div class="hero-bg" id="hero-bg"></div>
@@ -474,8 +477,8 @@
             </div>
 
             <div class="actions">
-                <!-- DER FUNKTIONIERENDE ANDROID-BUTTON -->
-                <a class="artist-btn" aria-label="Mach ma fertig!" onclick="openContact(event)">
+                <!-- DER RESTITUIERTE ANDROID-BUTTON MIT KORREKTEM ZIEL-ATTRIBUT -->
+                <a href="javascript:void(0);" class="artist-btn" aria-label="Mach ma fertig!" onclick="openContact(event)">
                     <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
                         <path fill="var(--brand-green)" d="M 25,22 C 40,16 110,18 160,15 C 220,12 280,20 298,28 C 310,38 305,68 290,82 C 260,95 180,88 120,94 C 75,98 35,92 18,80 C 8,68 10,35 25,22 Z" />
                         <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#1a2e05" class="btn-text">
@@ -531,7 +534,6 @@
         
         <div class="split-sheet" onclick="event.stopPropagation()">
             
-            <!-- HIER IST NUN ENDLICH DER AUSFÜHRLICHE TEXT (mit sicherem Inline-Styling) -->
             <div class="sheet-half info-half">
                 <h3 class="sheet-title">Ablauf</h3>
                 <div style="font-size: 13px; font-weight: 500; margin-bottom: 10px; line-height: 1.4;">
@@ -544,7 +546,6 @@
                 </ul>
             </div>
 
-            <!-- HIER SIND DIE ICONS -->
             <div class="sheet-half contact-half">
                 <h3 class="sheet-title">Anfrage</h3>
                 
@@ -558,4 +559,69 @@
                     Telefon
                 </a>
                 
-                <a href="mailto:hallo@velogourmet.berlin" class="contact-opti
+                <a href="mailto:hallo@velogourmet.berlin" class="contact-option">
+                    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    E-Mail
+                </a>
+                
+                <button class="sheet-close" onclick="closeContact(event)">Schließen</button>
+            </div>
+            
+        </div>
+
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        function openContact(e) {
+            if(e) e.preventDefault(); 
+            document.getElementById('contact-overlay').classList.add('is-active');
+        }
+
+        function closeContact(e) {
+            if(e) e.preventDefault();
+            document.getElementById('contact-overlay').classList.remove('is-active');
+        }
+
+        const scrollContainer = document.getElementById('scroll-container');
+        const heroBg = document.getElementById('hero-bg');
+        const heroContent = document.getElementById('hero-content');
+        const swipeHint = document.getElementById('swipe-hint');
+
+        let ticking = false;
+
+        function updateParallax() {
+            const scrolled = scrollContainer.scrollTop;
+            const containerHeight = scrollContainer.clientHeight;
+            const containerWidth = scrollContainer.clientWidth;
+            
+            const isPortrait = containerHeight > containerWidth;
+
+            if (scrolled <= containerHeight) {
+                const progress = scrolled / containerHeight;
+
+                heroBg.style.transform = `translateY(${scrolled * 0.4}px)`;
+
+                const speedMultiplierY = isPortrait ? -8 : -15; 
+                const fadeMultiplier = isPortrait ? 0.8 : 1.2;
+                const scale = 1 - progress * (isPortrait ? 0.05 : 0.1);
+
+                const translateY = -50 + (progress * speedMultiplierY);
+                
+                heroContent.style.transform = `translate(-50%, ${translateY}%) scale(${scale})`;
+                heroContent.style.opacity = 1 - (progress * fadeMultiplier);
+
+                swipeHint.style.opacity = 1 - (progress * 2.5);
+            }
+            ticking = false;
+        }
+
+        scrollContainer.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(updateParallax);
+                ticking = true;
+            }
+        });
+    </script>
+</body>
+</html>
