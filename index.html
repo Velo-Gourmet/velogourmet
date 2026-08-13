@@ -413,6 +413,43 @@
         }
 
         }
+        
+        /* --- HIER WIRD DER NEUE CODE EINGEFÜGT --- */
+
+        /* --- STYLING FÜR DEN KOPIER-BUTTON --- */
+        .copy-btn {
+            margin-top: 25px;
+            background: transparent;
+            border: 1px solid rgba(0,0,0,0.15);
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: var(--text-dark);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .copy-btn svg {
+            margin-right: 8px;
+        }
+
+        .copy-btn:active {
+            background: rgba(0,0,0,0.05);
+            transform: scale(0.97);
+        }
+
+        /* Feedback-Status nach erfolgreichem Klick */
+        .copy-btn.is-copied {
+            background: var(--brand-green);
+            border-color: var(--brand-green);
+            color: #1a2e05;
+        }
+        
+        /* --- HIER GEHT IHR BESTEHENDER CODE WEITER (falls zutreffend) --- */
 
         /* --- STYLING FÜR DIE BUTTONS MIT ICONS --- */
         .contact-option {
