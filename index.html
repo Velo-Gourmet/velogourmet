@@ -333,7 +333,7 @@
         }
 
         /* ==========================================
-           7. ACTION OVERLAY (SPLIT SCREEN)
+           7. ACTION OVERLAY (BERLIN GLASS - SMOOTH)
            ========================================== */
         .contact-overlay {
             position: fixed;
@@ -341,92 +341,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(27, 36, 30, 0.4);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            z-index: 100;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
-        }
-
-        .contact-overlay.is-active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .split-sheet {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            display: flex; 
-            flex-direction: row;
-            border-radius: 0 0 32px 32px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-            overflow: hidden; 
-            transform: translateY(-100%);
-            transition: transform 0.5s cubic-bezier(0.32, 1.15, 0.6, 1);
-        }
-
-        .contact-overlay.is-active .split-sheet {
-            transform: translateY(0);
-        }
-
-        .sheet-half {
-            width: 50%;
-            padding: max(40px, env(safe-area-inset-top)) 15px 25px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .info-half {
-            background: var(--bg-sage);
-        }
-
-        .contact-half {
-            background: var(--bg-sand);
-            gap: 10px;
-        }
-
-        .sheet-title {
-            font-size: 18px; 
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 15px;
-            letter-spacing: -0.5px;
-        }
-
-        .info-list {
-            padding-left: 22px;
-            font-size: 14px;
-            color: var(--text-dark);
-            line-height: 1.7;
-            margin-top: 5px;
-        }
-
-        .info-list li {
-            margin-bottom: 18px;
-            font-weight: 500;
-            padding-left: 4px;
-        }
-
-                /* ==========================================
-           7. ACTION OVERLAY (BERLIN GLASS)
-           ========================================== */
-        .contact-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(27, 36, 30, 0.45); /* Abgedunkelter Hintergrund für Kontrast */
+            background: rgba(27, 36, 30, 0.45);
             backdrop-filter: blur(6px);
             -webkit-backdrop-filter: blur(6px);
             z-index: 100;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.4s ease;
         }
 
         .contact-overlay.is-active {
@@ -442,17 +363,17 @@
             max-width: 800px;
             display: flex; 
             flex-direction: column;
-            background: rgba(244, 241, 234, 0.7); /* Transluzenter Sand-Ton */
+            background: rgba(244, 241, 234, 0.7); 
             backdrop-filter: blur(28px) saturate(180%);
             -webkit-backdrop-filter: blur(28px) saturate(180%);
-            border: 1px solid rgba(193, 255, 114, 0.4); /* Leuchtender Brand-Green Rand */
+            border: 1px solid rgba(193, 255, 114, 0.4); 
             border-radius: 28px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.2), 0 0 35px rgba(193, 255, 114, 0.12); /* Neon Glow */
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2), 0 0 35px rgba(193, 255, 114, 0.12); 
             overflow: hidden; 
-            /* Spring Animation Setup */
-            transform: translate(-50%, 25%) scale(0.92);
+            /* Ruhige, weiche Einblendung ohne Feder-Effekt */
+            transform: translate(-50%, 5%) scale(0.98);
             opacity: 0;
-            transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+            transition: transform 0.4s ease-out, opacity 0.4s ease-out;
         }
 
         .contact-overlay.is-active .split-sheet {
@@ -574,7 +495,7 @@
 
         .copy-btn:active, .contact-option:active {
             transform: scale(0.97) translateY(0);
-            background: rgba(193, 255, 114, 0.6); /* Brand Green Overlay */
+            background: rgba(193, 255, 114, 0.6); 
             border-color: var(--brand-green);
             box-shadow: 0 0 15px rgba(193, 255, 114, 0.3);
         }
@@ -607,12 +528,10 @@
             background: rgba(0,0,0,0.08);
             transform: scale(0.96);
         }
-
-            
-        
     </style>
 </head>
-<body>
+
+    <body>
 
     <main class="scroll-container" id="scroll-container">
         <section class="section hero-section" id="hero">
@@ -633,7 +552,6 @@
             </div>
 
             <div class="actions">
-                <!-- DER RESTITUIERTE ANDROID-BUTTON MIT KORREKTEM ZIEL-ATTRIBUT -->
                 <a href="javascript:void(0);" class="artist-btn" aria-label="Mach ma fertig!" onclick="openContact(event)">
                     <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
                         <path fill="var(--brand-green)" d="M 25,22 C 40,16 110,18 160,15 C 220,12 280,20 298,28 C 310,38 305,68 290,82 C 260,95 180,88 120,94 C 75,98 35,92 18,80 C 8,68 10,35 25,22 Z" />
@@ -690,7 +608,6 @@
         
         <div class="split-sheet" onclick="event.stopPropagation()">
             
-            <!-- HIER IST NUN DIE LÜCKENTEXT-VORLAGE INKLUSIVE KOPIER-FUNKTION -->
             <div class="sheet-half info-half" style="-webkit-user-select: text; user-select: text;">
                 <h3 class="sheet-title">Anfrage</h3>
                 <div style="font-size: 13px; font-weight: 500; margin-bottom: 15px; line-height: 1.4;">
@@ -703,7 +620,6 @@
                     <li><strong style="font-weight: 700; color: #000;">Menü/Allergien:</strong> [Details]</li>
                 </ul>
                 
-                <!-- Der dedizierte Kopier-Button -->
                 <button class="copy-btn" id="copy-btn" onclick="copyInfoText()">
                     <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
                         <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
@@ -814,3 +730,4 @@
     </script>
 </body>
 </html>
+j
