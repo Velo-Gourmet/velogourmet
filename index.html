@@ -411,82 +411,205 @@
             padding-left: 4px;
         }
 
-        /* --- STYLING FÜR DEN KOPIER-BUTTON --- */
-        .copy-btn {
-            margin-top: 25px;
+                /* ==========================================
+           7. ACTION OVERLAY (BERLIN GLASS)
+           ========================================== */
+        .contact-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(27, 36, 30, 0.45); /* Abgedunkelter Hintergrund für Kontrast */
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .contact-overlay.is-active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .split-sheet {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 92%;
+            max-width: 800px;
+            display: flex; 
+            flex-direction: column;
+            background: rgba(244, 241, 234, 0.7); /* Transluzenter Sand-Ton */
+            backdrop-filter: blur(28px) saturate(180%);
+            -webkit-backdrop-filter: blur(28px) saturate(180%);
+            border: 1px solid rgba(193, 255, 114, 0.4); /* Leuchtender Brand-Green Rand */
+            border-radius: 28px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2), 0 0 35px rgba(193, 255, 114, 0.12); /* Neon Glow */
+            overflow: hidden; 
+            /* Spring Animation Setup */
+            transform: translate(-50%, 25%) scale(0.92);
+            opacity: 0;
+            transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+        }
+
+        .contact-overlay.is-active .split-sheet {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        @media (min-width: 600px) {
+            .split-sheet {
+                flex-direction: row;
+            }
+        }
+
+        .sheet-half {
+            width: 100%;
+            padding: 25px 20px;
+            display: flex;
+            flex-direction: column;
             background: transparent;
-            border: 1px solid rgba(0,0,0,0.15);
-            border-radius: 8px;
-            padding: 10px 14px;
+        }
+
+        @media (min-width: 600px) {
+            .sheet-half {
+                width: 50%;
+                padding: 40px 30px;
+            }
+            .info-half {
+                border-right: 1px solid rgba(193, 255, 114, 0.25);
+            }
+        }
+
+        .info-half {
+            /* Fallback-Trennlinie für Mobile */
+            border-bottom: 1px solid rgba(193, 255, 114, 0.25);
+        }
+        @media (min-width: 600px) {
+            .info-half {
+                border-bottom: none;
+            }
+        }
+
+        .contact-half {
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .sheet-title {
+            font-size: 20px; 
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .info-list {
+            padding-left: 0;
+            font-size: 14px;
             color: var(--text-dark);
-            font-size: 13px;
+            line-height: 1.7;
+            margin-top: 5px;
+            list-style-type: none;
+        }
+
+        .info-list li {
+            margin-bottom: 12px;
+            font-weight: 500;
+            padding-left: 0;
+        }
+
+        /* --- GLAS-STYLING FÜR BUTTONS --- */
+        .copy-btn, .contact-option {
+            background: rgba(255, 255, 255, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 14px;
+            color: var(--text-dark);
             font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            -webkit-tap-highlight-color: transparent;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+
+        .copy-btn {
+            margin-top: 15px;
+            padding: 12px 14px;
+            font-size: 14px;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            transition: all 0.2s ease;
-            -webkit-tap-highlight-color: transparent;
+            justify-content: center;
+            width: 100%;
         }
 
         .copy-btn svg {
             margin-right: 8px;
         }
 
-        .copy-btn:active {
-            background: rgba(0,0,0,0.05);
-            transform: scale(0.97);
-        }
-
-        /* Feedback-Status nach erfolgreichem Klick */
-        .copy-btn.is-copied {
-            background: var(--brand-green);
-            border-color: var(--brand-green);
-            color: #1a2e05;
-        }
-
-        /* --- STYLING FÜR DIE BUTTONS MIT ICONS --- */
         .contact-option {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
             width: 100%;
             padding: 14px 10px; 
-            background: var(--card-white);
-            border: 1px solid rgba(0,0,0,0.05);
-            border-radius: 14px;
-            text-decoration: none;
-            color: var(--text-dark);
-            font-weight: 600;
             font-size: 15px; 
-            transition: transform 0.2s, background 0.2s;
-            -webkit-tap-highlight-color: transparent;
+            text-decoration: none;
         }
 
         .contact-option svg {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             fill: currentColor; 
         }
 
-        .contact-option:active {
-            transform: scale(0.97);
-            background: var(--brand-green);
+        /* Hover & Active States mit Neon-Akzent */
+        .copy-btn:hover, .contact-option:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
         }
 
+        .copy-btn:active, .contact-option:active {
+            transform: scale(0.97) translateY(0);
+            background: rgba(193, 255, 114, 0.6); /* Brand Green Overlay */
+            border-color: var(--brand-green);
+            box-shadow: 0 0 15px rgba(193, 255, 114, 0.3);
+        }
+
+        .copy-btn.is-copied {
+            background: var(--brand-green);
+            border-color: var(--brand-green);
+            color: #1a2e05;
+            box-shadow: 0 0 20px rgba(193, 255, 114, 0.5);
+        }
+
+        /* Eleganterer Schließen-Button für die schwebende Kachel */
         .sheet-close {
-            margin-top: 8px;
-            background: none;
-            border: none;
-            color: #777;
-            font-size: 14px;
+            margin-top: 15px;
+            background: rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.02);
+            border-radius: 20px;
+            color: var(--text-dark);
+            font-size: 13px;
             font-weight: 600;
-            padding: 12px;
+            padding: 10px 24px;
             cursor: pointer;
-            text-decoration: underline;
             -webkit-tap-highlight-color: transparent;
             align-self: center;
+            transition: all 0.2s;
+            text-decoration: none;
         }
+
+        .sheet-close:active {
+            background: rgba(0,0,0,0.08);
+            transform: scale(0.96);
+        }
+
+            
+        
     </style>
 </head>
 <body>
