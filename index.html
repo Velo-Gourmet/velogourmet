@@ -235,7 +235,7 @@
             font-weight: 700;
             letter-spacing: -0.5px;
         }
-               /* ==========================================
+                /* ==========================================
            5. MODERN GALERIE-SECTION
            ========================================== */
         .gallery-section {
@@ -489,7 +489,7 @@
         }
     </style>
 </head>
-   <body>
+<body>
 
     <main class="scroll-container" id="scroll-container">
         <section class="section hero-section" id="hero">
@@ -567,16 +567,17 @@
         
         <div class="split-sheet" onclick="event.stopPropagation()">
             
-            <!-- HIER IST NUN DER OPTIMIERTE TEXT INKLUSIVE DUALER KOPIER-FUNKTION -->
+            <!-- HIER IST NUN DIE LÜCKENTEXT-VORLAGE INKLUSIVE KOPIER-FUNKTION -->
             <div class="sheet-half info-half" style="-webkit-user-select: text; user-select: text;">
-                <h3 class="sheet-title">Ablauf</h3>
-                <div style="font-size: 13px; font-weight: 500; margin-bottom: 20px; line-height: 1.5;">
-                    Es gibt was zu feiern und du brauchst einen Koch?<br><br>Sag mir einfach:
+                <h3 class="sheet-title">Anfrage</h3>
+                <div style="font-size: 13px; font-weight: 500; margin-bottom: 15px; line-height: 1.4;">
+                    Kopiere diese Vorlage und fülle die Lücken für eine schnelle Bearbeitung aus:
                 </div>
-                <ul class="info-list">
-                    <li><strong style="font-weight: 700; color: #000;">WO</strong> und <strong style="font-weight: 700; color: #000;">WANN</strong></li>
-                    <li><strong style="font-weight: 700; color: #000;">WIE VIELE</strong> Gäste kommen werden</li>
-                    <li><strong style="font-weight: 700; color: #000;">WAS</strong> auf den Tisch kommt und ob es Wünsche oder <strong style="font-weight: 700; color: #000;">ALLERGIEN</strong> gibt</li>
+                <ul class="info-list" style="list-style-type: none; padding-left: 0; margin-top: 0;">
+                    <li><strong style="font-weight: 700; color: #000;">Wann:</strong> [Datum/Uhrzeit]</li>
+                    <li><strong style="font-weight: 700; color: #000;">Wo:</strong> [Ort in Berlin]</li>
+                    <li><strong style="font-weight: 700; color: #000;">Gäste:</strong> [Anzahl]</li>
+                    <li><strong style="font-weight: 700; color: #000;">Menü/Allergien:</strong> [Details]</li>
                 </ul>
                 
                 <!-- Der dedizierte Kopier-Button -->
@@ -584,12 +585,12 @@
                     <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
                         <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
                     </svg>
-                    <span id="copy-btn-text">Text kopieren</span>
+                    <span id="copy-btn-text">Vorlage kopieren</span>
                 </button>
             </div>
 
             <div class="sheet-half contact-half">
-                <h3 class="sheet-title">Anfrage</h3>
+                <h3 class="sheet-title">Kontakt</h3>
                 
                 <a href="https://wa.me/4915100000000" target="_blank" class="contact-option">
                     <svg viewBox="0 0 24 24"><path d="M12.031 21c-1.566 0-3.08-.422-4.41-1.223l-4.925 1.284 1.31-4.8A8.955 8.955 0 012.79 12.046c0-4.962 4.04-9 9.02-9s9.02 4.038 9.02 9c0 4.962-4.04 9-9.02 9zm4.846-5.836c-.266-.134-1.572-.776-1.815-.865-.243-.09-.42-.134-.597.134-.177.268-.685.865-.84.1042-.155.177-.31.222-.575.09-1.29-.636-2.28-1.464-2.885-2.733-.155-.268-.017-.412.116-.546.12-.12.266-.312.4-.468.134-.156.178-.268.267-.446.09-.178.045-.334-.022-.468-.067-.134-.597-1.44-.817-1.97-.215-.516-.433-.446-.597-.454-.155-.008-.333-.008-.51-.008-.177 0-.465.067-.71.334-.244.268-.93 .91-.93 2.22s.953 2.573 1.086 2.75c.134.178 1.87 2.855 4.53 4.002.634.273 1.127.436 1.512.558.636.202 1.215.174 1.674.105.516-.076 1.572-.642 1.794-1.263.222-.62.222-1.15.155-1.262-.067-.11-.244-.177-.51-.31z"/></svg>
@@ -626,8 +627,8 @@
         }
 
         function copyInfoText() {
-            // Der formattierte Text, der in die Zwischenablage gelegt wird
-            const textContent = "Es gibt was zu feiern und du brauchst einen Koch?\n\nSag mir einfach:\n- WO und WANN\n- WIE VIELE Gäste kommen werden\n- WAS auf den Tisch kommt und ob es Wünsche oder ALLERGIEN gibt";
+            // Der formattierte Lückentext, der exakt so in die Zwischenablage gelegt wird
+            const textContent = "Hallo Velo Gourmet,\nich interessiere mich für ein Catering mit dem Lastenrad. Hier sind die Eckdaten:\n\nWann: [Datum / Uhrzeit]\nWo: [Ort in Berlin]\nGästezahl: [Anzahl]\nWünsche/Allergien: [Details]\n\nViele Grüße,\n[Dein Name]";
             
             // Aufruf der nativen Clipboard API
             navigator.clipboard.writeText(textContent).then(() => {
@@ -641,7 +642,7 @@
                 // Nach 2,5 Sekunden in den Ursprungszustand zurückversetzen
                 setTimeout(() => {
                     btn.classList.remove('is-copied');
-                    btnText.innerText = 'Text kopieren';
+                    btnText.innerText = 'Vorlage kopieren';
                 }, 2500);
             }).catch(err => {
                 console.error('Fehler bei der Zwischenablage: ', err);
