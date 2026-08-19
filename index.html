@@ -194,7 +194,6 @@
             margin-top: 40px;
         }
 
-        /* --- RESTITUIERTE ANDROID-FUNKTIONALITÄT --- */
         .artist-btn {
             display: block;
             width: 100%;
@@ -205,7 +204,6 @@
             position: relative; 
         }
 
-        /* Transparente Schutzschicht zur Stabilisierung der Touch-Eingabe */
         .artist-btn::after {
             content: '';
             position: absolute;
@@ -236,155 +234,132 @@
             letter-spacing: -0.5px;
         }
                 /* ==========================================
-           5. MODERN GALERIE-SECTION
+           5. INFINITE MARQUEE (FILM-STRIP)
            ========================================== */
         .gallery-section {
             background-color: var(--bg-sage);
             z-index: 4;
+            padding: 60px 0; /* Mehr Platz oben/unten, Rand nach links/rechts offen */
+            justify-content: flex-start;
         }
 
         .gallery-title {
             font-size: 26px;
             font-weight: 700;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             letter-spacing: -0.5px;
+            text-align: center;
         }
 
-        .gallery-deck {
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            cursor: grab;
+            touch-action: pan-y; /* Erlaubt vertikales Scrollen der Seite, fängt horizontales Wischen ab */
+            user-select: none;
+            -webkit-user-select: none;
+            padding: 10px 0;
+        }
+
+        .marquee-container:active {
+            cursor: grabbing;
+        }
+
+        .marquee-track {
             display: flex;
             gap: 20px;
-            width: 100%;
-            max-width: 900px;
-            overflow-x: auto;
-            padding: 20px 10px;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
+            /* Kein CSS Transition hier! JS übernimmt für 60fps Physik */
+            will-change: transform;
+            padding-left: 20px; /* Initialer Abstand */
         }
 
-        .gallery-deck::-webkit-scrollbar {
-            display: none;
-        }
-
-        .gallery-card {
-            flex: 0 0 280px;
-            height: 380px;
+        .marquee-card {
+            flex: 0 0 260px; /* Feste Breite der "Film-Kader" */
+            height: 360px;
             background: var(--card-white);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            padding: 20px;
-            border: 1px solid rgba(255,255,255,0.6);
-            scroll-snap-align: center;
+            border-radius: 20px;
+            padding: 15px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.4s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255,255,255,0.8);
+            pointer-events: none; /* Verhindert Störungen beim Draggen */
             position: relative;
-            overflow: hidden;
-        }
-
-        .gallery-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-radius: 12px 36px 12px 36px;
         }
 
         .card-image-placeholder {
             width: 100%;
-            height: 200px;
+            height: 220px;
             background: rgba(0,0,0,0.04);
-            border-radius: 16px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            font-size: 13px;
             color: #777;
+            font-weight: 500;
+            text-align: center;
+            padding: 10px;
         }
 
         .card-info h4 {
-            font-size: 20px;
-            margin-bottom: 6px;
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: var(--text-dark);
         }
 
         .card-info p {
-            font-size: 14px;
+            font-size: 13px;
             color: #555;
             line-height: 1.4;
         }
 
         /* ==========================================
-           6. ANIMATIONEN & RESPONSIVE
+           6. ACTION & LIGHTBOX OVERLAYS (BERLIN GLASS)
            ========================================== */
-        @keyframes fadeInMorph {
-            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); filter: blur(8px); }
-            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: blur(0); }
-        }
-
-        @keyframes floatBounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(8px); }
-        }
-        
-        @media (min-width: 768px) {
-            .logo-img {
-                width: clamp(400px, 75vmin, 800px);
-                height: clamp(400px, 75vmin, 800px);
-            }
-        }
-
-        /* ==========================================
-           7. ACTION OVERLAY (BERLIN GLASS)
-           ========================================== */
-        .contact-overlay {
+        .glass-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(27, 36, 30, 0.45);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             z-index: 100;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .contact-overlay.is-active {
+        .glass-overlay.is-active {
             opacity: 1;
             pointer-events: all;
         }
 
-        .split-sheet {
-            position: absolute;
-            top: 50%;
-            left: 50%;
+        .glass-sheet {
             width: 92%;
             max-width: 800px;
-            display: flex; 
-            flex-direction: column;
-            background: rgba(244, 241, 234, 0.7);
+            background: rgba(244, 241, 234, 0.75);
             backdrop-filter: blur(28px) saturate(180%);
             -webkit-backdrop-filter: blur(28px) saturate(180%);
             border: 1px solid rgba(193, 255, 114, 0.4);
             border-radius: 28px;
             box-shadow: 0 30px 60px rgba(0,0,0,0.2), 0 0 35px rgba(193, 255, 114, 0.12);
             overflow: hidden; 
-            /* Spring Animation Setup */
-            transform: translate(-50%, 25%) scale(0.92);
-            opacity: 0;
-            transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+            transform: translateY(25px) scale(0.95);
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            flex-direction: column;
         }
 
-        .contact-overlay.is-active .split-sheet {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 1;
-        }
+        /* Split-Design für Kontakt */
+        .contact-layout { flex-direction: column; }
+        @media (min-width: 600px) { .contact-layout { flex-direction: row; } }
 
-        @media (min-width: 600px) {
-            .split-sheet {
-                flex-direction: row;
-            }
+        .glass-overlay.is-active .glass-sheet {
+            transform: translateY(0) scale(1);
         }
 
         .sheet-half {
@@ -392,31 +367,30 @@
             padding: 25px 20px;
             display: flex;
             flex-direction: column;
-            background: transparent;
         }
 
         @media (min-width: 600px) {
-            .sheet-half {
-                width: 50%;
-                padding: 40px 30px;
-            }
-            .info-half {
-                border-right: 1px solid rgba(193, 255, 114, 0.25);
-            }
+            .contact-layout .sheet-half { width: 50%; padding: 40px 30px; }
+            .contact-layout .info-half { border-right: 1px solid rgba(193, 255, 114, 0.25); }
         }
 
-        .info-half {
-            border-bottom: 1px solid rgba(193, 255, 114, 0.25);
+        /* Lightbox Spezifisch */
+        .lightbox-layout {
+            padding: 30px 20px;
+            text-align: center;
+            align-items: center;
         }
-        @media (min-width: 600px) {
-            .info-half {
-                border-bottom: none;
-            }
-        }
-
-        .contact-half {
-            gap: 12px;
+        .lightbox-hero-img {
+            width: 100%;
+            height: 250px;
+            background: rgba(0,0,0,0.05);
+            border-radius: 16px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
             justify-content: center;
+            font-size: 14px;
+            color: #666;
         }
 
         .sheet-title {
@@ -427,23 +401,10 @@
             letter-spacing: -0.5px;
         }
 
-        .info-list {
-            padding-left: 0;
-            font-size: 14px;
-            color: var(--text-dark);
-            line-height: 1.7;
-            margin-top: 5px;
-            list-style-type: none;
-        }
+        .info-list { padding-left: 0; font-size: 14px; line-height: 1.7; margin-top: 5px; list-style: none; }
+        .info-list li { margin-bottom: 12px; font-weight: 500; }
 
-        .info-list li {
-            margin-bottom: 12px;
-            font-weight: 500;
-            padding-left: 0;
-        }
-
-        /* --- GLAS-STYLING FÜR BUTTONS --- */
-        .copy-btn, .contact-option {
+        .glass-btn {
             background: rgba(255, 255, 255, 0.35);
             border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 14px;
@@ -452,78 +413,44 @@
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             -webkit-tap-highlight-color: transparent;
             box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-        }
-
-        .copy-btn {
-            margin-top: 15px;
-            padding: 12px 14px;
-            font-size: 14px;
-            cursor: pointer;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             width: 100%;
-        }
-
-        .copy-btn svg {
-            margin-right: 8px;
-        }
-
-        .contact-option {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            padding: 14px 10px; 
-            font-size: 15px; 
+            padding: 12px 14px;
+            font-size: 14px;
+            cursor: pointer;
             text-decoration: none;
+            margin-bottom: 10px;
         }
-
-        .contact-option svg {
-            width: 20px;
-            height: 20px;
-            fill: currentColor; 
-        }
-
-        .copy-btn:hover, .contact-option:hover {
-            background: rgba(255, 255, 255, 0.5);
-            transform: translateY(-2px);
-        }
-
-        .copy-btn:active, .contact-option:active {
+        
+        .glass-btn svg { margin-right: 8px; width: 18px; height: 18px; fill: currentColor; }
+        
+        .glass-btn:hover { background: rgba(255, 255, 255, 0.5); transform: translateY(-2px); }
+        .glass-btn:active {
             transform: scale(0.97) translateY(0);
             background: rgba(193, 255, 114, 0.6);
             border-color: var(--brand-green);
             box-shadow: 0 0 15px rgba(193, 255, 114, 0.3);
         }
-
-        .copy-btn.is-copied {
-            background: var(--brand-green);
-            border-color: var(--brand-green);
-            color: #1a2e05;
-            box-shadow: 0 0 20px rgba(193, 255, 114, 0.5);
+        .glass-btn.is-copied {
+            background: var(--brand-green); border-color: var(--brand-green); color: #1a2e05;
         }
 
         .sheet-close {
             margin-top: 15px;
-            background: rgba(0,0,0,0.04);
-            border: 1px solid rgba(0,0,0,0.02);
-            border-radius: 20px;
-            color: var(--text-dark);
-            font-size: 13px;
-            font-weight: 600;
-            padding: 10px 24px;
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-            align-self: center;
-            transition: all 0.2s;
-            text-decoration: none;
+            background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02);
+            border-radius: 20px; color: var(--text-dark); font-size: 13px;
+            font-weight: 600; padding: 10px 24px; cursor: pointer;
+            align-self: center; transition: all 0.2s; border: none;
         }
+        .sheet-close:active { background: rgba(0,0,0,0.08); transform: scale(0.96); }
 
-        .sheet-close:active {
-            background: rgba(0,0,0,0.08);
-            transform: scale(0.96);
+        @media (min-width: 768px) {
+            .logo-img {
+                width: clamp(400px, 75vmin, 800px);
+                height: clamp(400px, 75vmin, 800px);
+            }
         }
     </style>
 </head>
@@ -557,7 +484,6 @@
                     </svg>
                 </a>
 
-                <!-- HIER IST DER AKTUALISIERTE ROSA BUTTON -->
                 <a href="#galerie" class="artist-btn" aria-label="Appetit holen">
                     <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
                         <path fill="var(--brand-rose)" d="M 22,25 C 55,18 130,14 180,18 C 240,21 275,15 295,25 C 308,35 312,65 292,80 C 265,92 195,96 130,90 C 80,86 40,95 20,82 C 5,70 8,38 22,25 Z" />
@@ -568,159 +494,256 @@
                 </a>
             </div>
         </section>
-
-        <section class="section gallery-section" id="galerie">
+                <section class="section gallery-section" id="galerie">
             <h2 class="gallery-title">Saisonale Impressionen</h2>
             
-            <div class="gallery-deck">
-                <div class="gallery-card">
-                    <div class="card-image-placeholder">Foto: Hermannplatz</div>
-                    <div class="card-info">
-                        <h4>Hermannplatz</h4>
-                        <p>Levante & mediterrane Mezze direkt vom Lastenrad.</p>
+            <div class="marquee-container" id="marquee-container">
+                <div class="marquee-track" id="marquee-track">
+                    
+                    <!-- Film-Kader 1 -->
+                    <div class="marquee-card" data-title="Levantische Mezze" data-desc="Eine opulente Auswahl mediterraner Dips, Oliven und frischem Pita-Brot. Direkt serviert aus der Cargo-Box." data-img="Foto: Mezze am Hermannplatz">
+                        <div class="card-image-placeholder">Foto: Mezze am Hermannplatz</div>
+                        <div class="card-info">
+                            <h4>Levantische Mezze</h4>
+                            <p>Kaltes Buffet & Fingerfood</p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="gallery-card">
-                    <div class="card-image-placeholder">Foto: Prenzlauer Berg</div>
-                    <div class="card-info">
-                        <h4>Prenzlauer Berg</h4>
-                        <p>Pflanzliche Gourmet-Variationen & frische Kräuter.</p>
+                    <!-- Film-Kader 2 -->
+                    <div class="marquee-card" data-title="Pflanzliche Gourmet-Variationen" data-desc="Frische, vegane Kompositionen mit saisonalen Kräutern und Texturen, die überraschen." data-img="Foto: Pflanzliches Setup">
+                        <div class="card-image-placeholder">Foto: Pflanzliches Setup</div>
+                        <div class="card-info">
+                            <h4>Gourmet-Variationen</h4>
+                            <p>100% Pflanzlich</p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="gallery-card">
-                    <div class="card-image-placeholder">Foto: Catering & Events</div>
-                    <div class="card-info">
-                        <h4>Catering & Events</h4>
-                        <p>Nachhaltiges Setup für urbane Feiern in Berlin.</p>
+                    <!-- Film-Kader 3 -->
+                    <div class="marquee-card" data-title="Das Lastenrad-Setup" data-desc="Unser Markenzeichen: Nachhaltige Anlieferung und autarke Präsentation direkt am Ort Ihrer Wahl." data-img="Foto: Cargo Bike Logistik">
+                        <div class="card-image-placeholder">Foto: Cargo Bike Logistik</div>
+                        <div class="card-info">
+                            <h4>Urbane Logistik</h4>
+                            <p>Nachhaltiges Event-Setup</p>
+                        </div>
                     </div>
+
+                    <!-- Film-Kader 4 -->
+                    <div class="marquee-card" data-title="Süße Berliner Versuchung" data-desc="Handgemachte, vegane Desserts als perfekter Abschluss für Ihr Event." data-img="Foto: Vegane Desserts">
+                        <div class="card-image-placeholder">Foto: Vegane Desserts</div>
+                        <div class="card-info">
+                            <h4>Süße Versuchung</h4>
+                            <p>Dessert & Gebäck</p>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- DAS ACTION OVERLAY -->
-    <div class="contact-overlay" id="contact-overlay" onclick="closeContact(event)">
-        
-        <div class="split-sheet" onclick="event.stopPropagation()">
+    <!-- LIGHTBOX OVERLAY (Fokus Gericht) -->
+    <div class="glass-overlay" id="lightbox-overlay" onclick="closeLightbox(event)">
+        <div class="glass-sheet lightbox-layout" onclick="event.stopPropagation()">
+            <div class="lightbox-hero-img" id="lb-img">Lade...</div>
+            <h3 class="sheet-title" id="lb-title">Titel</h3>
+            <p style="font-size: 14px; line-height: 1.6; margin-bottom: 20px; color: #444;" id="lb-desc">Beschreibung</p>
+            
+            <button class="glass-btn" onclick="closeLightbox(event)" style="background: var(--brand-green); color: #1a2e05; border-color: var(--brand-green);">
+                Ausgezeichnet!
+            </button>
+            <button class="sheet-close" onclick="closeLightbox(event)">Schließen</button>
+        </div>
+    </div>
+
+    <!-- KONTAKT OVERLAY -->
+    <div class="glass-overlay" id="contact-overlay" onclick="closeContact(event)">
+        <div class="glass-sheet contact-layout" onclick="event.stopPropagation()">
             
             <div class="sheet-half info-half" style="-webkit-user-select: text; user-select: text;">
                 <h3 class="sheet-title">Anfrage</h3>
                 <div style="font-size: 13px; font-weight: 500; margin-bottom: 15px; line-height: 1.4;">
-                    Kopiere diese Vorlage und fülle die Lücken für eine schnelle Bearbeitung aus:
+                    Kopiere diese Vorlage und fülle die Lücken aus:
                 </div>
-                <ul class="info-list" style="list-style-type: none; padding-left: 0; margin-top: 0;">
-                    <li><strong style="font-weight: 700; color: #000;">Wann:</strong> [Datum/Uhrzeit]</li>
-                    <li><strong style="font-weight: 700; color: #000;">Wo:</strong> [Ort in Berlin]</li>
-                    <li><strong style="font-weight: 700; color: #000;">Gäste:</strong> [Anzahl]</li>
-                    <li><strong style="font-weight: 700; color: #000;">Menü/Allergien:</strong> [Details]</li>
+                <ul class="info-list">
+                    <li><strong style="color: #000;">Wann:</strong> [Datum/Uhrzeit]</li>
+                    <li><strong style="color: #000;">Wo:</strong> [Ort in Berlin]</li>
+                    <li><strong style="color: #000;">Gäste:</strong> [Anzahl]</li>
+                    <li><strong style="color: #000;">Menü/Allergien:</strong> [Details]</li>
                 </ul>
-                
-                <button class="copy-btn" id="copy-btn" onclick="copyInfoText()">
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                        <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
-                    </svg>
+                <button class="glass-btn" id="copy-btn" onclick="copyInfoText()">
+                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
                     <span id="copy-btn-text">Vorlage kopieren</span>
                 </button>
             </div>
 
             <div class="sheet-half contact-half">
                 <h3 class="sheet-title">Kontakt</h3>
-                
-                <a href="https://wa.me/4915100000000" target="_blank" class="contact-option">
+                <a href="https://wa.me/4915100000000" target="_blank" class="glass-btn">
                     <svg viewBox="0 0 24 24"><path d="M12.031 21c-1.566 0-3.08-.422-4.41-1.223l-4.925 1.284 1.31-4.8A8.955 8.955 0 012.79 12.046c0-4.962 4.04-9 9.02-9s9.02 4.038 9.02 9c0 4.962-4.04 9-9.02 9zm4.846-5.836c-.266-.134-1.572-.776-1.815-.865-.243-.09-.42-.134-.597.134-.177.268-.685.865-.84.1042-.155.177-.31.222-.575.09-1.29-.636-2.28-1.464-2.885-2.733-.155-.268-.017-.412.116-.546.12-.12.266-.312.4-.468.134-.156.178-.268.267-.446.09-.178.045-.334-.022-.468-.067-.134-.597-1.44-.817-1.97-.215-.516-.433-.446-.597-.454-.155-.008-.333-.008-.51-.008-.177 0-.465.067-.71.334-.244.268-.93 .91-.93 2.22s.953 2.573 1.086 2.75c.134.178 1.87 2.855 4.53 4.002.634.273 1.127.436 1.512.558.636.202 1.215.174 1.674.105.516-.076 1.572-.642 1.794-1.263.222-.62.222-1.15.155-1.262-.067-.11-.244-.177-.51-.31z"/></svg>
                     WhatsApp
                 </a>
-                
-                <a href="tel:+4915100000000" class="contact-option">
+                <a href="tel:+4915100000000" class="glass-btn">
                     <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
                     Telefon
                 </a>
-                
-                <a href="mailto:hallo@velogourmet.berlin" class="contact-option">
-                    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                    E-Mail
-                </a>
-                
                 <button class="sheet-close" onclick="closeContact(event)">Schließen</button>
             </div>
-            
         </div>
-
     </div>
 
-    <!-- JAVASCRIPT -->
+    <!-- JAVASCRIPT: PHYSIK ENGINE & LOGIK -->
     <script>
-        function openContact(e) {
-            if(e) e.preventDefault(); 
-            document.getElementById('contact-overlay').classList.add('is-active');
-        }
-
-        function closeContact(e) {
-            if(e) e.preventDefault();
-            document.getElementById('contact-overlay').classList.remove('is-active');
-        }
-
+        /* --- 1. OVERLAYS & ZWISCHENABLAGE --- */
+        function openContact(e) { if(e) e.preventDefault(); document.getElementById('contact-overlay').classList.add('is-active'); }
+        function closeContact(e) { if(e) e.preventDefault(); document.getElementById('contact-overlay').classList.remove('is-active'); }
+        function closeLightbox(e) { if(e) e.preventDefault(); document.getElementById('lightbox-overlay').classList.remove('is-active'); }
+        
         function copyInfoText() {
-            // Der formattierte Lückentext, der exakt so in die Zwischenablage gelegt wird
             const textContent = "Hallo Velo Gourmet,\nich interessiere mich für ein Catering mit dem Lastenrad. Hier sind die Eckdaten:\n\nWann: [Datum / Uhrzeit]\nWo: [Ort in Berlin]\nGästezahl: [Anzahl]\nWünsche/Allergien: [Details]\n\nViele Grüße,\n[Dein Name]";
-            
-            // Aufruf der nativen Clipboard API
             navigator.clipboard.writeText(textContent).then(() => {
                 const btn = document.getElementById('copy-btn');
                 const btnText = document.getElementById('copy-btn-text');
-                
-                // Visuelles Feedback aktivieren
-                btn.classList.add('is-copied');
-                btnText.innerText = 'Kopiert! ✓';
-                
-                // Nach 2,5 Sekunden in den Ursprungszustand zurückversetzen
-                setTimeout(() => {
-                    btn.classList.remove('is-copied');
-                    btnText.innerText = 'Vorlage kopieren';
-                }, 2500);
-            }).catch(err => {
-                console.error('Fehler bei der Zwischenablage: ', err);
+                btn.classList.add('is-copied'); btnText.innerText = 'Kopiert! ✓';
+                setTimeout(() => { btn.classList.remove('is-copied'); btnText.innerText = 'Vorlage kopieren'; }, 2500);
             });
         }
 
+        /* --- 2. KINEMATIK: THE INFINITE MARQUEE --- */
+        const track = document.getElementById('marquee-track');
+        const originalItems = Array.from(track.children);
+        
+        // Klonen für den nahtlosen Endlos-Loop (3x Set)
+        for(let i=0; i<2; i++) {
+            originalItems.forEach(item => track.appendChild(item.cloneNode(true)));
+        }
+
+        let currentX = 0;
+        let isDragging = false;
+        let startX = 0;
+        let dragOriginX = 0;
+        let lastClientX = 0;
+        
+        // Physik Parameter
+        let velocityX = 0;
+        let direction = -1; // -1 = läuft nach links, 1 = läuft nach rechts
+        const baseSpeed = 0.6; // Entspannte Grundgeschwindigkeit
+        const friction = 0.94; // Auslaufen (Trägheit) - je näher an 1, desto länger rollt es
+
+        // Klick vs. Swipe Schwellenwert
+        const clickThreshold = 5;
+
+        // Pointer Events (Maus & Touch vereint)
+        track.addEventListener('pointerdown', (e) => {
+            isDragging = true;
+            startX = e.clientX;
+            dragOriginX = currentX;
+            lastClientX = e.clientX;
+            velocityX = 0; // Stoppt sofort beim Antippen
+        });
+
+        window.addEventListener('pointermove', (e) => {
+            if (!isDragging) return;
+            const diff = e.clientX - startX;
+            currentX = dragOriginX + diff;
+            
+            // Berechne Geschwindigkeit für den Schwung
+            velocityX = e.clientX - lastClientX;
+            lastClientX = e.clientX;
+        });
+
+        window.addEventListener('pointerup', (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+            
+            // Richtung anhand des Wisch-Schwungs adaptieren
+            if (Math.abs(velocityX) > 1) {
+                direction = velocityX > 0 ? 1 : -1;
+            }
+        });
+
+        // Falls der Finger/Maus den Screen verlässt
+        window.addEventListener('pointercancel', () => isDragging = false);
+        window.addEventListener('pointerleave', () => isDragging = false);
+
+        // Klick-Logik für Lightbox (Anbindung an alle Karten, auch Klone)
+        track.addEventListener('pointerup', (e) => {
+            const card = e.target.closest('.marquee-card');
+            if (!card) return;
+            
+            // Wenn massiv gewischt wurde, blockiere den Klick
+            if (Math.abs(currentX - dragOriginX) > clickThreshold) {
+                e.preventDefault();
+                return; 
+            }
+            
+            // Klick war gewollt -> Lightbox füllen und öffnen
+            document.getElementById('lb-title').innerText = card.dataset.title;
+            document.getElementById('lb-desc').innerText = card.dataset.desc;
+            document.getElementById('lb-img').innerText = card.dataset.img;
+            document.getElementById('lightbox-overlay').classList.add('is-active');
+        });
+
+        // Der 60fps Physik-Loop
+        function animateMarquee() {
+            if (!isDragging) {
+                // Trägheit (Momentum) anwenden
+                velocityX *= friction; 
+                
+                if (Math.abs(velocityX) > 0.3) {
+                    // Auslauf-Phase: Galerie fliegt durch den Wisch-Schwung
+                    currentX += velocityX;
+                    direction = velocityX > 0 ? 1 : -1;
+                } else {
+                    // Automatik-Phase: Entspanntes Weitergleiten in gespeicherter Richtung
+                    currentX += baseSpeed * direction;
+                }
+            }
+
+            // Loop-Logik (Die unendliche Täuschung)
+            const singleSetWidth = track.scrollWidth / 3;
+            
+            // Wenn zu weit nach links
+            if (currentX <= -singleSetWidth) {
+                currentX += singleSetWidth;
+                if(isDragging) dragOriginX += singleSetWidth;
+            } 
+            // Wenn zu weit nach rechts
+            else if (currentX >= 0) {
+                currentX -= singleSetWidth;
+                if(isDragging) dragOriginX -= singleSetWidth;
+            }
+
+            track.style.transform = `translate3d(${currentX}px, 0, 0)`;
+            requestAnimationFrame(animateMarquee);
+        }
+        
+        // Start Engine
+        requestAnimationFrame(animateMarquee);
+
+        /* --- 3. PARALLAX HERO --- */
         const scrollContainer = document.getElementById('scroll-container');
         const heroBg = document.getElementById('hero-bg');
         const heroContent = document.getElementById('hero-content');
         const swipeHint = document.getElementById('swipe-hint');
-
         let ticking = false;
-
-        function updateParallax() {
-            const scrolled = scrollContainer.scrollTop;
-            const containerHeight = scrollContainer.clientHeight;
-            const containerWidth = scrollContainer.clientWidth;
-            
-            const isPortrait = containerHeight > containerWidth;
-
-            if (scrolled <= containerHeight) {
-                const progress = scrolled / containerHeight;
-
-                heroBg.style.transform = `translateY(${scrolled * 0.4}px)`;
-
-                const speedMultiplierY = isPortrait ? -8 : -15; 
-                const fadeMultiplier = isPortrait ? 0.8 : 1.2;
-                const scale = 1 - progress * (isPortrait ? 0.05 : 0.1);
-
-                const translateY = -50 + (progress * speedMultiplierY);
-                
-                heroContent.style.transform = `translate(-50%, ${translateY}%) scale(${scale})`;
-                heroContent.style.opacity = 1 - (progress * fadeMultiplier);
-
-                swipeHint.style.opacity = 1 - (progress * 2.5);
-            }
-            ticking = false;
-        }
 
         scrollContainer.addEventListener('scroll', () => {
             if (!ticking) {
-                window.requestAnimationFrame(updateParallax);
+                window.requestAnimationFrame(() => {
+                    const scrolled = scrollContainer.scrollTop;
+                    const containerHeight = scrollContainer.clientHeight;
+                    
+                    if (scrolled <= containerHeight) {
+                        const progress = scrolled / containerHeight;
+                        heroBg.style.transform = `translateY(${scrolled * 0.4}px)`;
+                        const scale = 1 - progress * 0.05;
+                        const translateY = -50 + (progress * -8);
+                        heroContent.style.transform = `translate(-50%, ${translateY}%) scale(${scale})`;
+                        heroContent.style.opacity = 1 - (progress * 0.8);
+                        swipeHint.style.opacity = 1 - (progress * 2.5);
+                    }
+                    ticking = false;
+                });
                 ticking = true;
             }
         });
