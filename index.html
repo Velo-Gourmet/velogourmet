@@ -623,12 +623,14 @@
         let dragOriginX = 0;
         let lastClientX = 0;
         
-        // Physik Parameter
+                // Physik Parameter
         let velocityX = 0;
         let direction = -1; // -1 = läuft nach links, 1 = läuft nach rechts
-        const baseSpeed = 0.6; // Entspannte Grundgeschwindigkeit
+        
+        // ---> HIER IST DER NEUE WERT <---
+        const baseSpeed = 1.8; // Erhöht von 0.6 auf 1.8 für ein flottes, dynamisches Gleiten
         const friction = 0.94; // Auslaufen (Trägheit) - je näher an 1, desto länger rollt es
-
+        
         // Klick vs. Swipe Schwellenwert
         const clickThreshold = 5;
 
