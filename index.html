@@ -265,13 +265,13 @@
             cursor: grabbing;
         }
 
-        .marquee-track {
+                .marquee-track {
             display: flex;
             gap: 20px;
             /* Kein CSS Transition hier! JS übernimmt für 60fps Physik */
             will-change: transform;
-            padding-left: 20px; /* Initialer Abstand */
-        }
+                }
+        
 
         .marquee-card {
             flex: 0 0 260px; /* Feste Breite der "Film-Kader" */
@@ -623,62 +623,73 @@
         let dragOriginX = 0;
         let lastClientX = 0;
         
-                // Physik Parameter
+        // Physik Parameter
         let velocityX = 0;
         let direction = -1; // -1 = läuft nach links, 1 = läuft nach rechts
-        
-        // ---> HIER IST DER NEUE WERT <---
-        const baseSpeed = 1.8; // Erhöht von 0.6 auf 1.8 für ein flottes, dynamisches Gleiten
-        const friction = 0.94; // Auslaufen (Trägheit) - je näher an 1, desto länger rollt es
-        
-        // Klick vs. Swipe Schwellenwert
-        const clickThreshold = 5;
+        const baseSpeed = 1.8; 
+        const friction = 0.95; // Geschmeidigeres, längeres Auslaufen
 
-        // Pointer Events (Maus & Touch vereint)
+        // Wisch- vs Klick-Erkennung
+        let isClick = true;
+
         track.addEventListener('pointerdown', (e) => {
             isDragging = true;
+            isClick = true; // Wir gehen erstmal von einem Klick aus
             startX = e.clientX;
-            dragOriginX = currentX;
             lastClientX = e.clientX;
-            velocityX = 0; // Stoppt sofort beim Antippen
+            dragOriginX = currentX;
+            velocityX = 0; // Stoppt sanft
+            
+            // GROUNDBREAKING: Zwingt den Browser, DIESEN Finger zu fokussieren!
+            track.setPointerCapture(e.pointerId);
         });
 
-        window.addEventListener('pointermove', (e) => {
+        track.addEventListener('pointermove', (e) => {
             if (!isDragging) return;
+            
             const diff = e.clientX - startX;
+            
+            // Wenn der Finger sich mehr als 5 Pixel bewegt, ist es definitiv ein Wisch
+            if (Math.abs(diff) > 5) {
+                isClick = false;
+            }
+
             currentX = dragOriginX + diff;
             
-            // Berechne Geschwindigkeit für den Schwung
-            velocityX = e.clientX - lastClientX;
+            // Dynamische Schwung-Berechnung mit leichtem Multiplikator für besseres Feeling
+            velocityX = (e.clientX - lastClientX) * 1.3;
             lastClientX = e.clientX;
         });
 
-        window.addEventListener('pointerup', (e) => {
+        track.addEventListener('pointerup', (e) => {
             if (!isDragging) return;
             isDragging = false;
-            
-            // Richtung anhand des Wisch-Schwungs adaptieren
-            if (Math.abs(velocityX) > 1) {
+            track.releasePointerCapture(e.pointerId);
+
+            // Intelligente Adaption der Wisch-Richtung
+            if (Math.abs(velocityX) > 1.5) {
                 direction = velocityX > 0 ? 1 : -1;
             }
         });
 
-        // Falls der Finger/Maus den Screen verlässt
-        window.addEventListener('pointercancel', () => isDragging = false);
-        window.addEventListener('pointerleave', () => isDragging = false);
+        // Verhindert Hänger, falls das System das Event unerwartet abbricht
+        track.addEventListener('pointercancel', (e) => {
+            isDragging = false;
+            track.releasePointerCapture(e.pointerId);
+        });
 
-        // Klick-Logik für Lightbox (Anbindung an alle Karten, auch Klone)
-        track.addEventListener('pointerup', (e) => {
+        // Echte Klick-Logik, geschützt gegen Wisch-Fehler
+        track.addEventListener('click', (e) => {
+            // Wenn gewischt wurde, blockiere den Klick!
+            if (!isClick) {
+                e.preventDefault();
+                e.stopPropagation();
+                return;
+            }
+            
             const card = e.target.closest('.marquee-card');
             if (!card) return;
             
-            // Wenn massiv gewischt wurde, blockiere den Klick
-            if (Math.abs(currentX - dragOriginX) > clickThreshold) {
-                e.preventDefault();
-                return; 
-            }
-            
-            // Klick war gewollt -> Lightbox füllen und öffnen
             document.getElementById('lb-title').innerText = card.dataset.title;
             document.getElementById('lb-desc').innerText = card.dataset.desc;
             document.getElementById('lb-img').innerText = card.dataset.img;
@@ -688,29 +699,23 @@
         // Der 60fps Physik-Loop
         function animateMarquee() {
             if (!isDragging) {
-                // Trägheit (Momentum) anwenden
-                velocityX *= friction; 
+                velocityX *= friction; // Trägheit anwenden
                 
-                if (Math.abs(velocityX) > 0.3) {
-                    // Auslauf-Phase: Galerie fliegt durch den Wisch-Schwung
-                    currentX += velocityX;
+                if (Math.abs(velocityX) > 0.1) {
+                    currentX += velocityX; // Ausrollen
                     direction = velocityX > 0 ? 1 : -1;
                 } else {
-                    // Automatik-Phase: Entspanntes Weitergleiten in gespeicherter Richtung
-                    currentX += baseSpeed * direction;
+                    currentX += baseSpeed * direction; // Grundgeschwindigkeit
                 }
             }
 
-            // Loop-Logik (Die unendliche Täuschung)
+            // Exakte Breite für den nahtlosen Loop berechnen
             const singleSetWidth = track.scrollWidth / 3;
             
-            // Wenn zu weit nach links
             if (currentX <= -singleSetWidth) {
                 currentX += singleSetWidth;
                 if(isDragging) dragOriginX += singleSetWidth;
-            } 
-            // Wenn zu weit nach rechts
-            else if (currentX >= 0) {
+            } else if (currentX >= 0) {
                 currentX -= singleSetWidth;
                 if(isDragging) dragOriginX -= singleSetWidth;
             }
@@ -719,8 +724,12 @@
             requestAnimationFrame(animateMarquee);
         }
         
-        // Start Engine
         requestAnimationFrame(animateMarquee);
+
+
+        
+        
+    
 
         /* --- 3. PARALLAX HERO --- */
         const scrollContainer = document.getElementById('scroll-container');
