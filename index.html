@@ -622,20 +622,22 @@
         /* --- 2. SPLIDE.JS INITIALISIERUNG --- */
         document.addEventListener('DOMContentLoaded', function () {
             // Initialisiert den Slider
-            var splide = new Splide('#gallery-slider', {
+                        var splide = new Splide('#gallery-slider', {
                 type   : 'loop',
-                drag   : 'free',     // Erlaubt das Schwung-Auslaufen (Inertia)
+                drag   : 'free',     
                 focus  : 'center',
-                autoWidth: true,     // Passt sich perfekt an unsere CSS Kachelbreite an
+                autoWidth: true,     
                 gap    : '20px',
                 arrows : false,
                 pagination: false,
+                friction: 0.05,      // NEU: Geringere Reibung (Standard ist 0.1) für extrem weites, seidiges Ausrollen
                 autoScroll: {
-                    speed: 1,        // Geschwindigkeit der Endlos-Schleife
+                    speed: 2,        // AKTUALISIERT: Das verdoppelte Basistempo
                     pauseOnHover: true,
                     pauseOnFocus: false,
                 },
             });
+
 
             // Mountet die Bibliothek inkl. Auto-Scroll Erweiterung
             splide.mount(window.splide.Extensions);
