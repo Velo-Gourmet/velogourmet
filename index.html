@@ -10,6 +10,10 @@
     <meta http-equiv="Expires" content="0">
     
     <title>VELO GOURMET — Uni Projekt</title>
+
+    <!-- HIER IST NEU: Der sichere Import der Splide.js CSS-Bibliothek -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
+
     <style>
         /* ==========================================
            1. SETUP & CSS-VARIABLEN
@@ -234,12 +238,12 @@
             letter-spacing: -0.5px;
         }
                 /* ==========================================
-           5. INFINITE MARQUEE (FILM-STRIP)
+           5. SPLIDE.JS GALERIE (FILM-STRIP)
            ========================================== */
         .gallery-section {
             background-color: var(--bg-sage);
             z-index: 4;
-            padding: 60px 0; /* Mehr Platz oben/unten, Rand nach links/rechts offen */
+            padding: 60px 0; 
             justify-content: flex-start;
         }
 
@@ -251,30 +255,20 @@
             text-align: center;
         }
 
-        .marquee-container {
+        /* Überschreiben der Splide-Basis für unser Design */
+        .splide {
             width: 100%;
-            overflow: hidden;
-            cursor: grab;
-            touch-action: pan-y; /* Erlaubt vertikales Scrollen der Seite, fängt horizontales Wischen ab */
-            user-select: none;
-            -webkit-user-select: none;
             padding: 10px 0;
+            cursor: grab;
         }
-
-        .marquee-container:active {
+        
+        .splide:active {
             cursor: grabbing;
         }
 
-                .marquee-track {
-            display: flex;
-            gap: 20px;
-            /* Kein CSS Transition hier! JS übernimmt für 60fps Physik */
-            will-change: transform;
-                }
-        
-
+        /* Die eigentliche Kachel im Slider */
         .marquee-card {
-            flex: 0 0 260px; /* Feste Breite der "Film-Kader" */
+            width: 260px; /* Feste Breite durch Splide autoWidth genutzt */
             height: 360px;
             background: var(--card-white);
             border-radius: 20px;
@@ -284,8 +278,15 @@
             justify-content: space-between;
             box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             border: 1px solid rgba(255,255,255,0.8);
-            pointer-events: none; /* Verhindert Störungen beim Draggen */
             position: relative;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* Behebt Flackern bei iOS Swipes */
+        .splide__slide {
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
         }
 
         .card-image-placeholder {
@@ -354,7 +355,6 @@
             flex-direction: column;
         }
 
-        /* Split-Design für Kontakt */
         .contact-layout { flex-direction: column; }
         @media (min-width: 600px) { .contact-layout { flex-direction: row; } }
 
@@ -374,7 +374,6 @@
             .contact-layout .info-half { border-right: 1px solid rgba(193, 255, 114, 0.25); }
         }
 
-        /* Lightbox Spezifisch */
         .lightbox-layout {
             padding: 30px 20px;
             text-align: center;
@@ -494,54 +493,62 @@
                 </a>
             </div>
         </section>
-                <section class="section gallery-section" id="galerie">
+
+        <section class="section gallery-section" id="galerie">
             <h2 class="gallery-title">Saisonale Impressionen</h2>
             
-            <div class="marquee-container" id="marquee-container">
-                <div class="marquee-track" id="marquee-track">
-                    
-                    <!-- Film-Kader 1 -->
-                    <div class="marquee-card" data-title="Levantische Mezze" data-desc="Eine opulente Auswahl mediterraner Dips, Oliven und frischem Pita-Brot. Direkt serviert aus der Cargo-Box." data-img="Foto: Mezze am Hermannplatz">
-                        <div class="card-image-placeholder">Foto: Mezze am Hermannplatz</div>
-                        <div class="card-info">
-                            <h4>Levantische Mezze</h4>
-                            <p>Kaltes Buffet & Fingerfood</p>
-                        </div>
-                    </div>
+            <!-- HIER IST NEU: Die DOM-Struktur speziell für Splide.js -->
+            <div class="splide" id="gallery-slider">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        
+                        <li class="splide__slide">
+                            <div class="marquee-card" data-title="Levantische Mezze" data-desc="Eine opulente Auswahl mediterraner Dips, Oliven und frischem Pita-Brot." data-img="Foto: Mezze am Hermannplatz">
+                                <div class="card-image-placeholder">Foto: Mezze am Hermannplatz</div>
+                                <div class="card-info">
+                                    <h4>Levantische Mezze</h4>
+                                    <p>Kaltes Buffet & Fingerfood</p>
+                                </div>
+                            </div>
+                        </li>
 
-                    <!-- Film-Kader 2 -->
-                    <div class="marquee-card" data-title="Pflanzliche Gourmet-Variationen" data-desc="Frische, vegane Kompositionen mit saisonalen Kräutern und Texturen, die überraschen." data-img="Foto: Pflanzliches Setup">
-                        <div class="card-image-placeholder">Foto: Pflanzliches Setup</div>
-                        <div class="card-info">
-                            <h4>Gourmet-Variationen</h4>
-                            <p>100% Pflanzlich</p>
-                        </div>
-                    </div>
+                        <li class="splide__slide">
+                            <div class="marquee-card" data-title="Pflanzliche Gourmet-Variationen" data-desc="Frische, vegane Kompositionen mit saisonalen Kräutern und Texturen, die überraschen." data-img="Foto: Pflanzliches Setup">
+                                <div class="card-image-placeholder">Foto: Pflanzliches Setup</div>
+                                <div class="card-info">
+                                    <h4>Gourmet-Variationen</h4>
+                                    <p>100% Pflanzlich</p>
+                                </div>
+                            </div>
+                        </li>
 
-                    <!-- Film-Kader 3 -->
-                    <div class="marquee-card" data-title="Das Lastenrad-Setup" data-desc="Unser Markenzeichen: Nachhaltige Anlieferung und autarke Präsentation direkt am Ort Ihrer Wahl." data-img="Foto: Cargo Bike Logistik">
-                        <div class="card-image-placeholder">Foto: Cargo Bike Logistik</div>
-                        <div class="card-info">
-                            <h4>Urbane Logistik</h4>
-                            <p>Nachhaltiges Event-Setup</p>
-                        </div>
-                    </div>
+                        <li class="splide__slide">
+                            <div class="marquee-card" data-title="Das Lastenrad-Setup" data-desc="Unser Markenzeichen: Nachhaltige Anlieferung und autarke Präsentation am Ort Ihrer Wahl." data-img="Foto: Cargo Bike Logistik">
+                                <div class="card-image-placeholder">Foto: Cargo Bike Logistik</div>
+                                <div class="card-info">
+                                    <h4>Urbane Logistik</h4>
+                                    <p>Nachhaltiges Event-Setup</p>
+                                </div>
+                            </div>
+                        </li>
 
-                    <!-- Film-Kader 4 -->
-                    <div class="marquee-card" data-title="Süße Berliner Versuchung" data-desc="Handgemachte, vegane Desserts als perfekter Abschluss für Ihr Event." data-img="Foto: Vegane Desserts">
-                        <div class="card-image-placeholder">Foto: Vegane Desserts</div>
-                        <div class="card-info">
-                            <h4>Süße Versuchung</h4>
-                            <p>Dessert & Gebäck</p>
-                        </div>
-                    </div>
-                    
+                        <li class="splide__slide">
+                            <div class="marquee-card" data-title="Süße Berliner Versuchung" data-desc="Handgemachte, vegane Desserts als perfekter Abschluss für Ihr Event." data-img="Foto: Vegane Desserts">
+                                <div class="card-image-placeholder">Foto: Vegane Desserts</div>
+                                <div class="card-info">
+                                    <h4>Süße Versuchung</h4>
+                                    <p>Dessert & Gebäck</p>
+                                </div>
+                            </div>
+                        </li>
+                        
+                    </ul>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- LIGHTBOX OVERLAY (Fokus Gericht) -->
+    <!-- LIGHTBOX OVERLAY -->
     <div class="glass-overlay" id="lightbox-overlay" onclick="closeLightbox(event)">
         <div class="glass-sheet lightbox-layout" onclick="event.stopPropagation()">
             <div class="lightbox-hero-img" id="lb-img">Lade...</div>
@@ -591,7 +598,11 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT: PHYSIK ENGINE & LOGIK -->
+    <!-- HIER SIND NEU: Die Splide.js Bibliotheken -->
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@0.5.3/dist/js/splide-extension-auto-scroll.min.js"></script>
+
+    <!-- UNSER BEREINIGTES, REDUZIERTES JAVASCRIPT -->
     <script>
         /* --- 1. OVERLAYS & ZWISCHENABLAGE --- */
         function openContact(e) { if(e) e.preventDefault(); document.getElementById('contact-overlay').classList.add('is-active'); }
@@ -608,170 +619,38 @@
             });
         }
 
-                /* --- 2. KINEMATIK: THE INFINITE MARQUEE --- */
-        const track = document.getElementById('marquee-track');
-        const originalItems = Array.from(track.children);
-        
-        // Klonen für den nahtlosen Endlos-Loop (3x Set)
-        for(let i=0; i<2; i++) {
-            originalItems.forEach(item => track.appendChild(item.cloneNode(true)));
-        }
+        /* --- 2. SPLIDE.JS INITIALISIERUNG --- */
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialisiert den Slider
+            var splide = new Splide('#gallery-slider', {
+                type   : 'loop',
+                drag   : 'free',     // Erlaubt das Schwung-Auslaufen (Inertia)
+                focus  : 'center',
+                autoWidth: true,     // Passt sich perfekt an unsere CSS Kachelbreite an
+                gap    : '20px',
+                arrows : false,
+                pagination: false,
+                autoScroll: {
+                    speed: 1,        // Geschwindigkeit der Endlos-Schleife
+                    pauseOnHover: true,
+                    pauseOnFocus: false,
+                },
+            });
 
-        let currentX = 0;
-        let isDragging = false;
-        let startX = 0;
-        let startY = 0; // Wichtig für die Winkelberechnung
-        let dragOriginX = 0;
-        let lastClientX = 0;
-        
-        // Physik Parameter
-        let velocityX = 0;
-        let direction = -1; // -1 = läuft nach links, 1 = läuft nach rechts
-        const baseSpeed = 1.8; 
-        const friction = 0.95; 
+            // Mountet die Bibliothek inkl. Auto-Scroll Erweiterung
+            splide.mount(window.splide.Extensions);
 
-        // Klick- & Wisch-Status
-        let isClick = true;
-        let isHorizontalSwipe = null; // Neu: Die Absichtserkennung
-
-        // ==========================================
-        // 2.1 MOBILE TOUCH LOGIK (Bulletproof)
-        // ==========================================
-        track.addEventListener('touchstart', (e) => {
-            isDragging = true;
-            isClick = true;
-            isHorizontalSwipe = null; // Reset bei jedem neuen Touch
-            
-            startX = e.touches[0].clientX;
-            startY = e.touches[0].clientY;
-            lastClientX = e.touches[0].clientX;
-            dragOriginX = currentX;
-            velocityX = 0; 
-        }, { passive: false });
-
-        track.addEventListener('touchmove', (e) => {
-            if (!isDragging) return;
-            
-            const currentTouchX = e.touches[0].clientX;
-            const currentTouchY = e.touches[0].clientY;
-            const diffX = currentTouchX - startX;
-            const diffY = currentTouchY - startY;
-            
-            // Absichtserkennung: Nur in den ersten 3 Pixeln messen
-            if (isHorizontalSwipe === null) {
-                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 3) {
-                    isHorizontalSwipe = true; // Nutzer will definitiv seitwärts wischen
-                } else if (Math.abs(diffY) > 3) {
-                    isHorizontalSwipe = false; // Nutzer will die Seite nach unten/oben scrollen
-                }
-            }
-
-            // Wenn es ein seitlicher Wisch ist:
-            if (isHorizontalSwipe) {
-                e.preventDefault(); // DER GAMECHANGER: Verbietet dem Browser, das Event abzubrechen!
-                isClick = false;
+            // Perfekte Klick/Wisch Erkennung out-of-the-box!
+            splide.on('click', function (slide) {
+                const card = slide.slide.querySelector('.marquee-card');
+                if (!card) return;
                 
-                currentX = dragOriginX + diffX;
-                velocityX = (currentTouchX - lastClientX) * 1.3;
-                lastClientX = currentTouchX;
-            }
-        }, { passive: false });
-
-        track.addEventListener('touchend', (e) => {
-            if (!isDragging) return;
-            isDragging = false;
-            
-            // Nimmt den Schwung in die richtige Richtung mit
-            if (isHorizontalSwipe && Math.abs(velocityX) > 1.5) {
-                direction = velocityX > 0 ? 1 : -1;
-            }
+                document.getElementById('lb-title').innerText = card.dataset.title;
+                document.getElementById('lb-desc').innerText = card.dataset.desc;
+                document.getElementById('lb-img').innerText = card.dataset.img;
+                document.getElementById('lightbox-overlay').classList.add('is-active');
+            });
         });
-
-        // ==========================================
-        // 2.2 DESKTOP MAUS LOGIK
-        // ==========================================
-        track.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            isClick = true;
-            startX = e.clientX;
-            lastClientX = e.clientX;
-            dragOriginX = currentX;
-            velocityX = 0; 
-        });
-
-        window.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            e.preventDefault(); // Verhindert versehentliches Markieren von Text
-            
-            const diffX = e.clientX - startX;
-            if (Math.abs(diffX) > 5) isClick = false;
-
-            currentX = dragOriginX + diffX;
-            velocityX = (e.clientX - lastClientX) * 1.3;
-            lastClientX = e.clientX;
-        });
-
-        window.addEventListener('mouseup', () => {
-            if (!isDragging) return;
-            isDragging = false;
-            if (Math.abs(velocityX) > 1.5) {
-                direction = velocityX > 0 ? 1 : -1;
-            }
-        });
-
-        // ==========================================
-        // 2.3 KLICK & ANIMATIONS-LOOP
-        // ==========================================
-        track.addEventListener('click', (e) => {
-            if (!isClick) {
-                e.preventDefault();
-                e.stopPropagation();
-                return;
-            }
-            
-            const card = e.target.closest('.marquee-card');
-            if (!card) return;
-            
-            document.getElementById('lb-title').innerText = card.dataset.title;
-            document.getElementById('lb-desc').innerText = card.dataset.desc;
-            document.getElementById('lb-img').innerText = card.dataset.img;
-            document.getElementById('lightbox-overlay').classList.add('is-active');
-        });
-
-        function animateMarquee() {
-            if (!isDragging) {
-                velocityX *= friction; 
-                
-                if (Math.abs(velocityX) > 0.1) {
-                    currentX += velocityX; 
-                    direction = velocityX > 0 ? 1 : -1;
-                } else {
-                    currentX += baseSpeed * direction; 
-                }
-            }
-
-            const singleSetWidth = track.scrollWidth / 3;
-            
-            if (currentX <= -singleSetWidth) {
-                currentX += singleSetWidth;
-                if(isDragging) dragOriginX += singleSetWidth;
-            } else if (currentX >= 0) {
-                currentX -= singleSetWidth;
-                if(isDragging) dragOriginX -= singleSetWidth;
-            }
-
-            track.style.transform = `translate3d(${currentX}px, 0, 0)`;
-            requestAnimationFrame(animateMarquee);
-        }
-        
-        requestAnimationFrame(animateMarquee);
-        
-            
-
-
-        
-        
-    
 
         /* --- 3. PARALLAX HERO --- */
         const scrollContainer = document.getElementById('scroll-container');
