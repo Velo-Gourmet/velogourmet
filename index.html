@@ -395,11 +395,17 @@
             const list = document.getElementById('gallery-list');
             originalSlides = Array.from(list.children).map(li => li.cloneNode(true));
             
-            // 2. Weapon-Scroll Menü initialisieren
+                        // 2. Weapon-Scroll Menü initialisieren (JETZT ENDLOS)
             const menuSplide = new Splide('#menu-slider', {
-                type: 'slide', focus: 'center', autoWidth: true, gap: '40px',
-                arrows: true, pagination: false, updateOnMove: true
+                type: 'loop', /* <-- HIER IST DIE ÄNDERUNG */
+                focus: 'center', 
+                autoWidth: true, 
+                gap: '40px',
+                arrows: true, 
+                pagination: false, 
+                updateOnMove: true
             });
+            
 
             // 3. Bei Wisch/Klick auf neues Menü -> Galerie sicher filtern
             menuSplide.on('active', function (slide) {
