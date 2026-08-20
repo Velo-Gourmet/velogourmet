@@ -17,8 +17,6 @@
            ========================================== */
         @font-face {
             font-family: 'Crackman';
-            /* Hier wird später die echte Crackman.ttf verlinkt. 
-               Solange nutzen wir einen kraftvollen Gaming-Fallback. */
             src: local('Impact'), local('Arial Black'), sans-serif; 
         }
 
@@ -106,4 +104,345 @@
 
         @keyframes fadeInMorph { 0% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); filter: blur(8px); } 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: blur(0); } }
         @keyframes floatBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+        /* --- ENDE TEIL 1 --- */
+                /* --- START TEIL 2 --- */
+        /* ==========================================
+           3. WEAPON-SCROLL MENÜ & GALERIE
+           ========================================== */
+        .gallery-section {
+            background-color: var(--bg-sage);
+            z-index: 4; padding: 40px 0 60px 0; justify-content: flex-start;
+        }
+
+        .menu-main-title {
+            font-size: 14px; text-transform: uppercase; letter-spacing: 4px;
+            color: #88948b; margin-bottom: 20px; font-weight: 700; text-align: center;
+        }
+
+        /* Das Navigations-Karussell */
+        #menu-slider { width: 100%; padding: 10px 0 20px 0; margin-bottom: 20px; }
         
+        .menu-item-content {
+            text-align: center; display: flex; flex-direction: column; align-items: center;
+            cursor: pointer; padding: 0 10px; transition: all 0.4s ease;
+        }
+
+        .menu-headline {
+            font-family: 'Crackman', Impact, sans-serif;
+            font-size: 28px; text-transform: uppercase; letter-spacing: 1px;
+            color: var(--text-dark); position: relative; transition: color 0.4s ease, transform 0.4s ease;
+        }
+
+        .menu-subtitle { font-size: 13px; color: #666; margin-top: 5px; font-weight: 500; font-family: -apple-system, sans-serif; }
+
+        /* Optischer Tiefen-Effekt (Inaktive Elemente) */
+        #menu-slider .splide__slide {
+            opacity: 0.3; filter: grayscale(80%);
+            transition: opacity 0.4s ease, filter 0.4s ease, transform 0.4s ease;
+        }
+
+        /* Aktives Element in der Mitte */
+        #menu-slider .splide__slide.is-active { opacity: 1; filter: grayscale(0%); transform: scale(1.1); }
+        #menu-slider .splide__slide.is-active .menu-headline { color: #1a2e05; text-shadow: 0 0 12px rgba(193, 255, 114, 0.7); }
+        
+        #menu-slider .splide__slide.is-active .menu-headline::before,
+        #menu-slider .splide__slide.is-active .menu-headline::after {
+            position: absolute; color: var(--brand-green); font-weight: 900;
+            top: 50%; transform: translateY(-50%); font-size: 30px;
+        }
+        #menu-slider .splide__slide.is-active .menu-headline::before { content: '['; left: -25px; }
+        #menu-slider .splide__slide.is-active .menu-headline::after { content: ']'; right: -25px; }
+
+        /* Anpassung der Splide-Pfeile im Menü */
+        #menu-slider .splide__arrow { background: transparent; opacity: 0.8; }
+        #menu-slider .splide__arrow svg { fill: var(--text-dark); width: 24px; height: 24px; }
+        #menu-slider .splide__arrow:hover { opacity: 1; transform: scale(1.1); }
+
+        /* Splide Galerie (Bilder) CSS */
+        #gallery-slider { width: 100%; cursor: grab; }
+        #gallery-slider:active { cursor: grabbing; }
+
+        .marquee-card {
+            width: 260px; height: 360px; background: var(--card-white);
+            border-radius: 20px; padding: 15px; display: flex; flex-direction: column;
+            justify-content: space-between; box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255,255,255,0.8); position: relative; user-select: none; -webkit-user-select: none;
+        }
+        .splide__slide { -webkit-transform: translateZ(0); transform: translateZ(0); }
+
+        .card-image-placeholder {
+            width: 100%; height: 220px; background: rgba(0,0,0,0.04);
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            font-size: 13px; color: #777; font-weight: 500; text-align: center; padding: 10px;
+        }
+        .card-info h4 { font-size: 18px; margin-bottom: 5px; color: var(--text-dark); }
+        .card-info p { font-size: 13px; color: #555; line-height: 1.4; }
+
+        /* ==========================================
+           4. ACTION & LIGHTBOX OVERLAYS
+           ========================================== */
+        .glass-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(27, 36, 30, 0.45); backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px); z-index: 100; opacity: 0; pointer-events: none;
+            transition: opacity 0.5s ease; display: flex; align-items: center; justify-content: center;
+        }
+        .glass-overlay.is-active { opacity: 1; pointer-events: all; }
+
+        .glass-sheet {
+            width: 92%; max-width: 800px; background: rgba(244, 241, 234, 0.75);
+            backdrop-filter: blur(28px) saturate(180%); -webkit-backdrop-filter: blur(28px) saturate(180%);
+            border: 1px solid rgba(193, 255, 114, 0.4); border-radius: 28px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2), 0 0 35px rgba(193, 255, 114, 0.12);
+            overflow: hidden; transform: translateY(25px) scale(0.95); transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex; flex-direction: column;
+        }
+        .glass-overlay.is-active .glass-sheet { transform: translateY(0) scale(1); }
+        
+        .contact-layout { flex-direction: column; }
+        @media (min-width: 600px) { .contact-layout { flex-direction: row; } }
+        .sheet-half { width: 100%; padding: 25px 20px; display: flex; flex-direction: column; }
+        @media (min-width: 600px) {
+            .contact-layout .sheet-half { width: 50%; padding: 40px 30px; }
+            .contact-layout .info-half { border-right: 1px solid rgba(193, 255, 114, 0.25); }
+        }
+
+        .lightbox-layout { padding: 30px 20px; text-align: center; align-items: center; }
+        .lightbox-hero-img {
+            width: 100%; height: 250px; background: rgba(0,0,0,0.05); border-radius: 16px;
+            margin-bottom: 20px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #666;
+        }
+        .sheet-title { font-size: 20px; font-weight: 700; text-align: center; margin-bottom: 12px; letter-spacing: -0.5px; }
+        .info-list { padding-left: 0; font-size: 14px; line-height: 1.7; margin-top: 5px; list-style: none; text-align: left;}
+        .info-list li { margin-bottom: 12px; font-weight: 500; }
+
+        .glass-btn {
+            background: rgba(255, 255, 255, 0.35); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 14px;
+            color: var(--text-dark); font-weight: 600; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            -webkit-tap-highlight-color: transparent; box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 12px 14px;
+            font-size: 14px; cursor: pointer; text-decoration: none; margin-bottom: 10px;
+        }
+        .glass-btn svg { margin-right: 8px; width: 18px; height: 18px; fill: currentColor; }
+        .glass-btn:hover { background: rgba(255, 255, 255, 0.5); transform: translateY(-2px); }
+        .glass-btn:active { transform: scale(0.97) translateY(0); background: rgba(193, 255, 114, 0.6); border-color: var(--brand-green); box-shadow: 0 0 15px rgba(193, 255, 114, 0.3); }
+        .glass-btn.is-copied { background: var(--brand-green); border-color: var(--brand-green); color: #1a2e05; }
+        .sheet-close {
+            margin-top: 15px; background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02);
+            border-radius: 20px; color: var(--text-dark); font-size: 13px; font-weight: 600;
+            padding: 10px 24px; cursor: pointer; align-self: center; transition: all 0.2s; border: none;
+        }
+        .sheet-close:active { background: rgba(0,0,0,0.08); transform: scale(0.96); }
+    </style>
+</head>
+<body>
+    <main class="scroll-container" id="scroll-container">
+        <section class="section hero-section" id="hero">
+            <div class="hero-bg" id="hero-bg"></div>
+            <div class="hero-content" id="hero-content">
+                <div class="logo-wrapper"><img src="lo.svg" alt="Velo Gourmet Berlin Logo" class="logo-img"></div>
+            </div>
+            <div class="swipe-hint" id="swipe-hint">↓ Wischen</div>
+        </section>
+
+        <section class="section layer-content" id="navigation">
+            <div class="organic-edge-wrapper"><svg viewBox="0 0 500 60" preserveAspectRatio="none" style="width: 100%; height: 100%;"><path class="liquid-path"></path></svg></div>
+            <div class="actions">
+                <a href="javascript:void(0);" class="artist-btn" aria-label="Mach ma fertig!" onclick="openContact(event)">
+                    <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg"><path fill="var(--brand-green)" d="M 25,22 C 40,16 110,18 160,15 C 220,12 280,20 298,28 C 310,38 305,68 290,82 C 260,95 180,88 120,94 C 75,98 35,92 18,80 C 8,68 10,35 25,22 Z" /><text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#1a2e05" class="btn-text">Mach ma fertig!</text></svg>
+                </a>
+                <a href="#galerie" class="artist-btn" aria-label="Appetit holen">
+                    <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg"><path fill="var(--brand-rose)" d="M 22,25 C 55,18 130,14 180,18 C 240,21 275,15 295,25 C 308,35 312,65 292,80 C 265,92 195,96 130,90 C 80,86 40,95 20,82 C 5,70 8,38 22,25 Z" /><text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#3A2325" class="btn-text">Appetit holen</text></svg>
+                </a>
+            </div>
+        </section>
+        /* --- ENDE TEIL 2 --- */
+                /* --- START TEIL 3 --- */
+        <section class="section gallery-section" id="galerie">
+            <div class="menu-main-title">Auswahl</div>
+            
+            <!-- 1. DER WEAPON-SCROLL MENÜ SLIDER -->
+            <div class="splide" id="menu-slider">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        <li class="splide__slide" data-category="hermannplatz">
+                            <div class="menu-item-content">
+                                <span class="menu-headline">Hermannplatz</span>
+                                <span class="menu-subtitle">Levantische Lebensart</span>
+                            </div>
+                        </li>
+                        <li class="splide__slide" data-category="prenzlauerberg">
+                            <div class="menu-item-content">
+                                <span class="menu-headline">Prenzlauer Berg</span>
+                                <span class="menu-subtitle">100% Vegan</span>
+                            </div>
+                        </li>
+                        <li class="splide__slide" data-category="zehlendorf">
+                            <div class="menu-item-content">
+                                <span class="menu-headline">Zehlendorf</span>
+                                <span class="menu-subtitle">Gourmet-Küche</span>
+                            </div>
+                        </li>
+                        <li class="splide__slide" data-category="extrawuensche">
+                            <div class="menu-item-content">
+                                <span class="menu-headline">Geht da noch was</span>
+                                <span class="menu-subtitle">Extrawünsche</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 2. DIE FOTOGALERIE UNTENDUNTER -->
+            <div class="splide" id="gallery-slider">
+                <div class="splide__track">
+                    <ul class="splide__list" id="gallery-list">
+                        <!-- Hermannplatz -->
+                        <li class="splide__slide" data-category="hermannplatz"><div class="marquee-card" data-title="Hummus & Pita" data-desc="Cremiger Hummus mit ofenwarmem Brot. Direkt aus der Transportbox." data-img="Foto: Hummus"><div class="card-image-placeholder">Foto: Hummus Teller</div><div class="card-info"><h4>Hummus & Pita</h4><p>Der Klassiker</p></div></div></li>
+                        <li class="splide__slide" data-category="hermannplatz"><div class="marquee-card" data-title="Baba Ghanoush" data-desc="Rauchige Aubergine, Granatapfelkerne und frische Petersilie." data-img="Foto: Baba Ghanoush"><div class="card-image-placeholder">Foto: Baba Ghanoush</div><div class="card-info"><h4>Baba Ghanoush</h4><p>Rauchig & Frisch</p></div></div></li>
+                        <!-- Prenzlauer Berg -->
+                        <li class="splide__slide" data-category="prenzlauerberg"><div class="marquee-card" data-title="Pflanzliche Variation" data-desc="Bunte, vegane Kompositionen mit saisonalen Texturen." data-img="Foto: Vegane Bowl"><div class="card-image-placeholder">Foto: Vegane Bowl</div><div class="card-info"><h4>Pflanzliche Bowl</h4><p>Saisonal & Lokal</p></div></div></li>
+                        <li class="splide__slide" data-category="prenzlauerberg"><div class="marquee-card" data-title="Kräuter-Fokus" data-desc="Hausgemachte Dips auf Basis frischer Gartenkräuter." data-img="Foto: Kräuter Dip"><div class="card-image-placeholder">Foto: Kräuter Dip</div><div class="card-info"><h4>Grüne Dips</h4><p>Natürlich Vegan</p></div></div></li>
+                        <!-- Zehlendorf -->
+                        <li class="splide__slide" data-category="zehlendorf"><div class="marquee-card" data-title="Trüffel & Pilze" data-desc="Ein Hauch von Luxus, raffiniert pflanzlich interpretiert." data-img="Foto: Gourmet Pilze"><div class="card-image-placeholder">Foto: Gourmet Pilze</div><div class="card-info"><h4>Trüffel Essenzen</h4><p>Fine Dining Setup</p></div></div></li>
+                        <li class="splide__slide" data-category="zehlendorf"><div class="marquee-card" data-title="Artischocken-Herzen" data-desc="Eingelegte Artischocken mit feinem Olivenöl und Zitrone." data-img="Foto: Artischocken"><div class="card-image-placeholder">Foto: Artischocken</div><div class="card-info"><h4>Artischocken-Herzen</h4><p>Premium Zutaten</p></div></div></li>
+                        <!-- Extrawünsche -->
+                        <li class="splide__slide" data-category="extrawuensche"><div class="marquee-card" data-title="Glutenfrei & Sicher" data-desc="Spezielle Zubereitung für Allergiker ohne Kompromisse beim Geschmack." data-img="Foto: Glutenfrei"><div class="card-image-placeholder">Foto: Allergiker-Setup</div><div class="card-info"><h4>Glutenfrei</h4><p>Höchste Sorgfalt</p></div></div></li>
+                        <li class="splide__slide" data-category="extrawuensche"><div class="marquee-card" data-title="Corporate Branding" data-desc="Wir passen das Menü und die Optik auf Ihr Event an." data-img="Foto: Branding"><div class="card-image-placeholder">Foto: Firmenevent</div><div class="card-info"><h4>Corporate Setup</h4><p>Individuelles Styling</p></div></div></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- OVERLAYS (Lightbox & Kontakt) -->
+    <div class="glass-overlay" id="lightbox-overlay" onclick="closeLightbox(event)">
+        <div class="glass-sheet lightbox-layout" onclick="event.stopPropagation()">
+            <div class="lightbox-hero-img" id="lb-img">Lade...</div>
+            <h3 class="sheet-title" id="lb-title">Titel</h3>
+            <p style="font-size: 14px; line-height: 1.6; margin-bottom: 20px; color: #444;" id="lb-desc">Beschreibung</p>
+            <button class="glass-btn" onclick="closeLightbox(event)" style="background: var(--brand-green); color: #1a2e05; border-color: var(--brand-green);">Ausgezeichnet!</button>
+            <button class="sheet-close" onclick="closeLightbox(event)">Schließen</button>
+        </div>
+    </div>
+    <div class="glass-overlay" id="contact-overlay" onclick="closeContact(event)">
+        <div class="glass-sheet contact-layout" onclick="event.stopPropagation()">
+            <div class="sheet-half info-half" style="-webkit-user-select: text; user-select: text;">
+                <h3 class="sheet-title">Anfrage</h3>
+                <div style="font-size: 13px; font-weight: 500; margin-bottom: 15px; line-height: 1.4;">Kopiere diese Vorlage:</div>
+                <ul class="info-list">
+                    <li><strong style="color: #000;">Wann:</strong> [Datum/Uhrzeit]</li>
+                    <li><strong style="color: #000;">Wo:</strong> [Ort]</li>
+                    <li><strong style="color: #000;">Gäste:</strong> [Anzahl]</li>
+                    <li><strong style="color: #000;">Details:</strong> [Allergien]</li>
+                </ul>
+                <button class="glass-btn" id="copy-btn" onclick="copyInfoText()">Vorlage kopieren</button>
+            </div>
+            <div class="sheet-half contact-half">
+                <h3 class="sheet-title">Kontakt</h3>
+                <a href="https://wa.me/4915100000000" target="_blank" class="glass-btn">WhatsApp</a>
+                <a href="mailto:hallo@velogourmet.berlin" class="glass-btn">E-Mail</a>
+                <button class="sheet-close" onclick="closeContact(event)">Schließen</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT IMPORTS -->
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@0.5.3/dist/js/splide-extension-auto-scroll.min.js"></script>
+
+    <script>
+        function openContact(e) { if(e) e.preventDefault(); document.getElementById('contact-overlay').classList.add('is-active'); }
+        function closeContact(e) { if(e) e.preventDefault(); document.getElementById('contact-overlay').classList.remove('is-active'); }
+        function closeLightbox(e) { if(e) e.preventDefault(); document.getElementById('lightbox-overlay').classList.remove('is-active'); }
+        function copyInfoText() {
+            navigator.clipboard.writeText("Hallo Velo Gourmet,\n...").then(() => {
+                const btn = document.getElementById('copy-btn'); btn.innerText = 'Kopiert! ✓';
+                setTimeout(() => { btn.innerText = 'Vorlage kopieren'; }, 2500);
+            });
+        }
+
+        let gallerySplide = null;
+        let originalSlides = []; 
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // 1. Tresor sicher befüllen
+            const list = document.getElementById('gallery-list');
+            originalSlides = Array.from(list.children).map(li => li.cloneNode(true));
+            
+            // 2. Weapon-Scroll Menü initialisieren
+            const menuSplide = new Splide('#menu-slider', {
+                type: 'slide', focus: 'center', autoWidth: true, gap: '40px',
+                arrows: true, pagination: false, updateOnMove: true
+            });
+
+            // 3. Bei Wisch/Klick auf neues Menü -> Galerie sicher filtern
+            menuSplide.on('active', function (slide) {
+                const category = slide.slide.dataset.category;
+                filterGallery(category);
+            });
+
+            menuSplide.mount(); 
+            // Die .mount() Funktion löst automatisch ein 'active' Event aus, 
+            // wodurch filterGallery('hermannplatz') als Start-Zustand sicher ausgeführt wird.
+        });
+
+        function filterGallery(category) {
+            const list = document.getElementById('gallery-list');
+            
+            // KRITISCHER BUGFIX: Zuerst den alten Splide-Motor stoppen und DOM-Verweise kappen!
+            if (gallerySplide) {
+                gallerySplide.destroy(true);
+            }
+            
+            // Erst danach den Tisch (DOM) abräumen
+            list.innerHTML = ''; 
+            
+            originalSlides.forEach(slide => {
+                if (slide.dataset.category === category) list.appendChild(slide.cloneNode(true));
+            });
+            
+            // Neuen Motor mit den gefilterten Bildern starten
+            gallerySplide = new Splide('#gallery-slider', {
+                type   : 'loop', drag   : 'free', focus  : 'center', autoWidth: true, gap    : '20px',
+                arrows : false, pagination: false, friction: 0.05, 
+                autoScroll: { speed: 2, pauseOnHover: true, pauseOnFocus: false },
+            });
+            
+            gallerySplide.mount(window.splide.Extensions);
+
+            gallerySplide.on('click', function (slide) {
+                const card = slide.slide.querySelector('.marquee-card');
+                if (!card) return;
+                document.getElementById('lb-title').innerText = card.dataset.title;
+                document.getElementById('lb-desc').innerText = card.dataset.desc;
+                document.getElementById('lb-img').innerText = card.dataset.img;
+                document.getElementById('lightbox-overlay').classList.add('is-active');
+            });
+        }
+
+        /* --- PARALLAX HERO --- */
+        const scrollContainer = document.getElementById('scroll-container');
+        const heroBg = document.getElementById('hero-bg');
+        const heroContent = document.getElementById('hero-content');
+        const swipeHint = document.getElementById('swipe-hint');
+        let ticking = false;
+        scrollContainer.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrolled = scrollContainer.scrollTop; const h = scrollContainer.clientHeight;
+                    if (scrolled <= h) {
+                        const progress = scrolled / h;
+                        heroBg.style.transform = `translateY(${scrolled * 0.4}px)`;
+                        heroContent.style.transform = `translate(-50%, ${-50 + (progress * -8)}%) scale(${1 - progress * 0.05})`;
+                        heroContent.style.opacity = 1 - (progress * 0.8);
+                        swipeHint.style.opacity = 1 - (progress * 2.5);
+                    }
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+    </script>
+</body>
+</html>
