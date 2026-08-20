@@ -395,16 +395,23 @@
             const list = document.getElementById('gallery-list');
             originalSlides = Array.from(list.children).map(li => li.cloneNode(true));
             
-                        // 2. Weapon-Scroll Menü initialisieren (JETZT ENDLOS)
+                                    // 2. Weapon-Scroll Menü initialisieren (iOS Haptik)
             const menuSplide = new Splide('#menu-slider', {
-                type: 'loop', /* <-- HIER IST DIE ÄNDERUNG */
+                type: 'loop', 
                 focus: 'center', 
                 autoWidth: true, 
                 gap: '40px',
                 arrows: true, 
                 pagination: false, 
-                updateOnMove: true
+                updateOnMove: true,
+                
+                // === DIE NEUEN iOS-PHYSIK-PARAMETER ===
+                drag: 'free',     // Erlaubt das freie Werfen/Wischen (Momentum)
+                snap: true,       // Zwingt das Menü, magnetisch auf einem Wort einzurasten
+                friction: 0.15,   // Etwas höherer Widerstand für das griffige "Rad"-Gefühl
+                easing: 'cubic-bezier(0.16, 1, 0.3, 1)' // Die originale Apple-Animationskurve
             });
+
             
 
             // 3. Bei Wisch/Klick auf neues Menü -> Galerie sicher filtern
