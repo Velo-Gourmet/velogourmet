@@ -139,33 +139,40 @@
 
         .menu-subtitle { font-size: 13px; color: #666; margin-top: 5px; font-weight: 500; font-family: -apple-system, sans-serif; }
 
-        /* GRUNDZUSTAND: Alle Slides sind standardmäßig komplett unsichtbar */
+                /* GRUNDZUSTAND: Alle Slides außerhalb des Bildschirms */
         #menu-slider .splide__slide {
             opacity: 0; 
-            visibility: hidden;
-            pointer-events: none; /* Verhindert Klicks auf versteckte Elemente im Hintergrund */
-            transition: opacity 0.4s ease, filter 0.4s ease, transform 0.4s ease, visibility 0.4s ease;
-            transform: scale(0.9);
+            pointer-events: none; 
+            /* Deutlich schnellere Reaktionszeit (0.2s statt 0.4s) für den schnellen Wisch */
+            transition: opacity 0.2s ease, filter 0.2s ease, transform 0.2s ease;
+            transform: scale(0.85);
         }
 
-        /* DIE NACHBARN: Nur exakt das linke und rechte Element werden schemenhaft eingeblendet */
+        /* BEIM SCHNELLEN DREHEN: Alles was durchs Bild fliegt, ist leicht sichtbar */
+        #menu-slider .splide__slide.is-visible {
+            opacity: 0.15; 
+            filter: grayscale(100%);
+        }
+
+        /* DIE RUHENDEN NACHBARN: Exakt links und rechts vom Zentrum */
         #menu-slider .splide__slide.is-prev,
         #menu-slider .splide__slide.is-next {
-            opacity: 0.3; 
-            visibility: visible;
+            opacity: 0.4; 
             pointer-events: auto;
             filter: grayscale(80%);
-            transform: scale(0.9);
+            transform: scale(0.95);
         }
 
-        /* DAS ZENTRUM: Das aktive Element in der absoluten Mitte */
+        /* DAS ZENTRUM: Der absolute Fokus */
         #menu-slider .splide__slide.is-active { 
             opacity: 1; 
-            visibility: visible;
             pointer-events: auto;
             filter: grayscale(0%); 
             transform: scale(1.1); 
+            z-index: 2;
         }
+
+        
 
         #menu-slider .splide__slide.is-active .menu-headline { color: #1a2e05; text-shadow: 0 0 12px rgba(193, 255, 114, 0.7); }
         
