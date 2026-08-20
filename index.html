@@ -106,12 +106,16 @@
         @keyframes floatBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
         /* --- ENDE TEIL 1 --- */
                 /* --- START TEIL 2 --- */
-        /* ==========================================
+                /* ==========================================
            3. WEAPON-SCROLL MENÜ & GALERIE
            ========================================== */
         .gallery-section {
             background-color: var(--bg-sage);
-            z-index: 4; padding: 40px 0 60px 0; justify-content: flex-start;
+            z-index: 4; 
+            /* DIE RAUMAUFTEILUNG: 25vh = Exakt das erste Viertel des Bildschirms bleibt oben frei */
+            padding-top: 25vh; 
+            padding-bottom: 60px; 
+            justify-content: flex-start;
         }
 
         .menu-main-title {
@@ -135,14 +139,34 @@
 
         .menu-subtitle { font-size: 13px; color: #666; margin-top: 5px; font-weight: 500; font-family: -apple-system, sans-serif; }
 
-        /* Optischer Tiefen-Effekt (Inaktive Elemente) */
+        /* GRUNDZUSTAND: Alle Slides sind standardmäßig komplett unsichtbar */
         #menu-slider .splide__slide {
-            opacity: 0.3; filter: grayscale(80%);
-            transition: opacity 0.4s ease, filter 0.4s ease, transform 0.4s ease;
+            opacity: 0; 
+            visibility: hidden;
+            pointer-events: none; /* Verhindert Klicks auf versteckte Elemente im Hintergrund */
+            transition: opacity 0.4s ease, filter 0.4s ease, transform 0.4s ease, visibility 0.4s ease;
+            transform: scale(0.9);
         }
 
-        /* Aktives Element in der Mitte */
-        #menu-slider .splide__slide.is-active { opacity: 1; filter: grayscale(0%); transform: scale(1.1); }
+        /* DIE NACHBARN: Nur exakt das linke und rechte Element werden schemenhaft eingeblendet */
+        #menu-slider .splide__slide.is-prev,
+        #menu-slider .splide__slide.is-next {
+            opacity: 0.3; 
+            visibility: visible;
+            pointer-events: auto;
+            filter: grayscale(80%);
+            transform: scale(0.9);
+        }
+
+        /* DAS ZENTRUM: Das aktive Element in der absoluten Mitte */
+        #menu-slider .splide__slide.is-active { 
+            opacity: 1; 
+            visibility: visible;
+            pointer-events: auto;
+            filter: grayscale(0%); 
+            transform: scale(1.1); 
+        }
+
         #menu-slider .splide__slide.is-active .menu-headline { color: #1a2e05; text-shadow: 0 0 12px rgba(193, 255, 114, 0.7); }
         
         #menu-slider .splide__slide.is-active .menu-headline::before,
@@ -177,6 +201,7 @@
         }
         .card-info h4 { font-size: 18px; margin-bottom: 5px; color: var(--text-dark); }
         .card-info p { font-size: 13px; color: #555; line-height: 1.4; }
+        
 
         /* ==========================================
            4. ACTION & LIGHTBOX OVERLAYS
