@@ -139,26 +139,29 @@
 
         .menu-subtitle { font-size: 13px; color: #666; margin-top: 5px; font-weight: 500; font-family: -apple-system, sans-serif; }
 
-                        /* GRUNDZUSTAND: Alle Optionen (durchgängig sichtbar, aber unscharf und verblasst) */
+                /* GRUNDZUSTAND: Alle Optionen (durchgängig sichtbar, unscharf) */
         #menu-slider .splide__slide {
             opacity: 0.35; 
             pointer-events: none; 
-            /* Der Blur-Effekt und die Entsättigung für den Hintergrund */
             filter: blur(3px) grayscale(60%); 
-            /* Die weiche, stufenweise Transition für das Einrasten */
-            transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease;
+            /* ASYMMETRISCHE TRANSITION: 
+               Wenn ein Element den Fokus verliert, passiert dies sofort (0.1s). */
+            transition: opacity 0.1s ease-out, filter 0.1s ease-out, transform 0.1s ease-out;
             transform: scale(0.9);
         }
 
-        /* DAS ZENTRUM: Der absolute Fokus (scharf und 100% Deckkraft) */
+        /* DAS ZENTRUM: Der absolute Fokus */
         #menu-slider .splide__slide.is-active { 
             opacity: 1; 
             pointer-events: auto;
-            /* Entfernt die Unschärfe und den Grauschleier komplett */
             filter: blur(0px) grayscale(0%); 
             transform: scale(1.1); 
             z-index: 2;
+            /* ASYMMETRISCHE TRANSITION:
+               Wenn ein Element fokussiert wird, blendet es weich ein (0.3s). */
+            transition: opacity 0.3s ease-in, filter 0.3s ease-in, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
+        
         
         
 
