@@ -139,38 +139,27 @@
 
         .menu-subtitle { font-size: 13px; color: #666; margin-top: 5px; font-weight: 500; font-family: -apple-system, sans-serif; }
 
-                    /* GRUNDZUSTAND: Alle Slides außerhalb des Bildschirms */
+                        /* GRUNDZUSTAND: Alle Optionen (durchgängig sichtbar, aber unscharf und verblasst) */
         #menu-slider .splide__slide {
-            opacity: 0; 
+            opacity: 0.35; 
             pointer-events: none; 
-            /* Deutlich schnellere Reaktionszeit (0.2s statt 0.4s) für den schnellen Wisch */
-            transition: opacity 0.2s ease, filter 0.2s ease, transform 0.2s ease;
-            transform: scale(0.85);
+            /* Der Blur-Effekt und die Entsättigung für den Hintergrund */
+            filter: blur(3px) grayscale(60%); 
+            /* Die weiche, stufenweise Transition für das Einrasten */
+            transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease;
+            transform: scale(0.9);
         }
 
-        /* BEIM SCHNELLEN DREHEN: Alles was durchs Bild fliegt, ist leicht sichtbar */
-        #menu-slider .splide__slide.is-visible {
-            opacity: 0.15; 
-            filter: grayscale(100%);
-        }
-
-        /* DIE RUHENDEN NACHBARN: Exakt links und rechts vom Zentrum */
-        #menu-slider .splide__slide.is-prev,
-        #menu-slider .splide__slide.is-next {
-            opacity: 0.4; 
-            pointer-events: auto;
-            filter: grayscale(80%);
-            transform: scale(0.95);
-        }
-
-        /* DAS ZENTRUM: Der absolute Fokus */
+        /* DAS ZENTRUM: Der absolute Fokus (scharf und 100% Deckkraft) */
         #menu-slider .splide__slide.is-active { 
             opacity: 1; 
             pointer-events: auto;
-            filter: grayscale(0%); 
+            /* Entfernt die Unschärfe und den Grauschleier komplett */
+            filter: blur(0px) grayscale(0%); 
             transform: scale(1.1); 
             z-index: 2;
         }
+        
         
 
         
