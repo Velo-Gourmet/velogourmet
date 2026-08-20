@@ -15,6 +15,13 @@
         /* ==========================================
            1. SETUP & CSS-VARIABLEN
            ========================================== */
+        @font-face {
+            font-family: 'Crackman';
+            /* Hier wird später die echte Crackman.ttf verlinkt. 
+               Solange nutzen wir einen kraftvollen Gaming-Fallback. */
+            src: local('Impact'), local('Arial Black'), sans-serif; 
+        }
+
         :root {
             --bg-sand: #f4f1ea;
             --bg-sage: #e2e8dd;
@@ -27,47 +34,24 @@
             --svg-bg-content: url('st.svg');
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         html, body {
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            overflow: hidden;
+            width: 100%; height: 100%; position: fixed; top: 0; left: 0; overflow: hidden;
             background-color: var(--bg-sand);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            color: var(--text-dark);
-            -webkit-text-size-adjust: 100%;
+            color: var(--text-dark); -webkit-text-size-adjust: 100%;
         }
 
         .scroll-container {
-            width: 100%;
-            height: 100%;
-            overflow-y: scroll;
-            overflow-x: hidden;
-            scroll-snap-type: y mandatory;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
+            width: 100%; height: 100%; overflow-y: scroll; overflow-x: hidden;
+            scroll-snap-type: y mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch;
         }
 
         .section {
-            height: 100%;
-            width: 100%;
-            scroll-snap-align: start;
-            scroll-snap-stop: always;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            overflow: hidden;
+            height: 100%; width: 100%; scroll-snap-align: start; scroll-snap-stop: always;
+            position: relative; display: flex; flex-direction: column; justify-content: center;
+            align-items: center; padding: 20px; overflow: hidden;
         }
 
         /* ==========================================
@@ -81,33 +65,25 @@
             z-index: 1; will-change: transform; filter: contrast(95%) brightness(98%);
         }
         .hero-content {
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%); z-index: 2; width: 100%;
-            display: flex; justify-content: center; align-items: center;
-            will-change: transform, opacity;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; width: 100%;
+            display: flex; justify-content: center; align-items: center; will-change: transform, opacity;
             transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.25s ease-out;
         }
         .logo-wrapper { display: flex; justify-content: center; align-items: center; width: 100%; padding: 0 10px; }
         .logo-img {
             aspect-ratio: 1 / 1; width: clamp(250px, 80vw, 500px); height: auto; object-fit: contain;
-            filter: drop-shadow(0 25px 45px rgba(0,0,0,0.22));
-            animation: fadeInMorph 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: drop-shadow(0 25px 45px rgba(0,0,0,0.22)); animation: fadeInMorph 1.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        @media (min-width: 768px) {
-            .logo-img { width: clamp(400px, 75vmin, 800px); height: clamp(400px, 75vmin, 800px); }
-        }
+        @media (min-width: 768px) { .logo-img { width: clamp(400px, 75vmin, 800px); height: clamp(400px, 75vmin, 800px); } }
 
         .swipe-hint {
             position: absolute; bottom: max(30px, env(safe-area-inset-bottom)); z-index: 2;
             font-size: 13px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600;
             color: var(--text-dark); background: rgba(255, 255, 255, 0.85); padding: 10px 22px;
             border-radius: 30px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            animation: floatBounce 2s infinite ease-in-out;
-            will-change: transform, opacity; transition: opacity 0.25s ease-out;
+            animation: floatBounce 2s infinite ease-in-out; will-change: transform, opacity; transition: opacity 0.25s ease-out;
         }
-        @supports (backdrop-filter: blur(8px)) {
-            .swipe-hint { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px); }
-        }
+        @supports (backdrop-filter: blur(8px)) { .swipe-hint { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px); } }
 
         .layer-content {
             background-color: var(--bg-sand); background-image: var(--svg-bg-content);
@@ -130,442 +106,4 @@
 
         @keyframes fadeInMorph { 0% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); filter: blur(8px); } 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: blur(0); } }
         @keyframes floatBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
-                /* ==========================================
-           3. GAMING-MENÜ & GALERIE (NEU)
-           ========================================== */
-        .gallery-section {
-            background-color: var(--bg-sage);
-            z-index: 4;
-            padding: 50px 0 60px 0; 
-            justify-content: flex-start;
-        }
-
-        /* Das Videospiel-Menü */
-        .game-menu-container {
-            width: 100%;
-            max-width: 600px;
-            padding: 0 20px;
-            margin-bottom: 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .menu-main-title {
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            color: #88948b; /* Dezentes, technisches Grau-Grün */
-            margin-bottom: 25px;
-            font-weight: 700;
-        }
-
-        .menu-options {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            width: 100%;
-        }
-
-        .game-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-dark);
-            text-align: center;
-            cursor: pointer;
-            padding: 8px 0;
-            transition: all 0.3s ease;
-            -webkit-tap-highlight-color: transparent;
-            position: relative;
-            outline: none;
-        }
-
-        .btn-headline {
-            font-size: 22px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            display: inline-block;
-            position: relative;
-            transition: color 0.3s ease;
-        }
-
-        .btn-subtitle {
-            font-size: 13px;
-            color: #666;
-            margin-top: 4px;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        /* Der Gaming-Fokus-Effekt */
-        .game-btn.is-active .btn-headline {
-            color: #1a2e05;
-        }
-
-        .game-btn.is-active .btn-headline::before,
-        .game-btn.is-active .btn-headline::after {
-            position: absolute;
-            color: var(--brand-green);
-            font-weight: 900;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 24px;
-            text-shadow: 0 0 10px rgba(193, 255, 114, 0.5); /* Neon Glow */
-        }
-
-        .game-btn.is-active .btn-headline::before {
-            content: '[';
-            left: -20px;
-        }
-
-        .game-btn.is-active .btn-headline::after {
-            content: ']';
-            right: -20px;
-        }
-
-        .game-btn.is-active .btn-subtitle {
-            color: #1a2e05;
-        }
-
-        /* Splide Galerie CSS */
-        .splide { width: 100%; padding: 10px 0; cursor: grab; }
-        .splide:active { cursor: grabbing; }
-
-        .marquee-card {
-            width: 260px; height: 360px; background: var(--card-white);
-            border-radius: 20px; padding: 15px; display: flex; flex-direction: column;
-            justify-content: space-between; box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            border: 1px solid rgba(255,255,255,0.8); position: relative;
-            user-select: none; -webkit-user-select: none;
-        }
-        .splide__slide { -webkit-transform: translateZ(0); transform: translateZ(0); }
-
-        .card-image-placeholder {
-            width: 100%; height: 220px; background: rgba(0,0,0,0.04);
-            border-radius: 12px; display: flex; align-items: center; justify-content: center;
-            font-size: 13px; color: #777; font-weight: 500; text-align: center; padding: 10px;
-        }
-        .card-info h4 { font-size: 18px; margin-bottom: 5px; color: var(--text-dark); }
-        .card-info p { font-size: 13px; color: #555; line-height: 1.4; }
-
-        /* ==========================================
-           4. ACTION & LIGHTBOX OVERLAYS
-           ========================================== */
-        .glass-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(27, 36, 30, 0.45); backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px); z-index: 100; opacity: 0; pointer-events: none;
-            transition: opacity 0.5s ease; display: flex; align-items: center; justify-content: center;
-        }
-        .glass-overlay.is-active { opacity: 1; pointer-events: all; }
-
-        .glass-sheet {
-            width: 92%; max-width: 800px; background: rgba(244, 241, 234, 0.75);
-            backdrop-filter: blur(28px) saturate(180%); -webkit-backdrop-filter: blur(28px) saturate(180%);
-            border: 1px solid rgba(193, 255, 114, 0.4); border-radius: 28px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.2), 0 0 35px rgba(193, 255, 114, 0.12);
-            overflow: hidden; transform: translateY(25px) scale(0.95); transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-            display: flex; flex-direction: column;
-        }
-        .glass-overlay.is-active .glass-sheet { transform: translateY(0) scale(1); }
         
-        .contact-layout { flex-direction: column; }
-        @media (min-width: 600px) { .contact-layout { flex-direction: row; } }
-        .sheet-half { width: 100%; padding: 25px 20px; display: flex; flex-direction: column; }
-        @media (min-width: 600px) {
-            .contact-layout .sheet-half { width: 50%; padding: 40px 30px; }
-            .contact-layout .info-half { border-right: 1px solid rgba(193, 255, 114, 0.25); }
-        }
-
-        .lightbox-layout { padding: 30px 20px; text-align: center; align-items: center; }
-        .lightbox-hero-img {
-            width: 100%; height: 250px; background: rgba(0,0,0,0.05); border-radius: 16px;
-            margin-bottom: 20px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #666;
-        }
-        .sheet-title { font-size: 20px; font-weight: 700; text-align: center; margin-bottom: 12px; letter-spacing: -0.5px; }
-        .info-list { padding-left: 0; font-size: 14px; line-height: 1.7; margin-top: 5px; list-style: none; text-align: left;}
-        .info-list li { margin-bottom: 12px; font-weight: 500; }
-
-        .glass-btn {
-            background: rgba(255, 255, 255, 0.35); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 14px;
-            color: var(--text-dark); font-weight: 600; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            -webkit-tap-highlight-color: transparent; box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 12px 14px;
-            font-size: 14px; cursor: pointer; text-decoration: none; margin-bottom: 10px;
-        }
-        .glass-btn svg { margin-right: 8px; width: 18px; height: 18px; fill: currentColor; }
-        .glass-btn:hover { background: rgba(255, 255, 255, 0.5); transform: translateY(-2px); }
-        .glass-btn:active { transform: scale(0.97) translateY(0); background: rgba(193, 255, 114, 0.6); border-color: var(--brand-green); box-shadow: 0 0 15px rgba(193, 255, 114, 0.3); }
-        .glass-btn.is-copied { background: var(--brand-green); border-color: var(--brand-green); color: #1a2e05; }
-        .sheet-close {
-            margin-top: 15px; background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02);
-            border-radius: 20px; color: var(--text-dark); font-size: 13px; font-weight: 600;
-            padding: 10px 24px; cursor: pointer; align-self: center; transition: all 0.2s; border: none;
-        }
-        .sheet-close:active { background: rgba(0,0,0,0.08); transform: scale(0.96); }
-    </style>
-</head>
-
-   <body>
-    <main class="scroll-container" id="scroll-container">
-        <section class="section hero-section" id="hero">
-            <div class="hero-bg" id="hero-bg"></div>
-            <div class="hero-content" id="hero-content">
-                <div class="logo-wrapper">
-                    <img src="lo.svg" alt="Velo Gourmet Berlin Logo" class="logo-img">
-                </div>
-            </div>
-            <div class="swipe-hint" id="swipe-hint">↓ Wischen</div>
-        </section>
-
-        <section class="section layer-content" id="navigation">
-            <div class="organic-edge-wrapper"><svg viewBox="0 0 500 60" preserveAspectRatio="none" style="width: 100%; height: 100%;"><path class="liquid-path"></path></svg></div>
-            <div class="actions">
-                <a href="javascript:void(0);" class="artist-btn" aria-label="Mach ma fertig!" onclick="openContact(event)">
-                    <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg"><path fill="var(--brand-green)" d="M 25,22 C 40,16 110,18 160,15 C 220,12 280,20 298,28 C 310,38 305,68 290,82 C 260,95 180,88 120,94 C 75,98 35,92 18,80 C 8,68 10,35 25,22 Z" /><text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#1a2e05" class="btn-text">Mach ma fertig!</text></svg>
-                </a>
-                <a href="#galerie" class="artist-btn" aria-label="Appetit holen">
-                    <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg"><path fill="var(--brand-rose)" d="M 22,25 C 55,18 130,14 180,18 C 240,21 275,15 295,25 C 308,35 312,65 292,80 C 265,92 195,96 130,90 C 80,86 40,95 20,82 C 5,70 8,38 22,25 Z" /><text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#3A2325" class="btn-text">Appetit holen</text></svg>
-                </a>
-            </div>
-        </section>
-
-        <section class="section gallery-section" id="galerie">
-            
-            <!-- DAS NEUE VIDEOSPIEL-MENÜ -->
-            <div class="game-menu-container">
-                <div class="menu-main-title">Auswahl</div>
-                
-                <div class="menu-options">
-                    <!-- Standardmäßig ist Hermannplatz aktiv -->
-                    <button class="game-btn is-active" onclick="filterGallery('hermannplatz', this)">
-                        <span class="btn-headline">Hermannplatz</span><br>
-                        <span class="btn-subtitle">Levantische Lebensart</span>
-                    </button>
-                    
-                    <button class="game-btn" onclick="filterGallery('prenzlauerberg', this)">
-                        <span class="btn-headline">Prenzlauer Berg</span><br>
-                        <span class="btn-subtitle">100% Vegan</span>
-                    </button>
-                    
-                    <button class="game-btn" onclick="filterGallery('zehlendorf', this)">
-                        <span class="btn-headline">Zehlendorf</span><br>
-                        <span class="btn-subtitle">Gourmet-Küche</span>
-                    </button>
-
-                    <button class="game-btn" onclick="filterGallery('extrawuensche', this)">
-                        <span class="btn-headline">Geht das noch was</span><br>
-                        <span class="btn-subtitle">Extrawünsche</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- DIE GALERIE (Wird durch JS gefiltert) -->
-            <div class="splide" id="gallery-slider">
-                <div class="splide__track">
-                    <ul class="splide__list" id="gallery-list">
-                        
-                        <!-- Bilder für Hermannplatz -->
-                        <li class="splide__slide" data-category="hermannplatz">
-                            <div class="marquee-card" data-title="Hummus & Pita" data-desc="Cremiger Hummus mit ofenwarmem Brot. Direkt aus der Transportbox." data-img="Foto: Hummus">
-                                <div class="card-image-placeholder">Foto: Hummus Teller</div>
-                                <div class="card-info"><h4>Hummus & Pita</h4><p>Der Klassiker</p></div>
-                            </div>
-                        </li>
-                        <li class="splide__slide" data-category="hermannplatz">
-                            <div class="marquee-card" data-title="Baba Ghanoush" data-desc="Rauchige Aubergine, Granatapfelkerne und frische Petersilie." data-img="Foto: Baba Ghanoush">
-                                <div class="card-image-placeholder">Foto: Baba Ghanoush</div>
-                                <div class="card-info"><h4>Baba Ghanoush</h4><p>Rauchig & Frisch</p></div>
-                            </div>
-                        </li>
-
-                        <!-- Bilder für Prenzlauer Berg -->
-                        <li class="splide__slide" data-category="prenzlauerberg">
-                            <div class="marquee-card" data-title="Pflanzliche Variation" data-desc="Bunte, vegane Kompositionen mit saisonalen Texturen." data-img="Foto: Vegane Bowl">
-                                <div class="card-image-placeholder">Foto: Vegane Bowl</div>
-                                <div class="card-info"><h4>Pflanzliche Bowl</h4><p>Saisonal & Lokal</p></div>
-                            </div>
-                        </li>
-                        <li class="splide__slide" data-category="prenzlauerberg">
-                            <div class="marquee-card" data-title="Kräuter-Fokus" data-desc="Hausgemachte Dips auf Basis frischer Gartenkräuter." data-img="Foto: Kräuter Dip">
-                                <div class="card-image-placeholder">Foto: Kräuter Dip</div>
-                                <div class="card-info"><h4>Grüne Dips</h4><p>Natürlich Vegan</p></div>
-                            </div>
-                        </li>
-
-                        <!-- Bilder für Zehlendorf -->
-                        <li class="splide__slide" data-category="zehlendorf">
-                            <div class="marquee-card" data-title="Trüffel & Pilze" data-desc="Ein Hauch von Luxus, raffiniert pflanzlich interpretiert." data-img="Foto: Gourmet Pilze">
-                                <div class="card-image-placeholder">Foto: Gourmet Pilze</div>
-                                <div class="card-info"><h4>Trüffel Essenzen</h4><p>Fine Dining Setup</p></div>
-                            </div>
-                        </li>
-                        <li class="splide__slide" data-category="zehlendorf">
-                            <div class="marquee-card" data-title="Artischocken-Herzen" data-desc="Eingelegte Artischocken mit feinem Olivenöl und Zitrone." data-img="Foto: Artischocken">
-                                <div class="card-image-placeholder">Foto: Artischocken</div>
-                                <div class="card-info"><h4>Artischocken-Herzen</h4><p>Premium Zutaten</p></div>
-                            </div>
-                        </li>
-
-                        <!-- Bilder für Extrawünsche -->
-                        <li class="splide__slide" data-category="extrawuensche">
-                            <div class="marquee-card" data-title="Glutenfrei & Sicher" data-desc="Spezielle Zubereitung für Allergiker ohne Kompromisse beim Geschmack." data-img="Foto: Glutenfrei">
-                                <div class="card-image-placeholder">Foto: Allergiker-Setup</div>
-                                <div class="card-info"><h4>Glutenfrei</h4><p>Höchste Sorgfalt</p></div>
-                            </div>
-                        </li>
-                        <li class="splide__slide" data-category="extrawuensche">
-                            <div class="marquee-card" data-title="Corporate Branding" data-desc="Wir passen das Menü und die Optik auf Ihr Event an." data-img="Foto: Branding">
-                                <div class="card-image-placeholder">Foto: Firmenevent</div>
-                                <div class="card-info"><h4>Corporate Setup</h4><p>Individuelles Styling</p></div>
-                            </div>
-                        </li>
-                        
-                    </ul>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- OVERLAYS (Lightbox & Kontakt) -->
-    <div class="glass-overlay" id="lightbox-overlay" onclick="closeLightbox(event)">
-        <div class="glass-sheet lightbox-layout" onclick="event.stopPropagation()">
-            <div class="lightbox-hero-img" id="lb-img">Lade...</div>
-            <h3 class="sheet-title" id="lb-title">Titel</h3>
-            <p style="font-size: 14px; line-height: 1.6; margin-bottom: 20px; color: #444;" id="lb-desc">Beschreibung</p>
-            <button class="glass-btn" onclick="closeLightbox(event)" style="background: var(--brand-green); color: #1a2e05; border-color: var(--brand-green);">Ausgezeichnet!</button>
-            <button class="sheet-close" onclick="closeLightbox(event)">Schließen</button>
-        </div>
-    </div>
-
-    <div class="glass-overlay" id="contact-overlay" onclick="closeContact(event)">
-        <div class="glass-sheet contact-layout" onclick="event.stopPropagation()">
-            <div class="sheet-half info-half" style="-webkit-user-select: text; user-select: text;">
-                <h3 class="sheet-title">Anfrage</h3>
-                <div style="font-size: 13px; font-weight: 500; margin-bottom: 15px; line-height: 1.4;">Kopiere diese Vorlage:</div>
-                <ul class="info-list">
-                    <li><strong style="color: #000;">Wann:</strong> [Datum/Uhrzeit]</li>
-                    <li><strong style="color: #000;">Wo:</strong> [Ort in Berlin]</li>
-                    <li><strong style="color: #000;">Gäste:</strong> [Anzahl]</li>
-                    <li><strong style="color: #000;">Menü/Allergien:</strong> [Details]</li>
-                </ul>
-                <button class="glass-btn" id="copy-btn" onclick="copyInfoText()">
-                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-                    <span id="copy-btn-text">Vorlage kopieren</span>
-                </button>
-            </div>
-            <div class="sheet-half contact-half">
-                <h3 class="sheet-title">Kontakt</h3>
-                <a href="https://wa.me/4915100000000" target="_blank" class="glass-btn">WhatsApp</a>
-                <a href="mailto:hallo@velogourmet.berlin" class="glass-btn">E-Mail</a>
-                <button class="sheet-close" onclick="closeContact(event)">Schließen</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@0.5.3/dist/js/splide-extension-auto-scroll.min.js"></script>
-
-    <script>
-        function openContact(e) { if(e) e.preventDefault(); document.getElementById('contact-overlay').classList.add('is-active'); }
-        function closeContact(e) { if(e) e.preventDefault(); document.getElementById('contact-overlay').classList.remove('is-active'); }
-        function closeLightbox(e) { if(e) e.preventDefault(); document.getElementById('lightbox-overlay').classList.remove('is-active'); }
-        
-        function copyInfoText() {
-            navigator.clipboard.writeText("Hallo Velo Gourmet,\nich interessiere mich für ein Catering...\nWann: \nWo: \nGästezahl: \nWünsche: ").then(() => {
-                const btn = document.getElementById('copy-btn'); const btnText = document.getElementById('copy-btn-text');
-                btn.classList.add('is-copied'); btnText.innerText = 'Kopiert! ✓';
-                setTimeout(() => { btn.classList.remove('is-copied'); btnText.innerText = 'Vorlage kopieren'; }, 2500);
-            });
-        }
-
-        /* --- DER FILTER TRESOR & SPLIDE ENGINE --- */
-        let splideInstance = null;
-        let originalSlides = []; 
-
-        document.addEventListener('DOMContentLoaded', function () {
-            // 1. Alle originalen Kacheln in den "Tresor" kopieren, BEVOR Splide sie modifiziert
-            const list = document.getElementById('gallery-list');
-            originalSlides = Array.from(list.children).map(li => li.cloneNode(true));
-            
-            // 2. Start-Setup: Filtere sofort auf Hermannplatz
-            filterGallery('hermannplatz', document.querySelector('.game-btn.is-active'));
-        });
-
-        function initSplide() {
-            if (splideInstance) splideInstance.destroy(); // Alten Motor stoppen
-            
-            splideInstance = new Splide('#gallery-slider', {
-                type   : 'loop',
-                drag   : 'free',
-                focus  : 'center',
-                autoWidth: true,
-                gap    : '20px',
-                arrows : false,
-                pagination: false,
-                friction: 0.05, 
-                autoScroll: { speed: 2, pauseOnHover: true, pauseOnFocus: false },
-            });
-            splideInstance.mount(window.splide.Extensions);
-
-            // Lightbox Klick-Logik wieder anbinden
-            splideInstance.on('click', function (slide) {
-                const card = slide.slide.querySelector('.marquee-card');
-                if (!card) return;
-                document.getElementById('lb-title').innerText = card.dataset.title;
-                document.getElementById('lb-desc').innerText = card.dataset.desc;
-                document.getElementById('lb-img').innerText = card.dataset.img;
-                document.getElementById('lightbox-overlay').classList.add('is-active');
-            });
-        }
-
-        // Die Filter-Funktion (Holt Bilder aus dem Tresor)
-        window.filterGallery = function(category, btnElement) {
-            // Visuelles Feedback: Welcher Button leuchtet?
-            if (btnElement) {
-                document.querySelectorAll('.game-btn').forEach(b => b.classList.remove('is-active'));
-                btnElement.classList.add('is-active');
-            }
-
-            // Galerie leeren
-            const list = document.getElementById('gallery-list');
-            list.innerHTML = ''; 
-
-            // Nur passende Bilder aus dem Tresor auf den Tisch legen
-            originalSlides.forEach(slide => {
-                if (slide.dataset.category === category) {
-                    list.appendChild(slide.cloneNode(true));
-                }
-            });
-
-            // Motor mit den neuen Bildern neu starten
-            initSplide();
-        };
-
-        /* --- PARALLAX HERO --- */
-        const scrollContainer = document.getElementById('scroll-container');
-        const heroBg = document.getElementById('hero-bg');
-        const heroContent = document.getElementById('hero-content');
-        const swipeHint = document.getElementById('swipe-hint');
-        let ticking = false;
-
-        scrollContainer.addEventListener('scroll', () => {
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    const scrolled = scrollContainer.scrollTop;
-                    const h = scrollContainer.clientHeight;
-                    if (scrolled <= h) {
-                        const progress = scrolled / h;
-                        heroBg.style.transform = `translateY(${scrolled * 0.4}px)`;
-                        heroContent.style.transform = `translate(-50%, ${-50 + (progress * -8)}%) scale(${1 - progress * 0.05})`;
-                        heroContent.style.opacity = 1 - (progress * 0.8);
-                        swipeHint.style.opacity = 1 - (progress * 2.5);
-                    }
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        });
-    </script>
-</body>
-</html>
