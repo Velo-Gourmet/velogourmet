@@ -124,9 +124,32 @@
         /* Das Navigations-Karussell */
         #menu-slider { width: 100%; padding: 10px 0 20px 0; margin-bottom: 20px; }
         
+        /* Die Zwangsschablone für absolute Zentrierung */
+        #menu-slider .splide__slide {
+            width: 260px !important;
+            max-width: 260px !important;
+            min-width: 260px !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            opacity: 0.7; 
+            filter: blur(0.9px) grayscale(50%); 
+            transform: scale(0.85);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
         .menu-item-content {
-            text-align: center; display: flex; flex-direction: column; align-items: center;
-            cursor: pointer; padding: 0 10px;
+            width: 100%;
+            text-align: center; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            justify-content: center;
+            cursor: pointer; 
+            padding: 0;
         }
 
         .menu-headline {
@@ -140,17 +163,6 @@
 
         .menu-subtitle { font-size: 13px; color: #666; margin-top: 5px; font-weight: 500; font-family: -apple-system, sans-serif; }
 
-                        /* 1. DER RUHEZUSTAND (Hintergrund-Elemente) */
-        #menu-slider .splide__slide {
-            opacity: 0.7; /* Deutlich präsentere Nachbarn */
-            filter: blur(0.9px) grayscale(50%); /* Nur noch eine minimale, periphere Unschärfe */
-            transform: scale(0.85);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            pointer-events: none;
-        }
-
-        
-
         /* 2. DER FOKUS (Das magnetisch eingerastete Zentrum) */
         #menu-slider .splide__slide.is-active { 
             opacity: 1; 
@@ -161,16 +173,14 @@
         }
         #menu-slider .splide__slide.is-active .menu-headline { color: #1a2e05; text-shadow: 0 0 15px rgba(193, 255, 114, 0.6); }
 
-                        /* 3. DER KINETISCHE NEBEL (Während der Bewegung überschreibt dieser Riegel alles) */
+        /* 3. DER KINETISCHE NEBEL (Während der Bewegung überschreibt dieser Riegel alles) */
         #menu-slider.is-scrolling .splide__slide,
         #menu-slider.is-scrolling .splide__slide.is-active {
             opacity: 0.35 !important; 
-            filter: blur(2.25px) grayscale(80%) !important; /* Exakt um 25% reduzierter Nebel */
+            filter: blur(2.25px) grayscale(80%) !important; 
             transform: scale(0.8) !important; 
             transition: all 0.1s ease-out; 
         }
-
-        
 
         /* Pfeile im Menü */
         #menu-slider .splide__arrow { background: transparent; opacity: 0.8; }
@@ -388,20 +398,23 @@
             const list = document.getElementById('gallery-list');
             originalSlides = Array.from(list.children).map(li => li.cloneNode(true));
             
-            // 2. Das Android/Magnetic-Menü initialisieren (Exakt zentriert)
+            // 2. Das Android/Magnetic-Menü initialisieren (Perfekt zentriert)
             const menuSplide = new Splide('#menu-slider', {
                 type: 'loop', 
                 focus: 'center', 
                 autoWidth: false,      
-                fixedWidth: '260px',   
-                gap: '0px',            
+                fixedWidth: 260,       
+                gap: 0,                
+                trimSpace: false,      
                 arrows: true, 
                 pagination: false, 
                 updateOnMove: true,
                 drag: 'free',     
-                snap: true,       
-                friction: 0.2,    
-                easing: 'cubic-bezier(0.25, 1, 0.5, 1)' 
+                snap: true,             
+                flickMaxPages: 1,       
+                friction: 0.3,          
+                speed: 600,             
+                easing: 'cubic-bezier(0.23, 1, 0.32, 1)' 
             });
 
             // Der Bewegungs-Sensor: Zieht den Nebel hoch, sobald das Rad bewegt wird
