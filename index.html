@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <!-- Temporäre Anti-Cache Tags -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -104,16 +106,13 @@
 
         @keyframes fadeInMorph { 0% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); filter: blur(8px); } 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: blur(0); } }
         @keyframes floatBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
-        /* --- ENDE TEIL 1 --- */
-                /* --- START TEIL 2 --- */
                 /* ==========================================
-           3. WEAPON-SCROLL MENÜ & GALERIE
+           3. MAGNETIC WEAPON-SCROLL MENÜ & GALERIE
            ========================================== */
         .gallery-section {
             background-color: var(--bg-sage);
             z-index: 4; 
-            /* DIE RAUMAUFTEILUNG: 25vh = Exakt das erste Viertel des Bildschirms bleibt oben frei */
-            padding-top: 25vh; 
+            padding-top: 25vh; /* Das erste Viertel bleibt leer */
             padding-bottom: 60px; 
             justify-content: flex-start;
         }
@@ -128,71 +127,49 @@
         
         .menu-item-content {
             text-align: center; display: flex; flex-direction: column; align-items: center;
-            cursor: pointer; padding: 0 10px; transition: all 0.4s ease;
+            cursor: pointer; padding: 0 10px;
         }
 
         .menu-headline {
             font-family: 'Crackman', Impact, sans-serif;
             font-size: 28px; text-transform: uppercase; letter-spacing: 1px;
-            color: var(--text-dark); position: relative; transition: color 0.4s ease, transform 0.4s ease;
+            color: var(--text-dark); position: relative;
         }
+        
+        /* PHANTOM-KILLER: Zerstört jegliche versteckten Klammern im gesamten Dokument */
+        .menu-headline::before, .menu-headline::after { display: none !important; content: none !important; }
 
         .menu-subtitle { font-size: 13px; color: #666; margin-top: 5px; font-weight: 500; font-family: -apple-system, sans-serif; }
 
-                /* GRUNDZUSTAND: Alle Optionen (durchgängig sichtbar, unscharf) */
+        /* 1. DER RUHEZUSTAND (Hintergrund-Elemente) */
         #menu-slider .splide__slide {
-            opacity: 0.35; 
-            pointer-events: none; 
-            filter: blur(3px) grayscale(60%); 
-            /* ASYMMETRISCHE TRANSITION: 
-               Wenn ein Element den Fokus verliert, passiert dies sofort (0.1s). */
-            transition: opacity 0.1s ease-out, filter 0.1s ease-out, transform 0.1s ease-out;
-            transform: scale(0.9);
+            opacity: 0.25; 
+            filter: blur(4px) grayscale(80%); 
+            transform: scale(0.85);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
         }
 
-        /* DAS ZENTRUM: Der absolute Fokus */
+        /* 2. DER FOKUS (Das magnetisch eingerastete Zentrum) */
         #menu-slider .splide__slide.is-active { 
             opacity: 1; 
-            pointer-events: auto;
             filter: blur(0px) grayscale(0%); 
             transform: scale(1.1); 
+            pointer-events: auto;
             z-index: 2;
-            /* ASYMMETRISCHE TRANSITION:
-               Wenn ein Element fokussiert wird, blendet es weich ein (0.3s). */
-            transition: opacity 0.3s ease-in, filter 0.3s ease-in, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
-                /* ==========================================
-           DER "SCROLL-RIEGEL" (Während der Drehung)
-           ========================================== */
-        /* Zwingt ALLE Elemente in die Unschärfe, solange das Rad dreht */
-        #menu-slider.is-scrolling .splide__slide {
-            opacity: 0.35 !important; 
-            filter: blur(3px) grayscale(60%) !important; 
-            transform: scale(0.9) !important; 
-        }
-        
-        /* Entfernt die leuchtende Farbe */
-        #menu-slider.is-scrolling .menu-headline {
-            color: var(--text-dark) !important;
-            text-shadow: none !important;
+        #menu-slider .splide__slide.is-active .menu-headline { color: #1a2e05; text-shadow: 0 0 15px rgba(193, 255, 114, 0.6); }
+
+        /* 3. DER KINETISCHE NEBEL (Während der Bewegung überschreibt dieser Riegel alles) */
+        #menu-slider.is-scrolling .splide__slide,
+        #menu-slider.is-scrolling .splide__slide.is-active {
+            opacity: 0.15 !important; 
+            filter: blur(6px) grayscale(100%) !important; 
+            transform: scale(0.8) !important; 
+            transition: all 0.1s ease-out; /* Reagiert blitzschnell auf Wisch-Bewegung */
         }
 
-            
-        
-        
-        
-        
-
-        
-
-        #menu-slider .splide__slide.is-active .menu-headline { color: #1a2e05; text-shadow: 0 0 12px rgba(193, 255, 114, 0.7); }
-        
-        
-        }
-        #menu-slider .splide__slide.is-active .menu-headline::before { content: '['; left: -25px; }
-        #menu-slider .splide__slide.is-active .menu-headline::after { content: ']'; right: -25px; }
-
-        /* Anpassung der Splide-Pfeile im Menü */
+        /* Pfeile im Menü */
         #menu-slider .splide__arrow { background: transparent; opacity: 0.8; }
         #menu-slider .splide__arrow svg { fill: var(--text-dark); width: 24px; height: 24px; }
         #menu-slider .splide__arrow:hover { opacity: 1; transform: scale(1.1); }
@@ -216,7 +193,6 @@
         }
         .card-info h4 { font-size: 18px; margin-bottom: 5px; color: var(--text-dark); }
         .card-info p { font-size: 13px; color: #555; line-height: 1.4; }
-        
 
         /* ==========================================
            4. ACTION & LIGHTBOX OVERLAYS
@@ -296,12 +272,11 @@
                 </a>
             </div>
         </section>
-        /* --- ENDE TEIL 2 --- */
-                /* --- START TEIL 3 --- */
-        <section class="section gallery-section" id="galerie">
+                <section class="section gallery-section" id="galerie">
+            
             <div class="menu-main-title">Auswahl</div>
             
-            <!-- 1. DER WEAPON-SCROLL MENÜ SLIDER -->
+            <!-- 1. DER MAGNETIC-SCROLL MENÜ SLIDER -->
             <div class="splide" id="menu-slider">
                 <div class="splide__track">
                     <ul class="splide__list">
@@ -395,8 +370,10 @@
         function openContact(e) { if(e) e.preventDefault(); document.getElementById('contact-overlay').classList.add('is-active'); }
         function closeContact(e) { if(e) e.preventDefault(); document.getElementById('contact-overlay').classList.remove('is-active'); }
         function closeLightbox(e) { if(e) e.preventDefault(); document.getElementById('lightbox-overlay').classList.remove('is-active'); }
+        
         function copyInfoText() {
-            navigator.clipboard.writeText("Hallo Velo Gourmet,\n...").then(() => {
+            // Um Zeilenumbrüche im Alert-Fenster zu vermeiden, nutzen wir \n
+            navigator.clipboard.writeText("Hallo Velo Gourmet,\nich interessiere mich für ein Catering...\nWann: \nWo: \nGästezahl: \nWünsche: ").then(() => {
                 const btn = document.getElementById('copy-btn'); btn.innerText = 'Kopiert! ✓';
                 setTimeout(() => { btn.innerText = 'Vorlage kopieren'; }, 2500);
             });
@@ -406,57 +383,58 @@
         let originalSlides = []; 
 
         document.addEventListener('DOMContentLoaded', function () {
-            // 1. Tresor sicher befüllen
+            // 1. Tresor sicher befüllen BEVOR das Menü gemountet wird
             const list = document.getElementById('gallery-list');
             originalSlides = Array.from(list.children).map(li => li.cloneNode(true));
             
-                                                // 2. Das Weapon-Scroll Menü initialisieren
+            // 2. Das Android/Magnetic-Menü initialisieren
             const menuSplide = new Splide('#menu-slider', {
                 type: 'loop', focus: 'center', autoWidth: true, gap: '40px',
                 arrows: true, pagination: false, updateOnMove: true,
-                drag: 'free', snap: true, friction: 0.15, easing: 'cubic-bezier(0.16, 1, 0.3, 1)'
+                
+                // Die Magnet-Physik
+                drag: 'free',     
+                snap: true,       // Zwingt das Rad in die Rasterung
+                friction: 0.2,    // Leicht erhöhter Widerstand
+                easing: 'cubic-bezier(0.25, 1, 0.5, 1)' // Weiches Auslaufen
             });
 
-            // NEU: Sobald das Rad angedreht wird -> Riegel vorschieben (Alles unscharf)
-            menuSplide.on('move', function () {
+            // Der Bewegungs-Sensor (Aktiviert den Blur-Nebel)
+            menuSplide.on('drag move', function () {
                 document.getElementById('menu-slider').classList.add('is-scrolling');
             });
 
-            // NEU: Sobald das Rad 100% stillsteht -> Riegel lösen (Fokus einblenden)
+            // Der Magnet-Sensor (Entfernt den Nebel, wenn das Rad eingerastet ist)
             menuSplide.on('settled', function () {
                 document.getElementById('menu-slider').classList.remove('is-scrolling');
             });
 
-            // 3. Bei Wisch/Klick auf neues Menü -> Galerie sicher filtern
+            // 3. Bei Einrasten auf neues Menü -> Galerie filtern
             menuSplide.on('active', function (slide) {
                 const category = slide.slide.dataset.category;
                 filterGallery(category);
             });
 
             menuSplide.mount(); 
-
-
-            menuSplide.mount(); 
-            // Die .mount() Funktion löst automatisch ein 'active' Event aus, 
-            // wodurch filterGallery('hermannplatz') als Start-Zustand sicher ausgeführt wird.
         });
 
         function filterGallery(category) {
             const list = document.getElementById('gallery-list');
             
-            // KRITISCHER BUGFIX: Zuerst den alten Splide-Motor stoppen und DOM-Verweise kappen!
+            // Alter Motor stoppen
             if (gallerySplide) {
                 gallerySplide.destroy(true);
             }
             
-            // Erst danach den Tisch (DOM) abräumen
+            // Tisch abräumen
             list.innerHTML = ''; 
             
+            // Passende Kacheln laden
             originalSlides.forEach(slide => {
                 if (slide.dataset.category === category) list.appendChild(slide.cloneNode(true));
             });
             
-            // Neuen Motor mit den gefilterten Bildern starten
+            // Motor starten
             gallerySplide = new Splide('#gallery-slider', {
                 type   : 'loop', drag   : 'free', focus  : 'center', autoWidth: true, gap    : '20px',
                 arrows : false, pagination: false, friction: 0.05, 
