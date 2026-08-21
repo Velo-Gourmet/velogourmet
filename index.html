@@ -177,13 +177,7 @@
             text-shadow: none !important;
         }
 
-                /* Absolute Dominanz: Reißt die Neon-Klammern [ ] sofort ab */
-        #menu-slider.is-scrolling .splide__slide.is-active .menu-headline::before,
-        #menu-slider.is-scrolling .splide__slide.is-active .menu-headline::after {
-            content: '' !important; 
-            opacity: 0 !important; 
-            display: none !important;
-        }
+            
         
         
         
@@ -193,10 +187,7 @@
 
         #menu-slider .splide__slide.is-active .menu-headline { color: #1a2e05; text-shadow: 0 0 12px rgba(193, 255, 114, 0.7); }
         
-        #menu-slider .splide__slide.is-active .menu-headline::before,
-        #menu-slider .splide__slide.is-active .menu-headline::after {
-            position: absolute; color: var(--brand-green); font-weight: 900;
-            top: 50%; transform: translateY(-50%); font-size: 30px;
+        
         }
         #menu-slider .splide__slide.is-active .menu-headline::before { content: '['; left: -25px; }
         #menu-slider .splide__slide.is-active .menu-headline::after { content: ']'; right: -25px; }
