@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <!-- Temporäre Anti-Cache Tags -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -112,7 +111,7 @@
         .gallery-section {
             background-color: var(--bg-sage);
             z-index: 4; 
-            padding-top: 25vh; /* Das erste Viertel bleibt leer */
+            padding-top: 25vh; 
             padding-bottom: 60px; 
             justify-content: flex-start;
         }
@@ -166,7 +165,7 @@
             opacity: 0.15 !important; 
             filter: blur(6px) grayscale(100%) !important; 
             transform: scale(0.8) !important; 
-            transition: all 0.1s ease-out; /* Reagiert blitzschnell auf Wisch-Bewegung */
+            transition: all 0.1s ease-out; 
         }
 
         /* Pfeile im Menü */
@@ -372,7 +371,6 @@
         function closeLightbox(e) { if(e) e.preventDefault(); document.getElementById('lightbox-overlay').classList.remove('is-active'); }
         
         function copyInfoText() {
-            // Um Zeilenumbrüche im Alert-Fenster zu vermeiden, nutzen wir \n
             navigator.clipboard.writeText("Hallo Velo Gourmet,\nich interessiere mich für ein Catering...\nWann: \nWo: \nGästezahl: \nWünsche: ").then(() => {
                 const btn = document.getElementById('copy-btn'); btn.innerText = 'Kopiert! ✓';
                 setTimeout(() => { btn.innerText = 'Vorlage kopieren'; }, 2500);
@@ -383,30 +381,35 @@
         let originalSlides = []; 
 
         document.addEventListener('DOMContentLoaded', function () {
-            // 1. Tresor sicher befüllen BEVOR das Menü gemountet wird
             const list = document.getElementById('gallery-list');
             originalSlides = Array.from(list.children).map(li => li.cloneNode(true));
             
-            // 2. Das Android/Magnetic-Menü initialisieren
+            // 2. Das Android/Magnetic-Menü initialisieren (Exakt zentriert)
             const menuSplide = new Splide('#menu-slider', {
-                type: 'loop', focus: 'center', autoWidth: true, gap: '40px',
-                arrows: true, pagination: false, updateOnMove: true,
-                
-                // Die Magnet-Physik
+                type: 'loop', 
+                focus: 'center', 
+                autoWidth: false,      
+                fixedWidth: '260px',   
+                gap: '0px',            
+                arrows: true, 
+                pagination: false, 
+                updateOnMove: true,
                 drag: 'free',     
-                snap: true,       // Zwingt das Rad in die Rasterung
-                friction: 0.2,    // Leicht erhöhter Widerstand
-                easing: 'cubic-bezier(0.25, 1, 0.5, 1)' // Weiches Auslaufen
+                snap: true,       
+                friction: 0.2,    
+                easing: 'cubic-bezier(0.25, 1, 0.5, 1)' 
             });
 
-            // Der Bewegungs-Sensor (Aktiviert den Blur-Nebel)
-            menuSplide.on('drag move', function () {
+            // Der Bewegungs-Sensor: Zieht den Nebel hoch, sobald das Rad bewegt wird
+            menuSplide.on('move drag', function () {
                 document.getElementById('menu-slider').classList.add('is-scrolling');
             });
 
-            // Der Magnet-Sensor (Entfernt den Nebel, wenn das Rad eingerastet ist)
-            menuSplide.on('settled', function () {
-                document.getElementById('menu-slider').classList.remove('is-scrolling');
+            // Der KORRIGIERTE Magnet-Sensor: Löscht den Nebel absolut verlässlich
+            menuSplide.on('moved dragged scrolled', function () {
+                setTimeout(function() {
+                    document.getElementById('menu-slider').classList.remove('is-scrolling');
+                }, 50); 
             });
 
             // 3. Bei Einrasten auf neues Menü -> Galerie filtern
@@ -421,20 +424,16 @@
         function filterGallery(category) {
             const list = document.getElementById('gallery-list');
             
-            // Alter Motor stoppen
             if (gallerySplide) {
                 gallerySplide.destroy(true);
             }
             
-            // Tisch abräumen
             list.innerHTML = ''; 
             
-            // Passende Kacheln laden
             originalSlides.forEach(slide => {
                 if (slide.dataset.category === category) list.appendChild(slide.cloneNode(true));
             });
             
-            // Motor starten
             gallerySplide = new Splide('#gallery-slider', {
                 type   : 'loop', drag   : 'free', focus  : 'center', autoWidth: true, gap    : '20px',
                 arrows : false, pagination: false, friction: 0.05, 
