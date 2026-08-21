@@ -140,14 +140,15 @@
 
         .menu-subtitle { font-size: 13px; color: #666; margin-top: 5px; font-weight: 500; font-family: -apple-system, sans-serif; }
 
-        /* 1. DER RUHEZUSTAND (Hintergrund-Elemente) */
+                /* 1. DER RUHEZUSTAND (Hintergrund-Elemente) */
         #menu-slider .splide__slide {
-            opacity: 0.25; 
-            filter: blur(4px) grayscale(80%); 
+            opacity: 0.45; /* Deutlich präsenter, schimmert kräftiger durch */
+            filter: blur(1.5px) grayscale(50%); /* Nur noch ein Hauch von Unschärfe */
             transform: scale(0.85);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             pointer-events: none;
         }
+        
 
         /* 2. DER FOKUS (Das magnetisch eingerastete Zentrum) */
         #menu-slider .splide__slide.is-active { 
@@ -159,14 +160,15 @@
         }
         #menu-slider .splide__slide.is-active .menu-headline { color: #1a2e05; text-shadow: 0 0 15px rgba(193, 255, 114, 0.6); }
 
-        /* 3. DER KINETISCHE NEBEL (Während der Bewegung überschreibt dieser Riegel alles) */
+                /* 3. DER KINETISCHE NEBEL (Während der Bewegung überschreibt dieser Riegel alles) */
         #menu-slider.is-scrolling .splide__slide,
         #menu-slider.is-scrolling .splide__slide.is-active {
-            opacity: 0.15 !important; 
-            filter: blur(6px) grayscale(100%) !important; 
+            opacity: 0.35 !important; /* Bleibt während der Fahrt besser lesbar */
+            filter: blur(3px) grayscale(80%) !important; /* Blur exakt halbiert */
             transform: scale(0.8) !important; 
             transition: all 0.1s ease-out; 
         }
+        
 
         /* Pfeile im Menü */
         #menu-slider .splide__arrow { background: transparent; opacity: 0.8; }
