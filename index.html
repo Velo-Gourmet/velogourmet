@@ -177,11 +177,14 @@
             text-shadow: none !important;
         }
 
-        /* Reißt die Neon-Klammern [ ] sofort ab */
-        #menu-slider.is-scrolling .menu-headline::before,
-        #menu-slider.is-scrolling .menu-headline::after {
+                /* Absolute Dominanz: Reißt die Neon-Klammern [ ] sofort ab */
+        #menu-slider.is-scrolling .splide__slide.is-active .menu-headline::before,
+        #menu-slider.is-scrolling .splide__slide.is-active .menu-headline::after {
+            content: '' !important; 
             opacity: 0 !important; 
+            display: none !important;
         }
+        
         
         
         
