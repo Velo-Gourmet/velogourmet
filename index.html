@@ -121,8 +121,18 @@
             color: #88948b; margin-bottom: 20px; font-weight: 700; text-align: center;
         }
 
-                /* Das Navigations-Karussell */
-        #menu-slider { width: 100%; padding: 10px 0 20px 0; margin-bottom: 20px; }
+                        /* Das Navigations-Karussell (mit großzügiger Sicherheitszone für die Skalierung) */
+        #menu-slider { 
+            width: 100%; 
+            padding: 30px 0 40px 0; 
+            margin-bottom: 20px; 
+            overflow: visible; 
+        }
+        
+        #menu-slider .splide__track {
+            overflow: visible; 
+        }
+        
         
         /* 1. DIE STARRE ZWANGSSCHABLONE (Für Splide unsichtbar, unveränderlich 260px) */
         #menu-slider .splide__slide {
