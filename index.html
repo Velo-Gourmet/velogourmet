@@ -420,12 +420,15 @@
                 arrows: true, 
                 pagination: false, 
                 updateOnMove: true,
-                drag: 'free',     
-                snap: true,             
-                flickMaxPages: 1,
-                                friction: 0.4,          /* Hoher Widerstand, bremst die Wischbewegung schnell ab */
-                speed: 700,             /* Zieht sich genüsslich in die Mitte (0.7 Sekunden) */
-                easing: 'cubic-bezier(0.25, 1, 0.5, 1)' /* Seidenweiches, langes Auslaufen */
+                
+
+                            // ... (Ihre restlichen Parameter)
+            drag: 'free',     
+            snap: true,             
+            flickMaxPages: 1,       
+            friction: 0.15,          /* Rollt sehr leicht und weit */
+            speed: 250,              /* Schnappt extrem schnell zu (0.25 Sekunden) */
+            easing: 'ease-out'       /* Kurzer, direkter Stopp */
                 
             });
 
