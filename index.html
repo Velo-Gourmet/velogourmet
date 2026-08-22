@@ -422,10 +422,11 @@
                 updateOnMove: true,
                 drag: 'free',     
                 snap: true,             
-                flickMaxPages: 1,       
-                friction: 0.3,          
-                speed: 600,             
-                easing: 'cubic-bezier(0.23, 1, 0.32, 1)' 
+                flickMaxPages: 1,
+                                friction: 0.4,          /* Hoher Widerstand, bremst die Wischbewegung schnell ab */
+                speed: 700,             /* Zieht sich genüsslich in die Mitte (0.7 Sekunden) */
+                easing: 'cubic-bezier(0.25, 1, 0.5, 1)' /* Seidenweiches, langes Auslaufen */
+                
             });
 
             // Der Bewegungs-Sensor: Zieht den Nebel hoch, sobald das Rad bewegt wird
