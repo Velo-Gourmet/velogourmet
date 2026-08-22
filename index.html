@@ -121,10 +121,10 @@
             color: #88948b; margin-bottom: 20px; font-weight: 700; text-align: center;
         }
 
-        /* Das Navigations-Karussell */
+                /* Das Navigations-Karussell */
         #menu-slider { width: 100%; padding: 10px 0 20px 0; margin-bottom: 20px; }
         
-        /* Die Zwangsschablone für absolute Zentrierung */
+        /* 1. DIE STARRE ZWANGSSCHABLONE (Für Splide unsichtbar, unveränderlich 260px) */
         #menu-slider .splide__slide {
             width: 260px !important;
             max-width: 260px !important;
@@ -132,15 +132,12 @@
             display: flex !important;
             justify-content: center !important;
             align-items: center !important;
-            opacity: 0.7; 
-            filter: blur(0.9px) grayscale(50%); 
-            transform: scale(0.85);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            pointer-events: none;
             margin: 0 !important;
             padding: 0 !important;
+            pointer-events: none; /* Verhindert Klicks im inaktiven Zustand */
         }
 
+        /* 2. DER INNER TEXT-CONTAINER (Hier passieren alle optischen Effekte!) */
         .menu-item-content {
             width: 100%;
             text-align: center; 
@@ -150,6 +147,12 @@
             justify-content: center;
             cursor: pointer; 
             padding: 0;
+            
+            /* Der Ruhezustand (unscharf & klein) liegt jetzt auf dem inneren Inhalt */
+            opacity: 0.7; 
+            filter: blur(0.9px) grayscale(50%); 
+            transform: scale(0.85); /* Innen schrumpfen */
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .menu-headline {
@@ -158,30 +161,38 @@
             color: var(--text-dark); position: relative;
         }
         
-        /* PHANTOM-KILLER: Zerstört jegliche versteckten Klammern im gesamten Dokument */
+        /* PHANTOM-KILLER */
         .menu-headline::before, .menu-headline::after { display: none !important; content: none !important; }
-
         .menu-subtitle { font-size: 13px; color: #666; margin-top: 5px; font-weight: 500; font-family: -apple-system, sans-serif; }
 
-        /* 2. DER FOKUS (Das magnetisch eingerastete Zentrum) */
+        /* 3. DER FOKUS (Das magnetisch eingerastete Zentrum) */
         #menu-slider .splide__slide.is-active { 
-            opacity: 1; 
-            filter: blur(0px) grayscale(0%); 
-            transform: scale(1.1); 
-            pointer-events: auto;
+            pointer-events: auto; /* Klicks erlauben */
             z-index: 2;
         }
-        #menu-slider .splide__slide.is-active .menu-headline { color: #1a2e05; text-shadow: 0 0 15px rgba(193, 255, 114, 0.6); }
+        
+        /* Wir machen jetzt NUR den inneren Inhalt groß und scharf */
+        #menu-slider .splide__slide.is-active .menu-item-content {
+            opacity: 1; 
+            filter: blur(0px) grayscale(0%); 
+            transform: scale(1.1); /* Innen wachsen, ohne die Splide-Mathematik zu stören */
+        }
+        
+        #menu-slider .splide__slide.is-active .menu-headline { 
+            color: #1a2e05; 
+            text-shadow: 0 0 15px rgba(193, 255, 114, 0.6); 
+        }
 
-        /* 3. DER KINETISCHE NEBEL (Während der Bewegung überschreibt dieser Riegel alles) */
-        #menu-slider.is-scrolling .splide__slide,
-        #menu-slider.is-scrolling .splide__slide.is-active {
+        /* 4. DER KINETISCHE NEBEL (Zwingt den inneren Container in die Unschärfe) */
+        #menu-slider.is-scrolling .splide__slide .menu-item-content,
+        #menu-slider.is-scrolling .splide__slide.is-active .menu-item-content {
             opacity: 0.35 !important; 
             filter: blur(2.25px) grayscale(80%) !important; 
             transform: scale(0.8) !important; 
             transition: all 0.1s ease-out; 
         }
-
+        
+        
         /* Pfeile im Menü */
         #menu-slider .splide__arrow { background: transparent; opacity: 0.8; }
         #menu-slider .splide__arrow svg { fill: var(--text-dark); width: 24px; height: 24px; }
