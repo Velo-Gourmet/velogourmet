@@ -200,8 +200,11 @@
             opacity: 0.35 !important; 
             filter: blur(2.25px) grayscale(80%) !important; 
             transform: scale(0.8) !important; 
-            transition: all 0.1s ease-out; 
+            
+            /* NEU: Ein stufenloser, butterweicher Übergang in den Nebel (0.4 Sekunden) */
+            transition: all 0.4s ease-in-out; 
         }
+
         
         
         /* Pfeile im Menü */
