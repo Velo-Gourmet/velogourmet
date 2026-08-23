@@ -436,9 +436,11 @@
                             // ... (Ihre restlichen Parameter)
             drag: 'free',     
             snap: true,             
-            flickMaxPages: 1,       
-            friction: 0.15,          /* Rollt sehr leicht und weit */
-            speed: 250,              /* Schnappt extrem schnell zu (0.25 Sekunden) */
+                            flickMaxPages: 1,       
+                friction: 0.25,          /* ERHÖHT: Das Rad bremst auf kürzerer Distanz ab */
+                flickPower: 250,         /* NEU: Kappt die maximale Energie der Wischgeste (Standard ist 600) */
+                speed: 400,             
+
             easing: 'ease-out'       /* Kurzer, direkter Stopp */
                 
             });
