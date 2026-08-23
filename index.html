@@ -453,12 +453,11 @@
                 document.getElementById('menu-slider').classList.add('is-scrolling');
             });
 
-            // Der KORRIGIERTE Magnet-Sensor: Löscht den Nebel absolut verlässlich
-            menuSplide.on('moved dragged scrolled', function () {
-                setTimeout(function() {
-                    document.getElementById('menu-slider').classList.remove('is-scrolling');
-                }, 50); 
+                        // Der Blitz-Sensor: Löscht den Nebel SOFORT bei Stillstand
+            menuSplide.on('moved', function () {
+                document.getElementById('menu-slider').classList.remove('is-scrolling');
             });
+
 
             // 3. Bei Einrasten auf neues Menü -> Galerie filtern
             menuSplide.on('active', function (slide) {
