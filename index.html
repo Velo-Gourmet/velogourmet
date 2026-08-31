@@ -453,10 +453,16 @@
                 document.getElementById('menu-slider').classList.add('is-scrolling');
             });
 
-                        // Der Blitz-Sensor: Löscht den Nebel SOFORT bei Stillstand
-            menuSplide.on('moved', function () {
+                                    // 1. NEBEL EIN: Reagiert auf Pfeil-Klicks (move) UND auf den Beginn einer Wischgeste (drag)
+            menuSplide.on('move drag', function () {
+                document.getElementById('menu-slider').classList.add('is-scrolling');
+            });
+
+            // 2. NEBEL AUS: Reagiert exakt in dem Moment, in dem das Einrasten (moved) oder Ausrollen (scrolled) ENDGÜLTIG stoppt
+            menuSplide.on('moved scrolled', function () {
                 document.getElementById('menu-slider').classList.remove('is-scrolling');
             });
+            
 
 
             // 3. Bei Einrasten auf neues Menü -> Galerie filtern
