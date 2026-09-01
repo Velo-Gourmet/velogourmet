@@ -48,22 +48,21 @@
         .swipe-hint { position: absolute; bottom: max(30px, env(safe-area-inset-bottom)); z-index: 2; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; color: var(--text-dark); background: rgba(255, 255, 255, 0.85); padding: 10px 22px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); animation: floatBounce 2s infinite ease-in-out; will-change: transform, opacity; transition: opacity 0.25s ease-out; }
         @supports (backdrop-filter: blur(8px)) { .swipe-hint { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px); } }
 
-         .layer-content { 
+                 .layer-content { 
             position: relative; 
-            background-color: transparent; /* LÖSUNG 1: Keine braune Farbe mehr, falls das Bild zu kurz ist */
+            background-color: transparent; 
             background-image: var(--svg-bg-content); 
             background-size: cover; 
-            background-position: center bottom; /* LÖSUNG 2: Heftet das Marmor-Bild bündig an die untere Kante */
+            background-position: center bottom; 
             background-repeat: no-repeat; 
-            box-shadow: 
-    0 35px 70px rgba(0, 0, 0, 0.55), /* Der Raumschatten nach außen auf das Plasma */
-    0 15px 25px rgba(0, 0, 0, 0.35),
-    inset 0 -12px 15px rgba(0, 0, 0, 0.25), /* Die Materialdicke INNEN am SVG-Rand */
-    inset 0 -2px 0px rgba(255, 255, 255, 0.3); /* Hauchfeine Lichtkante als Abschluss */
-
             z-index: 3; 
             overflow: visible !important; 
+            
+            /* NEU: Die CSS-Maske für den fließenden Übergang */
+            -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
         }
+
 
 
         .organic-edge-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 60px; transform: translateY(-99%); pointer-events: none; overflow: hidden; }
