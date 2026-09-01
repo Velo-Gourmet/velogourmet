@@ -106,53 +106,71 @@
         @keyframes fadeInMorph { 0% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); filter: blur(8px); } 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: blur(0); } }
         @keyframes floatBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
                 /* ==========================================
+
+                /* ==========================================
            3. MAGNETIC WEAPON-SCROLL MENÜ & GALERIE
            ========================================== */
+
+        /* --- 1. ZONE-CONTAINER (Die Zwei-Zonen-Architektur) --- */
         .gallery-section {
             background-color: var(--bg-sage);
             z-index: 4; 
-            padding-top: 25vh; 
-            padding-bottom: 60px; 
+            display: flex;
+            flex-direction: column;
             justify-content: flex-start;
+            /* Dynamischer Abstand oben: min 30px, ideal 8vh, max 80px */
+            padding-top: clamp(30px, 8vh, 80px); 
+            padding-bottom: 20px;
+            height: 100%; 
         }
 
-                .menu-main-title {
-            /* 1. DIE NEUEN FLUG-KOORDINATEN */
-            position: absolute !important;
-            top: 15vh; /* Positioniert den Text souverän über dem Menü */
-            left: 0;
-            width: 100%;
-            z-index: 50;
-
-            /* 2. IHRE BEWÄHRTE TYPOGRAFIE */
-            font-size: 14px; 
+        /* --- 2. ZONE 1: DAS COCKPIT (Oben) --- */
+        .menu-main-title {
+            font-size: clamp(11px, 1.5vw, 14px); 
             text-transform: uppercase; 
             letter-spacing: 4px;
             color: #88948b; 
             font-weight: 700; 
             text-align: center;
-            
-            margin-bottom: 0; 
+            width: 100%;
+            margin-bottom: clamp(10px, 2vh, 20px); 
+            flex-shrink: 0; 
         }
 
-
-                                /* Das Navigations-Karussell (mit großzügiger Sicherheitszone für die Skalierung) */
         #menu-slider { 
-            position: absolute !important; /* Löst das Menü aus dem Standard-Fluss */
-            top: 22vh !important;          /* Positioniert es exakt im oberen Viertel */
-            left: 0;
-            z-index: 50;                   /* Garantiert, dass es über anderen Elementen schwebt */
-            
-            /* Ihre bewährten Werte für Breite und Sicherheitsabstand: */
             width: 100%; 
-            padding: 30px 0 40px 0; 
-            margin-bottom: 20px; 
+            padding: 10px 0 15px 0; 
+            margin-bottom: 0; 
+            overflow: visible; 
+            flex-shrink: 0; 
+        }
+        
+        #menu-slider .splide__track {
             overflow: visible; 
         }
 
+        /* --- 3. ZONE 2: DIE BÜHNE (Unten, für spätere SVGs) --- */
+        .gallery-content-zone {
+            flex-grow: 1; 
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* --- 4. QUERFORMAT-NOTFALLPLAN (Landscape) --- */
+        @media (orientation: landscape) and (max-height: 600px) {
+            .gallery-section { padding-top: 15px; }
+            .menu-main-title { margin-bottom: 5px; }
+            #menu-slider { padding: 5px 0 10px 0; }
+        }
+
+        /* ==========================================
+           4. DIE INNEREN EFFEKTE (Unverändert & Bereinigt)
+           ========================================== */
         
-        
-        /* 1. DIE STARRE ZWANGSSCHABLONE (Für Splide unsichtbar, unveränderlich 260px) */
+        /* 1. DIE STARRE ZWANGSSCHABLONE */
         #menu-slider .splide__slide {
             width: 260px !important;
             max-width: 260px !important;
@@ -165,8 +183,8 @@
             pointer-events: none; /* Verhindert Klicks im inaktiven Zustand */
         }
 
-                        /* 2. DER INNER TEXT-CONTAINER (Hier passieren alle optischen Effekte!) */
-                .menu-item-content {
+        /* 2. DER INNER TEXT-CONTAINER (Hier passieren alle optischen Effekte!) */
+        .menu-item-content {
             width: 100%;
             text-align: center; 
             display: flex; 
@@ -176,24 +194,12 @@
             cursor: pointer; 
             padding: 0;
             
-            /* NEU: Die Nachbarn bleiben DAUERHAFT tief im Hintergrund versteckt */
+            /* Nachbarn bleiben DAUERHAFT tief im Hintergrund versteckt */
             opacity: 0.35; 
             filter: blur(2.5px) grayscale(50%); 
             transform: scale(0.85); 
-            
             transition: all 0.1s ease-out;
         }
-
-            
-            /* NEU: Die Nachbarn bleiben DAUERHAFT tief im Hintergrund versteckt */
-            opacity: 0.35; 
-            filter: blur(2.5px) grayscale(50%); 
-            transform: scale(0.85); 
-            
-            transition: all 0.1s ease-out;
-        }
-
-
 
         .menu-headline {
             font-family: 'Crackman', Impact, sans-serif;
@@ -215,7 +221,7 @@
         #menu-slider .splide__slide.is-active .menu-item-content {
             opacity: 1; 
             filter: blur(0px) grayscale(0%); 
-            transform: scale(1.1); /* Innen wachsen, ohne die Splide-Mathematik zu stören */
+            transform: scale(1.1); 
         }
         
         #menu-slider .splide__slide.is-active .menu-headline { 
@@ -223,19 +229,14 @@
             text-shadow: 0 0 15px rgba(193, 255, 114, 0.6); 
         }
 
-                /* 4. DER KINETISCHE NEBEL (Zwingt den inneren Container in die Unschärfe) */
+        /* 4. DER KINETISCHE NEBEL */
         #menu-slider.is-scrolling .splide__slide .menu-item-content,
         #menu-slider.is-scrolling .splide__slide.is-active .menu-item-content {
             opacity: 0.35 !important; 
             filter: blur(2.5px) grayscale(50%) !important; 
             transform: scale(0.85) !important; 
-            
-            /* NEU: Sportliche und verzögerungsfreie 0.1 Sekunden für absolute Direktheit */
             transition: all 0.1s ease-out; 
         }
-
-
-        
         
         /* Pfeile im Menü */
         #menu-slider .splide__arrow { background: transparent; opacity: 0.8; }
@@ -261,6 +262,9 @@
         }
         .card-info h4 { font-size: 18px; margin-bottom: 5px; color: var(--text-dark); }
         .card-info p { font-size: 13px; color: #555; line-height: 1.4; }
+        
+            
+        
 
         /* ==========================================
            4. ACTION & LIGHTBOX OVERLAYS
