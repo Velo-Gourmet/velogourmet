@@ -55,8 +55,12 @@
             background-size: cover; 
             background-position: center bottom; /* LÖSUNG 2: Heftet das Marmor-Bild bündig an die untere Kante */
             background-repeat: no-repeat; 
-            box-shadow: 0 35px 70px rgba(0, 0, 0, 0.55), 
-                        0 15px 25px rgba(0, 0, 0, 0.35); 
+            box-shadow: 
+    0 35px 70px rgba(0, 0, 0, 0.55), /* Der Raumschatten nach außen auf das Plasma */
+    0 15px 25px rgba(0, 0, 0, 0.35),
+    inset 0 -12px 15px rgba(0, 0, 0, 0.25), /* Die Materialdicke INNEN am SVG-Rand */
+    inset 0 -2px 0px rgba(255, 255, 255, 0.3); /* Hauchfeine Lichtkante als Abschluss */
+
             z-index: 3; 
             overflow: visible !important; 
         }
