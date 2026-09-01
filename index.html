@@ -278,6 +278,27 @@
             });
             gallerySplide.mount(window.splide.Extensions);
 
+                        // NEU: KINETISCHE KOPPLUNG FÜR DIE FOTOGALERIE
+            // Gibt dem Plasma Energie, wenn die Fotokarten gewischt werden
+            gallerySplide.on('move drag', function () {
+                // Ein leichterer Schub (1.5) als beim Menü (2.5), 
+                // da die Karten schwerer wirken sollen
+                window.swipeVelocity = 1.5; 
+            });
+            
+            // Pausiert den Auto-Scroll, wenn aktiv gewischt wird, 
+            // damit die kinetische Energie sauber ins Plasma fließt
+            gallerySplide.on('drag', function() {
+                const autoScroll = gallerySplide.Components.AutoScroll;
+                if(autoScroll) autoScroll.pause();
+            });
+            
+            gallerySplide.on('dragged', function() {
+                const autoScroll = gallerySplide.Components.AutoScroll;
+                if(autoScroll) autoScroll.play();
+            });
+            
+
             gallerySplide.on('click', function (slide) {
                 const card = slide.slide.querySelector('.marquee-card');
                 if (!card) return;
