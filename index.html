@@ -74,8 +74,24 @@
         }
         
         #plasma-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
-        .plasma-dimmer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; background: rgba(27, 36, 30, 0.35); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); pointer-events: none; }
-
+                .plasma-dimmer { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: 2; 
+            
+            /* Die Tönung leicht reduziert (von 0.35 auf 0.25), damit die Konturen klarer wirken */
+            background: rgba(27, 36, 30, 0.25); 
+            
+            /* HIER IST DER SCHLÜSSEL: Weichzeichner auf ein Minimum reduziert */
+            backdrop-filter: blur(3px); 
+            -webkit-backdrop-filter: blur(3px); 
+            
+            pointer-events: none; 
+                }
+        
         /* Drückt Menü und Galerie VOR das Plasma */
         .menu-main-title, #menu-slider, .gallery-content-zone { position: relative; z-index: 10; }
 
