@@ -147,7 +147,7 @@
             pointer-events: none; /* Verhindert Klicks im inaktiven Zustand */
         }
 
-                /* 2. DER INNER TEXT-CONTAINER (Hier passieren alle optischen Effekte!) */
+                        /* 2. DER INNER TEXT-CONTAINER (Hier passieren alle optischen Effekte!) */
         .menu-item-content {
             width: 100%;
             text-align: center; 
@@ -158,12 +158,14 @@
             cursor: pointer; 
             padding: 0;
             
-            opacity: 0.7; 
-            filter: blur(0.9px) grayscale(50%); 
+            /* NEU: Die Nachbarn bleiben DAUERHAFT tief im Hintergrund versteckt */
+            opacity: 0.35; 
+            filter: blur(2.5px) grayscale(50%); 
             transform: scale(0.85); 
-            /* NEU: Blitzschnelles Scharfstellen (0.15s) für das sportliche Fahrprofil */
+            
             transition: all 0.1s ease-out;
         }
+
 
 
         .menu-headline {
