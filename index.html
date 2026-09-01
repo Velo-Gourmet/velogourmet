@@ -59,7 +59,7 @@
             overflow: visible !important;
         }
 
-        .layer-bg-bleed { 
+                .layer-bg-bleed { 
             position: absolute; 
             top: 0;
             left: 0;
@@ -78,8 +78,10 @@
                 inset 0 -60px 80px rgba(193, 255, 114, 0.22), 
                 inset 0 -25px 35px rgba(255, 214, 216, 0.45); 
             transform: translateZ(0);
-            will-change: transform;
+            will-change: transform, opacity;
+            transition: opacity 0.3s ease-out; /* NEU: Macht das Ein-/Ausblenden fließend */
         }
+
 
 
 
@@ -406,10 +408,11 @@
         }
 
                 /* --- PARALLAX HERO --- */
-        const scrollContainer = document.getElementById('scroll-container');
+                const scrollContainer = document.getElementById('scroll-container');
         const heroBg = document.getElementById('hero-bg');
         const heroContent = document.getElementById('hero-content');
         const swipeHint = document.getElementById('swipe-hint');
+        const layerBleed = document.querySelector('.layer-bg-bleed');
         let ticking = false;
 
         scrollContainer.addEventListener('scroll', () => {
@@ -426,11 +429,21 @@
                         swipeHint.style.opacity = 1 - (progress * 2.5);
                     }
 
+                    // Blendet den Überhang aus, sobald die Galerie erreicht wird
+                    if (layerBleed) {
+                        if (scrolled > h * 0.85) {
+                            layerBleed.style.opacity = '0';
+                        } else {
+                            layerBleed.style.opacity = '1';
+                        }
+                    }
+
                     ticking = false;
                 });
                 ticking = true;
             }
         });
+
 
 
         /* --- 3D PLASMA ENGINE KORREKTUR --- */
