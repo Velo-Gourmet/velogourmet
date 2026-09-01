@@ -405,16 +405,19 @@
             });
         }
 
-        /* --- PARALLAX HERO --- */
+                /* --- PARALLAX HERO --- */
         const scrollContainer = document.getElementById('scroll-container');
         const heroBg = document.getElementById('hero-bg');
         const heroContent = document.getElementById('hero-content');
         const swipeHint = document.getElementById('swipe-hint');
         let ticking = false;
+
         scrollContainer.addEventListener('scroll', () => {
             if (!ticking) {
                 window.requestAnimationFrame(() => {
-                    const scrolled = scrollContainer.scrollTop; const h = scrollContainer.clientHeight;
+                    const scrolled = scrollContainer.scrollTop; 
+                    const h = scrollContainer.clientHeight;
+                    
                     if (scrolled <= h) {
                         const progress = scrolled / h;
                         heroBg.style.transform = `translateY(${scrolled * 0.4}px)`;
@@ -422,11 +425,13 @@
                         heroContent.style.opacity = 1 - (progress * 0.8);
                         swipeHint.style.opacity = 1 - (progress * 2.5);
                     }
+
                     ticking = false;
                 });
                 ticking = true;
             }
         });
+
 
         /* --- 3D PLASMA ENGINE KORREKTUR --- */
         const canvas = document.getElementById('plasma-canvas');
