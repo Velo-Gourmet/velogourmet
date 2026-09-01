@@ -118,10 +118,9 @@
         
         #menu-slider .splide__arrow { background: transparent; opacity: 0.8; } #menu-slider .splide__arrow svg { fill: var(--text-dark); width: 24px; height: 24px; } #menu-slider .splide__arrow:hover { opacity: 1; transform: scale(1.1); }
 
-                /* 1. Verhindert das Abschneiden der Schatten durch den Container */
+                        /* 1. Verhindert das Abschneiden der Schatten, hält die Bahn aber absolut ruhig */
         #gallery-slider .splide__track {
             overflow: visible !important;
-            padding: 20px 0;
         }
 
         #gallery-slider { width: 100%; cursor: grab; } 
@@ -138,14 +137,13 @@
             border: 1.5px solid rgba(255, 255, 255, 0.9) !important; 
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* Dynamische Tiefe für die aktive Kachel in der Mitte */
+        /* Reiner Schattenwechsel in der Mitte ohne vertikales Springen */
         #gallery-slider .splide__slide.is-active .marquee-card {
-            transform: translateY(-5px);
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15) !important;
         }
+
         
         
 
