@@ -108,24 +108,27 @@
                 /* ==========================================
 
                 /* ==========================================
+           /* ==========================================
            3. MAGNETIC WEAPON-SCROLL MENÜ & GALERIE
            ========================================== */
-
-        /* --- 1. ZONE-CONTAINER (Die Zwei-Zonen-Architektur) --- */
+        
+        /* ZONE-CONTAINER: Unterteilt den Bildschirm */
         .gallery-section {
             background-color: var(--bg-sage);
             z-index: 4; 
+            /* Flexbox-Setup für die Zwei-Zonen-Architektur */
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
             /* Dynamischer Abstand oben: min 30px, ideal 8vh, max 80px */
             padding-top: clamp(30px, 8vh, 80px); 
             padding-bottom: 20px;
-            height: 100%; 
+            height: 100%; /* Zwingt die Sektion, die volle Höhe zu nutzen */
         }
 
-        /* --- 2. ZONE 1: DAS COCKPIT (Oben) --- */
+        /* --- ZONE 1: DAS COCKPIT (Oben) --- */
         .menu-main-title {
+            /* Fließende Schrift: min 11px, ideal 1.5vw, max 14px */
             font-size: clamp(11px, 1.5vw, 14px); 
             text-transform: uppercase; 
             letter-spacing: 4px;
@@ -133,25 +136,27 @@
             font-weight: 700; 
             text-align: center;
             width: 100%;
+            /* Fester, unzertrennlicher Abstand zum Menü */
             margin-bottom: clamp(10px, 2vh, 20px); 
-            flex-shrink: 0; 
+            flex-shrink: 0; /* Schützt den Titel vor dem Zerquetschen */
         }
 
         #menu-slider { 
             width: 100%; 
+            /* Sehr kompaktes Padding für maximalen Platz darunter */
             padding: 10px 0 15px 0; 
             margin-bottom: 0; 
             overflow: visible; 
-            flex-shrink: 0; 
+            flex-shrink: 0; /* Schützt das Menü vor dem Zerquetschen */
         }
         
         #menu-slider .splide__track {
             overflow: visible; 
         }
 
-        /* --- 3. ZONE 2: DIE BÜHNE (Unten, für spätere SVGs) --- */
+        /* --- ZONE 2: DIE BÜHNE (Unten, für spätere SVGs) --- */
         .gallery-content-zone {
-            flex-grow: 1; 
+            flex-grow: 1; /* Der magische Befehl: "Nimm den GANZEN restlichen Platz!" */
             width: 100%;
             display: flex;
             align-items: center;
@@ -159,12 +164,19 @@
             position: relative;
         }
 
-        /* --- 4. QUERFORMAT-NOTFALLPLAN (Landscape) --- */
+        /* --- QUERFORMAT-NOTFALLPLAN (Landscape) --- */
         @media (orientation: landscape) and (max-height: 600px) {
-            .gallery-section { padding-top: 15px; }
-            .menu-main-title { margin-bottom: 5px; }
-            #menu-slider { padding: 5px 0 10px 0; }
+            .gallery-section {
+                padding-top: 15px; /* Menü ganz hart an den oberen Rand pressen */
+            }
+            .menu-main-title {
+                margin-bottom: 5px; /* Abstand extrem reduzieren */
+            }
+            #menu-slider {
+                padding: 5px 0 10px 0;
+            }
         }
+        
 
         /* ==========================================
            4. DIE INNEREN EFFEKTE (Unverändert & Bereinigt)
