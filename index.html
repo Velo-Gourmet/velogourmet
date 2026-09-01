@@ -35,37 +35,44 @@
         .scroll-container { width: 100%; height: 100%; overflow-y: scroll; overflow-x: hidden; scroll-snap-type: y mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
         .section { height: 100%; width: 100%; scroll-snap-align: start; scroll-snap-stop: always; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; overflow: hidden; }
 
-        /* ==========================================
+                /* ==========================================
            2. HERO SEKTION & LAYER (Korrekt geschichtet)
            ========================================== */
         .hero-section { 
             background-color: var(--bg-sand); 
-            z-index: 5; /* Bleibt oberhalb der Galerie */
-            overflow: visible !important; 
+            z-index: 1; 
         }
 
         .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 120%; background-image: var(--svg-bg-hero); background-size: cover; background-position: center center; background-repeat: no-repeat; z-index: 1; will-change: transform; filter: contrast(95%) brightness(98%); }
-        .hero-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 6; width: 100%; display: flex; justify-content: center; align-items: center; will-change: transform, opacity; transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.25s ease-out; }
+        .hero-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; width: 100%; display: flex; justify-content: center; align-items: center; will-change: transform, opacity; transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.25s ease-out; }
         .logo-wrapper { display: flex; justify-content: center; align-items: center; width: 100%; padding: 0 10px; }
         .logo-img { aspect-ratio: 1 / 1; width: clamp(250px, 80vw, 500px); height: auto; object-fit: contain; filter: drop-shadow(0 25px 45px rgba(0,0,0,0.22)); animation: fadeInMorph 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
         @media (min-width: 768px) { .logo-img { width: clamp(400px, 75vmin, 800px); height: clamp(400px, 75vmin, 800px); } }
 
-        .swipe-hint { position: absolute; bottom: max(30px, env(safe-area-inset-bottom)); z-index: 6; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; color: var(--text-dark); background: rgba(255, 255, 255, 0.85); padding: 10px 22px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); animation: floatBounce 2s infinite ease-in-out; will-change: transform, opacity; transition: opacity 0.25s ease-out; }
+        .swipe-hint { position: absolute; bottom: max(30px, env(safe-area-inset-bottom)); z-index: 2; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; color: var(--text-dark); background: rgba(255, 255, 255, 0.85); padding: 10px 22px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); animation: floatBounce 2s infinite ease-in-out; will-change: transform, opacity; transition: opacity 0.25s ease-out; }
         @supports (backdrop-filter: blur(8px)) { .swipe-hint { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px); } }
 
-        .layer-content { 
+        /* Sektion 2 bleibt im Flow, aber erlaubt dem Hintergrund das Überlappen */
+        #navigation {
+            position: relative;
+            z-index: 2;
+            overflow: visible !important;
+        }
+
+        /* Das ist der verlängerte Hintergrund, der 15% in die Galerie ragt */
+        .layer-bg-bleed { 
             position: absolute; 
             top: 0;
             left: 0;
             width: 100%;
-            height: 115%; 
+            height: 115%; /* 15% hängen unsichtbar in der nächsten Sektion */
             background-color: transparent; 
             background-image: var(--svg-bg-content); 
             background-size: cover; 
             background-position: center top; 
             background-repeat: no-repeat; 
-            z-index: 2; /* Unter dem Logo, aber über der Galerie */
-            pointer-events: none; 
+            z-index: 1; 
+            pointer-events: none;
             -webkit-mask-image: linear-gradient(to bottom, black 87%, rgba(0,0,0,0.5) 94%, transparent 100%);
             mask-image: linear-gradient(to bottom, black 87%, rgba(0,0,0,0.5) 94%, transparent 100%);
             box-shadow: 
@@ -73,10 +80,10 @@
                 inset 0 -20px 30px rgba(255, 214, 216, 0.35); 
         }
 
-        .organic-edge-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 60px; transform: translateY(-99%); pointer-events: none; overflow: hidden; }
+        .organic-edge-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 60px; transform: translateY(-99%); pointer-events: none; overflow: hidden; z-index: 3; }
         .liquid-path { fill: var(--bg-sand); d: path("M0,60 C150,15 350,50 500,20 L500,60 L0,60 Z"); }
 
-        .actions { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 340px; z-index: 6; margin-top: 40px; }
+        .actions { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 340px; z-index: 3; margin-top: 40px; }
         .artist-btn { display: block; width: 100%; text-decoration: none; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.4s ease; cursor: pointer; position: relative; -webkit-tap-highlight-color: transparent;}
         .artist-btn::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 10; }
         .artist-btn:hover { transform: scale(1.04) translateY(-4px); filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15)); }
@@ -86,6 +93,8 @@
 
         @keyframes fadeInMorph { 0% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); filter: blur(8px); } 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: blur(0); } }
         @keyframes floatBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+        
+
 
         /* ==========================================
            3. GALERIE ZONEN & PLASMA KORREKTUR
