@@ -148,7 +148,7 @@
         }
 
                         /* 2. DER INNER TEXT-CONTAINER (Hier passieren alle optischen Effekte!) */
-        .menu-item-content {
+                .menu-item-content {
             width: 100%;
             text-align: center; 
             display: flex; 
@@ -157,6 +157,15 @@
             justify-content: center;
             cursor: pointer; 
             padding: 0;
+            
+            /* NEU: Die Nachbarn bleiben DAUERHAFT tief im Hintergrund versteckt */
+            opacity: 0.35; 
+            filter: blur(2.5px) grayscale(50%); 
+            transform: scale(0.85); 
+            
+            transition: all 0.1s ease-out;
+        }
+
             
             /* NEU: Die Nachbarn bleiben DAUERHAFT tief im Hintergrund versteckt */
             opacity: 0.35; 
@@ -196,16 +205,17 @@
             text-shadow: 0 0 15px rgba(193, 255, 114, 0.6); 
         }
 
-        /* 4. DER KINETISCHE NEBEL (Zwingt den inneren Container in die Unschärfe) */
+                /* 4. DER KINETISCHE NEBEL (Zwingt den inneren Container in die Unschärfe) */
         #menu-slider.is-scrolling .splide__slide .menu-item-content,
         #menu-slider.is-scrolling .splide__slide.is-active .menu-item-content {
             opacity: 0.35 !important; 
-            filter: blur(2.25px) grayscale(80%) !important; 
-            transform: scale(0.8) !important; 
+            filter: blur(2.5px) grayscale(50%) !important; 
+            transform: scale(0.85) !important; 
             
-            /* NEU: Ein stufenloser, butterweicher Übergang in den Nebel (0.4 Sekunden) */
-            transition: all 0.3s ease-in-out; 
+            /* NEU: Sportliche und verzögerungsfreie 0.1 Sekunden für absolute Direktheit */
+            transition: all 0.1s ease-out; 
         }
+
 
         
         
