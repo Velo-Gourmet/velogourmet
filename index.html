@@ -108,27 +108,24 @@
                 /* ==========================================
 
                 /* ==========================================
-           /* ==========================================
+                   /* ==========================================
            3. MAGNETIC WEAPON-SCROLL MENÜ & GALERIE
            ========================================== */
-        
-        /* ZONE-CONTAINER: Unterteilt den Bildschirm */
+
+        /* --- 1. ZONE-CONTAINER (Die Zwei-Zonen-Architektur) --- */
         .gallery-section {
             background-color: var(--bg-sage);
             z-index: 4; 
-            /* Flexbox-Setup für die Zwei-Zonen-Architektur */
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
-            /* Dynamischer Abstand oben: min 30px, ideal 8vh, max 80px */
+            justify-content: flex-start; /* Standard für Querformat: Oben anpinnen */
             padding-top: clamp(30px, 8vh, 80px); 
             padding-bottom: 20px;
-            height: 100%; /* Zwingt die Sektion, die volle Höhe zu nutzen */
+            height: 100%; 
         }
 
-        /* --- ZONE 1: DAS COCKPIT (Oben) --- */
+        /* --- 2. ZONE 1: DAS COCKPIT (Oben) --- */
         .menu-main-title {
-            /* Fließende Schrift: min 11px, ideal 1.5vw, max 14px */
             font-size: clamp(11px, 1.5vw, 14px); 
             text-transform: uppercase; 
             letter-spacing: 4px;
@@ -136,27 +133,25 @@
             font-weight: 700; 
             text-align: center;
             width: 100%;
-            /* Fester, unzertrennlicher Abstand zum Menü */
             margin-bottom: clamp(10px, 2vh, 20px); 
-            flex-shrink: 0; /* Schützt den Titel vor dem Zerquetschen */
+            flex-shrink: 0; 
         }
 
         #menu-slider { 
             width: 100%; 
-            /* Sehr kompaktes Padding für maximalen Platz darunter */
             padding: 10px 0 15px 0; 
             margin-bottom: 0; 
             overflow: visible; 
-            flex-shrink: 0; /* Schützt das Menü vor dem Zerquetschen */
+            flex-shrink: 0; 
         }
         
         #menu-slider .splide__track {
             overflow: visible; 
         }
 
-        /* --- ZONE 2: DIE BÜHNE (Unten, für spätere SVGs) --- */
+        /* --- 3. ZONE 2: DIE BÜHNE (Unten, für spätere SVGs) --- */
         .gallery-content-zone {
-            flex-grow: 1; /* Der magische Befehl: "Nimm den GANZEN restlichen Platz!" */
+            flex-grow: 1; /* Standard: Nimm den ganzen restlichen Platz ein */
             width: 100%;
             display: flex;
             align-items: center;
@@ -164,18 +159,25 @@
             position: relative;
         }
 
-        /* --- QUERFORMAT-NOTFALLPLAN (Landscape) --- */
+        /* --- 4. QUERFORMAT-NOTFALLPLAN (Landscape - Alles kompakt nach oben) --- */
         @media (orientation: landscape) and (max-height: 600px) {
+            .gallery-section { padding-top: 15px; }
+            .menu-main-title { margin-bottom: 5px; }
+            #menu-slider { padding: 5px 0 10px 0; }
+        }
+
+        /* --- 5. NEU: HOCHKANT-MODUS (Portrait - Zentrierte Eleganz) --- */
+        @media (orientation: portrait) {
             .gallery-section {
-                padding-top: 15px; /* Menü ganz hart an den oberen Rand pressen */
+                padding-top: 0; /* Das feste Padding oben wird entfernt... */
+                justify-content: center; /* ...damit Flexbox alles exakt in der Mitte zentrieren kann */
             }
-            .menu-main-title {
-                margin-bottom: 5px; /* Abstand extrem reduzieren */
-            }
-            #menu-slider {
-                padding: 5px 0 10px 0;
+            .gallery-content-zone {
+                flex-grow: 0; /* Die Galerie drückt das Menü nicht mehr nach oben... */
+                height: 55vh; /* ...sondern nimmt genau den passenden Raum für Ihre Karten ein */
             }
         }
+        
         
 
         /* ==========================================
