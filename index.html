@@ -127,7 +127,11 @@
             user-select: none; -webkit-user-select: none; 
                     
             /* Der neue, mehrschichtige und weiche Schatten */
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03), 0 15px 35px rgba(0,0,0,0.06), 0 30px 60px rgba(0,0,0,0.08) !important; 
+                    box-shadow: 
+            0 0 15px rgba(0,0,0, 0.04),   /* Innere, dichte Sphäre (Nähe zur Karte) */
+            0 0 45px rgba(0,0,0, 0.06),   /* Mittlere, auslaufende Sphäre */
+            0 0 90px rgba(0,0,0, 0.08) !important; /* Gewaltige, fast unsichtbare Raumtiefe */
+
             border: 1px solid rgba(255, 255, 255, 0.6) !important; 
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
