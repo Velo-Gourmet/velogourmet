@@ -66,12 +66,35 @@
                 /* ==========================================
            3. GALERIE ZONEN & PLASMA KORREKTUR
            ========================================== */
-        .gallery-section {
-            position: relative; /* WICHTIG: Hält das Plasma gefangen */
-            background-color: var(--bg-sage); overflow: hidden; z-index: 4; 
-            display: flex; flex-direction: column; justify-content: flex-start;
-            padding-top: clamp(30px, 8vh, 80px); padding-bottom: 20px; height: 100%; 
+                .gallery-section {
+            position: relative; 
+            background-color: var(--bg-sage); 
+            overflow: hidden; 
+            z-index: 4; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: flex-start;
+            padding-top: clamp(30px, 8vh, 80px); 
+            padding-bottom: 20px; 
+            height: 100%; 
+            perspective: 1000px; /* NEU: Aktiviert den räumlichen 3D-Effekt */
         }
+
+        /* Die schwere Steinplatte / Kante am oberen Rand der Galerie */
+        .gallery-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 12px;
+            background: linear-gradient(to bottom, #d2cebf, #b5b1a3);
+            z-index: 15;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 5px 10px rgba(0, 0, 0, 0.4);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+            pointer-events: none;
+        }
+
         
         #plasma-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
                 .plasma-dimmer { 
