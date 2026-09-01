@@ -48,7 +48,7 @@
         .swipe-hint { position: absolute; bottom: max(30px, env(safe-area-inset-bottom)); z-index: 2; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; color: var(--text-dark); background: rgba(255, 255, 255, 0.85); padding: 10px 22px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); animation: floatBounce 2s infinite ease-in-out; will-change: transform, opacity; transition: opacity 0.25s ease-out; }
         @supports (backdrop-filter: blur(8px)) { .swipe-hint { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px); } }
 
-                 .layer-content { 
+                         .layer-content { 
             position: relative; 
             background-color: transparent; 
             background-image: var(--svg-bg-content); 
@@ -57,11 +57,21 @@
             background-repeat: no-repeat; 
             z-index: 3; 
             overflow: visible !important; 
-            
-            /* NEU: Die CSS-Maske für den fließenden Übergang */
-            -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
-            mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+
+            /* EFFEKT 1: The Accelerated Dissolve (Langes Halten, dann abruptes Ausbrennen) */
+            -webkit-mask-image: linear-gradient(to bottom, black 75%, rgba(0,0,0,0.6) 88%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 75%, rgba(0,0,0,0.6) 88%, transparent 100%);
+
+            /* EFFEKT 2: The Energy Burn (Absorbiert das Plasma Ihrer Brand-Farben ins Gestein) */
+            box-shadow: 
+                inset 0 -40px 60px rgba(193, 255, 114, 0.15), /* --brand-green dringt tief als Strahlung ein */
+                inset 0 -12px 25px rgba(255, 214, 216, 0.45); /* --brand-rose erhitzt die direkte Abbruchkante */
+
+            /* EFFEKT 3: The Material Melt (Erzeugt ein Hitzeflimmern im Plasma genau an der Auflösungs-Zone) */
+            backdrop-filter: blur(12px) saturate(180%) contrast(120%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%) contrast(120%);
         }
+
 
 
 
