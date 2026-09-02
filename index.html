@@ -58,19 +58,22 @@
             overflow: hidden; 
         }
 
-        .layer-bg-bleed { 
+                .layer-bg-bleed { 
             position: absolute; 
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%; /* Exakt 100%, kein statischer Überhang mehr! */
-            background-color: var(--bg-sand); 
+            height: 100%; /* Exakt 100%, kein statischer Überhang mehr */
+            background-color: transparent; 
             background-image: var(--svg-bg-content); 
             background-size: cover; 
             background-position: center top; 
             background-repeat: no-repeat; 
             z-index: 1; 
             pointer-events: none;
+            transform: translateZ(0);
+        }
+
             
             /* Der Schmelz-Effekt sitzt am absolut untersten Rand der Sektion */
             -webkit-mask-image: linear-gradient(to bottom, #000 85%, rgba(0,0,0,0.6) 92%, transparent 100%);
@@ -98,9 +101,9 @@
         /* ==========================================
            3. GALERIE ZONEN & PLASMA KORREKTUR
            ========================================== */
-        .gallery-section {
+                .gallery-section {
             position: relative; 
-            background-color: #121814; /* Tiefer Hintergrund für maximale Plasma-Wirkung */
+            background-color: var(--bg-sage); 
             overflow: hidden; 
             z-index: 1; 
             display: flex; 
@@ -110,6 +113,29 @@
             padding-bottom: 20px; 
             height: 100%; 
         }
+
+        /* Der Schmelz-Übergang sitzt unsichtbar am oberen Rand und ragt nach oben in Sektion 2 */
+        .gallery-section::before {
+            content: '';
+            position: absolute;
+            top: -15vh;
+            left: 0;
+            width: 100%;
+            height: 15vh;
+            background-image: var(--svg-bg-content);
+            background-size: cover;
+            background-position: center bottom;
+            background-repeat: no-repeat;
+            z-index: 5;
+            pointer-events: none;
+            -webkit-mask-image: linear-gradient(to top, #000 82%, rgba(0,0,0,0.6) 94%, transparent 100%);
+            mask-image: linear-gradient(to top, #000 82%, rgba(0,0,0,0.6) 94%, transparent 100%);
+            box-shadow: 
+                inset 0 60px 80px rgba(193, 255, 114, 0.22), 
+                inset 0 25px 35px rgba(255, 214, 216, 0.45);
+            transform: translateZ(0);
+        }
+
 
         #plasma-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
         .plasma-dimmer { 
@@ -359,7 +385,7 @@
         }
 
         /* --- PARALLAX HERO --- */
-        const scrollContainer = document.getElementById('scroll-container');
+                const scrollContainer = document.getElementById('scroll-container');
         const heroBg = document.getElementById('hero-bg');
         const heroContent = document.getElementById('hero-content');
         const swipeHint = document.getElementById('swipe-hint');
@@ -384,6 +410,7 @@
                 ticking = true;
             }
         });
+
 
         /* --- 3D PLASMA ENGINE --- */
         const canvas = document.getElementById('plasma-canvas');
