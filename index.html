@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
 
     <style>
-                /* ==========================================
+        /* ==========================================
            1. SETUP & CSS-VARIABLEN
            ========================================== */
         @font-face { font-family: 'Crackman'; src: local('Impact'), local('Arial Black'), sans-serif; }
@@ -35,8 +35,8 @@
         .scroll-container { width: 100%; height: 100%; overflow-y: scroll; overflow-x: hidden; scroll-snap-type: y mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
         .section { height: 100%; width: 100%; scroll-snap-align: start; scroll-snap-stop: always; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; overflow: hidden; }
 
-                /* ==========================================
-           2. HERO SEKTION & LAYER (Korrekt geschichtet)
+        /* ==========================================
+           2. HERO SEKTION & LAYER
            ========================================== */
         .hero-section { 
             background-color: var(--bg-sand); 
@@ -52,44 +52,39 @@
         .swipe-hint { position: absolute; bottom: max(30px, env(safe-area-inset-bottom)); z-index: 2; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; color: var(--text-dark); background: rgba(255, 255, 255, 0.85); padding: 10px 22px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); animation: floatBounce 2s infinite ease-in-out; will-change: transform, opacity; transition: opacity 0.25s ease-out; }
         @supports (backdrop-filter: blur(8px)) { .swipe-hint { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px); } }
 
-        /* Sektion 2 bleibt im Flow, aber erlaubt dem Hintergrund das Überlappen */
         #navigation {
             position: relative;
             z-index: 2;
-            overflow: visible !important;
+            overflow: hidden; 
         }
 
-                .layer-bg-bleed { 
+        .layer-bg-bleed { 
             position: absolute; 
             top: 0;
             left: 0;
             width: 100%;
-            height: 115%; 
-            background-color: transparent; 
+            height: 100%; /* Exakt 100%, kein statischer Überhang mehr! */
+            background-color: var(--bg-sand); 
             background-image: var(--svg-bg-content); 
             background-size: cover; 
             background-position: center top; 
             background-repeat: no-repeat; 
             z-index: 1; 
             pointer-events: none;
-            -webkit-mask-image: linear-gradient(to bottom, #000 82%, #000 88%, rgba(0,0,0,0.6) 94%, transparent 100%);
-            mask-image: linear-gradient(to bottom, #000 82%, #000 88%, rgba(0,0,0,0.6) 94%, transparent 100%);
+            
+            /* Der Schmelz-Effekt sitzt am absolut untersten Rand der Sektion */
+            -webkit-mask-image: linear-gradient(to bottom, #000 85%, rgba(0,0,0,0.6) 92%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 85%, rgba(0,0,0,0.6) 92%, transparent 100%);
+            
             box-shadow: 
                 inset 0 -60px 80px rgba(193, 255, 114, 0.22), 
                 inset 0 -25px 35px rgba(255, 214, 216, 0.45); 
             transform: translateZ(0);
-            will-change: transform, opacity;
-            transition: opacity 0.3s ease-out; /* NEU: Macht das Ein-/Ausblenden fließend */
         }
-
-
-
-
-
-        .organic-edge-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 60px; transform: translateY(-99%); pointer-events: none; overflow: hidden; z-index: 3; }
+                .organic-edge-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 60px; transform: translateY(-99%); pointer-events: none; overflow: hidden; z-index: 3; }
         .liquid-path { fill: var(--bg-sand); d: path("M0,60 C150,15 350,50 500,20 L500,60 L0,60 Z"); }
 
-        .actions { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 340px; z-index: 3; margin-top: 40px; }
+        .actions { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 340px; position: relative; z-index: 3; margin-top: 40px; }
         .artist-btn { display: block; width: 100%; text-decoration: none; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.4s ease; cursor: pointer; position: relative; -webkit-tap-highlight-color: transparent;}
         .artist-btn::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 10; }
         .artist-btn:hover { transform: scale(1.04) translateY(-4px); filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15)); }
@@ -99,17 +94,15 @@
 
         @keyframes fadeInMorph { 0% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); filter: blur(8px); } 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: blur(0); } }
         @keyframes floatBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
-        
-
 
         /* ==========================================
            3. GALERIE ZONEN & PLASMA KORREKTUR
            ========================================== */
         .gallery-section {
             position: relative; 
-            background-color: var(--bg-sage); 
+            background-color: #121814; /* Tiefer Hintergrund für maximale Plasma-Wirkung */
             overflow: hidden; 
-            z-index: 1; /* Liegt sauber hinter der Hero-Sektion */
+            z-index: 1; 
             display: flex; 
             flex-direction: column; 
             justify-content: flex-start;
@@ -118,33 +111,14 @@
             height: 100%; 
         }
 
-
-
-
-
-    
-
-        
         #plasma-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
-                .plasma-dimmer { 
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            z-index: 2; 
-            
-            /* Die Tönung leicht reduziert (von 0.35 auf 0.25), damit die Konturen klarer wirken */
-            background: rgba(27, 36, 30, 0.25); 
-            
-            /* HIER IST DER SCHLÜSSEL: Weichzeichner auf ein Minimum reduziert */
-            backdrop-filter: blur(3px); 
-            -webkit-backdrop-filter: blur(3px); 
-            
+        .plasma-dimmer { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; 
+            background: rgba(18, 24, 20, 0.15); 
+            backdrop-filter: blur(1px); -webkit-backdrop-filter: blur(1px); 
             pointer-events: none; 
-                }
+        }
         
-        /* Drückt Menü und Galerie VOR das Plasma */
         .menu-main-title, #menu-slider, .gallery-content-zone { position: relative; z-index: 10; }
 
         .menu-main-title { font-size: clamp(11px, 1.5vw, 14px); text-transform: uppercase; letter-spacing: 4px; color: #88948b; font-weight: 700; text-align: center; width: 100%; margin-bottom: clamp(10px, 2vh, 20px); flex-shrink: 0; }
@@ -164,21 +138,16 @@
         
         #menu-slider .splide__slide.is-active { pointer-events: auto; z-index: 2; }
         #menu-slider .splide__slide.is-active .menu-item-content { opacity: 1; filter: blur(0px) grayscale(0%); transform: scale(1.1); }
-        #menu-slider .splide__slide.is-active .menu-headline { color: #1a2e05; text-shadow: 0 0 15px rgba(193, 255, 114, 0.8); }
+        #menu-slider .splide__slide.is-active .menu-headline { color: #c1ff72; text-shadow: 0 0 15px rgba(193, 255, 114, 0.4); }
         
         #menu-slider.is-scrolling .splide__slide .menu-item-content, #menu-slider.is-scrolling .splide__slide.is-active .menu-item-content { opacity: 0.35 !important; filter: blur(2.5px) grayscale(50%) !important; transform: scale(0.85) !important; transition: all 0.1s ease-out; }
         
         #menu-slider .splide__arrow { background: transparent; opacity: 0.8; } #menu-slider .splide__arrow svg { fill: var(--text-dark); width: 24px; height: 24px; } #menu-slider .splide__arrow:hover { opacity: 1; transform: scale(1.1); }
 
-                        /* 1. Verhindert das Abschneiden der Schatten, hält die Bahn aber absolut ruhig */
-        #gallery-slider .splide__track {
-            overflow: visible !important;
-        }
-
+        #gallery-slider .splide__track { overflow: visible !important; }
         #gallery-slider { width: 100%; cursor: grab; } 
         #gallery-slider:active { cursor: grabbing; }
 
-        /* 2. Individuelle, saubere Kachel-Schatten */
         .marquee-card { 
             width: 260px; height: 360px; 
             background: rgba(255, 255, 255, 0.82); 
@@ -191,18 +160,13 @@
             -webkit-backdrop-filter: blur(10px);
         }
 
-        /* Reiner Schattenwechsel in der Mitte ohne vertikales Springen */
         #gallery-slider .splide__slide.is-active .marquee-card {
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15) !important;
         }
 
-        
-        
-
         .splide__slide { -webkit-transform: translateZ(0); transform: translateZ(0); }
         .card-image-placeholder { width: 100%; height: 220px; background: rgba(0,0,0,0.04); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #777; font-weight: 500; text-align: center; padding: 10px; }
         .card-info h4 { font-size: 18px; margin-bottom: 5px; color: var(--text-dark); } .card-info p { font-size: 13px; color: #555; line-height: 1.4; }
-
 
         /* OVERLAYS */
         .glass-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(27, 36, 30, 0.45); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; display: flex; align-items: center; justify-content: center; }
@@ -225,9 +189,8 @@
     </style>
 </head>
 
-    <body>
+<body>
     <main class="scroll-container" id="scroll-container">
-        <!-- SEKTION 1: HERO -->
         <section class="section hero-section" id="hero">
             <div class="hero-bg" id="hero-bg"></div>
             <div class="hero-content" id="hero-content">
@@ -236,7 +199,6 @@
             <div class="swipe-hint" id="swipe-hint">↓ Wischen</div>
         </section>
 
-                <!-- SEKTION 2: NAVIGATION (Artist-Buttons) -->
         <section class="section" id="navigation">
             <div class="layer-bg-bleed"></div>
             <div class="organic-edge-wrapper"><svg viewBox="0 0 500 60" preserveAspectRatio="none" style="width: 100%; height: 100%;"><path class="liquid-path"></path></svg></div>
@@ -250,8 +212,6 @@
             </div>
         </section>
 
-
-        <!-- SEKTION 3: GALERIE (Hier liegt das Plasma) -->
         <section class="section gallery-section" id="galerie">
             <canvas id="plasma-canvas"></canvas>
             <div class="plasma-dimmer"></div>
@@ -288,7 +248,6 @@
         </section>
     </main>
 
-           <!-- OVERLAYS -->
     <div class="glass-overlay" id="lightbox-overlay" onclick="closeLightbox(event)">
         <div class="glass-sheet lightbox-layout" onclick="event.stopPropagation()">
             <div class="lightbox-hero-img" id="lb-img">Lade...</div>
@@ -315,8 +274,7 @@
         </div>
     </div>
 
-    <!-- SCRIPTS -->
-    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@0.5.3/dist/js/splide-extension-auto-scroll.min.js"></script>
 
     <script>
@@ -376,16 +334,10 @@
             });
             gallerySplide.mount(window.splide.Extensions);
 
-                        // NEU: KINETISCHE KOPPLUNG FÜR DIE FOTOGALERIE
-            // Gibt dem Plasma Energie, wenn die Fotokarten gewischt werden
             gallerySplide.on('move drag', function () {
-                // Ein leichterer Schub (1.5) als beim Menü (2.5), 
-                // da die Karten schwerer wirken sollen
                 window.swipeVelocity = 1.5; 
             });
             
-            // Pausiert den Auto-Scroll, wenn aktiv gewischt wird, 
-            // damit die kinetische Energie sauber ins Plasma fließt
             gallerySplide.on('drag', function() {
                 const autoScroll = gallerySplide.Components.AutoScroll;
                 if(autoScroll) autoScroll.pause();
@@ -395,7 +347,6 @@
                 const autoScroll = gallerySplide.Components.AutoScroll;
                 if(autoScroll) autoScroll.play();
             });
-            
 
             gallerySplide.on('click', function (slide) {
                 const card = slide.slide.querySelector('.marquee-card');
@@ -407,12 +358,11 @@
             });
         }
 
-                /* --- PARALLAX HERO --- */
-                const scrollContainer = document.getElementById('scroll-container');
+        /* --- PARALLAX HERO --- */
+        const scrollContainer = document.getElementById('scroll-container');
         const heroBg = document.getElementById('hero-bg');
         const heroContent = document.getElementById('hero-content');
         const swipeHint = document.getElementById('swipe-hint');
-        const layerBleed = document.querySelector('.layer-bg-bleed');
         let ticking = false;
 
         scrollContainer.addEventListener('scroll', () => {
@@ -429,30 +379,18 @@
                         swipeHint.style.opacity = 1 - (progress * 2.5);
                     }
 
-                    // Blendet den Überhang aus, sobald die Galerie erreicht wird
-                    if (layerBleed) {
-                        if (scrolled > h * 0.85) {
-                            layerBleed.style.opacity = '0';
-                        } else {
-                            layerBleed.style.opacity = '1';
-                        }
-                    }
-
                     ticking = false;
                 });
                 ticking = true;
             }
         });
 
-
-
-        /* --- 3D PLASMA ENGINE KORREKTUR --- */
+        /* --- 3D PLASMA ENGINE --- */
         const canvas = document.getElementById('plasma-canvas');
         if(canvas) {
             const ctx = canvas.getContext('2d');
             let w, h;
             
-            // NEU: Misst jetzt nur noch die Galerie, nicht mehr den ganzen Browser!
             function resizeCanvas() { 
                 const gallery = document.getElementById('galerie');
                 w = canvas.width = gallery ? gallery.offsetWidth : window.innerWidth; 
