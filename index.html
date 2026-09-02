@@ -213,21 +213,38 @@
         @media (orientation: landscape) and (max-height: 600px) { .gallery-section { padding-top: 15px; } .menu-main-title { margin-bottom: 5px; } #menu-slider { padding: 5px 0 10px 0; } }
         @media (orientation: portrait) { .gallery-section { padding-top: 0; justify-content: center; } .gallery-content-zone { flex-grow: 0; height: 55vh; } }
 
-        /* 4. DIE INNEREN EFFEKTE */
-        #menu-slider .splide__slide { width: 260px !important; max-width: 260px !important; min-width: 260px !important; display: flex !important; justify-content: center !important; align-items: center !important; margin: 0 !important; padding: 0 !important; pointer-events: none; }
-        .menu-item-content { width: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; padding: 0; opacity: 0.35; filter: blur(2.5px) grayscale(50%); transform: scale(0.85); transition: all 0.1s ease-out; }
-        .menu-headline { font-family: 'Crackman', Impact, sans-serif; font-size: 28px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dark); position: relative; text-shadow: 0 0 10px rgba(0,0,0,0.5); }
-        .menu-headline::before, .menu-headline::after { display: none !important; content: none !important; }
-        .menu-subtitle { font-size: 13px; color: #ddd; margin-top: 5px; font-weight: 500; font-family: -apple-system, sans-serif; }
+       /* 4. DIE INNEREN EFFEKTE (Bereinigt & Klickbar) */
+        #menu-slider .splide__slide { 
+            width: 260px !important; max-width: 260px !important; min-width: 260px !important; 
+            display: flex !important; justify-content: center !important; align-items: center !important; 
+            margin: 0 !important; padding: 0 !important; 
+            cursor: pointer; /* WICHTIG: Das Kraftfeld ist weg, Maus wird zur Hand! */
+        }
         
-        #menu-slider .splide__slide.is-active { pointer-events: auto; z-index: 2; }
+        .menu-item-content { 
+            width: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            padding: 0; opacity: 0.35; filter: blur(2.5px) grayscale(50%); transform: scale(0.85); transition: all 0.1s ease-out; 
+        }
+        
+        /* Die dynamischen Schriften sind hier jetzt sauber zusammengeführt */
+        .menu-headline { 
+            font-family: 'Crackman', Impact, sans-serif; 
+            font-size: clamp(24px, 3.5vw, 42px); /* Wächst auf dem Desktop majestätisch mit */
+            text-transform: uppercase; letter-spacing: 1px; color: var(--text-dark); 
+            position: relative; text-shadow: 0 0 10px rgba(0,0,0,0.5); 
+        }
+        .menu-headline::before, .menu-headline::after { display: none !important; content: none !important; }
+        .menu-subtitle { font-size: clamp(12px, 1.2vw, 15px); color: #ddd; margin-top: 5px; font-weight: 500; font-family: -apple-system, sans-serif; }
+        
+        #menu-slider .splide__slide.is-active { z-index: 2; }
         #menu-slider .splide__slide.is-active .menu-item-content { opacity: 1; filter: blur(0px) grayscale(0%); transform: scale(1.1); }
         #menu-slider .splide__slide.is-active .menu-headline { color: #c1ff72; text-shadow: 0 0 15px rgba(193, 255, 114, 0.4); }
         
         #menu-slider.is-scrolling .splide__slide .menu-item-content, #menu-slider.is-scrolling .splide__slide.is-active .menu-item-content { opacity: 0.35 !important; filter: blur(2.5px) grayscale(50%) !important; transform: scale(0.85) !important; transition: all 0.1s ease-out; }
         
-        #menu-slider .splide__arrow { background: transparent; opacity: 0.8; } #menu-slider .splide__arrow svg { fill: var(--text-dark); width: 24px; height: 24px; } #menu-slider .splide__arrow:hover { opacity: 1; transform: scale(1.1); }
-
+        #menu-slider .splide__arrow { background: transparent; opacity: 0.8; } 
+        #menu-slider .splide__arrow svg { fill: var(--text-dark); width: 24px; height: 24px; } 
+        #menu-slider .splide__arrow:hover { opacity: 1; transform: scale(1.1); }
         #gallery-slider .splide__track { overflow: visible !important; }
         #gallery-slider { width: 100%; cursor: grab; } 
         #gallery-slider:active { cursor: grabbing; }
@@ -378,14 +395,22 @@
         let gallerySplide = null;
         let originalSlides = []; 
 
-        document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
             const list = document.getElementById('gallery-list');
             originalSlides = Array.from(list.children).map(li => li.cloneNode(true));
             
             const menuSplide = new Splide('#menu-slider', {
                 type: 'loop', focus: 'center', autoWidth: false, fixedWidth: 260, gap: 0, trimSpace: false,      
                 arrows: true, pagination: false, updateOnMove: true, drag: 'free', snap: true, flickMaxPages: 1,       
-                friction: 0.25, flickPower: 250, speed: 400, easing: 'ease-out' 
+                friction: 0.2, flickPower: 250, 
+                speed: 800, /* Langsamer, majestätischer Übergang */
+                easing: 'cubic-bezier(0.25, 1, 0.35, 1)', /* Butterweiche Kurve */
+                clones: 9 /* Verhindert Lücken auf Ultra-Wide-Screens */
+            });
+
+            // NEU: Klickt man ein Element an, fährt es sofort weich in die Mitte!
+            menuSplide.on('click', function (slide) {
+                menuSplide.go(slide.index);
             });
 
             menuSplide.on('move drag', function () {
@@ -410,6 +435,14 @@
             list.innerHTML = ''; 
             
             originalSlides.forEach(slide => { if (slide.dataset.category === category) list.appendChild(slide.cloneNode(true)); });
+            
+            gallerySplide = new Splide('#gallery-slider', {
+                type: 'loop', drag: 'free', focus: 'center', autoWidth: true, gap: '20px',
+                arrows: false, pagination: false, friction: 0.05, 
+                clones: 15, /* DER TRICK: Genug Food-Karten klonen, damit der PC-Monitor voll wird und es flüssig läuft */
+                autoScroll: { speed: 1.5, pauseOnHover: true, pauseOnFocus: false }, /* Etwas langsamer für Premium-Look */
+            });
+            gallerySplide.mount(window.splide.Extensions);
             
            gallerySplide = new Splide('#gallery-slider', {
                 type: 'loop', drag: 'free', focus: 'center', autoWidth: true, gap: '20px',
