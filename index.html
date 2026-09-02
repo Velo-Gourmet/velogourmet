@@ -213,13 +213,16 @@
         @media (orientation: landscape) and (max-height: 600px) { .gallery-section { padding-top: 15px; } .menu-main-title { margin-bottom: 5px; } #menu-slider { padding: 5px 0 10px 0; } }
         @media (orientation: portrait) { .gallery-section { padding-top: 0; justify-content: center; } .gallery-content-zone { flex-grow: 0; height: 55vh; } }
 
-       /* 4. DIE INNEREN EFFEKTE (Bereinigt & Klickbar) */
+               /* 4. DIE INNEREN EFFEKTE (Bereinigt & Klickbar) */
         #menu-slider .splide__slide { 
             width: 260px !important; max-width: 260px !important; min-width: 260px !important; 
             display: flex !important; justify-content: center !important; align-items: center !important; 
             margin: 0 !important; padding: 0 !important; 
-            cursor: pointer; /* WICHTIG: Das Kraftfeld ist weg, Maus wird zur Hand! */
+            cursor: pointer; 
+            /* Blockiert das standardmäßige Aufblitzen von Browsern beim Klicken */
+            -webkit-tap-highlight-color: transparent; 
         }
+
         
         .menu-item-content { 
             width: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; 
@@ -464,10 +467,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 clones: 9 /* Verhindert Lücken auf Ultra-Wide-Screens */
             });
 
-            // NEU: Klickt man ein Element an, fährt es sofort weich in die Mitte!
+                        // NEU: Klickt man ein Element an, fährt es sofort weich in die Mitte!
             menuSplide.on('click', function (slide) {
+                // DER FIX: Wir zwingen den Slider in der allerersten Millisekunde des Klicks in den gedimmten Scrolling-Modus!
+                document.getElementById('menu-slider').classList.add('is-scrolling');
+                
+                // Erst danach darf Splide losfahren
                 menuSplide.go(slide.index);
             });
+
 
             menuSplide.on('move drag', function () {
                 document.getElementById('menu-slider').classList.add('is-scrolling');
