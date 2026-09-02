@@ -272,13 +272,34 @@
             }
         }
 
-        /* Pfeile ganz nach außen setzen, vergrößern und edel animieren */
+       /* --- MENÜ PFEILE (Zentriert & Ohne Größenänderung) --- */
+        
         #menu-slider .splide__arrow { 
             background: transparent; 
             opacity: 0.5; 
             width: 60px; 
             height: 60px; 
-            transition: all 0.3s cubic-bezier(0.25, 1, 0.35, 1);
+            transition: opacity 0.3s ease; /* Animiert NUR noch die Leuchtkraft */
+            
+            /* VERTIKALE ZENTRIERUNG */
+            /* 50% wäre die exakte Mitte der gesamten Box. Da unten aber noch der kleine Untertitel steht, 
+               setzen wir den Pfeil leicht höher (z.B. 42%), damit er perfekt die großen Buchstaben anvisiert. */
+            top: 42%; 
+            transform: translateY(-50%);
+        }
+        
+        #menu-slider .splide__arrow--prev { left: clamp(5px, 4vw, 50px); }
+        #menu-slider .splide__arrow--next { right: clamp(5px, 4vw, 50px); }
+        
+        #menu-slider .splide__arrow svg { 
+            fill: #c1ff72; 
+            width: 32px; 
+            height: 32px; 
+            filter: drop-shadow(0 0 10px rgba(193, 255, 114, 0.3));
+        } 
+        
+        #menu-slider .splide__arrow:hover { 
+            opacity: 1; /* Pfeil wird beim Hovern nur noch heller (kein Zoom mehr) */
         }
         
         /* Dynamischer Abstand zum Rand: Passt sich dem Monitor an */
