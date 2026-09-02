@@ -421,6 +421,51 @@
             }
         });
 
+        /* --- 1. DESKTOP MAUSRAD-STEUERUNG (Butterweiches Snapping) --- */
+        let isWheelScrolling = false;
+
+        // Wir lauschen exakt auf das Mausrad (wird auf Touchscreens ignoriert)
+        scrollContainer.addEventListener('wheel', (e) => {
+            // Wenn bereits ein weicher Scroll-Vorgang läuft, blockieren wir weitere Maus-Ticks
+            if (isWheelScrolling) {
+                e.preventDefault();
+                return;
+            }
+
+            // Stoppt das abgehackte, native Windows/Mac-Scrollen
+            e.preventDefault();
+            
+            // Sperre aktivieren, bis die Animation durchgelaufen ist
+            isWheelScrolling = true;
+
+            const h = scrollContainer.clientHeight;
+            const currentScroll = scrollContainer.scrollTop;
+            
+            // 1. Berechnen: In welcher Sektion sind wir gerade? (0 = Hero, 1 = Nav, 2 = Galerie)
+            let currentIndex = Math.round(currentScroll / h);
+            
+            // 2. Berechnen: Will der Nutzer nach unten (+1) oder oben (-1)?
+            // e.deltaY ist positiv beim Scrollen nach unten, negativ beim Scrollen nach oben
+            const direction = Math.sign(e.deltaY); 
+            let nextIndex = currentIndex + direction;
+
+            // 3. Sicherheits-Limit: Verhindern, dass man über den Anfang oder das Ende hinaus scrollt
+            const sectionsCount = document.querySelectorAll('.section').length;
+            nextIndex = Math.max(0, Math.min(nextIndex, sectionsCount - 1));
+
+            // 4. Den butterweichen, direkten Scrollbefehl ausführen
+            scrollContainer.scrollTo({
+                top: nextIndex * h,
+                behavior: 'smooth'
+            });
+
+            // 5. Sperre nach 800 Millisekunden aufheben (Das entspricht der perfekten "Butterweich"-Zeit)
+            setTimeout(() => {
+                isWheelScrolling = false;
+            }, 800);
+
+        }, { passive: false }); // passive: false ist wichtig, damit wir das native Scrollen abbrechen dürfen
+
 
         /* --- 3D PLASMA ENGINE --- */
         const canvas = document.getElementById('plasma-canvas');
