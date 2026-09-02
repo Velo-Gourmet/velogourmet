@@ -242,9 +242,39 @@
         
         #menu-slider.is-scrolling .splide__slide .menu-item-content, #menu-slider.is-scrolling .splide__slide.is-active .menu-item-content { opacity: 0.35 !important; filter: blur(2.5px) grayscale(50%) !important; transform: scale(0.85) !important; transition: all 0.1s ease-out; }
         
-        #menu-slider .splide__arrow { background: transparent; opacity: 0.8; } 
-        #menu-slider .splide__arrow svg { fill: var(--text-dark); width: 24px; height: 24px; } 
-        #menu-slider .splide__arrow:hover { opacity: 1; transform: scale(1.1); }
+        /* --- MENÜ PFEILE & KANTEN-SCHMELZ --- */
+        /* Die Wörter schmelzen an den Rändern sanft aus, bevor sie die Pfeile berühren */
+        #menu-slider .splide__track { 
+            overflow: visible; 
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+        }
+
+        /* Pfeile ganz nach außen setzen, vergrößern und edel animieren */
+        #menu-slider .splide__arrow { 
+            background: transparent; 
+            opacity: 0.5; 
+            width: 60px; 
+            height: 60px; 
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.35, 1);
+        }
+        
+        /* Dynamischer Abstand zum Rand: Passt sich dem Monitor an */
+        #menu-slider .splide__arrow--prev { left: clamp(5px, 4vw, 50px); }
+        #menu-slider .splide__arrow--next { right: clamp(5px, 4vw, 50px); }
+        
+        /* Das Velo-Grün mit einem leichten Plasma-Glow */
+        #menu-slider .splide__arrow svg { 
+            fill: #c1ff72; 
+            width: 32px; 
+            height: 32px; 
+            filter: drop-shadow(0 0 10px rgba(193, 255, 114, 0.3));
+        } 
+        
+        #menu-slider .splide__arrow:hover { 
+            opacity: 1; 
+            transform: scale(1.2); 
+        }
         #gallery-slider .splide__track { overflow: visible !important; }
         #gallery-slider { width: 100%; cursor: grab; } 
         #gallery-slider:active { cursor: grabbing; }
