@@ -213,37 +213,44 @@
         @media (orientation: landscape) and (max-height: 600px) { .gallery-section { padding-top: 15px; } .menu-main-title { margin-bottom: 5px; } #menu-slider { padding: 5px 0 10px 0; } }
         @media (orientation: portrait) { .gallery-section { padding-top: 0; justify-content: center; } .gallery-content-zone { flex-grow: 0; height: 55vh; } }
 
-               /* 4. DIE INNEREN EFFEKTE (Bereinigt & Klickbar) */
+
+
+        
+                /* --- 4. DIE INNEREN EFFEKTE (Anti-Flash Update) --- */
         #menu-slider .splide__slide { 
             width: 260px !important; max-width: 260px !important; min-width: 260px !important; 
             display: flex !important; justify-content: center !important; align-items: center !important; 
             margin: 0 !important; padding: 0 !important; 
             cursor: pointer; 
-            /* Blockiert das standardmäßige Aufblitzen von Browsern beim Klicken */
             -webkit-tap-highlight-color: transparent; 
         }
-
         
         .menu-item-content { 
             width: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            padding: 0; opacity: 0.35; filter: blur(2.5px) grayscale(50%); transform: scale(0.85); transition: all 0.1s ease-out; 
+            padding: 0; opacity: 0.35; filter: blur(2.5px) grayscale(50%); transform: scale(0.85); 
+            transition: opacity 0.4s ease, filter 0.4s ease, transform 0.4s ease; 
         }
         
-        /* Die dynamischen Schriften sind hier jetzt sauber zusammengeführt */
         .menu-headline { 
             font-family: 'Crackman', Impact, sans-serif; 
-            font-size: clamp(24px, 3.5vw, 42px); /* Wächst auf dem Desktop majestätisch mit */
+            font-size: clamp(24px, 3.5vw, 42px);
             text-transform: uppercase; letter-spacing: 1px; color: var(--text-dark); 
             position: relative; text-shadow: 0 0 10px rgba(0,0,0,0.5); 
+            transition: color 0.4s ease, text-shadow 0.4s ease; 
         }
         .menu-headline::before, .menu-headline::after { display: none !important; content: none !important; }
+        
         .menu-subtitle { font-size: clamp(12px, 1.2vw, 15px); color: #ddd; margin-top: 5px; font-weight: 500; font-family: -apple-system, sans-serif; }
         
         #menu-slider .splide__slide.is-active { z-index: 2; }
         #menu-slider .splide__slide.is-active .menu-item-content { opacity: 1; filter: blur(0px) grayscale(0%); transform: scale(1.1); }
         #menu-slider .splide__slide.is-active .menu-headline { color: #c1ff72; text-shadow: 0 0 15px rgba(193, 255, 114, 0.4); }
         
-        #menu-slider.is-scrolling .splide__slide .menu-item-content, #menu-slider.is-scrolling .splide__slide.is-active .menu-item-content { opacity: 0.35 !important; filter: blur(2.5px) grayscale(50%) !important; transform: scale(0.85) !important; transition: all 0.1s ease-out; }
+        #menu-slider.is-scrolling .splide__slide .menu-item-content, 
+        #menu-slider.is-scrolling .splide__slide.is-active .menu-item-content { 
+            opacity: 0.35 !important; filter: blur(2.5px) grayscale(50%) !important; transform: scale(0.85) !important; 
+            transition: opacity 0.4s ease, filter 0.4s ease, transform 0.4s ease; 
+        }
         
         /* --- MENÜ PFEILE & KANTEN-SCHMELZ --- */
         #menu-slider .splide__track { 
