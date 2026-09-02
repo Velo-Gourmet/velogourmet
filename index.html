@@ -101,11 +101,14 @@
         /* ==========================================
            3. GALERIE ZONEN & PLASMA KORREKTUR
            ========================================== */
-                .gallery-section {
+             /* ==========================================
+           3. GALERIE ZONEN & PLASMA KORREKTUR
+           ========================================== */
+        .gallery-section {
             position: relative; 
-            background-color: var(--bg-sage); 
-            overflow: hidden; 
-            z-index: 1; 
+            background-color: transparent; 
+            overflow: visible !important; /* WICHTIG: Erlaubt dem Plasma, nach oben hinter Sektion 2 zu wachsen */
+            z-index: 1; /* Strikt UNTER Sektion 2 */
             display: flex; 
             flex-direction: column; 
             justify-content: flex-start;
@@ -114,34 +117,41 @@
             height: 100%; 
         }
 
-        /* Der Schmelz-Übergang sitzt unsichtbar am oberen Rand und ragt nach oben in Sektion 2 */
+        /* Der dunkle Raum für das Plasma wächst 15vh nach oben hinter Sektion 2 */
         .gallery-section::before {
             content: '';
             position: absolute;
             top: -15vh;
             left: 0;
             width: 100%;
-            height: 15vh;
-            background-image: var(--svg-bg-content);
-            background-size: cover;
-            background-position: center bottom;
-            background-repeat: no-repeat;
-            z-index: 5;
+            height: calc(100% + 15vh);
+            background-color: #121814;
+            z-index: 0;
             pointer-events: none;
-            -webkit-mask-image: linear-gradient(to top, #000 82%, rgba(0,0,0,0.6) 94%, transparent 100%);
-            mask-image: linear-gradient(to top, #000 82%, rgba(0,0,0,0.6) 94%, transparent 100%);
-            box-shadow: 
-                inset 0 60px 80px rgba(193, 255, 114, 0.22), 
-                inset 0 25px 35px rgba(255, 214, 216, 0.45);
-            transform: translateZ(0);
         }
 
+        /* Das Plasma wächst ebenfalls 15vh nach oben hinter den Marmor */
+        #plasma-canvas { 
+            position: absolute; 
+            top: -15vh; 
+            left: 0; 
+            width: 100%; 
+            height: calc(100% + 15vh); 
+            z-index: 1; 
+            pointer-events: none; 
+        }
 
-        #plasma-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+        /* Der Abdunkler wächst exakt mit */
         .plasma-dimmer { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; 
+            position: absolute; 
+            top: -15vh; 
+            left: 0; 
+            width: 100%; 
+            height: calc(100% + 15vh); 
+            z-index: 2; 
             background: rgba(18, 24, 20, 0.15); 
-            backdrop-filter: blur(1px); -webkit-backdrop-filter: blur(1px); 
+            backdrop-filter: blur(1px); 
+            -webkit-backdrop-filter: blur(1px); 
             pointer-events: none; 
         }
         
