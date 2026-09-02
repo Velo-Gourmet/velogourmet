@@ -272,52 +272,35 @@
             }
         }
 
-       /* --- MENÜ PFEILE (Zentriert & Ohne Größenänderung) --- */
-        
+     /* --- MENÜ PFEILE (Garantiert festgenagelt) --- */
         #menu-slider .splide__arrow { 
-            background: transparent; 
+            background: transparent !important; 
             opacity: 0.5; 
-            width: 60px; 
-            height: 60px; 
-            transition: opacity 0.3s ease; /* Animiert NUR noch die Leuchtkraft */
+            width: 60px !important; 
+            height: 60px !important; 
+            transition: opacity 0.3s ease !important; /* Blockiert versteckte Bewegungs-Animationen */
             
-            /* VERTIKALE ZENTRIERUNG */
-            /* 50% wäre die exakte Mitte der gesamten Box. Da unten aber noch der kleine Untertitel steht, 
-               setzen wir den Pfeil leicht höher (z.B. 42%), damit er perfekt die großen Buchstaben anvisiert. */
-            top: 42%; 
-            transform: translateY(-50%);
+            top: 42% !important; 
+            transform: translateY(-50%) !important; /* Zieht den Pfeil hoch in die Mitte */
         }
         
-        #menu-slider .splide__arrow--prev { left: clamp(5px, 4vw, 50px); }
-        #menu-slider .splide__arrow--next { right: clamp(5px, 4vw, 50px); }
+        #menu-slider .splide__arrow--prev { left: clamp(5px, 4vw, 50px) !important; }
+        #menu-slider .splide__arrow--next { right: clamp(5px, 4vw, 50px) !important; }
         
         #menu-slider .splide__arrow svg { 
-            fill: #c1ff72; 
-            width: 32px; 
-            height: 32px; 
+            fill: #c1ff72 !important; 
+            width: 32px !important; 
+            height: 32px !important; 
             filter: drop-shadow(0 0 10px rgba(193, 255, 114, 0.3));
         } 
         
         #menu-slider .splide__arrow:hover { 
-            opacity: 1; /* Pfeil wird beim Hovern nur noch heller (kein Zoom mehr) */
+            opacity: 1 !important; 
+            /* DER FIX: Wir zwingen den Browser, die vertikale Position beim Hovern exakt zu behalten! */
+            transform: translateY(-50%) !important; 
         }
-        
-        /* Dynamischer Abstand zum Rand: Passt sich dem Monitor an */
-        #menu-slider .splide__arrow--prev { left: clamp(5px, 4vw, 50px); }
-        #menu-slider .splide__arrow--next { right: clamp(5px, 4vw, 50px); }
-        
-        /* Das Velo-Grün mit einem leichten Plasma-Glow */
-        #menu-slider .splide__arrow svg { 
-            fill: #c1ff72; 
-            width: 32px; 
-            height: 32px; 
-            filter: drop-shadow(0 0 10px rgba(193, 255, 114, 0.3));
-        } 
-        
-        #menu-slider .splide__arrow:hover { 
-            opacity: 1; 
-            transform: scale(1.2); 
-        }
+            
+         
         #gallery-slider .splide__track { overflow: visible !important; }
         #gallery-slider { width: 100%; cursor: grab; } 
         #gallery-slider:active { cursor: grabbing; }
