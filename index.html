@@ -243,11 +243,33 @@
         #menu-slider.is-scrolling .splide__slide .menu-item-content, #menu-slider.is-scrolling .splide__slide.is-active .menu-item-content { opacity: 0.35 !important; filter: blur(2.5px) grayscale(50%) !important; transform: scale(0.85) !important; transition: all 0.1s ease-out; }
         
         /* --- MENÜ PFEILE & KANTEN-SCHMELZ --- */
-        /* Die Wörter schmelzen an den Rändern sanft aus, bevor sie die Pfeile berühren */
         #menu-slider .splide__track { 
             overflow: visible; 
+            /* Basis-Maske für Handys */
             -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
             mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+        }
+
+        /* Pixelgenauer Cut-off für den Desktop! */
+        @media (min-width: 768px) {
+            #menu-slider .splide__track {
+                -webkit-mask-image: linear-gradient(to right, 
+                    transparent 0px, 
+                    transparent 120px, 
+                    black 350px, 
+                    black calc(100% - 350px), 
+                    transparent calc(100% - 120px), 
+                    transparent 100%
+                );
+                mask-image: linear-gradient(to right, 
+                    transparent 0px, 
+                    transparent 120px, 
+                    black 350px, 
+                    black calc(100% - 350px), 
+                    transparent calc(100% - 120px), 
+                    transparent 100%
+                );
+            }
         }
 
         /* Pfeile ganz nach außen setzen, vergrößern und edel animieren */
