@@ -216,7 +216,7 @@
 
 
         
-                /* --- 4. DIE INNEREN EFFEKTE (Anti-Flash Update) --- */
+                        /* --- 4. DIE INNEREN EFFEKTE (Anti-Flash Update - Snappy Edition) --- */
         #menu-slider .splide__slide { 
             width: 260px !important; max-width: 260px !important; min-width: 260px !important; 
             display: flex !important; justify-content: center !important; align-items: center !important; 
@@ -228,7 +228,8 @@
         .menu-item-content { 
             width: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; 
             padding: 0; opacity: 0.35; filter: blur(2.5px) grayscale(50%); transform: scale(0.85); 
-            transition: opacity 0.4s ease, filter 0.4s ease, transform 0.4s ease; 
+            /* Beschleunigt auf 0.2s: Knackig und reaktiv, aber ohne Flackern! */
+            transition: opacity 0.2s ease, filter 0.2s ease, transform 0.2s ease; 
         }
         
         .menu-headline { 
@@ -236,7 +237,8 @@
             font-size: clamp(24px, 3.5vw, 42px);
             text-transform: uppercase; letter-spacing: 1px; color: var(--text-dark); 
             position: relative; text-shadow: 0 0 10px rgba(0,0,0,0.5); 
-            transition: color 0.4s ease, text-shadow 0.4s ease; 
+            /* Beschleunigt auf 0.2s für direkteres Farb-Feedback */
+            transition: color 0.2s ease, text-shadow 0.2s ease; 
         }
         .menu-headline::before, .menu-headline::after { display: none !important; content: none !important; }
         
@@ -246,11 +248,13 @@
         #menu-slider .splide__slide.is-active .menu-item-content { opacity: 1; filter: blur(0px) grayscale(0%); transform: scale(1.1); }
         #menu-slider .splide__slide.is-active .menu-headline { color: #c1ff72; text-shadow: 0 0 15px rgba(193, 255, 114, 0.4); }
         
+        /* Die Scroll-Zustände ebenfalls knackig auf 0.2s gezogen */
         #menu-slider.is-scrolling .splide__slide .menu-item-content, 
         #menu-slider.is-scrolling .splide__slide.is-active .menu-item-content { 
             opacity: 0.35 !important; filter: blur(2.5px) grayscale(50%) !important; transform: scale(0.85) !important; 
-            transition: opacity 0.4s ease, filter 0.4s ease, transform 0.4s ease; 
+            transition: opacity 0.2s ease, filter 0.2s ease, transform 0.2s ease; 
         }
+
         
         /* --- MENÜ PFEILE & KANTEN-SCHMELZ --- */
         #menu-slider .splide__track { 
