@@ -431,7 +431,8 @@
             function resizeCanvas() { 
                 const gallery = document.getElementById('galerie');
                 w = canvas.width = gallery ? gallery.offsetWidth : window.innerWidth; 
-                h = canvas.height = gallery ? gallery.offsetHeight : window.innerHeight; 
+                // Die Canvas berechnet jetzt die +15vh Überhang mit ein
+                h = canvas.height = gallery ? gallery.offsetHeight + (window.innerHeight * 0.15) : window.innerHeight * 1.15; 
             }
             window.addEventListener('resize', resizeCanvas);
             resizeCanvas();
