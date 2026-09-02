@@ -216,7 +216,7 @@
 
 
         
-                        /* --- 4. DIE INNEREN EFFEKTE (Anti-Flash Update - Snappy Edition) --- */
+                                /* --- 4. DIE INNEREN EFFEKTE (0.1s Ultra-Snappy & Clean Color Fade) --- */
         #menu-slider .splide__slide { 
             width: 260px !important; max-width: 260px !important; min-width: 260px !important; 
             display: flex !important; justify-content: center !important; align-items: center !important; 
@@ -228,8 +228,8 @@
         .menu-item-content { 
             width: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; 
             padding: 0; opacity: 0.35; filter: blur(2.5px) grayscale(50%); transform: scale(0.85); 
-            /* Beschleunigt auf 0.2s: Knackig und reaktiv, aber ohne Flackern! */
-            transition: opacity 0.2s ease, filter 0.2s ease, transform 0.2s ease; 
+            /* Blitzschnelle 0.1s, aber sauber geführt */
+            transition: opacity 0.1s ease-in-out, filter 0.1s ease-in-out, transform 0.1s ease-in-out; 
         }
         
         .menu-headline { 
@@ -237,8 +237,8 @@
             font-size: clamp(24px, 3.5vw, 42px);
             text-transform: uppercase; letter-spacing: 1px; color: var(--text-dark); 
             position: relative; text-shadow: 0 0 10px rgba(0,0,0,0.5); 
-            /* Beschleunigt auf 0.2s für direkteres Farb-Feedback */
-            transition: color 0.2s ease, text-shadow 0.2s ease; 
+            /* DER FARB-MORPH: Zwingt den Browser bei 0.1s zu einem echten Farbverlauf (Grün ↔ Schwarz) */
+            transition: color 0.1s ease-in-out, text-shadow 0.1s ease-in-out; 
         }
         .menu-headline::before, .menu-headline::after { display: none !important; content: none !important; }
         
@@ -248,12 +248,13 @@
         #menu-slider .splide__slide.is-active .menu-item-content { opacity: 1; filter: blur(0px) grayscale(0%); transform: scale(1.1); }
         #menu-slider .splide__slide.is-active .menu-headline { color: #c1ff72; text-shadow: 0 0 15px rgba(193, 255, 114, 0.4); }
         
-        /* Die Scroll-Zustände ebenfalls knackig auf 0.2s gezogen */
+        /* Die Scroll-Zustände auf das gleiche, blitzschnelle Timing gesetzt */
         #menu-slider.is-scrolling .splide__slide .menu-item-content, 
         #menu-slider.is-scrolling .splide__slide.is-active .menu-item-content { 
             opacity: 0.35 !important; filter: blur(2.5px) grayscale(50%) !important; transform: scale(0.85) !important; 
-            transition: opacity 0.2s ease, filter 0.2s ease, transform 0.2s ease; 
+            transition: opacity 0.1s ease-in-out, filter 0.1s ease-in-out, transform 0.1s ease-in-out; 
         }
+
 
         
         /* --- MENÜ PFEILE & KANTEN-SCHMELZ --- */
