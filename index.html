@@ -203,10 +203,17 @@
                 /* Die Z-Index-Wächter (Sorgt dafür, dass das Menü ÜBER dem Plasma liegt) */
         .menu-swipe-pill, #menu-slider, .gallery-content-zone { position: relative; z-index: 10; }
 
-        /* --- DIE PULSIERENDE SWIPE-PILLE --- */
+                /* --- DIE PULSIERENDE SWIPE-PILLE (Premium Glassmorphism) --- */
         .menu-swipe-pill { 
-            background: rgba(255, 214, 216, 0.85); 
-            color: #3A2325; 
+            /* Viel weniger Deckkraft (nur noch 15% statt 85%) */
+            background: rgba(255, 214, 216, 0.15); 
+            
+            /* Helle Schrift, damit sie auf dem durchscheinenden Plasma strahlt */
+            color: #FFD6D8; 
+            
+            /* Ein hauchdünner Rand definiert die Form wie bei einer Seifenblase */
+            border: 1px solid rgba(255, 214, 216, 0.3);
+            
             font-size: 11px; 
             letter-spacing: 2px; 
             text-transform: uppercase; 
@@ -215,11 +222,34 @@
             border-radius: 30px; 
             margin: 0 auto;
             margin-bottom: clamp(15px, 3vh, 30px);
-            box-shadow: 0 4px 15px rgba(255, 214, 216, 0.4); 
+            
+            /* Der Glow wird etwas subtiler angepasst */
+            box-shadow: 0 4px 15px rgba(255, 214, 216, 0.15); 
             animation: breathePill 2.5s infinite ease-in-out; 
             will-change: transform, box-shadow;
-            display: inline-block; /* Wichtig, damit die Pille nicht die volle Breite einnimmt */
+            display: inline-block; 
         }
+
+        /* Der echte Milchglas-Effekt für moderne Browser (iPhone, Chrome etc.) */
+        @supports (backdrop-filter: blur(12px)) { 
+            .menu-swipe-pill { 
+                /* Fast unsichtbar, wir lassen nur das Glas arbeiten */
+                background: rgba(255, 214, 216, 0.08); 
+                /* Ein stärkerer Blur (12px), damit das Plasma dahinter schön verschwimmt */
+                backdrop-filter: blur(12px); 
+                -webkit-backdrop-filter: blur(12px);
+            } 
+        }
+
+        @keyframes breathePill { 
+            0%, 100% { transform: scale(0.95); box-shadow: 0 0 10px rgba(255, 214, 216, 0.1); } 
+            50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(255, 214, 216, 0.4); } 
+        }
+
+        @media (min-width: 768px) {
+            .menu-swipe-pill { display: none; }
+        }
+
 
         @supports (backdrop-filter: blur(8px)) { 
             .menu-swipe-pill { 
