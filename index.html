@@ -105,7 +105,7 @@
             font-size: 26px; text-transform: uppercase; letter-spacing: 2px; 
         }
         
-                /* ==========================================
+              /* ==========================================
            3. GALERIE ZONEN & PLASMA KORREKTUR
            ========================================== */
         .gallery-section { position: relative; background-color: transparent; overflow: visible !important; z-index: 1; display: flex; flex-direction: column; justify-content: flex-start; padding-top: clamp(30px, 8vh, 80px); padding-bottom: 20px; height: 100%; }
@@ -129,11 +129,10 @@
         @media (orientation: landscape) and (max-height: 600px) { .gallery-section { padding-top: 15px; } #menu-slider { padding: 5px 0 10px 0; } }
         @media (orientation: portrait) { .gallery-section { padding-top: 0; justify-content: center; } .gallery-content-zone { flex-grow: 0; height: 55vh; } }
 
-        /* 4. DIE INNEREN EFFEKTE & TYPOGRAFIE-LOCK */
+        /* 4. DIE INNEREN EFFEKTE & TYPOGRAFIE-LOCK FÜR DAS MENÜ */
         #menu-slider .splide__slide { width: 260px !important; max-width: 260px !important; min-width: 260px !important; display: flex !important; justify-content: center !important; align-items: center !important; margin: 0 !important; padding: 0 !important; cursor: pointer; -webkit-tap-highlight-color: transparent; }
         .menu-item-content { width: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0; opacity: 0.35; filter: blur(2.5px) grayscale(50%); transform: scale(0.85); transition: opacity 0.02s linear 0.04s, filter 0.02s linear 0.04s, transform 0.04s ease-out 0.06s; }
         
-        /* --- TYPOGRAFIE (Sicher in der statischen 260px Box verriegelt) --- */
         .menu-headline { font-family: 'Crackman', Impact, sans-serif; font-size: 26px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dark); position: relative; text-shadow: 0 0 10px rgba(0,0,0,0.5); transition: color 0.04s ease-out 0s, text-shadow 0.04s ease-out 0s; }
         .menu-headline::before, .menu-headline::after { display: none !important; content: none !important; }
         .menu-subtitle { font-size: 13px; color: #ddd; margin-top: 5px; font-weight: 500; font-family: -apple-system, sans-serif; }
@@ -145,23 +144,30 @@
         #menu-slider.is-scrolling .splide__slide .menu-item-content, #menu-slider.is-scrolling .splide__slide.is-active .menu-item-content { opacity: 0.35 !important; filter: blur(2.5px) grayscale(50%) !important; transform: scale(0.85) !important; transition: opacity 0.05s ease, filter 0.05s ease, transform 0.05s ease !important; }
         #menu-slider.is-scrolling .splide__slide .menu-headline, #menu-slider.is-scrolling .splide__slide.is-active .menu-headline { color: var(--text-dark) !important; text-shadow: 0 0 10px rgba(0,0,0,0.5) !important; transition: color 0.05s ease, text-shadow 0.05s ease !important; }
 
-        /* --- MENÜ PFEILE (Garantiert festgenagelt) --- */
+        /* --- MENÜ PFEILE --- */
         #menu-slider .splide__arrow { background: transparent !important; opacity: 0.5; width: 60px !important; height: 60px !important; transition: opacity 0.3s ease !important; top: 42% !important; transform: translateY(-50%) !important; -webkit-tap-highlight-color: transparent; outline: none; }
         #menu-slider .splide__arrow--prev { left: clamp(5px, 4vw, 50px) !important; }
         #menu-slider .splide__arrow--next { right: clamp(5px, 4vw, 50px) !important; }
         #menu-slider .splide__arrow svg { fill: #c1ff72 !important; width: 32px !important; height: 32px !important; filter: drop-shadow(0 0 10px rgba(193, 255, 114, 0.3)); } 
         #menu-slider .splide__arrow:hover { opacity: 1 !important; transform: translateY(-50%) !important; }
 
-                #gallery-slider .splide__track { overflow: visible !important; }
+        /* --- FOOD KARTEN (Galerie) --- */
+        #gallery-slider .splide__track { overflow: visible !important; }
         #gallery-slider { width: 100%; cursor: grab; } 
         #gallery-slider:active { cursor: grabbing; }
+        
         .marquee-card { width: 260px; height: 360px; background: rgba(255, 255, 255, 0.82); border-radius: 22px; padding: 15px; display: flex; flex-direction: column; justify-content: space-between; position: relative; user-select: none; -webkit-user-select: none; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1) !important; border: 1.5px solid rgba(255, 255, 255, 0.9) !important; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
         #gallery-slider .splide__slide.is-active .marquee-card { box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15) !important; }
         .splide__slide { -webkit-transform: translateZ(0); transform: translateZ(0); }
+        
+        /* Vorbereitung für echte Fotos in der Zukunft */
+        .marquee-card img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; display: block; }
+        
         .card-image-placeholder { width: 100%; height: 220px; background: rgba(0,0,0,0.04); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #777; font-weight: 500; text-align: center; padding: 10px; }
-        .card-info h4 { font-size: 18px; margin-bottom: 5px; color: var(--text-dark); } .card-info p { font-size: 13px; color: #555; line-height: 1.4; }
+        .card-info h4 { font-size: 18px; margin-bottom: 5px; color: var(--text-dark); } 
+        .card-info p { font-size: 13px; color: #555; line-height: 1.4; }
 
-        /* OVERLAYS */
+        /* OVERLAYS (Kontakt & Lightbox) */
         .glass-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(27, 36, 30, 0.45); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; display: flex; align-items: center; justify-content: center; }
         .glass-overlay.is-active { opacity: 1; pointer-events: all; }
         .glass-sheet { width: 92%; max-width: 800px; background: rgba(244, 241, 234, 0.75); backdrop-filter: blur(28px) saturate(180%); -webkit-backdrop-filter: blur(28px) saturate(180%); border: 1px solid rgba(193, 255, 114, 0.4); border-radius: 28px; box-shadow: 0 30px 60px rgba(0,0,0,0.2), 0 0 35px rgba(193, 255, 114, 0.12); overflow: hidden; transform: translateY(25px) scale(0.95); transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; flex-direction: column; }
@@ -180,12 +186,44 @@
         .sheet-close { margin-top: 15px; background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02); border-radius: 20px; color: var(--text-dark); font-size: 13px; font-weight: 600; padding: 10px 24px; cursor: pointer; align-self: center; transition: all 0.2s; border: none; }
         .sheet-close:active { background: rgba(0,0,0,0.08); transform: scale(0.96); }
 
+        /* --- MAGIC SCALING FÜR HANDY-QUERFORMAT (Landscape) --- */
+        @media (orientation: landscape) and (max-height: 600px) {
+            .marquee-card {
+                height: 75vh !important; 
+                min-height: 200px;
+                padding: 10px !important; 
+                justify-content: flex-start; 
+            }
+            .card-image-placeholder {
+                height: calc(100% - 45px) !important; 
+                margin-bottom: 5px;
+            }
+            .card-info {
+                height: 40px; 
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            .card-info h4 {
+                font-size: 14px !important; 
+                margin-bottom: 2px !important;
+                white-space: nowrap; 
+                overflow: hidden;
+                text-overflow: ellipsis; 
+            }
+            .card-info p {
+                font-size: 11px !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+
         /* --- DER TABLET & DESKTOP LOCK (Ganz unten für höchste Priorität!) --- */
         @media (min-width: 768px) {
             .menu-headline { font-size: 30px !important; }
             .menu-subtitle { font-size: 14px !important; }
         }
-    </style>
 
     </head>
 <body>
