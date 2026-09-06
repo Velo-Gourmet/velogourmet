@@ -186,14 +186,54 @@
         .sheet-close { margin-top: 15px; background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02); border-radius: 20px; color: var(--text-dark); font-size: 13px; font-weight: 600; padding: 10px 24px; cursor: pointer; align-self: center; transition: all 0.2s; border: none; }
         .sheet-close:active { background: rgba(0,0,0,0.08); transform: scale(0.96); }
 
-        /* --- MAGIC SCALING FÜR HANDY-QUERFORMAT (Landscape) --- */
+    /* --- MAGIC SCALING FÜR HANDY-QUERFORMAT (Landscape) --- */
         @media (orientation: landscape) and (max-height: 600px) {
+            
+            /* DER FIX: Splide muss erlauben, dass die Karte die Höhe diktiert! */
+            #gallery-slider .splide__slide {
+                display: flex !important;
+                align-items: stretch !important; /* Erlaubt der Karte, sich vertikal auszudehnen */
+                height: auto !important;
+            }
+
             .marquee-card {
-                height: 75vh !important; 
+                /* Wir nutzen jetzt 85vh, damit sie richtig schön groß wird */
+                height: 85vh !important; 
                 min-height: 200px;
                 padding: 10px !important; 
-                justify-content: flex-start; 
+                justify-content: flex-start;
+                /* Wichtig: Breite muss flexibel bleiben, aber nicht über 300px wachsen */
+                width: clamp(240px, 45vw, 300px) !important; 
             }
+            
+            .card-image-placeholder {
+                /* Das Bild nimmt sich fast den ganzen Platz */
+                height: calc(100% - 40px) !important; 
+                margin-bottom: 5px;
+            }
+            
+            .card-info {
+                height: 35px !important; 
+                display: flex; 
+                flex-direction: column; 
+                justify-content: center;
+            }
+            
+            .card-info h4 {
+                font-size: 14px !important; 
+                margin-bottom: 2px !important;
+                white-space: nowrap; 
+                overflow: hidden; 
+                text-overflow: ellipsis;
+            }
+            
+            .card-info p {
+                font-size: 11px !important;
+                white-space: nowrap; 
+                overflow: hidden; 
+                text-overflow: ellipsis;
+            }
+        }
             .card-image-placeholder {
                 height: calc(100% - 45px) !important; 
                 margin-bottom: 5px;
