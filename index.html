@@ -216,76 +216,62 @@
         .sheet-close { margin-top: 15px; background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02); border-radius: 20px; color: var(--text-dark); font-size: 13px; font-weight: 600; padding: 10px 24px; cursor: pointer; align-self: center; transition: all 0.2s; border: none; }
         .sheet-close:active { background: rgba(0,0,0,0.08); transform: scale(0.96); }
 
-    /* --- MAGIC SCALING FÜR HANDY-QUERFORMAT (Landscape) --- */
+   /* --- MAGIC SCALING FÜR HANDY-QUERFORMAT (Landscape - Radikal gestaucht) --- */
         @media (orientation: landscape) and (max-height: 600px) {
             
-            /* DER FIX: Splide muss erlauben, dass die Karte die Höhe diktiert! */
+            /* Splide muss die Höhenkontrolle komplett abgeben */
             #gallery-slider .splide__slide {
                 display: flex !important;
-                align-items: stretch !important; /* Erlaubt der Karte, sich vertikal auszudehnen */
-                height: auto !important;
+                align-items: center !important; /* Karte bleibt mittig im Slider */
+                height: 100% !important;
             }
 
+            /* Die Kachel wird extrem flach gezwungen! */
             .marquee-card {
-                /* Wir nutzen jetzt 85vh, damit sie richtig schön groß wird */
-                height: 85vh !important; 
-                min-height: 200px;
-                padding: 10px !important; 
+                /* DER FIX: Wir zwingen die Kachel auf maximal 240px Höhe (absolutes Minimum für Querformat) */
+                height: clamp(160px, 60vh, 240px) !important; 
+                min-height: unset !important; /* Löst alte Blockaden! */
+                
+                width: clamp(200px, 40vw, 260px) !important; /* Karte wird minimal schmaler, passend zur geringen Höhe */
+                
+                padding: 8px !important; /* Minimales Padding für maximalen Platz */
                 justify-content: flex-start;
-                /* Wichtig: Breite muss flexibel bleiben, aber nicht über 300px wachsen */
-                width: clamp(240px, 45vw, 300px) !important; 
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important; 
             }
             
+            /* Der Foto-Container wird radikal gestaucht */
             .card-image-placeholder {
-                /* Das Bild nimmt sich fast den ganzen Platz */
-                height: calc(100% - 40px) !important; 
-                margin-bottom: 5px;
+                /* Höhe = Gesamthöhe - 35px (für den Text) */
+                height: calc(100% - 35px) !important; 
+                min-height: unset !important;
+                margin-bottom: 5px !important;
+                padding: 0 !important;
             }
             
+            /* Die Texte werden auf das absolute Minimum reduziert */
             .card-info {
-                height: 35px !important; 
+                height: 30px !important; 
                 display: flex; 
                 flex-direction: column; 
-                justify-content: center;
+                justify-content: flex-start;
+                padding-top: 2px;
             }
             
             .card-info h4 {
-                font-size: 14px !important; 
-                margin-bottom: 2px !important;
+                font-size: 13px !important; 
+                margin-bottom: 0px !important;
                 white-space: nowrap; 
                 overflow: hidden; 
                 text-overflow: ellipsis;
+                line-height: 1.1;
             }
             
             .card-info p {
-                font-size: 11px !important;
+                font-size: 10px !important;
                 white-space: nowrap; 
                 overflow: hidden; 
                 text-overflow: ellipsis;
-            }
-        }
-            .card-image-placeholder {
-                height: calc(100% - 45px) !important; 
-                margin-bottom: 5px;
-            }
-            .card-info {
-                height: 40px; 
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-            }
-            .card-info h4 {
-                font-size: 14px !important; 
-                margin-bottom: 2px !important;
-                white-space: nowrap; 
-                overflow: hidden;
-                text-overflow: ellipsis; 
-            }
-            .card-info p {
-                font-size: 11px !important;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
+                line-height: 1.1;
             }
         }
 
