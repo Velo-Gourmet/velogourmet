@@ -60,23 +60,20 @@
         }
         .menu-headline::before, .menu-headline::after { display: none !important; content: none !important; }
         
-        .menu-subtitle { 
+                .menu-subtitle { 
             font-size: clamp(12px, 1.2vw, 15px); 
             color: #ddd; margin-top: 5px; font-weight: 500; font-family: -apple-system, sans-serif; 
         }
 
-        /* --- PFEILE NUR FÜR MAUS-NUTZER --- */
-        /* Versteckt die Splide-Pfeile komplett auf Geräten, die per Touch bedient werden */
-        @media (hover: none) and (pointer: coarse) {
+        /* --- PFEILE NUR FÜR DESKTOP (Kugelsicher) --- */
+        /* Versteckt die Splide-Pfeile auf ALLEN Handys, egal ob mit oder ohne Stylus */
+        @media (max-width: 767px) {
             #menu-slider .splide__arrow { display: none !important; }
         }
         
        @media (min-width: 768px) { 
             /* Das Logo bleibt schön groß */
-            .logo-img { 
-                width: clamp(400px, 75vmin, 800px); 
-                height: clamp(400px, 75vmin, 800px); 
-            } 
+
             
             /* DER GAMECHANGER FÜR DEN HINTERGRUND */
             .hero-bg { 
