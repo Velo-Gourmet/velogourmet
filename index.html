@@ -48,14 +48,12 @@
         .logo-wrapper { display: flex; justify-content: center; align-items: center; width: 100%; padding: 0 10px; }
         .logo-img { aspect-ratio: 1 / 1; width: clamp(250px, 80vw, 500px); height: auto; object-fit: contain; filter: drop-shadow(0 25px 45px rgba(0,0,0,0.22)); animation: fadeInMorph 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
        
-        /* --- DYNAMISCHE TYPOGRAFIE (Strikt gedrosselt) --- */
+        /* --- TYPOGRAFIE (Sicher in der statischen 260px Box verriegelt) --- */
         .menu-headline { 
             font-family: 'Crackman', Impact, sans-serif; 
             
-            /* DER FIX: Wachstumsrate drastisch auf 3.2vmin gesenkt.
-               Maximalgröße von 46px auf 34px limitiert. 
-               Das zwingt die Schrift dazu, auf Tablets wesentlich kleiner zu bleiben! */
-            font-size: clamp(20px, 3.2vmin, 34px); 
+            /* Feste Start-Größe für alle Handys (absolut stabil) */
+            font-size: 26px; 
             
             text-transform: uppercase; 
             letter-spacing: 1px; 
@@ -71,13 +69,25 @@
         }
         
         .menu-subtitle { 
-            /* Auch hier: Extrem flaches Wachstum und bei 14px ist endgültig Schluss */
-            font-size: clamp(11px, 1.5vmin, 14px); 
+            /* Feste Start-Größe für Handys */
+            font-size: 13px; 
             color: #ddd; 
             margin-top: 5px; 
             font-weight: 500; 
             font-family: -apple-system, sans-serif; 
         }
+
+        /* --- DER TABLET & DESKTOP LOCK --- */
+        @media (min-width: 768px) {
+            .menu-headline {
+                /* Auf großen Displays nur ein winziger Sprung auf 30px, damit es edel bleibt! */
+                font-size: 30px; 
+            }
+            .menu-subtitle {
+                font-size: 14px;
+            }
+        }
+
 
         
 
