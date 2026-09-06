@@ -200,10 +200,45 @@
             pointer-events: none; 
         }
         
-        .menu-main-title, #menu-slider, .gallery-content-zone { position: relative; z-index: 10; }
+                /* Die Z-Index-Wächter (Sorgt dafür, dass das Menü ÜBER dem Plasma liegt) */
+        .menu-swipe-pill, #menu-slider, .gallery-content-zone { position: relative; z-index: 10; }
 
-        .menu-main-title { font-size: clamp(11px, 1.5vw, 14px); text-transform: uppercase; letter-spacing: 4px; color: #88948b; font-weight: 700; text-align: center; width: 100%; margin-bottom: clamp(10px, 2vh, 20px); flex-shrink: 0; }
-        #menu-slider { width: 100%; padding: 10px 0 15px 0; margin-bottom: 0; overflow: visible; flex-shrink: 0; }
+        /* --- DIE PULSIERENDE SWIPE-PILLE --- */
+        .menu-swipe-pill { 
+            background: rgba(255, 214, 216, 0.85); 
+            color: #3A2325; 
+            font-size: 11px; 
+            letter-spacing: 2px; 
+            text-transform: uppercase; 
+            font-weight: 700; 
+            padding: 8px 20px; 
+            border-radius: 30px; 
+            margin: 0 auto;
+            margin-bottom: clamp(15px, 3vh, 30px);
+            box-shadow: 0 4px 15px rgba(255, 214, 216, 0.4); 
+            animation: breathePill 2.5s infinite ease-in-out; 
+            will-change: transform, box-shadow;
+            display: inline-block; /* Wichtig, damit die Pille nicht die volle Breite einnimmt */
+        }
+
+        @supports (backdrop-filter: blur(8px)) { 
+            .menu-swipe-pill { 
+                background: rgba(255, 214, 216, 0.6); 
+                backdrop-filter: blur(8px); 
+                -webkit-backdrop-filter: blur(8px);
+                border: 1px solid rgba(255, 255, 255, 0.4);
+            } 
+        }
+
+        @keyframes breathePill { 
+            0%, 100% { transform: scale(0.95); box-shadow: 0 0 10px rgba(255, 214, 216, 0.2); } 
+            50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(255, 214, 216, 0.6); } 
+        }
+
+        @media (min-width: 768px) {
+            .menu-swipe-pill { display: none; }
+        }
+
         #menu-slider .splide__track { overflow: visible; }
         .gallery-content-zone { flex-grow: 1; width: 100%; display: flex; align-items: center; justify-content: center; position: relative; }
 
@@ -404,7 +439,8 @@
             <canvas id="plasma-canvas"></canvas>
             <div class="plasma-dimmer"></div>
 
-            <div class="menu-main-title">Auswahl</div>
+                        <!-- NEU: Die pulsierende Swipe-Pille -->
+            <div class="menu-swipe-pill">← Menü wischen →</div>
             
             <div class="splide" id="menu-slider">
                 <div class="splide__track">
