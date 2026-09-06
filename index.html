@@ -226,15 +226,17 @@
                 height: 100% !important;
             }
 
-            /* Die Kachel wird extrem flach gezwungen! */
+         /* Die Kachel wird extrem flach gezwungen und ETWAS BREITER gezogen (Panorama-Look)! */
             .marquee-card {
-                /* DER FIX: Wir zwingen die Kachel auf maximal 240px Höhe (absolutes Minimum für Querformat) */
                 height: clamp(160px, 60vh, 240px) !important; 
-                min-height: unset !important; /* Löst alte Blockaden! */
+                min-height: unset !important; 
                 
-                width: clamp(200px, 40vw, 260px) !important; /* Karte wird minimal schmaler, passend zur geringen Höhe */
+                /* DER FIX: Breite deutlich erhöht. 
+                   Vorher: clamp(200px, 40vw, 260px)
+                   Jetzt: clamp(230px, 50vw, 300px) -> ca. 15-20% breiter! */
+                width: clamp(230px, 50vw, 300px) !important; 
                 
-                padding: 8px !important; /* Minimales Padding für maximalen Platz */
+                padding: 8px !important; 
                 justify-content: flex-start;
                 box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important; 
             }
