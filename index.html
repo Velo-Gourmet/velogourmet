@@ -454,7 +454,26 @@
                 document.getElementById('lightbox-overlay').classList.add('is-active');
             });
         }
-
+/* ========================================================= */
+        /* --- NEU: HANDY-DREHUNG (Landscape-Fix) --- */
+        /* ========================================================= */
+        window.addEventListener('orientationchange', function() {
+            // Wir warten einen winzigen Moment (150ms), bis der Browser das Layout nach der Drehung neu berechnet hat
+            setTimeout(function() {
+                // Finde heraus, welche Sektion gerade aktiv ist (Hero oder Galerie?)
+                const scrollContainer = document.getElementById('scroll-container');
+                const h = scrollContainer.clientHeight;
+                const currentScroll = scrollContainer.scrollTop;
+                
+                let currentIndex = Math.round(currentScroll / h);
+                
+                // Zwinge den Browser, den Scroll-Punkt exakt auf den Beginn dieser Sektion zu rasten
+                scrollContainer.scrollTo({
+                    top: currentIndex * h,
+                    behavior: 'auto' // 'auto' bedeutet sofortiges Springen, ohne Animation
+                });
+            }, 150);
+        });
         /* --- PARALLAX HERO --- */
         const scrollContainer = document.getElementById('scroll-container');
         const heroBg = document.getElementById('hero-bg');
