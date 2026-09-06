@@ -181,53 +181,102 @@
         #menu-slider .splide__arrow svg { fill: #c1ff72 !important; width: 32px !important; height: 32px !important; filter: drop-shadow(0 0 10px rgba(193, 255, 114, 0.3)); } 
         #menu-slider .splide__arrow:hover { opacity: 1 !important; transform: translateY(-50%) !important; }
 
-        /* --- FOOD KARTEN (Galerie) --- */
+/* --- FOOD KARTEN (Galerie - Der Trapez-Filmstreifen) --- */
         #gallery-slider .splide__track { overflow: visible !important; }
-        #gallery-slider { width: 100%; cursor: grab; } 
+        #gallery-slider { width: 100%; cursor: grab; padding: 20px 0; } /* Etwas Padding für die Schatten */
         #gallery-slider:active { cursor: grabbing; }
         
-      /* --- FOOD KARTEN (Edles, dunkles Milchglas) --- */
         .marquee-card { 
             width: 260px; 
             height: 360px; 
             
-            /* Das Glas wird deutlich milchiger und nimmt etwas von der Umgebung auf */
-            background: rgba(250, 245, 235, 0.65); 
+            /* DER RAHMEN-TRICK: Die Karte selbst ist Dark Slate Gray */
+            background-color: #2F4F4F; 
             
-            border-radius: 22px; 
-            padding: 15px; 
+            padding: 2px; /* Das ist die Dicks des Dark-Slate-Rahmens (2px) */
             display: flex; 
             flex-direction: column; 
-            justify-content: space-between; 
             position: relative; 
             user-select: none; 
             -webkit-user-select: none; 
             
-            /* Tieferer, dunklerer Schatten für besseren Kontrast zum dunklen Hintergrund */
-            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.25) !important; 
+            /* Der tiefe Schatten für den Schwebeflug */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25) !important; 
             
-            /* DER NEUE RAND: Hauchdünn, dunkel und leicht transparent (wie rauchiges Glas) */
-            border: 1px solid rgba(0, 0, 0, 0.15) !important; 
+            /* DER TRAPEZ-SCHNITT (Oben breiter, unten schmaler ODER diagonal) 
+               Hier: Ein flottes Parallelogramm für die Vorwärtsdynamik! */
+            clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%);
+            -webkit-clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%);
             
-            /* Der Blur-Effekt sorgt für den echten Glas-Look */
-            backdrop-filter: blur(12px); 
-            -webkit-backdrop-filter: blur(12px); 
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
-        /* Die aktive (mittlere) Kachel schwebt optisch noch stärker */
-        #gallery-slider .splide__slide.is-active .marquee-card { 
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35) !important; 
-            /* Ein winziger, fast unsichtbarer weißer Glanz auf dem dunklen Rahmen für mehr Plastizität */
-            border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
+        /* Das Milchglas im Inneren (Der Content-Bereich) */
+        .marquee-card-inner {
+            width: 100%;
+            height: 100%;
+            background: rgba(250, 245, 235, 0.7); /* Das edle Milchglas */
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px);
+            
+            /* Innen muss der Schnitt minimal angepasst werden, damit der 2px Rahmen gleichmäßig bleibt */
+            clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%);
+            -webkit-clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%);
+            
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
+        
+        #gallery-slider .splide__slide.is-active .marquee-card { 
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35) !important; 
+            transform: scale(1.02); /* Die aktive Karte kommt minimal hervor */
+        }
+        
         .splide__slide { -webkit-transform: translateZ(0); transform: translateZ(0); }
         
-        /* Vorbereitung für echte Fotos in der Zukunft */
-        .marquee-card img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; display: block; }
+        /* Vorbereitung für echte Fotos (Ebenfalls leicht schräg geschnitten) */
+        .marquee-card img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            display: block; 
+            clip-path: polygon(3% 0, 100% 0, 97% 100%, 0% 100%);
+            -webkit-clip-path: polygon(3% 0, 100% 0, 97% 100%, 0% 100%);
+        }
         
-        .card-image-placeholder { width: 100%; height: 220px; background: rgba(0,0,0,0.04); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #777; font-weight: 500; text-align: center; padding: 10px; }
-        .card-info h4 { font-size: 18px; margin-bottom: 5px; color: var(--text-dark); } 
-        .card-info p { font-size: 13px; color: #555; line-height: 1.4; }
+        .card-image-placeholder { 
+            width: 100%; 
+            height: 220px; 
+            background: rgba(0,0,0,0.06); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 13px; 
+            color: #555; 
+            font-weight: 500; 
+            text-align: center; 
+            padding: 10px; 
+            
+            /* Der Platzhalter muss natürlich auch geschnitten werden */
+            clip-path: polygon(3% 0, 100% 0, 97% 100%, 0% 100%);
+            -webkit-clip-path: polygon(3% 0, 100% 0, 97% 100%, 0% 100%);
+        }
+        
+        .card-info h4 { 
+            font-size: 18px; 
+            margin-bottom: 5px; 
+            color: var(--text-dark); 
+            padding-left: 5px; /* Etwas aus der schrägen Ecke rücken */
+        } 
+        
+        .card-info p { 
+            font-size: 13px; 
+            color: #333; /* Ein tieferes Anthrazit für perfekte Lesbarkeit auf dem Glas */
+            line-height: 1.4; 
+            padding-left: 5px;
+        }
 
         /* OVERLAYS (Kontakt & Lightbox) */
         .glass-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(27, 36, 30, 0.45); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; display: flex; align-items: center; justify-content: center; }
@@ -360,15 +409,71 @@
             <div class="gallery-content-zone">
                 <div class="splide" id="gallery-slider">
                     <div class="splide__track">
-                        <ul class="splide__list" id="gallery-list">
-                            <li class="splide__slide" data-category="hermannplatz"><div class="marquee-card" data-title="Hummus & Pita" data-desc="Cremiger Hummus mit ofenwarmem Brot. Direkt aus der Transportbox." data-img="Foto: Hummus"><div class="card-image-placeholder">Foto: Hummus Teller</div><div class="card-info"><h4>Hummus & Pita</h4><p>Der Klassiker</p></div></div></li>
-                            <li class="splide__slide" data-category="hermannplatz"><div class="marquee-card" data-title="Baba Ghanoush" data-desc="Rauchige Aubergine, Granatapfelkerne und frische Petersilie." data-img="Foto: Baba Ghanoush"><div class="card-image-placeholder">Foto: Baba Ghanoush</div><div class="card-info"><h4>Baba Ghanoush</h4><p>Rauchig & Frisch</p></div></div></li>
-                            <li class="splide__slide" data-category="prenzlauerberg"><div class="marquee-card" data-title="Pflanzliche Variation" data-desc="Bunte, vegane Kompositionen mit saisonalen Texturen." data-img="Foto: Vegane Bowl"><div class="card-image-placeholder">Foto: Vegane Bowl</div><div class="card-info"><h4>Pflanzliche Bowl</h4><p>Saisonal & Lokal</p></div></div></li>
-                            <li class="splide__slide" data-category="prenzlauerberg"><div class="marquee-card" data-title="Kräuter-Fokus" data-desc="Hausgemachte Dips auf Basis frischer Gartenkräuter." data-img="Foto: Kräuter Dip"><div class="card-image-placeholder">Foto: Kräuter Dip</div><div class="card-info"><h4>Grüne Dips</h4><p>Natürlich Vegan</p></div></div></li>
-                            <li class="splide__slide" data-category="zehlendorf"><div class="marquee-card" data-title="Trüffel & Pilze" data-desc="Ein Hauch von Luxus, raffiniert pflanzlich interpretiert." data-img="Foto: Gourmet Pilze"><div class="card-image-placeholder">Foto: Gourmet Pilze</div><div class="card-info"><h4>Trüffel Essenzen</h4><p>Fine Dining Setup</p></div></div></li>
-                            <li class="splide__slide" data-category="zehlendorf"><div class="marquee-card" data-title="Artischocken-Herzen" data-desc="Eingelegte Artischocken mit feinem Olivenöl und Zitrone." data-img="Foto: Artischocken"><div class="card-image-placeholder">Foto: Artischocken</div><div class="card-info"><h4>Artischocken-Herzen</h4><p>Premium Zutaten</p></div></div></li>
-                            <li class="splide__slide" data-category="extrawuensche"><div class="marquee-card" data-title="Glutenfrei & Sicher" data-desc="Spezielle Zubereitung für Allergiker ohne Kompromisse beim Geschmack." data-img="Foto: Glutenfrei"><div class="card-image-placeholder">Foto: Allergiker-Setup</div><div class="card-info"><h4>Glutenfrei</h4><p>Höchste Sorgfalt</p></div></div></li>
-                            <li class="splide__slide" data-category="extrawuensche"><div class="marquee-card" data-title="Corporate Branding" data-desc="Wir passen das Menü und die Optik auf Ihr Event an." data-img="Foto: Branding"><div class="card-image-placeholder">Foto: Firmenevent</div><div class="card-info"><h4>Corporate Setup</h4><p>Individuelles Styling</p></div></div></li>
+                       <ul class="splide__list" id="gallery-list">
+                            <li class="splide__slide" data-category="hermannplatz">
+                                <div class="marquee-card" data-title="Hummus & Pita" data-desc="Cremiger Hummus mit ofenwarmem Brot. Direkt aus der Transportbox." data-img="Foto: Hummus">
+                                    <div class="marquee-card-inner">
+                                        <div class="card-image-placeholder">Foto: Hummus Teller</div>
+                                        <div class="card-info"><h4>Hummus & Pita</h4><p>Der Klassiker</p></div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="splide__slide" data-category="hermannplatz">
+                                <div class="marquee-card" data-title="Baba Ghanoush" data-desc="Rauchige Aubergine, Granatapfelkerne und frische Petersilie." data-img="Foto: Baba Ghanoush">
+                                    <div class="marquee-card-inner">
+                                        <div class="card-image-placeholder">Foto: Baba Ghanoush</div>
+                                        <div class="card-info"><h4>Baba Ghanoush</h4><p>Rauchig & Frisch</p></div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="splide__slide" data-category="prenzlauerberg">
+                                <div class="marquee-card" data-title="Pflanzliche Variation" data-desc="Bunte, vegane Kompositionen mit saisonalen Texturen." data-img="Foto: Vegane Bowl">
+                                    <div class="marquee-card-inner">
+                                        <div class="card-image-placeholder">Foto: Vegane Bowl</div>
+                                        <div class="card-info"><h4>Pflanzliche Bowl</h4><p>Saisonal & Lokal</p></div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="splide__slide" data-category="prenzlauerberg">
+                                <div class="marquee-card" data-title="Kräuter-Fokus" data-desc="Hausgemachte Dips auf Basis frischer Gartenkräuter." data-img="Foto: Kräuter Dip">
+                                    <div class="marquee-card-inner">
+                                        <div class="card-image-placeholder">Foto: Kräuter Dip</div>
+                                        <div class="card-info"><h4>Grüne Dips</h4><p>Natürlich Vegan</p></div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="splide__slide" data-category="zehlendorf">
+                                <div class="marquee-card" data-title="Trüffel & Pilze" data-desc="Ein Hauch von Luxus, raffiniert pflanzlich interpretiert." data-img="Foto: Gourmet Pilze">
+                                    <div class="marquee-card-inner">
+                                        <div class="card-image-placeholder">Foto: Gourmet Pilze</div>
+                                        <div class="card-info"><h4>Trüffel Essenzen</h4><p>Fine Dining Setup</p></div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="splide__slide" data-category="zehlendorf">
+                                <div class="marquee-card" data-title="Artischocken-Herzen" data-desc="Eingelegte Artischocken mit feinem Olivenöl und Zitrone." data-img="Foto: Artischocken">
+                                    <div class="marquee-card-inner">
+                                        <div class="card-image-placeholder">Foto: Artischocken</div>
+                                        <div class="card-info"><h4>Artischocken-Herzen</h4><p>Premium Zutaten</p></div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="splide__slide" data-category="extrawuensche">
+                                <div class="marquee-card" data-title="Glutenfrei & Sicher" data-desc="Spezielle Zubereitung für Allergiker ohne Kompromisse beim Geschmack." data-img="Foto: Glutenfrei">
+                                    <div class="marquee-card-inner">
+                                        <div class="card-image-placeholder">Foto: Allergiker-Setup</div>
+                                        <div class="card-info"><h4>Glutenfrei</h4><p>Höchste Sorgfalt</p></div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="splide__slide" data-category="extrawuensche">
+                                <div class="marquee-card" data-title="Corporate Branding" data-desc="Wir passen das Menü und die Optik auf Ihr Event an." data-img="Foto: Branding">
+                                    <div class="marquee-card-inner">
+                                        <div class="card-image-placeholder">Foto: Firmenevent</div>
+                                        <div class="card-info"><h4>Corporate Setup</h4><p>Individuelles Styling</p></div>
+                                    </div>
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </div>
