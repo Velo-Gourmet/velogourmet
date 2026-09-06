@@ -74,6 +74,37 @@
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
             background-color: transparent; background-image: var(--svg-bg-content); background-size: cover; background-position: center top; background-repeat: no-repeat; z-index: 1; pointer-events: none; transform: translateZ(0);
         }
+
+                /* --- DIE BUTTONS & SVG-KANTE (Sektion 2) --- */
+        .organic-edge-wrapper { 
+            position: absolute; top: -2px; left: 0; width: 100%; height: clamp(30px, 6vw, 60px); 
+            z-index: 5; transform: rotate(180deg); 
+        }
+        .liquid-path { fill: var(--bg-sand); }
+        
+        .actions { 
+            position: relative; z-index: 10; display: flex; flex-direction: column; 
+            gap: 20px; align-items: center; width: 100%; padding: 0 20px; 
+        }
+        
+        @media (min-width: 768px) {
+            .actions { flex-direction: row; justify-content: center; gap: 40px; }
+        }
+        
+        .artist-btn { 
+            display: block; width: clamp(260px, 80vw, 320px); 
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            text-decoration: none; -webkit-tap-highlight-color: transparent; 
+        }
+        .artist-btn:hover { transform: scale(1.05) rotate(-2deg); }
+        .artist-btn:active { transform: scale(0.95); }
+        .artist-btn svg { width: 100%; height: auto; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15)); }
+        
+        .btn-text { 
+            font-family: 'Crackman', Impact, sans-serif; 
+            font-size: 26px; text-transform: uppercase; letter-spacing: 2px; 
+        }
+        
                 /* ==========================================
            3. GALERIE ZONEN & PLASMA KORREKTUR
            ========================================== */
