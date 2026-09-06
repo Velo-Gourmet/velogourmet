@@ -125,10 +125,40 @@
         #menu-slider .splide__track { overflow: visible; -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%); mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%); }
         @media (min-width: 768px) { #menu-slider .splide__track { -webkit-mask-image: linear-gradient(to right, transparent 0px, transparent 120px, black 350px, black calc(100% - 350px), transparent calc(100% - 120px), transparent 100%); mask-image: linear-gradient(to right, transparent 0px, transparent 120px, black 350px, black calc(100% - 350px), transparent calc(100% - 120px), transparent 100%); } }
 
-        .gallery-content-zone { flex-grow: 1; width: 100%; display: flex; align-items: center; justify-content: center; position: relative; }
-        @media (orientation: landscape) and (max-height: 600px) { .gallery-section { padding-top: 15px; } #menu-slider { padding: 5px 0 10px 0; } }
-        @media (orientation: portrait) { .gallery-section { padding-top: 0; justify-content: center; } .gallery-content-zone { flex-grow: 0; height: 55vh; } }
-
+        .gallery-content-zone { 
+            flex-grow: 1; 
+            width: 100%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            position: relative; 
+            /* DER FIX: Niemals abschneiden! */
+            overflow: visible !important; 
+        }
+        
+        @media (orientation: landscape) and (max-height: 600px) { 
+            .gallery-section { 
+                padding-top: 10px; 
+                /* DER FIX: Zwinge die Sektion, genug Platz für die Kacheln zu lassen */
+                min-height: 100vh;
+                justify-content: flex-start;
+            } 
+            #menu-slider { 
+                padding: 5px 0; 
+                margin-bottom: 5px; /* Platz sparen im Querformat */
+            } 
+            .gallery-content-zone {
+                /* DER FIX: Volle Höhe im Querformat erlauben */
+                height: auto;
+                flex-grow: 1;
+                align-items: flex-start; /* Kacheln rutschen nach oben, werden nicht in der Mitte gequetscht */
+            }
+        }
+        
+        @media (orientation: portrait) { 
+            .gallery-section { padding-top: 0; justify-content: center; } 
+            .gallery-content-zone { flex-grow: 0; height: 55vh; } 
+        }
         /* 4. DIE INNEREN EFFEKTE & TYPOGRAFIE-LOCK FÜR DAS MENÜ */
         #menu-slider .splide__slide { width: 260px !important; max-width: 260px !important; min-width: 260px !important; display: flex !important; justify-content: center !important; align-items: center !important; margin: 0 !important; padding: 0 !important; cursor: pointer; -webkit-tap-highlight-color: transparent; }
         .menu-item-content { width: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0; opacity: 0.35; filter: blur(2.5px) grayscale(50%); transform: scale(0.85); transition: opacity 0.02s linear 0.04s, filter 0.02s linear 0.04s, transform 0.04s ease-out 0.06s; }
