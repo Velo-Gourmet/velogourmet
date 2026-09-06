@@ -48,15 +48,14 @@
         .logo-wrapper { display: flex; justify-content: center; align-items: center; width: 100%; padding: 0 10px; }
         .logo-img { aspect-ratio: 1 / 1; width: clamp(250px, 80vw, 500px); height: auto; object-fit: contain; filter: drop-shadow(0 25px 45px rgba(0,0,0,0.22)); animation: fadeInMorph 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
        
-                /* --- DYNAMISCHE TYPOGRAFIE (Tablet- & PC-sicher) --- */
+        /* --- DYNAMISCHE TYPOGRAFIE (Strikt gedrosselt) --- */
         .menu-headline { 
             font-family: 'Crackman', Impact, sans-serif; 
             
-            /* DER FIX: Wir nutzen 'vmin' statt 'vw'. 
-               Min: 22px (Handy hochkant)
-               Wachstum: 5vmin (wächst moderat, ignoriert extreme Breiten beim Tablet-Querformat!)
-               Max: 46px (Absolute Obergrenze für riesige PC-Monitore) */
-            font-size: clamp(22px, 5vmin, 46px); 
+            /* DER FIX: Wachstumsrate drastisch auf 3.2vmin gesenkt.
+               Maximalgröße von 46px auf 34px limitiert. 
+               Das zwingt die Schrift dazu, auf Tablets wesentlich kleiner zu bleiben! */
+            font-size: clamp(20px, 3.2vmin, 34px); 
             
             text-transform: uppercase; 
             letter-spacing: 1px; 
@@ -72,13 +71,14 @@
         }
         
         .menu-subtitle { 
-            /* Auch hier: vmin für sicheres Wachstum auf Tablets, Max-Grenze von 16px */
-            font-size: clamp(11px, 2vmin, 16px); 
+            /* Auch hier: Extrem flaches Wachstum und bei 14px ist endgültig Schluss */
+            font-size: clamp(11px, 1.5vmin, 14px); 
             color: #ddd; 
             margin-top: 5px; 
             font-weight: 500; 
             font-family: -apple-system, sans-serif; 
         }
+
         
 
         /* --- PFEILE NUR FÜR DESKTOP (Kugelsicher) --- */
