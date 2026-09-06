@@ -298,17 +298,22 @@
             }
         }
 
-     /* --- MENÜ PFEILE (Garantiert festgenagelt) --- */
+        /* --- MENÜ PFEILE (Garantiert festgenagelt) --- */
         #menu-slider .splide__arrow { 
             background: transparent !important; 
             opacity: 0.5; 
             width: 60px !important; 
             height: 60px !important; 
-            transition: opacity 0.3s ease !important; /* Blockiert versteckte Bewegungs-Animationen */
+            transition: opacity 0.3s ease !important; 
             
             top: 42% !important; 
-            transform: translateY(-50%) !important; /* Zieht den Pfeil hoch in die Mitte */
+            transform: translateY(-50%) !important; 
+            
+            /* DER FIX: Verhindert die hässliche blaue Markierung beim Antippen auf Tablets! */
+            -webkit-tap-highlight-color: transparent;
+            outline: none; 
         }
+
         
         #menu-slider .splide__arrow--prev { left: clamp(5px, 4vw, 50px) !important; }
         #menu-slider .splide__arrow--next { right: clamp(5px, 4vw, 50px) !important; }
