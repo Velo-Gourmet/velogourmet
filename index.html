@@ -48,49 +48,6 @@
         .logo-wrapper { display: flex; justify-content: center; align-items: center; width: 100%; padding: 0 10px; }
         .logo-img { aspect-ratio: 1 / 1; width: clamp(250px, 80vw, 500px); height: auto; object-fit: contain; filter: drop-shadow(0 25px 45px rgba(0,0,0,0.22)); animation: fadeInMorph 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
        
-        /* --- TYPOGRAFIE (Sicher in der statischen 260px Box verriegelt) --- */
-        .menu-headline { 
-            font-family: 'Crackman', Impact, sans-serif; 
-            
-            /* Feste Start-Größe für alle Handys (absolut stabil) */
-            font-size: 26px; 
-            
-            text-transform: uppercase; 
-            letter-spacing: 1px; 
-            color: var(--text-dark); 
-            position: relative; 
-            text-shadow: 0 0 10px rgba(0,0,0,0.5);
-            transition: color 0.04s ease-out 0s, text-shadow 0.04s ease-out 0s; 
-        }
-        
-        .menu-headline::before, .menu-headline::after { 
-            display: none !important; 
-            content: none !important; 
-        }
-        
-        .menu-subtitle { 
-            /* Feste Start-Größe für Handys */
-            font-size: 13px; 
-            color: #ddd; 
-            margin-top: 5px; 
-            font-weight: 500; 
-            font-family: -apple-system, sans-serif; 
-        }
-
-        /* --- DER TABLET & DESKTOP LOCK --- */
-        @media (min-width: 768px) {
-            .menu-headline {
-                /* Auf großen Displays nur ein winziger Sprung auf 30px, damit es edel bleibt! */
-                font-size: 30px; 
-            }
-            .menu-subtitle {
-                font-size: 14px;
-            }
-        }
-
-
-        
-
         /* --- PFEILE NUR FÜR DESKTOP (Kugelsicher) --- */
         /* Versteckt die Splide-Pfeile auf ALLEN Handys, egal ob mit oder ohne Stylus */
         @media (max-width: 767px) {
@@ -98,81 +55,27 @@
         }
         
        @media (min-width: 768px) { 
-            /* Das Logo bleibt schön groß */
-
-            
             /* DER GAMECHANGER FÜR DEN HINTERGRUND */
             .hero-bg { 
-                background-size: contain; /* Schneidet absolut nichts mehr ab! */
+                background-size: contain; 
                 rotate: 0deg; 
                 scale: 1; 
             }
-
-            /* Galerie auf Desktop perfekt in die Mitte setzen */
-            .gallery-section {
-                justify-content: center;
-                padding-top: 0;
-            }
-
-            /* Dynamischer Abstand zwischen Menü und Food-Karten */
-            #menu-slider {
-                margin-bottom: clamp(20px, 4vh, 50px);
-            }
+            .gallery-section { justify-content: center; padding-top: 0; }
+            #menu-slider { margin-bottom: clamp(20px, 4vh, 50px); }
         }
 
         .swipe-hint { position: absolute; bottom: max(30px, env(safe-area-inset-bottom)); z-index: 2; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; color: var(--text-dark); background: rgba(255, 255, 255, 0.85); padding: 10px 22px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); animation: floatBounce 2s infinite ease-in-out; will-change: transform, opacity; transition: opacity 0.25s ease-out; }
         @supports (backdrop-filter: blur(8px)) { .swipe-hint { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px); } }
 
-        #navigation {
-            position: relative;
-            z-index: 2;
-            overflow: hidden; 
+        #navigation { position: relative; z-index: 2; overflow: hidden; }
+
+        .layer-bg-bleed { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            background-color: transparent; background-image: var(--svg-bg-content); background-size: cover; background-position: center top; background-repeat: no-repeat; z-index: 1; pointer-events: none; transform: translateZ(0);
         }
 
-                .layer-bg-bleed { 
-            position: absolute; 
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%; /* Exakt 100%, kein statischer Überhang mehr */
-            background-color: transparent; 
-            background-image: var(--svg-bg-content); 
-            background-size: cover; 
-            background-position: center top; 
-            background-repeat: no-repeat; 
-            z-index: 1; 
-            pointer-events: none;
-            transform: translateZ(0);
-        }
-
-            
-            /* Der Schmelz-Effekt sitzt am absolut untersten Rand der Sektion */
-            -webkit-mask-image: linear-gradient(to bottom, #000 85%, rgba(0,0,0,0.6) 92%, transparent 100%);
-            mask-image: linear-gradient(to bottom, #000 85%, rgba(0,0,0,0.6) 92%, transparent 100%);
-            
-            box-shadow: 
-                inset 0 -60px 80px rgba(193, 255, 114, 0.22), 
-                inset 0 -25px 35px rgba(255, 214, 216, 0.45); 
-            transform: translateZ(0);
-        }
-                .organic-edge-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 60px; transform: translateY(-99%); pointer-events: none; overflow: hidden; z-index: 3; }
-        .liquid-path { fill: var(--bg-sand); d: path("M0,60 C150,15 350,50 500,20 L500,60 L0,60 Z"); }
-
-        .actions { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 340px; position: relative; z-index: 3; margin-top: 40px; }
-        .artist-btn { display: block; width: 100%; text-decoration: none; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.4s ease; cursor: pointer; position: relative; -webkit-tap-highlight-color: transparent;}
-        .artist-btn::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 10; }
-        .artist-btn:hover { transform: scale(1.04) translateY(-4px); filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15)); }
-        .artist-btn:active { transform: scale(0.97) translateY(2px); filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); transition: transform 0.1s ease-out; }
-        .artist-btn svg { width: 100%; height: auto; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.08)); }
-        .btn-text { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
-
-        @keyframes fadeInMorph { 0% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); filter: blur(8px); } 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: blur(0); } }
-        @keyframes floatBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
-
-        /* ==========================================
-           3. GALERIE ZONEN & PLASMA KORREKTUR
-           ========================================== */
-             /* ==========================================
+                /* ==========================================
            3. GALERIE ZONEN & PLASMA KORREKTUR
            ========================================== */
         .gallery-section {
@@ -190,167 +93,84 @@
 
         /* Der dunkle Raum für das Plasma wächst 15vh nach oben hinter Sektion 2 */
         .gallery-section::before {
-            content: '';
-            position: absolute;
-            top: -15vh;
-            left: 0;
-            width: 100%;
-            height: calc(100% + 15vh);
-            background-color: #121814;
-            z-index: 0;
-            pointer-events: none;
+            content: ''; position: absolute; top: -15vh; left: 0; width: 100%; height: calc(100% + 15vh);
+            background-color: #121814; z-index: 0; pointer-events: none;
         }
 
         /* Das Plasma wächst ebenfalls 15vh nach oben hinter den Marmor */
         #plasma-canvas { 
-            position: absolute; 
-            top: -15vh; 
-            left: 0; 
-            width: 100%; 
-            height: calc(100% + 15vh); 
-            z-index: 1; 
-            pointer-events: none; 
+            position: absolute; top: -15vh; left: 0; width: 100%; height: calc(100% + 15vh); z-index: 1; pointer-events: none; 
         }
 
         /* Der Abdunkler wächst exakt mit */
         .plasma-dimmer { 
-            position: absolute; 
-            top: -15vh; 
-            left: 0; 
-            width: 100%; 
-            height: calc(100% + 15vh); 
-            z-index: 2; 
-            background: rgba(18, 24, 20, 0.15); 
-            backdrop-filter: blur(1px); 
-            -webkit-backdrop-filter: blur(1px); 
-            pointer-events: none; 
+            position: absolute; top: -15vh; left: 0; width: 100%; height: calc(100% + 15vh); z-index: 2; 
+            background: rgba(18, 24, 20, 0.15); backdrop-filter: blur(1px); -webkit-backdrop-filter: blur(1px); pointer-events: none; 
         }
         
-                /* Die Z-Index-Wächter (Sorgt dafür, dass das Menü ÜBER dem Plasma liegt) */
+        /* Die Z-Index-Wächter (Sorgt dafür, dass das Menü ÜBER dem Plasma liegt) */
         .menu-swipe-pill, #menu-slider, .gallery-content-zone { position: relative; z-index: 10; }
 
         /* --- DIE PULSIERENDE SWIPE-PILLE (Neutrales Glas & Perfekte Lesbarkeit) --- */
         .menu-swipe-pill { 
-            /* Nahezu unsichtbar, komplett farblos! */
-            background: rgba(255, 255, 255, 0.05); 
-            
-            /* Textfarbe: Strahlend weiß */
-            color: #ffffff; 
-            /* DER LESE-TRICK: Ein doppelter dunkler Schatten isoliert die Schrift vom bunten Hintergrund */
+            background: rgba(255, 255, 255, 0.05); color: #ffffff; 
             text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8), 0 0 2px rgba(0, 0, 0, 0.9);
-            
-            /* Sehr feiner, neutraler Glasrand */
             border: 1px solid rgba(255, 255, 255, 0.15);
-            
-            font-size: 11px; 
-            letter-spacing: 2px; 
-            text-transform: uppercase; 
-            font-weight: 700; 
-            padding: 8px 20px; 
-            border-radius: 30px; 
-            margin: 0 auto;
-            margin-bottom: clamp(15px, 3vh, 30px);
-            
-            /* Ein dunkler, weicher Schatten unter der Pille, hebt sie optisch ab */
+            font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; 
+            padding: 8px 20px; border-radius: 30px; margin: 0 auto; margin-bottom: clamp(15px, 3vh, 30px);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); 
             animation: breathePillNeutral 2.5s infinite ease-in-out; 
-            will-change: transform, box-shadow;
-            display: inline-block; 
+            will-change: transform, box-shadow; display: inline-block; 
         }
 
-        /* Der Blur-Effekt zieht die bunten Farben weich, die Helligkeit wird minimal abgedunkelt */
         @supports (backdrop-filter: blur(15px)) { 
             .menu-swipe-pill { 
                 background: rgba(255, 255, 255, 0.02); 
-                backdrop-filter: blur(15px) brightness(0.9); 
-                -webkit-backdrop-filter: blur(15px) brightness(0.9);
+                backdrop-filter: blur(15px) brightness(0.9); -webkit-backdrop-filter: blur(15px) brightness(0.9);
             } 
         }
 
-        /* Das Atmen beeinflusst jetzt nur noch die Größe und den neutralen Schatten */
         @keyframes breathePillNeutral { 
             0%, 100% { transform: scale(0.95); box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); } 
             50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(0, 0, 0, 0.5); } 
         }
 
-        @media (min-width: 768px) {
-            .menu-swipe-pill { display: none; }
-        }
+        @media (min-width: 768px) { .menu-swipe-pill { display: none; } }
 
-
-        @media (min-width: 768px) {
-            .menu-swipe-pill { display: none; }
-        }
-
-
-        @supports (backdrop-filter: blur(8px)) { 
-            .menu-swipe-pill { 
-                background: rgba(255, 214, 216, 0.6); 
-                backdrop-filter: blur(8px); 
-                -webkit-backdrop-filter: blur(8px);
-                border: 1px solid rgba(255, 255, 255, 0.4);
-            } 
-        }
-
-        @keyframes breathePill { 
-            0%, 100% { transform: scale(0.95); box-shadow: 0 0 10px rgba(255, 214, 216, 0.2); } 
-            50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(255, 214, 216, 0.6); } 
-        }
-
-        @media (min-width: 768px) {
-            .menu-swipe-pill { display: none; }
-        }
-
+        #menu-slider { width: 100%; padding: 10px 0 15px 0; margin-bottom: 0; overflow: visible; flex-shrink: 0; }
         #menu-slider .splide__track { overflow: visible; }
         .gallery-content-zone { flex-grow: 1; width: 100%; display: flex; align-items: center; justify-content: center; position: relative; }
 
-        @media (orientation: landscape) and (max-height: 600px) { .gallery-section { padding-top: 15px; } .menu-main-title { margin-bottom: 5px; } #menu-slider { padding: 5px 0 10px 0; } }
+        @media (orientation: landscape) and (max-height: 600px) { .gallery-section { padding-top: 15px; } .menu-swipe-pill { margin-bottom: 5px; } #menu-slider { padding: 5px 0 10px 0; } }
         @media (orientation: portrait) { .gallery-section { padding-top: 0; justify-content: center; } .gallery-content-zone { flex-grow: 0; height: 55vh; } }
 
-
-
-        
-    /* 4. DIE INNEREN EFFEKTE (Die 0.1s Stufen-Choreografie) */
+                /* 4. DIE INNEREN EFFEKTE (Die 0.1s Stufen-Choreografie) */
         #menu-slider .splide__slide { 
             width: 260px !important; max-width: 260px !important; min-width: 260px !important; 
             display: flex !important; justify-content: center !important; align-items: center !important; 
-            margin: 0 !important; padding: 0 !important; 
-            cursor: pointer; 
-            -webkit-tap-highlight-color: transparent; 
+            margin: 0 !important; padding: 0 !important; cursor: pointer; -webkit-tap-highlight-color: transparent; 
         }
         
         .menu-item-content { 
             width: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; 
             padding: 0; opacity: 0.35; filter: blur(2.5px) grayscale(50%); transform: scale(0.85); 
-            
-            /* Schritt 2 (Scharf & Sichtbar) dauert 0.02s und startet nach 0.04s Delay */
-            /* Schritt 3 (Wachsen) dauert 0.04s und startet nach 0.06s Delay */
-            transition: 
-                opacity 0.02s linear 0.04s, 
-                filter 0.02s linear 0.04s, 
-                transform 0.04s ease-out 0.06s; 
+            transition: opacity 0.02s linear 0.04s, filter 0.02s linear 0.04s, transform 0.04s ease-out 0.06s; 
         }
         
+        /* --- TYPOGRAFIE (Sicher in der statischen 260px Box verriegelt) --- */
         .menu-headline { 
-            font-family: 'Crackman', Impact, sans-serif; 
-            font-size: clamp(24px, 3.5vw, 42px); 
+            font-family: 'Crackman', Impact, sans-serif; font-size: 26px; /* Feste Start-Größe für Handys */
             text-transform: uppercase; letter-spacing: 1px; color: var(--text-dark); 
             position: relative; text-shadow: 0 0 10px rgba(0,0,0,0.5);
-            
-            /* Schritt 1 (Farbe & Glow) dauert 0.04s und startet SOFORT (0s Delay) */
-            transition: 
-                color 0.04s ease-out 0s, 
-                text-shadow 0.04s ease-out 0s; 
+            transition: color 0.04s ease-out 0s, text-shadow 0.04s ease-out 0s; 
         }
         .menu-headline::before, .menu-headline::after { display: none !important; content: none !important; }
-        .menu-subtitle { font-size: clamp(12px, 1.2vw, 15px); color: #ddd; margin-top: 5px; font-weight: 500; font-family: -apple-system, sans-serif; }
+        .menu-subtitle { font-size: 13px; color: #ddd; margin-top: 5px; font-weight: 500; font-family: -apple-system, sans-serif; }
         
         #menu-slider .splide__slide.is-active { z-index: 2; }
         #menu-slider .splide__slide.is-active .menu-item-content { opacity: 1; filter: blur(0px) grayscale(0%); transform: scale(1.1); }
         #menu-slider .splide__slide.is-active .menu-headline { color: #c1ff72; text-shadow: 0 0 15px rgba(193, 255, 114, 0.4); }
         
-        /* Beim Wegziehen der Maus (Drag) überschreiben wir die Delays, 
-           damit alles SOFORT und ohne Ruckeln wieder unscharf wird (0.05s) */
         #menu-slider.is-scrolling .splide__slide .menu-item-content, 
         #menu-slider.is-scrolling .splide__slide.is-active .menu-item-content { 
             opacity: 0.35 !important; filter: blur(2.5px) grayscale(50%) !important; transform: scale(0.85) !important; 
@@ -361,94 +181,43 @@
             color: var(--text-dark) !important; text-shadow: 0 0 10px rgba(0,0,0,0.5) !important;
             transition: color 0.05s ease, text-shadow 0.05s ease !important;
         }
-
-
-        
         
         /* --- MENÜ PFEILE & KANTEN-SCHMELZ --- */
         #menu-slider .splide__track { 
             overflow: visible; 
-            /* Basis-Maske für Handys */
             -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
             mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
         }
 
-        /* Pixelgenauer Cut-off für den Desktop! */
         @media (min-width: 768px) {
             #menu-slider .splide__track {
-                -webkit-mask-image: linear-gradient(to right, 
-                    transparent 0px, 
-                    transparent 120px, 
-                    black 350px, 
-                    black calc(100% - 350px), 
-                    transparent calc(100% - 120px), 
-                    transparent 100%
-                );
-                mask-image: linear-gradient(to right, 
-                    transparent 0px, 
-                    transparent 120px, 
-                    black 350px, 
-                    black calc(100% - 350px), 
-                    transparent calc(100% - 120px), 
-                    transparent 100%
-                );
+                -webkit-mask-image: linear-gradient(to right, transparent 0px, transparent 120px, black 350px, black calc(100% - 350px), transparent calc(100% - 120px), transparent 100%);
+                mask-image: linear-gradient(to right, transparent 0px, transparent 120px, black 350px, black calc(100% - 350px), transparent calc(100% - 120px), transparent 100%);
             }
         }
 
         /* --- MENÜ PFEILE (Garantiert festgenagelt) --- */
         #menu-slider .splide__arrow { 
-            background: transparent !important; 
-            opacity: 0.5; 
-            width: 60px !important; 
-            height: 60px !important; 
-            transition: opacity 0.3s ease !important; 
-            
-            top: 42% !important; 
-            transform: translateY(-50%) !important; 
-            
-            /* DER FIX: Verhindert die hässliche blaue Markierung beim Antippen auf Tablets! */
-            -webkit-tap-highlight-color: transparent;
-            outline: none; 
+            background: transparent !important; opacity: 0.5; width: 60px !important; height: 60px !important; 
+            transition: opacity 0.3s ease !important; top: 42% !important; transform: translateY(-50%) !important; 
+            -webkit-tap-highlight-color: transparent; outline: none; 
         }
-
-        
         #menu-slider .splide__arrow--prev { left: clamp(5px, 4vw, 50px) !important; }
         #menu-slider .splide__arrow--next { right: clamp(5px, 4vw, 50px) !important; }
-        
-        #menu-slider .splide__arrow svg { 
-            fill: #c1ff72 !important; 
-            width: 32px !important; 
-            height: 32px !important; 
-            filter: drop-shadow(0 0 10px rgba(193, 255, 114, 0.3));
-        } 
-        
-        #menu-slider .splide__arrow:hover { 
-            opacity: 1 !important; 
-            /* DER FIX: Wir zwingen den Browser, die vertikale Position beim Hovern exakt zu behalten! */
-            transform: translateY(-50%) !important; 
-        }
+        #menu-slider .splide__arrow svg { fill: #c1ff72 !important; width: 32px !important; height: 32px !important; filter: drop-shadow(0 0 10px rgba(193, 255, 114, 0.3)); } 
+        #menu-slider .splide__arrow:hover { opacity: 1 !important; transform: translateY(-50%) !important; }
             
-         
         #gallery-slider .splide__track { overflow: visible !important; }
         #gallery-slider { width: 100%; cursor: grab; } 
         #gallery-slider:active { cursor: grabbing; }
 
         .marquee-card { 
-            width: 260px; height: 360px; 
-            background: rgba(255, 255, 255, 0.82); 
-            border-radius: 22px; padding: 15px; 
-            display: flex; flex-direction: column; justify-content: space-between; 
-            position: relative; user-select: none; -webkit-user-select: none; 
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1) !important; 
-            border: 1.5px solid rgba(255, 255, 255, 0.9) !important; 
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            width: 260px; height: 360px; background: rgba(255, 255, 255, 0.82); border-radius: 22px; padding: 15px; 
+            display: flex; flex-direction: column; justify-content: space-between; position: relative; user-select: none; -webkit-user-select: none; 
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1) !important; border: 1.5px solid rgba(255, 255, 255, 0.9) !important; 
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
         }
-
-        #gallery-slider .splide__slide.is-active .marquee-card {
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15) !important;
-        }
-
+        #gallery-slider .splide__slide.is-active .marquee-card { box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15) !important; }
         .splide__slide { -webkit-transform: translateZ(0); transform: translateZ(0); }
         .card-image-placeholder { width: 100%; height: 220px; background: rgba(0,0,0,0.04); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #777; font-weight: 500; text-align: center; padding: 10px; }
         .card-info h4 { font-size: 18px; margin-bottom: 5px; color: var(--text-dark); } .card-info p { font-size: 13px; color: #555; line-height: 1.4; }
@@ -471,9 +240,16 @@
         .glass-btn.is-copied { background: var(--brand-green); border-color: var(--brand-green); color: #1a2e05; }
         .sheet-close { margin-top: 15px; background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02); border-radius: 20px; color: var(--text-dark); font-size: 13px; font-weight: 600; padding: 10px 24px; cursor: pointer; align-self: center; transition: all 0.2s; border: none; }
         .sheet-close:active { background: rgba(0,0,0,0.08); transform: scale(0.96); }
+
+        /* --- DER TABLET & DESKTOP LOCK FÜR DAS MENÜ (Ganz am Ende platziert!) --- */
+        @media (min-width: 768px) {
+            .menu-headline { font-size: 30px !important; }
+            .menu-subtitle { font-size: 14px !important; }
+        }
     </style>
 </head>
 
+</head>
 <body>
     <main class="scroll-container" id="scroll-container">
         <section class="section hero-section" id="hero">
@@ -501,7 +277,7 @@
             <canvas id="plasma-canvas"></canvas>
             <div class="plasma-dimmer"></div>
 
-                        <!-- NEU: Die pulsierende Swipe-Pille -->
+            <!-- Die pulsierende Swipe-Pille -->
             <div class="menu-swipe-pill">← Menü wischen →</div>
             
             <div class="splide" id="menu-slider">
@@ -560,7 +336,7 @@
         </div>
     </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@0.5.3/dist/js/splide-extension-auto-scroll.min.js"></script>
 
     <script>
@@ -580,28 +356,20 @@
         let gallerySplide = null;
         let originalSlides = []; 
 
-document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function () {
             const list = document.getElementById('gallery-list');
             originalSlides = Array.from(list.children).map(li => li.cloneNode(true));
             
             const menuSplide = new Splide('#menu-slider', {
                 type: 'loop', focus: 'center', autoWidth: false, fixedWidth: 260, gap: 0, trimSpace: false,      
                 arrows: true, pagination: false, updateOnMove: true, drag: 'free', snap: true, flickMaxPages: 1,       
-                friction: 0.2, flickPower: 250, 
-                speed: 800, /* Langsamer, majestätischer Übergang */
-                easing: 'cubic-bezier(0.25, 1, 0.35, 1)', /* Butterweiche Kurve */
-                clones: 9 /* Verhindert Lücken auf Ultra-Wide-Screens */
+                friction: 0.2, flickPower: 250, speed: 800, easing: 'cubic-bezier(0.25, 1, 0.35, 1)', clones: 9
             });
 
-                        // NEU: Klickt man ein Element an, fährt es sofort weich in die Mitte!
             menuSplide.on('click', function (slide) {
-                // DER FIX: Wir zwingen den Slider in der allerersten Millisekunde des Klicks in den gedimmten Scrolling-Modus!
                 document.getElementById('menu-slider').classList.add('is-scrolling');
-                
-                // Erst danach darf Splide losfahren
                 menuSplide.go(slide.index);
             });
-
 
             menuSplide.on('move drag', function () {
                 document.getElementById('menu-slider').classList.add('is-scrolling');
@@ -628,23 +396,12 @@ document.addEventListener('DOMContentLoaded', function () {
             
             gallerySplide = new Splide('#gallery-slider', {
                 type: 'loop', drag: 'free', focus: 'center', autoWidth: true, gap: '20px',
-                arrows: false, pagination: false, friction: 0.05, 
-                clones: 15, /* DER TRICK: Genug Food-Karten klonen, damit der PC-Monitor voll wird und es flüssig läuft */
-                autoScroll: { speed: 1.5, pauseOnHover: true, pauseOnFocus: false }, /* Etwas langsamer für Premium-Look */
-            });
-            gallerySplide.mount(window.splide.Extensions);
-            
-           gallerySplide = new Splide('#gallery-slider', {
-                type: 'loop', drag: 'free', focus: 'center', autoWidth: true, gap: '20px',
-                arrows: false, pagination: false, friction: 0.05, 
-                clones: 15, /* DER TRICK: Erzwingt genug Klone für große Desktop-Monitore, verhindert das Ruckeln! */
-                autoScroll: { speed: 1.5, pauseOnHover: true, pauseOnFocus: false }, /* Ein Hauch langsamer für Premium-Feel */
+                arrows: false, pagination: false, friction: 0.05, clones: 15, 
+                autoScroll: { speed: 1.5, pauseOnHover: true, pauseOnFocus: false },
             });
             gallerySplide.mount(window.splide.Extensions);
 
-            gallerySplide.on('move drag', function () {
-                window.swipeVelocity = 1.5; 
-            });
+            gallerySplide.on('move drag', function () { window.swipeVelocity = 1.5; });
             
             gallerySplide.on('drag', function() {
                 const autoScroll = gallerySplide.Components.AutoScroll;
@@ -667,7 +424,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         /* --- PARALLAX HERO --- */
-                const scrollContainer = document.getElementById('scroll-container');
+        const scrollContainer = document.getElementById('scroll-container');
         const heroBg = document.getElementById('hero-bg');
         const heroContent = document.getElementById('hero-content');
         const swipeHint = document.getElementById('swipe-hint');
@@ -686,58 +443,32 @@ document.addEventListener('DOMContentLoaded', function () {
                         heroContent.style.opacity = 1 - (progress * 0.8);
                         swipeHint.style.opacity = 1 - (progress * 2.5);
                     }
-
                     ticking = false;
                 });
                 ticking = true;
             }
         });
 
-        /* --- 1. DESKTOP MAUSRAD-STEUERUNG (Butterweiches Snapping) --- */
+        /* --- DESKTOP MAUSRAD-STEUERUNG --- */
         let isWheelScrolling = false;
-
-        // Wir lauschen exakt auf das Mausrad (wird auf Touchscreens ignoriert)
         scrollContainer.addEventListener('wheel', (e) => {
-            // Wenn bereits ein weicher Scroll-Vorgang läuft, blockieren wir weitere Maus-Ticks
-            if (isWheelScrolling) {
-                e.preventDefault();
-                return;
-            }
-
-            // Stoppt das abgehackte, native Windows/Mac-Scrollen
+            if (isWheelScrolling) { e.preventDefault(); return; }
             e.preventDefault();
-            
-            // Sperre aktivieren, bis die Animation durchgelaufen ist
             isWheelScrolling = true;
 
             const h = scrollContainer.clientHeight;
             const currentScroll = scrollContainer.scrollTop;
-            
-            // 1. Berechnen: In welcher Sektion sind wir gerade? (0 = Hero, 1 = Nav, 2 = Galerie)
             let currentIndex = Math.round(currentScroll / h);
-            
-            // 2. Berechnen: Will der Nutzer nach unten (+1) oder oben (-1)?
-            // e.deltaY ist positiv beim Scrollen nach unten, negativ beim Scrollen nach oben
             const direction = Math.sign(e.deltaY); 
             let nextIndex = currentIndex + direction;
 
-            // 3. Sicherheits-Limit: Verhindern, dass man über den Anfang oder das Ende hinaus scrollt
             const sectionsCount = document.querySelectorAll('.section').length;
             nextIndex = Math.max(0, Math.min(nextIndex, sectionsCount - 1));
 
-            // 4. Den butterweichen, direkten Scrollbefehl ausführen
-            scrollContainer.scrollTo({
-                top: nextIndex * h,
-                behavior: 'smooth'
-            });
+            scrollContainer.scrollTo({ top: nextIndex * h, behavior: 'smooth' });
 
-            // 5. Sperre nach 800 Millisekunden aufheben (Das entspricht der perfekten "Butterweich"-Zeit)
-            setTimeout(() => {
-                isWheelScrolling = false;
-            }, 800);
-
-        }, { passive: false }); // passive: false ist wichtig, damit wir das native Scrollen abbrechen dürfen
-
+            setTimeout(() => { isWheelScrolling = false; }, 800);
+        }, { passive: false });
 
         /* --- 3D PLASMA ENGINE --- */
         const canvas = document.getElementById('plasma-canvas');
@@ -748,7 +479,6 @@ document.addEventListener('DOMContentLoaded', function () {
             function resizeCanvas() { 
                 const gallery = document.getElementById('galerie');
                 w = canvas.width = gallery ? gallery.offsetWidth : window.innerWidth; 
-                // Die Canvas berechnet jetzt die +15vh Überhang mit ein
                 h = canvas.height = gallery ? gallery.offsetHeight + (window.innerHeight * 0.15) : window.innerHeight * 1.15; 
             }
             window.addEventListener('resize', resizeCanvas);
