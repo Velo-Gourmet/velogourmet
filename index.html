@@ -203,16 +203,18 @@
                 /* Die Z-Index-Wächter (Sorgt dafür, dass das Menü ÜBER dem Plasma liegt) */
         .menu-swipe-pill, #menu-slider, .gallery-content-zone { position: relative; z-index: 10; }
 
-                /* --- DIE PULSIERENDE SWIPE-PILLE (Premium Glassmorphism) --- */
+        /* --- DIE PULSIERENDE SWIPE-PILLE (Neutrales Glas & Perfekte Lesbarkeit) --- */
         .menu-swipe-pill { 
-            /* Viel weniger Deckkraft (nur noch 15% statt 85%) */
-            background: rgba(255, 214, 216, 0.15); 
+            /* Nahezu unsichtbar, komplett farblos! */
+            background: rgba(255, 255, 255, 0.05); 
             
-            /* Helle Schrift, damit sie auf dem durchscheinenden Plasma strahlt */
-            color: #FFD6D8; 
+            /* Textfarbe: Strahlend weiß */
+            color: #ffffff; 
+            /* DER LESE-TRICK: Ein doppelter dunkler Schatten isoliert die Schrift vom bunten Hintergrund */
+            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8), 0 0 2px rgba(0, 0, 0, 0.9);
             
-            /* Ein hauchdünner Rand definiert die Form wie bei einer Seifenblase */
-            border: 1px solid rgba(255, 214, 216, 0.3);
+            /* Sehr feiner, neutraler Glasrand */
+            border: 1px solid rgba(255, 255, 255, 0.15);
             
             font-size: 11px; 
             letter-spacing: 2px; 
@@ -223,28 +225,32 @@
             margin: 0 auto;
             margin-bottom: clamp(15px, 3vh, 30px);
             
-            /* Der Glow wird etwas subtiler angepasst */
-            box-shadow: 0 4px 15px rgba(255, 214, 216, 0.15); 
-            animation: breathePill 2.5s infinite ease-in-out; 
+            /* Ein dunkler, weicher Schatten unter der Pille, hebt sie optisch ab */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); 
+            animation: breathePillNeutral 2.5s infinite ease-in-out; 
             will-change: transform, box-shadow;
             display: inline-block; 
         }
 
-        /* Der echte Milchglas-Effekt für moderne Browser (iPhone, Chrome etc.) */
-        @supports (backdrop-filter: blur(12px)) { 
+        /* Der Blur-Effekt zieht die bunten Farben weich, die Helligkeit wird minimal abgedunkelt */
+        @supports (backdrop-filter: blur(15px)) { 
             .menu-swipe-pill { 
-                /* Fast unsichtbar, wir lassen nur das Glas arbeiten */
-                background: rgba(255, 214, 216, 0.08); 
-                /* Ein stärkerer Blur (12px), damit das Plasma dahinter schön verschwimmt */
-                backdrop-filter: blur(12px); 
-                -webkit-backdrop-filter: blur(12px);
+                background: rgba(255, 255, 255, 0.02); 
+                backdrop-filter: blur(15px) brightness(0.9); 
+                -webkit-backdrop-filter: blur(15px) brightness(0.9);
             } 
         }
 
-        @keyframes breathePill { 
-            0%, 100% { transform: scale(0.95); box-shadow: 0 0 10px rgba(255, 214, 216, 0.1); } 
-            50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(255, 214, 216, 0.4); } 
+        /* Das Atmen beeinflusst jetzt nur noch die Größe und den neutralen Schatten */
+        @keyframes breathePillNeutral { 
+            0%, 100% { transform: scale(0.95); box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); } 
+            50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(0, 0, 0, 0.5); } 
         }
+
+        @media (min-width: 768px) {
+            .menu-swipe-pill { display: none; }
+        }
+
 
         @media (min-width: 768px) {
             .menu-swipe-pill { display: none; }
