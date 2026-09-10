@@ -597,20 +597,46 @@
             });
         }
 
-        /* --- HANDY-DREHUNG (Landscape-Fix) --- */
+/* --- HANDY-DREHUNG (Landscape-Fix & Splide-AutoScroll-Bugfix) --- */
+        let resizeTimeout;
         window.addEventListener('orientationchange', function() {
-            setTimeout(function() {
+            
+            // 1. Sofortige Notbremse: Stoppt das Durchdrehen sofort!
+            if (gallerySplide && gallerySplide.Components.AutoScroll) {
+                gallerySplide.Components.AutoScroll.pause();
+            }
+
+            // 2. Warte, bis der Browser das Display im Querformat fertig gezeichnet hat
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(function() {
+                
+                // Bildschirm auf die richtige Sektion scrollen
                 const scrollContainer = document.getElementById('scroll-container');
                 const h = scrollContainer.clientHeight;
                 const currentScroll = scrollContainer.scrollTop;
-                
                 let currentIndex = Math.round(currentScroll / h);
                 
                 scrollContainer.scrollTo({
                     top: currentIndex * h,
                     behavior: 'auto' 
                 });
-            }, 150);
+
+                // 3. Den verbuggten Slider komplett vernichten und neu aufbauen
+                if (gallerySplide) {
+                    let activeCategory = 'hermannplatz'; 
+                    const activeMenuSlide = document.querySelector('#menu-slider .is-active');
+                    if (activeMenuSlide) {
+                        activeCategory = activeMenuSlide.dataset.category;
+                    }
+                    
+                    // Zerstört den Slider und alle seine (falschen) Koordinaten
+                    gallerySplide.destroy(true); 
+                    gallerySplide = null; // Speicher leeren
+                    
+                    // Baut den Slider im neuen Querformat sauber auf
+                    filterGallery(activeCategory);
+                }
+            }, 300); // 300ms warten stellt sicher, dass das CSS im Querformat geladen ist
         });
 
         /* --- PARALLAX HERO --- */
