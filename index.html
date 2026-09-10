@@ -129,49 +129,42 @@
             overflow: visible !important; 
         }
 
-       /* --- BILD-ANPASSUNG FÜR QUERFORMAT (Landscape) --- */
-        @media (orientation: landscape) and (max-height: 800px) { 
+      /* --- BILD-ANPASSUNG FÜR QUERFORMAT (Landscape) --- */
+        @media (orientation: landscape) and (max-height: 600px) { 
             .gallery-section { 
-                padding-top: 10px !important; 
+                padding-top: 5px !important; 
                 min-height: 100vh !important;
-                justify-content: center !important; /* Hält die Galerie schön in der Mitte */
+                justify-content: center !important; 
+                overflow: hidden !important;
             } 
             
-            /* Zwingt den Slider, sich der Displayhöhe des Geräts anzupassen */
-            #gallery-slider .splide__slide {
-                /* 80vh = 80% der Bildschirmhöhe. Lässt etwas Platz für das Menü oben! */
-                height: 80vh !important; 
-                min-height: unset !important;
-                max-height: unset !important;
-                
-                /* Im Querformat dürfen die Kacheln auch etwas breiter werden */
-                width: 45vh !important; 
-                max-width: 45vh !important;
-            }
-            
-            .marquee-card {
-                /* Die Kachel füllt die Slide-Höhe flexibel aus und schneidet passend ab */
-                height: 100% !important; 
-                min-height: unset !important;
-                max-height: unset !important;
-                width: 100% !important;
-            }
-            
             #menu-slider { 
-                padding: 5px 0 !important; 
                 margin-bottom: 5px !important; 
             } 
             
             .gallery-content-zone {
                 height: auto !important;
                 flex-grow: 1 !important;
+                display: flex !important;
                 align-items: center !important; 
+                justify-content: center !important;
             }
             
-            /* Das Milchglas-Overlay im Querformat etwas kompakter machen */
-            .marquee-card-inner {
-                padding: 10px 15px !important;
+            /* Der geniale Trick: Wir skalieren den kompletten Slider proportional runter!
+               Das bewahrt das exakte 9:16 Format, das Bild-Zentrum bleibt präsent 
+               und Splide-JS rechnet die Abstände weiterhin zu 100% fehlerfrei. */
+            #gallery-slider {
+                transform-origin: center center;
+                transform: scale(0.85); /* Standard-Verkleinerung für große Handys */
             }
+        }
+        
+        /* Feinabstimmung: Je flacher das Display im Querformat wird, desto weiter zoomen wir raus! */
+        @media (orientation: landscape) and (max-height: 450px) { 
+            #gallery-slider { transform: scale(0.70); } 
+        }
+        @media (orientation: landscape) and (max-height: 380px) { 
+            #gallery-slider { transform: scale(0.55); } 
         }
         
         @media (orientation: portrait) { 
