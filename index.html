@@ -47,20 +47,14 @@
         .hero-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; width: 100%; display: flex; justify-content: center; align-items: center; will-change: transform, opacity; transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.25s ease-out; }
         .logo-wrapper { display: flex; justify-content: center; align-items: center; width: 100%; padding: 0 10px; }
         .logo-img { aspect-ratio: 1 / 1; width: clamp(250px, 80vw, 500px); height: auto; object-fit: contain; filter: drop-shadow(0 25px 45px rgba(0,0,0,0.22)); animation: fadeInMorph 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
-       
+        
         /* --- PFEILE NUR FÜR DESKTOP (Kugelsicher) --- */
-        /* Versteckt die Splide-Pfeile auf ALLEN Handys, egal ob mit oder ohne Stylus */
         @media (max-width: 767px) {
             #menu-slider .splide__arrow { display: none !important; }
         }
         
        @media (min-width: 768px) { 
-            /* DER GAMECHANGER FÜR DEN HINTERGRUND */
-            .hero-bg { 
-                background-size: contain; 
-                rotate: 0deg; 
-                scale: 1; 
-            }
+            .hero-bg { background-size: contain; rotate: 0deg; scale: 1; }
             .gallery-section { justify-content: center; padding-top: 0; }
             #menu-slider { margin-bottom: clamp(20px, 4vh, 50px); }
         }
@@ -75,7 +69,7 @@
             background-color: transparent; background-image: var(--svg-bg-content); background-size: cover; background-position: center top; background-repeat: no-repeat; z-index: 1; pointer-events: none; transform: translateZ(0);
         }
 
-                /* --- DIE BUTTONS & SVG-KANTE (Sektion 2) --- */
+        /* --- DIE BUTTONS & SVG-KANTE (Sektion 2) --- */
         .organic-edge-wrapper { 
             position: absolute; top: -2px; left: 0; width: 100%; height: clamp(30px, 6vw, 60px); 
             z-index: 5; transform: rotate(180deg); 
@@ -105,7 +99,7 @@
             font-size: 26px; text-transform: uppercase; letter-spacing: 2px; 
         }
         
-              /* ==========================================
+        /* ==========================================
            3. GALERIE ZONEN & PLASMA KORREKTUR
            ========================================== */
         .gallery-section { position: relative; background-color: transparent; overflow: visible !important; z-index: 1; display: flex; flex-direction: column; justify-content: flex-start; padding-top: clamp(30px, 8vh, 80px); padding-bottom: 20px; height: 100%; }
@@ -132,38 +126,30 @@
             align-items: center; 
             justify-content: center; 
             position: relative; 
-            /* DER FIX: Niemals abschneiden! */
             overflow: visible !important; 
         }
-        
-   @media (orientation: landscape) and (max-height: 600px) { 
+
+        /* --- BILD-ANPASSUNG FÜR QUERFORMAT (Landscape) --- */
+        @media (orientation: landscape) and (max-height: 600px) { 
             .gallery-section { 
                 padding-top: 10px; 
-                /* DER FIX: Zwinge die Sektion, genug Platz für die Kacheln zu lassen */
                 min-height: 100vh;
                 justify-content: flex-start;
             } 
-
-            /* --- NEU: BILD-ANPASSUNG FÜR QUERFORMAT --- */
-            /* Zwingt das Bild, flacher zu werden, zentriert aber das Essen (object-fit) */
             .food-photo {
                 height: calc(100% - 35px) !important; 
                 min-height: unset !important;
                 margin-bottom: 5px !important;
                 padding: 0 !important;
             }
-
-            /* ... falls hier noch deine .marquee-card steht, lass sie einfach stehen ... */
-     }
             #menu-slider { 
                 padding: 5px 0; 
-                margin-bottom: 5px; /* Platz sparen im Querformat */
+                margin-bottom: 5px; 
             } 
             .gallery-content-zone {
-                /* DER FIX: Volle Höhe im Querformat erlauben */
                 height: auto;
                 flex-grow: 1;
-                align-items: flex-start; /* Kacheln rutschen nach oben, werden nicht in der Mitte gequetscht */
+                align-items: flex-start; 
             }
         }
         
@@ -171,6 +157,7 @@
             .gallery-section { padding-top: 0; justify-content: center; } 
             .gallery-content-zone { flex-grow: 0; height: 55vh; } 
         }
+
         /* 4. DIE INNEREN EFFEKTE & TYPOGRAFIE-LOCK FÜR DAS MENÜ */
         #menu-slider .splide__slide { width: 260px !important; max-width: 260px !important; min-width: 260px !important; display: flex !important; justify-content: center !important; align-items: center !important; margin: 0 !important; padding: 0 !important; cursor: pointer; -webkit-tap-highlight-color: transparent; }
         .menu-item-content { width: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0; opacity: 0.35; filter: blur(2.5px) grayscale(50%); transform: scale(0.85); transition: opacity 0.02s linear 0.04s, filter 0.02s linear 0.04s, transform 0.04s ease-out 0.06s; }
@@ -193,7 +180,7 @@
         #menu-slider .splide__arrow svg { fill: #c1ff72 !important; width: 32px !important; height: 32px !important; filter: drop-shadow(0 0 10px rgba(193, 255, 114, 0.3)); } 
         #menu-slider .splide__arrow:hover { opacity: 1 !important; transform: translateY(-50%) !important; }
 
-/* --- FOOD KARTEN (Galerie - Der 9-Slice SVG Rahmen) --- */
+        /* --- FOOD KARTEN (Galerie - Der 9-Slice SVG Rahmen) --- */
         #gallery-slider .splide__track { overflow: visible !important; }
         #gallery-slider { width: 100%; cursor: grab; padding: 20px 0; }
         #gallery-slider:active { cursor: grabbing; }
@@ -202,12 +189,10 @@
             width: 260px; 
             height: 360px; 
             
-            /* Rahmen-Basis */
             border-style: solid;
             border-width: 22px; 
-            border-color: transparent; /* Verhindert grauen Fallback-Rahmen */
+            border-color: transparent; 
             
-            /* SVG-Einbindung */
             border-image-source: url('rahmen.svg'); 
             border-image-slice: 15%; 
             border-image-repeat: stretch;
@@ -222,13 +207,11 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25) !important; 
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             
-            /* Alte Stile neutralisieren */
             clip-path: none !important;
             -webkit-clip-path: none !important;
             border-radius: 0 !important;
         }
         
-        /* Das Milchglas im Inneren */
         .marquee-card-inner {
             width: 100%;
             height: 100%;
@@ -244,7 +227,6 @@
             -webkit-clip-path: none !important;
         }
 
-        /* Foto-Darstellung (Dein Lammspieß) */
         .food-photo { 
             width: 100%; 
             height: 220px; 
@@ -261,19 +243,8 @@
         
         .splide__slide { -webkit-transform: translateZ(0); transform: translateZ(0); }
         
-        .card-info h4 { 
-            font-size: 18px; 
-            margin-bottom: 5px; 
-            color: var(--text-dark); 
-            padding-left: 0;
-        } 
-        
-        .card-info p { 
-            font-size: 13px; 
-            color: #333; 
-            line-height: 1.4; 
-            padding-left: 0;
-        }
+        .card-info h4 { font-size: 18px; margin-bottom: 5px; color: var(--text-dark); padding-left: 0; } 
+        .card-info p { font-size: 13px; color: #333; line-height: 1.4; padding-left: 0; }
 
         /* OVERLAYS (Kontakt & Lightbox) */
         .glass-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(27, 36, 30, 0.45); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; display: flex; align-items: center; justify-content: center; }
@@ -293,18 +264,6 @@
         .glass-btn.is-copied { background: var(--brand-green); border-color: var(--brand-green); color: #1a2e05; }
         .sheet-close { margin-top: 15px; background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02); border-radius: 20px; color: var(--text-dark); font-size: 13px; font-weight: 600; padding: 10px 24px; cursor: pointer; align-self: center; transition: all 0.2s; border: none; }
         .sheet-close:active { background: rgba(0,0,0,0.08); transform: scale(0.96); }
-
-/* --- MAGIC SCALING FÜR HANDY-QUERFORMAT (Landscape - Radikal gestaucht) --- */
-        @media (orientation: landscape) and (max-height: 600px) {
-            .gallery-section { 
-                /* ... dein Landscape Code ... */
-            }
-            .food-photo {
-                /* ... dein Landscape Code ... */
-            }
-        }
-        /* HIER IST DIE KLAMMER VOM LANDSCAPE-BLOCK ZU ENDE */
-
 
         /* =========================================================
            DESKTOP OPTIMIERUNG (Große Bildschirme ab 1024px Breite)
@@ -343,8 +302,8 @@
             .menu-headline { font-size: 30px !important; }
             .menu-subtitle { font-size: 14px !important; }
         }
-</style>
-    </head>
+    </style>
+</head>
 <body>
     <main class="scroll-container" id="scroll-container">
         <section class="section hero-section" id="hero">
@@ -372,7 +331,6 @@
             <canvas id="plasma-canvas"></canvas>
             <div class="plasma-dimmer"></div>
 
-            <!-- Die pulsierende Swipe-Pille -->
             <div class="menu-swipe-pill">← Menü wischen →</div>
             
             <div class="splide" id="menu-slider">
@@ -390,18 +348,14 @@
                 <div class="splide" id="gallery-slider">
                     <div class="splide__track">
                      <ul class="splide__list" id="gallery-list">
-                            <!-- KACHEL 1: Das Lamm (Mit echtem SVG Bild) -->
                             <li class="splide__slide" data-category="hermannplatz">
                                 <div class="marquee-card" data-title="Lammspieß" data-desc="Zartes Lamm vom Grill, authentisch gewürzt." data-img="Foto: Lammspieß">
                                     <div class="marquee-card-inner">
-                                        <!-- HIER IST DAS NEUE LAMM-ASSET -->
                                         <img src="lamm.svg" alt="Lammspieß" class="food-photo">
                                         <div class="card-info"><h4>Grill-Lamm</h4><p>Hermannplatz Klassiker</p></div>
                                     </div>
                                 </div>
                             </li>
-                            
-                            <!-- KACHEL 2 BIS 8: Bereinigt, keine grauen Rahmen mehr! -->
                             <li class="splide__slide" data-category="hermannplatz">
                                 <div class="marquee-card" data-title="Baba Ghanoush" data-desc="Rauchige Aubergine, Granatapfelkerne und frische Petersilie." data-img="Foto: Baba Ghanoush">
                                     <div class="marquee-card-inner">
@@ -510,7 +464,7 @@
             
             const menuSplide = new Splide('#menu-slider', {
                 type: 'loop', focus: 'center', autoWidth: false, fixedWidth: 260, gap: 0, trimSpace: false,      
-                arrows: true, pagination: false, updateOnMove: true, drag: 'free', snap: true, flickMaxPages: 1,       
+                arrows: true, pagination: false, updateOnMove: true, drag: 'free', snap: true, flickMaxPages: 1,        
                 friction: 0.2, flickPower: 250, speed: 800, easing: 'cubic-bezier(0.25, 1, 0.35, 1)', clones: 9
             });
 
@@ -570,26 +524,23 @@
                 document.getElementById('lightbox-overlay').classList.add('is-active');
             });
         }
-/* ========================================================= */
+
         /* --- NEU: HANDY-DREHUNG (Landscape-Fix) --- */
-        /* ========================================================= */
         window.addEventListener('orientationchange', function() {
-            // Wir warten einen winzigen Moment (150ms), bis der Browser das Layout nach der Drehung neu berechnet hat
             setTimeout(function() {
-                // Finde heraus, welche Sektion gerade aktiv ist (Hero oder Galerie?)
                 const scrollContainer = document.getElementById('scroll-container');
                 const h = scrollContainer.clientHeight;
                 const currentScroll = scrollContainer.scrollTop;
                 
                 let currentIndex = Math.round(currentScroll / h);
                 
-                // Zwinge den Browser, den Scroll-Punkt exakt auf den Beginn dieser Sektion zu rasten
                 scrollContainer.scrollTo({
                     top: currentIndex * h,
-                    behavior: 'auto' // 'auto' bedeutet sofortiges Springen, ohne Animation
+                    behavior: 'auto' 
                 });
             }, 150);
         });
+
         /* --- PARALLAX HERO --- */
         const scrollContainer = document.getElementById('scroll-container');
         const heroBg = document.getElementById('hero-bg');
