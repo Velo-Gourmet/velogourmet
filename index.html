@@ -183,31 +183,20 @@
         #gallery-slider { width: 100%; cursor: grab; padding: 20px 0; }
         #gallery-slider:active { cursor: grabbing; }
 
-       /* Garantiert exakten Abstand für ALLE Kacheln gleichzeitig */
+        /* Zwingt den Splide Slide exakt in das 9:16 Format mit 8px Gesamtgap */
         #gallery-slider .splide__slide {
             width: 260px !important;
             height: 462px !important;
             max-width: 260px !important;
-            margin-left: 4px !important;  /* Teilt die 8px hälftig auf Links... */
-            margin-right: 4px !important; /* ...und Rechts auf jede Kachel auf! */
+            margin-left: 4px !important;
+            margin-right: 4px !important;
             display: flex !important;
             justify-content: center !important;
             align-items: center !important;
             box-sizing: border-box !important;
         }
-
-        /* Desktop-Größen anpassen */
-        @media (min-width: 1024px) {
-            #gallery-slider .splide__slide {
-                width: 320px !important;
-                height: 568px !important;
-                max-width: 320px !important;
-                margin-left: 4px !important;
-                margin-right: 4px !important;
-            }
-        }
         
-       .marquee-card { 
+        .marquee-card { 
             width: 260px !important; 
             height: 462px !important; 
             min-height: 462px !important;
@@ -216,9 +205,8 @@
             border: none !important;
             background: transparent !important;
             
-            /* HIER LIEGT DER SCHLÜSSEL: Zwingt ein sauberes Koordinatensystem auf */
             position: relative !important; 
-            display: block !important; /* Kein Flexbox hier, das stört das Bild! */
+            display: block !important; 
             
             border-radius: 20px !important;
             overflow: hidden !important; 
@@ -229,6 +217,7 @@
             -webkit-user-select: none !important; 
         }
         
+        /* RADIKALE LÖSUNG: Das Bild füllt als background-cover absolut lückenlos den Rahmen */
         .food-photo { 
             position: absolute !important;
             top: 0 !important;
@@ -236,15 +225,14 @@
             width: 100% !important; 
             height: 100% !important; 
             
-            display: block !important;
-            object-fit: cover !important; 
-            object-position: center center !important; 
+            background-size: cover !important;
+            background-position: center center !important;
+            background-repeat: no-repeat !important;
             
             z-index: 1 !important; 
         }
         
         .marquee-card-inner {
-            /* Das Milchglas wird jetzt absolut über den unteren Bereich des Bildes gelegt */
             position: absolute !important;
             bottom: 0 !important;
             left: 0 !important;
@@ -306,12 +294,15 @@
                 width: 320px !important;
                 height: 568px !important;
                 max-width: 320px !important;
+                margin-left: 4px !important;
+                margin-right: 4px !important;
             }
             
             .marquee-card {
                 width: 320px !important; 
                 height: 568px !important; 
                 min-height: 568px !important;
+                max-height: 568px !important;
             }
             
             .card-info h4 { font-size: 22px; }
@@ -369,18 +360,19 @@
                 <div class="splide" id="gallery-slider">
                     <div class="splide__track">
                      <ul class="splide__list" id="gallery-list">
-                            <!-- KACHEL 1: Lammspieß als SVG eingebunden -->
+                            <!-- KACHEL 1: Lammspieß als Background-Cover eingebunden -->
                             <li class="splide__slide" data-category="hermannplatz">
                                 <div class="marquee-card" data-title="Lammspieß" data-desc="Zartes Lamm vom Grill, authentisch gewürzt." data-img="Foto: Lammspieß">
-                                    <img src="lamm.svg" alt="Lammspieß" class="food-photo">
+                                    <div class="food-photo" style="background-image: url('lamm.svg');"></div>
                                     <div class="marquee-card-inner">
                                         <div class="card-info"><h4>Grill-Lamm</h4><p>Hermannplatz Klassiker</p></div>
                                     </div>
                                 </div>
                             </li>
-                            <!-- KACHEL 2: Baba Ghanoush -->
+                            <!-- KACHEL 2: Baba Ghanoush (Platzhalter-Hintergrund bis Bild folgt) -->
                             <li class="splide__slide" data-category="hermannplatz">
                                 <div class="marquee-card" data-title="Baba Ghanoush" data-desc="Rauchige Aubergine, Granatapfelkerne und frische Petersilie." data-img="Foto: Baba Ghanoush">
+                                    <div class="food-photo" style="background: linear-gradient(135deg, #2b3a2f, #1b241e);"></div>
                                     <div class="marquee-card-inner">
                                         <div class="card-info"><h4>Baba Ghanoush</h4><p>Rauchig & Frisch</p></div>
                                     </div>
@@ -389,6 +381,7 @@
                             <!-- KACHEL 3: Pflanzliche Bowl -->
                             <li class="splide__slide" data-category="prenzlauerberg">
                                 <div class="marquee-card" data-title="Pflanzliche Variation" data-desc="Bunte, vegane Kompositionen mit saisonalen Texturen." data-img="Foto: Vegane Bowl">
+                                    <div class="food-photo" style="background: linear-gradient(135deg, #3a322b, #241e1b);"></div>
                                     <div class="marquee-card-inner">
                                         <div class="card-info"><h4>Pflanzliche Bowl</h4><p>Saisonal & Lokal</p></div>
                                     </div>
@@ -397,6 +390,7 @@
                             <!-- KACHEL 4: Grüne Dips -->
                             <li class="splide__slide" data-category="prenzlauerberg">
                                 <div class="marquee-card" data-title="Kräuter-Fokus" data-desc="Hausgemachte Dips auf Basis frischer Gartenkräuter." data-img="Foto: Kräuter Dip">
+                                    <div class="food-photo" style="background: linear-gradient(135deg, #28383a, #1a2425);"></div>
                                     <div class="marquee-card-inner">
                                         <div class="card-info"><h4>Grüne Dips</h4><p>Natürlich Vegan</p></div>
                                     </div>
@@ -405,6 +399,7 @@
                             <!-- KACHEL 5: Trüffel -->
                             <li class="splide__slide" data-category="zehlendorf">
                                 <div class="marquee-card" data-title="Trüffel & Pilze" data-desc="Ein Hauch von Luxus, raffiniert pflanzlich interpretiert." data-img="Foto: Gourmet Pilze">
+                                    <div class="food-photo" style="background: linear-gradient(135deg, #3a2b38, #251b23);"></div>
                                     <div class="marquee-card-inner">
                                         <div class="card-info"><h4>Trüffel Essenzen</h4><p>Fine Dining Setup</p></div>
                                     </div>
@@ -413,6 +408,7 @@
                             <!-- KACHEL 6: Artischocken -->
                             <li class="splide__slide" data-category="zehlendorf">
                                 <div class="marquee-card" data-title="Artischocken-Herzen" data-desc="Eingelegte Artischocken mit feinem Olivenöl und Zitrone." data-img="Foto: Artischocken">
+                                    <div class="food-photo" style="background: linear-gradient(135deg, #383a2b, #23251b);"></div>
                                     <div class="marquee-card-inner">
                                         <div class="card-info"><h4>Artischocken-Herzen</h4><p>Premium Zutaten</p></div>
                                     </div>
@@ -421,6 +417,7 @@
                             <!-- KACHEL 7: Glutenfrei -->
                             <li class="splide__slide" data-category="extrawuensche">
                                 <div class="marquee-card" data-title="Glutenfrei & Sicher" data-desc="Spezielle Zubereitung für Allergiker ohne Kompromisse beim Geschmack." data-img="Foto: Glutenfrei">
+                                    <div class="food-photo" style="background: linear-gradient(135deg, #352b3a, #211b25);"></div>
                                     <div class="marquee-card-inner">
                                         <div class="card-info"><h4>Glutenfrei</h4><p>Höchste Sorgfalt</p></div>
                                     </div>
@@ -429,6 +426,7 @@
                             <!-- KACHEL 8: Corporate -->
                             <li class="splide__slide" data-category="extrawuensche">
                                 <div class="marquee-card" data-title="Corporate Branding" data-desc="Wir passen das Menü und die Optik auf Ihr Event an." data-img="Foto: Branding">
+                                    <div class="food-photo" style="background: linear-gradient(135deg, #2b353a, #1b2125);"></div>
                                     <div class="marquee-card-inner">
                                         <div class="card-info"><h4>Corporate Setup</h4><p>Individuelles Styling</p></div>
                                     </div>
@@ -531,8 +529,7 @@
                 focus: 'center', 
                 autoWidth: false, 
                 fixedWidth: window.innerWidth >= 1024 ? 320 : 260, 
-                gap: 8,                  // Numerischer Wert (Zahl statt String, oft stabiler bei Splide)
-                padding: { left: 0, right: 8 }, // Verhindert das Verknatschen am Rand
+                gap: '8px', 
                 arrows: false, 
                 pagination: false, 
                 friction: 0.05, 
@@ -563,7 +560,7 @@
             });
         }
 
-        /* --- NEU: HANDY-DREHUNG (Landscape-Fix) --- */
+        /* --- HANDY-DREHUNG (Landscape-Fix) --- */
         window.addEventListener('orientationchange', function() {
             setTimeout(function() {
                 const scrollContainer = document.getElementById('scroll-container');
