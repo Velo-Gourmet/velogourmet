@@ -132,14 +132,16 @@
       /* --- BILD-ANPASSUNG FÜR QUERFORMAT (Landscape) --- */
         @media (orientation: landscape) and (max-height: 600px) { 
             .gallery-section { 
-                padding-top: 5px !important; 
+                padding-top: 15px !important; 
                 min-height: 100vh !important;
-                justify-content: center !important; 
-                overflow: hidden !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: flex-start !important; /* Startet oben, damit das Menü immer sicher sitzt */
             } 
             
             #menu-slider { 
-                margin-bottom: 5px !important; 
+                margin-bottom: 15px !important; 
+                flex-shrink: 0 !important; /* Das Menü darf niemals vom Browser gequetscht werden */
             } 
             
             .gallery-content-zone {
@@ -147,15 +149,25 @@
                 flex-grow: 1 !important;
                 display: flex !important;
                 align-items: center !important; 
-                justify-content: center !important;
             }
             
-            /* Der geniale Trick: Wir skalieren den kompletten Slider proportional runter!
-               Das bewahrt das exakte 9:16 Format, das Bild-Zentrum bleibt präsent 
-               und Splide-JS rechnet die Abstände weiterhin zu 100% fehlerfrei. */
-            #gallery-slider {
-                transform-origin: center center;
-                transform: scale(0.85); /* Standard-Verkleinerung für große Handys */
+            /* Splide bleibt bei 260px Breite (verhindert den Scroll-Bug!). 
+               Die Höhe wird flexibel berechnet: Gesamtes Display minus 120px für das Menü. */
+            #gallery-slider .splide__slide, 
+            .marquee-card {
+                width: 260px !important; 
+                max-width: 260px !important;
+                
+                /* Die magische Berechnung: Bildschirmhöhe minus Menü-Bereich */
+                height: calc(100vh - 120px) !important; 
+                max-height: 462px !important; /* Verhindert, dass es größer als im Original wird */
+                min-height: unset !important;
+            }
+            
+            /* Das Milchglas-Overlay minimal kompakter machen, damit es auf 
+               sehr flachen Displays nicht das Essen verdeckt */
+            .marquee-card-inner {
+                padding: 10px 15px !important;
             }
         }
         
