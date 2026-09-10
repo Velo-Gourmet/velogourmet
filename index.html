@@ -294,64 +294,47 @@
         .sheet-close { margin-top: 15px; background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02); border-radius: 20px; color: var(--text-dark); font-size: 13px; font-weight: 600; padding: 10px 24px; cursor: pointer; align-self: center; transition: all 0.2s; border: none; }
         .sheet-close:active { background: rgba(0,0,0,0.08); transform: scale(0.96); }
 
-   /* --- MAGIC SCALING FÜR HANDY-QUERFORMAT (Landscape - Radikal gestaucht) --- */
+/* --- MAGIC SCALING FÜR HANDY-QUERFORMAT (Landscape - Radikal gestaucht) --- */
         @media (orientation: landscape) and (max-height: 600px) {
-            
-            /* Splide muss die Höhenkontrolle komplett abgeben */
-            #gallery-slider .splide__slide {
-                display: flex !important;
-                align-items: center !important; /* Karte bleibt mittig im Slider */
-                height: 100% !important;
+            .gallery-section { 
+                /* ... dein Landscape Code ... */
             }
+            .food-photo {
+                /* ... dein Landscape Code ... */
+            }
+        }
+        /* HIER IST DIE KLAMMER VOM LANDSCAPE-BLOCK ZU ENDE */
 
-         /* Die Kachel wird extrem flach gezwungen und ETWAS BREITER gezogen (Panorama-Look)! */
+
+        /* =========================================================
+           DESKTOP OPTIMIERUNG (Große Bildschirme ab 1024px Breite)
+           ========================================================= */
+        @media (min-width: 1024px) {
+            
+            /* 1. Galerie vertikal exakt in die Mitte des Bildschirms schieben */
+            .gallery-section {
+                justify-content: center; 
+                padding-top: 0; 
+            }
+            
+            /* 2. Kacheln insgesamt wuchtiger machen */
             .marquee-card {
-                height: clamp(160px, 60vh, 240px) !important; 
-                min-height: unset !important; 
-                
-                /* DER FIX: Breite deutlich erhöht. 
-                   Vorher: clamp(200px, 40vw, 260px)
-                   Jetzt: clamp(230px, 50vw, 300px) -> ca. 15-20% breiter! */
-                width: clamp(230px, 50vw, 300px) !important; 
-                
-                padding: 8px !important; 
-                justify-content: flex-start;
-                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important; 
+                width: 320px; 
+                height: 440px; 
+                border-width: 26px; 
             }
             
-            /* Der Foto-Container wird radikal gestaucht */
-            .card-image-placeholder {
-                /* Höhe = Gesamthöhe - 35px (für den Text) */
-                height: calc(100% - 35px) !important; 
-                min-height: unset !important;
-                margin-bottom: 5px !important;
-                padding: 0 !important;
+            /* 3. Das Foto extrem dominant in den Vordergrund rücken */
+            .food-photo {
+                height: 300px; 
             }
             
-            /* Die Texte werden auf das absolute Minimum reduziert */
-            .card-info {
-                height: 30px !important; 
-                display: flex; 
-                flex-direction: column; 
-                justify-content: flex-start;
-                padding-top: 2px;
-            }
-            
+            /* 4. Text minimal vergrößern, damit die Proportionen stimmen */
             .card-info h4 {
-                font-size: 13px !important; 
-                margin-bottom: 0px !important;
-                white-space: nowrap; 
-                overflow: hidden; 
-                text-overflow: ellipsis;
-                line-height: 1.1;
+                font-size: 20px;
             }
-            
             .card-info p {
-                font-size: 10px !important;
-                white-space: nowrap; 
-                overflow: hidden; 
-                text-overflow: ellipsis;
-                line-height: 1.1;
+                font-size: 14px;
             }
         }
 
