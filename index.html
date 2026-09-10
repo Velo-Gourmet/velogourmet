@@ -229,15 +229,19 @@
             -webkit-user-select: none !important; 
         }
         
-        .food-photo { 
+       .food-photo { 
             position: absolute !important;
             top: 0 !important;
             left: 0 !important;
             width: 100% !important; 
             height: 100% !important; 
             
+            /* Zwingt das Bild, den Rahmen komplett zu sprengen/auszufüllen */
             object-fit: cover !important; 
             object-position: center center !important; 
+            
+            /* Verhindert jegliche subpixel-blitzer an den abgerundeten Ecken */
+            transform: scale(1.02); 
             
             z-index: 1 !important; 
         }
