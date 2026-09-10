@@ -183,15 +183,28 @@
         #gallery-slider { width: 100%; cursor: grab; padding: 20px 0; }
         #gallery-slider:active { cursor: grabbing; }
 
-        /* Zwingt den Splide Slide exakt in das 9:16 Format */
+       /* Garantiert exakten Abstand für ALLE Kacheln gleichzeitig */
         #gallery-slider .splide__slide {
             width: 260px !important;
             height: 462px !important;
             max-width: 260px !important;
-            margin: 0 !important;
+            margin-left: 4px !important;  /* Teilt die 8px hälftig auf Links... */
+            margin-right: 4px !important; /* ...und Rechts auf jede Kachel auf! */
             display: flex !important;
             justify-content: center !important;
             align-items: center !important;
+            box-sizing: border-box !important;
+        }
+
+        /* Desktop-Größen anpassen */
+        @media (min-width: 1024px) {
+            #gallery-slider .splide__slide {
+                width: 320px !important;
+                height: 568px !important;
+                max-width: 320px !important;
+                margin-left: 4px !important;
+                margin-right: 4px !important;
+            }
         }
         
         .marquee-card { 
@@ -512,7 +525,8 @@
                 focus: 'center', 
                 autoWidth: false, 
                 fixedWidth: window.innerWidth >= 1024 ? 320 : 260, 
-                gap: '8px', /* Abstand zwischen den Kacheln auf 8px gesetzt */
+                gap: 8,                  // Numerischer Wert (Zahl statt String, oft stabiler bei Splide)
+                padding: { left: 0, right: 8 }, // Verhindert das Verknatschen am Rand
                 arrows: false, 
                 pagination: false, 
                 friction: 0.05, 
