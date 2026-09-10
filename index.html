@@ -136,13 +136,25 @@
             overflow: visible !important; 
         }
         
-        @media (orientation: landscape) and (max-height: 600px) { 
+   @media (orientation: landscape) and (max-height: 600px) { 
             .gallery-section { 
                 padding-top: 10px; 
                 /* DER FIX: Zwinge die Sektion, genug Platz für die Kacheln zu lassen */
                 min-height: 100vh;
                 justify-content: flex-start;
             } 
+
+            /* --- NEU: BILD-ANPASSUNG FÜR QUERFORMAT --- */
+            /* Zwingt das Bild, flacher zu werden, zentriert aber das Essen (object-fit) */
+            .food-photo {
+                height: calc(100% - 35px) !important; 
+                min-height: unset !important;
+                margin-bottom: 5px !important;
+                padding: 0 !important;
+            }
+
+            /* ... falls hier noch deine .marquee-card steht, lass sie einfach stehen ... */
+     }
             #menu-slider { 
                 padding: 5px 0; 
                 margin-bottom: 5px; /* Platz sparen im Querformat */
