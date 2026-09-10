@@ -205,14 +205,19 @@
             -webkit-user-select: none; 
         }
         
-        .food-photo { 
+       .food-photo { 
             position: absolute;
             top: 0;
             left: 0;
             width: 100%; 
             height: 100%; 
             
+            /* Zwingt das Bild, die Kachel lückenlos auszufüllen (schneidet überstehende Ränder ab) */
             object-fit: cover; 
+            
+            /* Zentriert das Essen perfekt. 
+               Falls du merkst, dass oben zu viel Himmel abgeschnitten wird und das Essen weiter runter soll, 
+               könnst du hier z.B. 'center 40%' schreiben. Starten wir mit der perfekten Mitte: */
             object-position: center center; 
             
             z-index: 1; 
