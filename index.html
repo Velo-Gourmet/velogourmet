@@ -136,11 +136,10 @@
                 min-height: 100vh;
                 justify-content: flex-start;
             } 
-            .food-photo {
-                height: calc(100% - 35px) !important; 
+            .marquee-card {
+                /* Im Querformat müssen wir die Höhe drastisch kappen */
+                height: calc(100vh - 120px) !important;
                 min-height: unset !important;
-                margin-bottom: 5px !important;
-                padding: 0 !important;
             }
             #menu-slider { 
                 padding: 5px 0; 
@@ -180,71 +179,71 @@
         #menu-slider .splide__arrow svg { fill: #c1ff72 !important; width: 32px !important; height: 32px !important; filter: drop-shadow(0 0 10px rgba(193, 255, 114, 0.3)); } 
         #menu-slider .splide__arrow:hover { opacity: 1 !important; transform: translateY(-50%) !important; }
 
-        /* --- FOOD KARTEN (Galerie - Der 9-Slice SVG Rahmen) --- */
+        /* --- FOOD KARTEN (Galerie - Insta-Story Style) --- */
         #gallery-slider .splide__track { overflow: visible !important; }
         #gallery-slider { width: 100%; cursor: grab; padding: 20px 0; }
         #gallery-slider:active { cursor: grabbing; }
         
         .marquee-card { 
+            /* Echtes 9:16 Format für Mobile */
             width: 260px; 
-            height: 360px; 
+            height: 462px; 
             
-            border-style: solid;
-            border-width: 22px; 
-            border-color: transparent; 
+            border: none !important;
             
-            border-image-source: url('rahmen.svg'); 
-            border-image-slice: 15%; 
-            border-image-repeat: stretch;
-            
-            background-color: transparent; 
+            position: relative; 
             display: flex; 
             flex-direction: column; 
-            position: relative; 
-            user-select: none; 
-            -webkit-user-select: none; 
+            justify-content: flex-end; 
+            
+            border-radius: 20px !important;
+            overflow: hidden; 
             
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25) !important; 
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            user-select: none; 
+            -webkit-user-select: none; 
+        }
+        
+        .food-photo { 
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%; 
+            height: 100%; 
             
-            clip-path: none !important;
-            -webkit-clip-path: none !important;
-            border-radius: 0 !important;
+            object-fit: cover; 
+            object-position: center center; 
+            
+            z-index: 1; 
         }
         
         .marquee-card-inner {
+            position: relative;
+            z-index: 2; 
+            
             width: 100%;
-            height: 100%;
-            background: rgba(250, 245, 235, 0.65);
-            backdrop-filter: blur(12px); 
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 4px; 
-            padding: 12px;
+            height: auto; 
+            padding: 20px 15px;
+            
+            background: rgba(250, 245, 235, 0.75); 
+            backdrop-filter: blur(15px); 
+            -webkit-backdrop-filter: blur(15px);
+            
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            clip-path: none !important;
-            -webkit-clip-path: none !important;
+            justify-content: flex-end;
         }
 
-        .food-photo { 
-            width: 100%; 
-            height: 220px; 
-            object-fit: cover; 
-            object-position: center center; 
-            display: block; 
-            border-radius: 4px;
-        }
-        
         #gallery-slider .splide__slide.is-active .marquee-card { 
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35) !important; 
-            transform: scale(1.02); 
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4) !important; 
+            transform: scale(1.03); 
         }
         
         .splide__slide { -webkit-transform: translateZ(0); transform: translateZ(0); }
         
-        .card-info h4 { font-size: 18px; margin-bottom: 5px; color: var(--text-dark); padding-left: 0; } 
-        .card-info p { font-size: 13px; color: #333; line-height: 1.4; padding-left: 0; }
+        .card-info h4 { font-size: 20px; margin-bottom: 5px; color: var(--text-dark); padding-left: 0; font-weight: 700; } 
+        .card-info p { font-size: 14px; color: #222; line-height: 1.4; padding-left: 0; font-weight: 500; }
 
         /* OVERLAYS (Kontakt & Lightbox) */
         .glass-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(27, 36, 30, 0.45); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; display: flex; align-items: center; justify-content: center; }
@@ -270,31 +269,19 @@
            ========================================================= */
         @media (min-width: 1024px) {
             
-            /* 1. Galerie vertikal exakt in die Mitte des Bildschirms schieben */
             .gallery-section {
                 justify-content: center; 
                 padding-top: 0; 
             }
             
-            /* 2. Kacheln insgesamt wuchtiger machen */
             .marquee-card {
+                /* Wuchtiger für Desktop (9:16 bleibt erhalten) */
                 width: 320px; 
-                height: 440px; 
-                border-width: 26px; 
+                height: 568px; 
             }
             
-            /* 3. Das Foto extrem dominant in den Vordergrund rücken */
-            .food-photo {
-                height: 300px; 
-            }
-            
-            /* 4. Text minimal vergrößern, damit die Proportionen stimmen */
-            .card-info h4 {
-                font-size: 20px;
-            }
-            .card-info p {
-                font-size: 14px;
-            }
+            .card-info h4 { font-size: 22px; }
+            .card-info p { font-size: 15px; }
         }
 
         /* --- DER TABLET & DESKTOP LOCK (Ganz unten für höchste Priorität!) --- */
@@ -347,81 +334,73 @@
             <div class="gallery-content-zone">
                 <div class="splide" id="gallery-slider">
                     <div class="splide__track">
-                    <ul class="splide__list" id="gallery-list">
-                        <!-- KACHEL 1: Lammspieß -->
-                        <li class="splide__slide" data-category="hermannplatz">
-                            <div class="marquee-card" data-title="Lammspieß" data-desc="Zartes Lamm vom Grill, authentisch gewürzt." data-img="Foto: Lammspieß">
-                                <div class="marquee-card-inner">
-                                    <img src="lamm.svg" alt="Lammspieß" class="food-photo">
-                                    <div class="card-info"><h4>Grill-Lamm</h4><p>Hermannplatz Klassiker</p></div>
+                     <ul class="splide__list" id="gallery-list">
+                            <!-- KACHEL 1: Lammspieß als JPG eingebunden -->
+                            <li class="splide__slide" data-category="hermannplatz">
+                                <div class="marquee-card" data-title="Lammspieß" data-desc="Zartes Lamm vom Grill, authentisch gewürzt." data-img="Foto: Lammspieß">
+                                    <img src="lamm.jpg" alt="Lammspieß" class="food-photo">
+                                    <div class="marquee-card-inner">
+                                        <div class="card-info"><h4>Grill-Lamm</h4><p>Hermannplatz Klassiker</p></div>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        
-                        <!-- KACHEL 2: Baba Ghanoush -->
-                        <li class="splide__slide" data-category="hermannplatz">
-                            <div class="marquee-card" data-title="Baba Ghanoush" data-desc="Rauchige Aubergine, Granatapfelkerne und frische Petersilie." data-img="Foto: Baba Ghanoush">
-                                <div class="marquee-card-inner">
-                                    <!-- HIER DARF NICHTS MEHR STEHEN! KEIN DIV MIT CARD-IMAGE-PLACEHOLDER! -->
-                                    <div class="card-info"><h4>Baba Ghanoush</h4><p>Rauchig & Frisch</p></div>
+                            </li>
+                            <!-- KACHEL 2: Baba Ghanoush -->
+                            <li class="splide__slide" data-category="hermannplatz">
+                                <div class="marquee-card" data-title="Baba Ghanoush" data-desc="Rauchige Aubergine, Granatapfelkerne und frische Petersilie." data-img="Foto: Baba Ghanoush">
+                                    <div class="marquee-card-inner">
+                                        <div class="card-info"><h4>Baba Ghanoush</h4><p>Rauchig & Frisch</p></div>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-
-                        <!-- KACHEL 3: Pflanzliche Bowl -->
-                        <li class="splide__slide" data-category="prenzlauerberg">
-                            <div class="marquee-card" data-title="Pflanzliche Variation" data-desc="Bunte, vegane Kompositionen mit saisonalen Texturen." data-img="Foto: Vegane Bowl">
-                                <div class="marquee-card-inner">
-                                    <div class="card-info"><h4>Pflanzliche Bowl</h4><p>Saisonal & Lokal</p></div>
+                            </li>
+                            <!-- KACHEL 3: Pflanzliche Bowl -->
+                            <li class="splide__slide" data-category="prenzlauerberg">
+                                <div class="marquee-card" data-title="Pflanzliche Variation" data-desc="Bunte, vegane Kompositionen mit saisonalen Texturen." data-img="Foto: Vegane Bowl">
+                                    <div class="marquee-card-inner">
+                                        <div class="card-info"><h4>Pflanzliche Bowl</h4><p>Saisonal & Lokal</p></div>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-
-                        <!-- KACHEL 4: Grüne Dips -->
-                        <li class="splide__slide" data-category="prenzlauerberg">
-                            <div class="marquee-card" data-title="Kräuter-Fokus" data-desc="Hausgemachte Dips auf Basis frischer Gartenkräuter." data-img="Foto: Kräuter Dip">
-                                <div class="marquee-card-inner">
-                                    <div class="card-info"><h4>Grüne Dips</h4><p>Natürlich Vegan</p></div>
+                            </li>
+                            <!-- KACHEL 4: Grüne Dips -->
+                            <li class="splide__slide" data-category="prenzlauerberg">
+                                <div class="marquee-card" data-title="Kräuter-Fokus" data-desc="Hausgemachte Dips auf Basis frischer Gartenkräuter." data-img="Foto: Kräuter Dip">
+                                    <div class="marquee-card-inner">
+                                        <div class="card-info"><h4>Grüne Dips</h4><p>Natürlich Vegan</p></div>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-
-                        <!-- KACHEL 5: Trüffel -->
-                        <li class="splide__slide" data-category="zehlendorf">
-                            <div class="marquee-card" data-title="Trüffel & Pilze" data-desc="Ein Hauch von Luxus, raffiniert pflanzlich interpretiert." data-img="Foto: Gourmet Pilze">
-                                <div class="marquee-card-inner">
-                                    <div class="card-info"><h4>Trüffel Essenzen</h4><p>Fine Dining Setup</p></div>
+                            </li>
+                            <!-- KACHEL 5: Trüffel -->
+                            <li class="splide__slide" data-category="zehlendorf">
+                                <div class="marquee-card" data-title="Trüffel & Pilze" data-desc="Ein Hauch von Luxus, raffiniert pflanzlich interpretiert." data-img="Foto: Gourmet Pilze">
+                                    <div class="marquee-card-inner">
+                                        <div class="card-info"><h4>Trüffel Essenzen</h4><p>Fine Dining Setup</p></div>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-
-                        <!-- KACHEL 6: Artischocken -->
-                        <li class="splide__slide" data-category="zehlendorf">
-                            <div class="marquee-card" data-title="Artischocken-Herzen" data-desc="Eingelegte Artischocken mit feinem Olivenöl und Zitrone." data-img="Foto: Artischocken">
-                                <div class="marquee-card-inner">
-                                    <div class="card-info"><h4>Artischocken-Herzen</h4><p>Premium Zutaten</p></div>
+                            </li>
+                            <!-- KACHEL 6: Artischocken -->
+                            <li class="splide__slide" data-category="zehlendorf">
+                                <div class="marquee-card" data-title="Artischocken-Herzen" data-desc="Eingelegte Artischocken mit feinem Olivenöl und Zitrone." data-img="Foto: Artischocken">
+                                    <div class="marquee-card-inner">
+                                        <div class="card-info"><h4>Artischocken-Herzen</h4><p>Premium Zutaten</p></div>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-
-                        <!-- KACHEL 7: Glutenfrei -->
-                        <li class="splide__slide" data-category="extrawuensche">
-                            <div class="marquee-card" data-title="Glutenfrei & Sicher" data-desc="Spezielle Zubereitung für Allergiker ohne Kompromisse beim Geschmack." data-img="Foto: Glutenfrei">
-                                <div class="marquee-card-inner">
-                                    <div class="card-info"><h4>Glutenfrei</h4><p>Höchste Sorgfalt</p></div>
+                            </li>
+                            <!-- KACHEL 7: Glutenfrei -->
+                            <li class="splide__slide" data-category="extrawuensche">
+                                <div class="marquee-card" data-title="Glutenfrei & Sicher" data-desc="Spezielle Zubereitung für Allergiker ohne Kompromisse beim Geschmack." data-img="Foto: Glutenfrei">
+                                    <div class="marquee-card-inner">
+                                        <div class="card-info"><h4>Glutenfrei</h4><p>Höchste Sorgfalt</p></div>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-
-                        <!-- KACHEL 8: Corporate -->
-                        <li class="splide__slide" data-category="extrawuensche">
-                            <div class="marquee-card" data-title="Corporate Branding" data-desc="Wir passen das Menü und die Optik auf Ihr Event an." data-img="Foto: Branding">
-                                <div class="marquee-card-inner">
-                                    <div class="card-info"><h4>Corporate Setup</h4><p>Individuelles Styling</p></div>
+                            </li>
+                            <!-- KACHEL 8: Corporate -->
+                            <li class="splide__slide" data-category="extrawuensche">
+                                <div class="marquee-card" data-title="Corporate Branding" data-desc="Wir passen das Menü und die Optik auf Ihr Event an." data-img="Foto: Branding">
+                                    <div class="marquee-card-inner">
+                                        <div class="card-info"><h4>Corporate Setup</h4><p>Individuelles Styling</p></div>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
