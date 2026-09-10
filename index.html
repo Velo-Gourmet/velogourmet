@@ -129,47 +129,56 @@
             overflow: visible !important; 
         }
 
-      /* --- BILD-ANPASSUNG FÜR QUERFORMAT (Landscape) --- */
+     /* --- BILD-ANPASSUNG FÜR QUERFORMAT (Landscape) - REINE ZENTRIERUNG --- */
         @media (orientation: landscape) and (max-height: 600px) { 
             .gallery-section { 
-                padding-top: 15px !important; 
+                padding-top: max(10px, env(safe-area-inset-top)) !important; /* Respektiert die Notch am iPhone! */
                 min-height: 100vh !important;
                 display: flex !important;
                 flex-direction: column !important;
-                justify-content: flex-start !important; /* Startet oben, damit das Menü immer sicher sitzt */
+                justify-content: flex-start !important; /* Zwingt alles an den oberen Bildschirmrand */
+                overflow: hidden !important; 
             } 
             
             #menu-slider { 
-                margin-bottom: 15px !important; 
-                flex-shrink: 0 !important; /* Das Menü darf niemals vom Browser gequetscht werden */
+                margin-bottom: 5px !important; 
+                flex-shrink: 0 !important; 
+                
+                /* Das Menü schwebt wie eine feste Statusleiste ÜBER den Kacheln */
+                position: relative !important;
+                z-index: 50 !important; 
+                
+                /* Ein leichter Schatten unter dem Menü, falls die Kachel direkt darunter herläuft */
+                filter: drop-shadow(0 4px 10px rgba(244, 241, 234, 0.9));
             } 
             
             .gallery-content-zone {
-                height: auto !important;
-                flex-grow: 1 !important;
+                height: auto !important; 
+                flex-grow: 1 !important; /* Nimmt den restlichen Platz ein */
                 display: flex !important;
-                align-items: center !important; 
+                align-items: center !important; /* Zentriert die Kachel in dem Bereich UNTER dem Menü */
+                justify-content: center !important;
+                
+                /* Erlaubt den Kacheln, nach oben HINTER das Menü zu fließen */
+                position: relative !important;
+                z-index: 10 !important; 
             }
             
-            /* Splide bleibt bei 260px Breite (verhindert den Scroll-Bug!). 
-               Die Höhe wird flexibel berechnet: Gesamtes Display minus 120px für das Menü. */
+            /* Kacheln behalten Originalgröße -> kein Splide-Scroll-Bug! */
             #gallery-slider .splide__slide, 
             .marquee-card {
                 width: 260px !important; 
-                max-width: 260px !important;
-                
-                /* Die magische Berechnung: Bildschirmhöhe minus Menü-Bereich */
-                height: calc(100vh - 120px) !important; 
-                max-height: 462px !important; /* Verhindert, dass es größer als im Original wird */
-                min-height: unset !important;
+                height: 462px !important; 
+                min-height: 462px !important;
+                max-height: 462px !important;
             }
             
-            /* Das Milchglas-Overlay minimal kompakter machen, damit es auf 
-               sehr flachen Displays nicht das Essen verdeckt */
+            /* Text auf dem Milchglas nach oben schieben, damit er auf dem flachen Display lesbar bleibt */
             .marquee-card-inner {
-                padding: 10px 15px !important;
+                padding-bottom: max(20px, 8vh) !important; 
             }
         }
+  
         
         /* Feinabstimmung: Je flacher das Display im Querformat wird, desto weiter zoomen wir raus! */
         @media (orientation: landscape) and (max-height: 450px) { 
