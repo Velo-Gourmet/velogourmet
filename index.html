@@ -181,69 +181,116 @@
         #menu-slider .splide__arrow svg { fill: #c1ff72 !important; width: 32px !important; height: 32px !important; filter: drop-shadow(0 0 10px rgba(193, 255, 114, 0.3)); } 
         #menu-slider .splide__arrow:hover { opacity: 1 !important; transform: translateY(-50%) !important; }
 
-/* --- FOOD KARTEN (Galerie - Der Trapez-Filmstreifen) --- */
+/* --- FOOD KARTEN (Galerie - Der 9-Slice SVG Rahmen) --- */
         #gallery-slider .splide__track { overflow: visible !important; }
-        #gallery-slider { width: 100%; cursor: grab; padding: 20px 0; } /* Etwas Padding für die Schatten */
+        #gallery-slider { width: 100%; cursor: grab; padding: 20px 0; }
         #gallery-slider:active { cursor: grabbing; }
         
         .marquee-card { 
             width: 260px; 
             height: 360px; 
             
-            /* DER RAHMEN-TRICK: Die Karte selbst ist Dark Slate Gray */
-            background-color: #2F4F4F; 
+            /* --- DER NEUE SVG RAHMEN --- */
+            border-style: solid;
             
-            padding: 2px; /* Das ist die Dicks des Dark-Slate-Rahmens (2px) */
+            /* 1. Wie dick soll der Rahmen auf dem Bildschirm sein? (Kannst du frei anpassen) */
+            border-width: 22px; 
+            
+            /* 2. Der Pfad zu deiner Datei. (Falls sie in einem Ordner liegt, z.B. url('img/rahmen.svg') schreiben) */
+            border-image-source: url('rahmen.svg'); 
+            
+            /* 3. Der Schnittpunkt (Slice). Wenn die Ecken verzerrt wirken, mach diesen Wert größer oder kleiner! */
+            border-image-slice: 15%; 
+            
+            /* 4. Die geraden Seitenlinien werden vom Browser gestreckt */
+            border-image-repeat: stretch;
+            
+            /* Der Hintergrund muss transparent sein, damit der Rahmen wirkt */
+            background-color: transparent; 
+            
             display: flex; 
             flex-direction: column; 
             position: relative; 
             user-select: none; 
             -webkit-user-select: none; 
             
-            /* Der tiefe Schatten für den Schwebeflug */
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25) !important; 
-            
-            /* DER TRAPEZ-SCHNITT (Oben breiter, unten schmaler ODER diagonal) 
-               Hier: Ein flottes Parallelogramm für die Vorwärtsdynamik! */
-            clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%);
-            -webkit-clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%);
-            
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            
+            /* Wir schalten alle alten Beschränkungen (Trapez, feste Rundungen) ab! Die SVG regiert jetzt. */
+            clip-path: none !important;
+            -webkit-clip-path: none !important;
+            border-radius: 0 !important;
         }
         
-        /* Das Milchglas im Inneren (Der Content-Bereich) */
+        /* Das Milchglas im Inneren */
         .marquee-card-inner {
             width: 100%;
             height: 100%;
-            background: rgba(250, 245, 235, 0.7); /* Das edle Milchglas */
+            background: rgba(250, 245, 235, 0.65); /* Edles Milchglas */
             backdrop-filter: blur(12px); 
             -webkit-backdrop-filter: blur(12px);
             
-            /* Innen muss der Schnitt minimal angepasst werden, damit der 2px Rahmen gleichmäßig bleibt */
-            clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%);
-            -webkit-clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%);
+            /* Wir runden das innere Glas minimal ab, damit es weicher wirkt */
+            border-radius: 4px; 
             
-            padding: 15px;
+            padding: 12px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            
+            /* Alte Trapez-Schnitte entfernen */
+            clip-path: none !important;
+            -webkit-clip-path: none !important;
         }
         
         #gallery-slider .splide__slide.is-active .marquee-card { 
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35) !important; 
-            transform: scale(1.02); /* Die aktive Karte kommt minimal hervor */
+            transform: scale(1.02); 
         }
         
         .splide__slide { -webkit-transform: translateZ(0); transform: translateZ(0); }
         
-        /* Vorbereitung für echte Fotos (Ebenfalls leicht schräg geschnitten) */
+        /* Vorbereitung für echte Fotos (Zurück auf gerades Format) */
         .marquee-card img { 
             width: 100%; 
             height: 100%; 
             object-fit: cover; 
             display: block; 
-            clip-path: polygon(3% 0, 100% 0, 97% 100%, 0% 100%);
-            -webkit-clip-path: polygon(3% 0, 100% 0, 97% 100%, 0% 100%);
+            border-radius: 4px;
+            clip-path: none !important;
+            -webkit-clip-path: none !important;
+        }
+        
+        .card-image-placeholder { 
+            width: 100%; 
+            height: 220px; 
+            background: rgba(0,0,0,0.06); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 13px; 
+            color: #555; 
+            font-weight: 500; 
+            text-align: center; 
+            padding: 10px; 
+            border-radius: 4px;
+            clip-path: none !important;
+            -webkit-clip-path: none !important;
+        }
+        
+        .card-info h4 { 
+            font-size: 18px; 
+            margin-bottom: 5px; 
+            color: var(--text-dark); 
+            padding-left: 0;
+        } 
+        
+        .card-info p { 
+            font-size: 13px; 
+            color: #333; 
+            line-height: 1.4; 
+            padding-left: 0;
         }
         
         .card-image-placeholder { 
