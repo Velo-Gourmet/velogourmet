@@ -170,18 +170,17 @@
             height: 100%; 
             position: relative; 
             box-shadow: -10px 0 30px rgba(0,0,0,0.3);
-            
-            /* WICHTIG: Farbe auf transparent, damit Plasma durchscheint */
             background-color: transparent; 
-            
-            /* HIER IST DEIN ANGEPASSTER DATEINAME */
             background-image: url('rosatextbg.svg'); 
             
-            /* ÄNDERUNG HIER: "cover" zwingt das Bild, den Raum gnadenlos zu füllen */
-            background-size: cover; 
-            background-position: center;
+            /* NEU: Das Bild links festpinnen! */
+            background-position: left center; 
+            
+            /* NEU: Zwingt das Bild, exakt 100% der Breite und 100% der Höhe einzunehmen */
+            background-size: 100% 100%; 
+            
             background-repeat: no-repeat;
-        }      
+        }     
         
         .detail-content-scroll { width: 100%; height: 100%; overflow-y: auto; padding: 10% 15% 10% 10%; color: #ffffff; }
         .detail-content-scroll h2 { font-size: 2.5rem; margin-bottom: 30px; border-bottom: 2px solid rgba(255,255,255,0.3); padding-bottom: 10px; }
