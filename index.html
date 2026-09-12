@@ -38,20 +38,14 @@
         /* ==========================================
            2. HERO SEKTION & LAYER
            ========================================== */
-        .hero-section { 
-            background-color: var(--bg-sand); 
-            z-index: 1; 
-        }
-
+        .hero-section { background-color: var(--bg-sand); z-index: 1; }
         .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 120%; background-image: var(--svg-bg-hero); background-size: cover; background-position: center center; background-repeat: no-repeat; z-index: 1; will-change: transform; filter: contrast(95%) brightness(98%); }
         .hero-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; width: 100%; display: flex; justify-content: center; align-items: center; will-change: transform, opacity; transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.25s ease-out; }
         .logo-wrapper { display: flex; justify-content: center; align-items: center; width: 100%; padding: 0 10px; }
         .logo-img { aspect-ratio: 1 / 1; width: clamp(250px, 80vw, 500px); height: auto; object-fit: contain; filter: drop-shadow(0 25px 45px rgba(0,0,0,0.22)); animation: fadeInMorph 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
         
         /* --- PFEILE NUR FÜR DESKTOP (Kugelsicher) --- */
-        @media (max-width: 767px) {
-            #menu-slider .splide__arrow { display: none !important; }
-        }
+        @media (max-width: 767px) { #menu-slider .splide__arrow { display: none !important; } }
         
        @media (min-width: 768px) { 
             .hero-bg { background-size: contain; rotate: 0deg; scale: 1; }
@@ -63,41 +57,20 @@
         @supports (backdrop-filter: blur(8px)) { .swipe-hint { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px); } }
 
         #navigation { position: relative; z-index: 2; overflow: hidden; }
-
-        .layer-bg-bleed { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            background-color: transparent; background-image: var(--svg-bg-content); background-size: cover; background-position: center top; background-repeat: no-repeat; z-index: 1; pointer-events: none; transform: translateZ(0);
-        }
+        .layer-bg-bleed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: transparent; background-image: var(--svg-bg-content); background-size: cover; background-position: center top; background-repeat: no-repeat; z-index: 1; pointer-events: none; transform: translateZ(0); }
 
         /* --- DIE BUTTONS & SVG-KANTE (Sektion 2) --- */
-        .organic-edge-wrapper { 
-            position: absolute; top: -2px; left: 0; width: 100%; height: clamp(30px, 6vw, 60px); 
-            z-index: 5; transform: rotate(180deg); 
-        }
+        .organic-edge-wrapper { position: absolute; top: -2px; left: 0; width: 100%; height: clamp(30px, 6vw, 60px); z-index: 5; transform: rotate(180deg); }
         .liquid-path { fill: var(--bg-sand); }
+        .actions { position: relative; z-index: 10; display: flex; flex-direction: column; gap: 20px; align-items: center; width: 100%; padding: 0 20px; }
         
-        .actions { 
-            position: relative; z-index: 10; display: flex; flex-direction: column; 
-            gap: 20px; align-items: center; width: 100%; padding: 0 20px; 
-        }
+        @media (min-width: 768px) { .actions { flex-direction: row; justify-content: center; gap: 40px; } }
         
-        @media (min-width: 768px) {
-            .actions { flex-direction: row; justify-content: center; gap: 40px; }
-        }
-        
-        .artist-btn { 
-            display: block; width: clamp(260px, 80vw, 320px); 
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            text-decoration: none; -webkit-tap-highlight-color: transparent; 
-        }
+        .artist-btn { display: block; width: clamp(260px, 80vw, 320px); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-decoration: none; -webkit-tap-highlight-color: transparent; }
         .artist-btn:hover { transform: scale(1.05) rotate(-2deg); }
         .artist-btn:active { transform: scale(0.95); }
         .artist-btn svg { width: 100%; height: auto; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15)); }
-        
-        .btn-text { 
-            font-family: 'Crackman', Impact, sans-serif; 
-            font-size: 26px; text-transform: uppercase; letter-spacing: 2px; 
-        }
+        .btn-text { font-family: 'Crackman', Impact, sans-serif; font-size: 26px; text-transform: uppercase; letter-spacing: 2px; }
         
         /* ==========================================
            3. GALERIE ZONEN & PLASMA KORREKTUR
@@ -109,7 +82,6 @@
         
         .menu-swipe-pill, #menu-slider, .gallery-content-zone { position: relative; z-index: 10; }
 
-        /* --- DIE PULSIERENDE SWIPE-PILLE (Neutrales Glas) --- */
         .menu-swipe-pill { background: rgba(255, 255, 255, 0.05); color: #ffffff; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8), 0 0 2px rgba(0, 0, 0, 0.9); border: 1px solid rgba(255, 255, 255, 0.15); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; padding: 8px 20px; border-radius: 30px; margin: 0 auto; margin-bottom: clamp(15px, 3vh, 30px); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); animation: breathePillNeutral 2.5s infinite ease-in-out; will-change: transform, box-shadow; display: inline-block; }
         @supports (backdrop-filter: blur(15px)) { .menu-swipe-pill { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(15px) brightness(0.9); -webkit-backdrop-filter: blur(15px) brightness(0.9); } }
         @keyframes breathePillNeutral { 0%, 100% { transform: scale(0.95); box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); } 50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(0, 0, 0, 0.5); } }
@@ -119,92 +91,29 @@
         #menu-slider .splide__track { overflow: visible; -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%); mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%); }
         @media (min-width: 768px) { #menu-slider .splide__track { -webkit-mask-image: linear-gradient(to right, transparent 0px, transparent 120px, black 350px, black calc(100% - 350px), transparent calc(100% - 120px), transparent 100%); mask-image: linear-gradient(to right, transparent 0px, transparent 120px, black 350px, black calc(100% - 350px), transparent calc(100% - 120px), transparent 100%); } }
 
-        .gallery-content-zone { 
-            flex-grow: 1; 
-            width: 100%; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            position: relative; 
-            overflow: visible !important; 
-        }
+        .gallery-content-zone { flex-grow: 1; width: 100%; display: flex; align-items: center; justify-content: center; position: relative; overflow: visible !important; }
 
-     /* --- BILD-ANPASSUNG FÜR QUERFORMAT (Landscape) - REINE ZENTRIERUNG --- */
         @media (orientation: landscape) and (max-height: 600px) { 
-            .gallery-section { 
-                padding-top: max(10px, env(safe-area-inset-top)) !important; /* Respektiert die Notch am iPhone! */
-                min-height: 100vh !important;
-                display: flex !important;
-                flex-direction: column !important;
-                justify-content: flex-start !important; /* Zwingt alles an den oberen Bildschirmrand */
-                overflow: hidden !important; 
-            } 
-            
-            #menu-slider { 
-                margin-bottom: 5px !important; 
-                flex-shrink: 0 !important; 
-                
-                /* Das Menü schwebt wie eine feste Statusleiste ÜBER den Kacheln */
-                position: relative !important;
-                z-index: 50 !important; 
-                
-                /* Ein leichter Schatten unter dem Menü, falls die Kachel direkt darunter herläuft */
-                filter: drop-shadow(0 4px 10px rgba(244, 241, 234, 0.9));
-            } 
-            
-            .gallery-content-zone {
-                height: auto !important; 
-                flex-grow: 1 !important; /* Nimmt den restlichen Platz ein */
-                display: flex !important;
-                align-items: center !important; /* Zentriert die Kachel in dem Bereich UNTER dem Menü */
-                justify-content: center !important;
-                
-                /* Erlaubt den Kacheln, nach oben HINTER das Menü zu fließen */
-                position: relative !important;
-                z-index: 10 !important; 
-            }
-            
-            /* Kacheln behalten Originalgröße -> kein Splide-Scroll-Bug! */
-            #gallery-slider .splide__slide, 
-            .marquee-card {
-                width: 260px !important; 
-                height: 462px !important; 
-                min-height: 462px !important;
-                max-height: 462px !important;
-            }
-            
-            /* Text auf dem Milchglas nach oben schieben, damit er auf dem flachen Display lesbar bleibt */
-            .marquee-card-inner {
-                padding-bottom: max(20px, 8vh) !important; 
-            }
+            .gallery-section { padding-top: max(10px, env(safe-area-inset-top)) !important; min-height: 100vh !important; display: flex !important; flex-direction: column !important; justify-content: flex-start !important; overflow: hidden !important; } 
+            #menu-slider { margin-bottom: 5px !important; flex-shrink: 0 !important; position: relative !important; z-index: 50 !important; filter: drop-shadow(0 4px 10px rgba(244, 241, 234, 0.9)); } 
+            .gallery-content-zone { height: auto !important; flex-grow: 1 !important; display: flex !important; align-items: center !important; justify-content: center !important; position: relative !important; z-index: 10 !important; }
+            #gallery-slider .splide__slide, .marquee-card { width: 260px !important; height: 462px !important; min-height: 462px !important; max-height: 462px !important; }
+            .marquee-card-inner { padding-bottom: max(20px, 8vh) !important; }
         }
-  
-        
-        /* Feinabstimmung: Je flacher das Display im Querformat wird, desto weiter zoomen wir raus! */
-        @media (orientation: landscape) and (max-height: 450px) { 
-            #gallery-slider { transform: scale(0.70); } 
-        }
-        @media (orientation: landscape) and (max-height: 380px) { 
-            #gallery-slider { transform: scale(0.55); } 
-        }
-        
-        @media (orientation: portrait) { 
-            .gallery-section { padding-top: 0; justify-content: center; } 
-            .gallery-content-zone { flex-grow: 0; height: 55vh; } 
-        }
+ 
+        @media (orientation: landscape) and (max-height: 450px) { #gallery-slider { transform: scale(0.70); } }
+        @media (orientation: landscape) and (max-height: 380px) { #gallery-slider { transform: scale(0.55); } }
+        @media (orientation: portrait) { .gallery-section { padding-top: 0; justify-content: center; } .gallery-content-zone { flex-grow: 0; height: 55vh; } }
 
         /* 4. DIE INNEREN EFFEKTE & TYPOGRAFIE-LOCK FÜR DAS MENÜ */
         #menu-slider .splide__slide { width: 260px !important; max-width: 260px !important; min-width: 260px !important; display: flex !important; justify-content: center !important; align-items: center !important; margin: 0 !important; padding: 0 !important; cursor: pointer; -webkit-tap-highlight-color: transparent; }
         .menu-item-content { width: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0; opacity: 0.35; filter: blur(2.5px) grayscale(50%); transform: scale(0.85); transition: opacity 0.02s linear 0.04s, filter 0.02s linear 0.04s, transform 0.04s ease-out 0.06s; }
-        
         .menu-headline { font-family: 'Crackman', Impact, sans-serif; font-size: 26px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dark); position: relative; text-shadow: 0 0 10px rgba(0,0,0,0.5); transition: color 0.04s ease-out 0s, text-shadow 0.04s ease-out 0s; }
         .menu-headline::before, .menu-headline::after { display: none !important; content: none !important; }
         .menu-subtitle { font-size: 13px; color: #ddd; margin-top: 5px; font-weight: 500; font-family: -apple-system, sans-serif; }
-
         #menu-slider .splide__slide.is-active { z-index: 2; }
         #menu-slider .splide__slide.is-active .menu-item-content { opacity: 1; filter: blur(0px) grayscale(0%); transform: scale(1.1); }
         #menu-slider .splide__slide.is-active .menu-headline { color: #c1ff72; text-shadow: 0 0 15px rgba(193, 255, 114, 0.4); }
-        
         #menu-slider.is-scrolling .splide__slide .menu-item-content, #menu-slider.is-scrolling .splide__slide.is-active .menu-item-content { opacity: 0.35 !important; filter: blur(2.5px) grayscale(50%) !important; transform: scale(0.85) !important; transition: opacity 0.05s ease, filter 0.05s ease, transform 0.05s ease !important; }
         #menu-slider.is-scrolling .splide__slide .menu-headline, #menu-slider.is-scrolling .splide__slide.is-active .menu-headline { color: var(--text-dark) !important; text-shadow: 0 0 10px rgba(0,0,0,0.5) !important; transition: color 0.05s ease, text-shadow 0.05s ease !important; }
 
@@ -220,93 +129,21 @@
         #gallery-slider { width: 100%; cursor: grab; padding: 20px 0; }
         #gallery-slider:active { cursor: grabbing; }
 
-        /* Zwingt den Splide Slide exakt in das 9:16 Format mit 8px Gesamtgap */
-        #gallery-slider .splide__slide {
-            width: 260px !important;
-            height: 462px !important;
-            max-width: 260px !important;
-            margin-left: 4px !important;
-            margin-right: 4px !important;
-            display: flex !important;
-            justify-content: center !important;
-            align-items: center !important;
-            box-sizing: border-box !important;
-        }
-        
-        .marquee-card { 
-            width: 260px !important; 
-            height: 462px !important; 
-            min-height: 462px !important;
-            max-height: 462px !important;
-            
-            border: none !important;
-            background: transparent !important;
-            
-            position: relative !important; 
-            display: block !important; 
-            
-            border-radius: 20px !important;
-            overflow: hidden !important; 
-            
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25) !important; 
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            user-select: none !important; 
-            -webkit-user-select: none !important; 
-        }
-        
-        /* RADIKALE LÖSUNG: Das Bild füllt als background-cover absolut lückenlos den Rahmen */
-        .food-photo { 
-            position: absolute !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100% !important; 
-            height: 100% !important; 
-            
-            background-size: cover !important;
-            background-position: center center !important;
-            background-repeat: no-repeat !important;
-            
-            z-index: 1 !important; 
-        }
-        
-        .marquee-card-inner {
-            position: absolute !important;
-            bottom: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            
-            z-index: 2 !important; 
-            
-            width: 100% !important;
-            height: auto !important; 
-            padding: 20px 15px !important;
-            
-            background: rgba(250, 245, 235, 0.75) !important; 
-            backdrop-filter: blur(15px) !important; 
-            -webkit-backdrop-filter: blur(15px) !important;
-            
-            display: flex !important;
-            flex-direction: column !important;
-            justify-content: flex-end !important;
-        }
-
-        #gallery-slider .splide__slide.is-active .marquee-card { 
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4) !important; 
-            transform: scale(1.03); 
-        }
-        
+        #gallery-slider .splide__slide { width: 260px !important; height: 462px !important; max-width: 260px !important; margin-left: 4px !important; margin-right: 4px !important; display: flex !important; justify-content: center !important; align-items: center !important; box-sizing: border-box !important; }
+        .marquee-card { width: 260px !important; height: 462px !important; min-height: 462px !important; max-height: 462px !important; border: none !important; background: transparent !important; position: relative !important; display: block !important; border-radius: 20px !important; overflow: hidden !important; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25) !important; transition: transform 0.3s ease, box-shadow 0.3s ease; user-select: none !important; -webkit-user-select: none !important; }
+        .food-photo { position: absolute !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; background-size: cover !important; background-position: center center !important; background-repeat: no-repeat !important; z-index: 1 !important; }
+        .marquee-card-inner { position: absolute !important; bottom: 0 !important; left: 0 !important; right: 0 !important; z-index: 2 !important; width: 100% !important; height: auto !important; padding: 20px 15px !important; background: rgba(250, 245, 235, 0.75) !important; backdrop-filter: blur(15px) !important; -webkit-backdrop-filter: blur(15px) !important; display: flex !important; flex-direction: column !important; justify-content: flex-end !important; }
+        #gallery-slider .splide__slide.is-active .marquee-card { box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4) !important; transform: scale(1.03); }
         .card-info h4 { font-size: 20px; margin-bottom: 5px; color: var(--text-dark); padding-left: 0; font-weight: 700; } 
         .card-info p { font-size: 14px; color: #222; line-height: 1.4; padding-left: 0; font-weight: 500; }
 
-        /* OVERLAYS (Kontakt & Lightbox) */
+        /* OVERLAYS (Kontakt) */
         .glass-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(27, 36, 30, 0.45); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; display: flex; align-items: center; justify-content: center; }
         .glass-overlay.is-active { opacity: 1; pointer-events: all; }
         .glass-sheet { width: 92%; max-width: 800px; background: rgba(244, 241, 234, 0.75); backdrop-filter: blur(28px) saturate(180%); -webkit-backdrop-filter: blur(28px) saturate(180%); border: 1px solid rgba(193, 255, 114, 0.4); border-radius: 28px; box-shadow: 0 30px 60px rgba(0,0,0,0.2), 0 0 35px rgba(193, 255, 114, 0.12); overflow: hidden; transform: translateY(25px) scale(0.95); transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; flex-direction: column; }
         .glass-overlay.is-active .glass-sheet { transform: translateY(0) scale(1); }
         .contact-layout { flex-direction: column; } @media (min-width: 600px) { .contact-layout { flex-direction: row; } .contact-layout .sheet-half { width: 50%; padding: 40px 30px; } .contact-layout .info-half { border-right: 1px solid rgba(193, 255, 114, 0.25); } }
         .sheet-half { width: 100%; padding: 25px 20px; display: flex; flex-direction: column; }
-        .lightbox-layout { padding: 30px 20px; text-align: center; align-items: center; }
-        .lightbox-hero-img { width: 100%; height: 250px; background: rgba(0,0,0,0.05); border-radius: 16px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #666; }
         .sheet-title { font-size: 20px; font-weight: 700; text-align: center; margin-bottom: 12px; letter-spacing: -0.5px; }
         .info-list { padding-left: 0; font-size: 14px; line-height: 1.7; margin-top: 5px; list-style: none; text-align: left;} .info-list li { margin-bottom: 12px; font-weight: 500; }
         .glass-btn { background: rgba(255, 255, 255, 0.35); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 14px; color: var(--text-dark); font-weight: 600; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); -webkit-tap-highlight-color: transparent; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 12px 14px; font-size: 14px; cursor: pointer; text-decoration: none; margin-bottom: 10px; }
@@ -318,35 +155,39 @@
         .sheet-close:active { background: rgba(0,0,0,0.08); transform: scale(0.96); }
 
         /* =========================================================
-           DESKTOP OPTIMIERUNG (Große Bildschirme ab 1024px Breite)
+           NEU: SPLIT-SCREEN DETAILANSICHT (LIGHTBOX)
            ========================================================= */
-        @media (min-width: 1024px) {
-            
-            .gallery-section {
-                justify-content: center; 
-                padding-top: 0; 
-            }
+        .detail-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); z-index: 9999; opacity: 0; transition: opacity 0.4s ease; }
+        .detail-overlay.is-open { display: block; opacity: 1; }
+        .detail-container { display: flex; width: 100vw; height: 100vh; transform: scale(0.8); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .detail-overlay.is-open .detail-container { transform: scale(1); }
+        .detail-left-pane { width: 50%; height: 100%; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .detail-hero-img { width: 150%; height: 150%; background-size: contain; background-position: right center; background-repeat: no-repeat; transform: scale(0.8) translateX(-20%); transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s; }
+        .detail-overlay.is-open .detail-hero-img { transform: scale(1) translateX(0); }
+        .detail-right-pane { width: 50%; height: 100%; position: relative; box-shadow: -10px 0 30px rgba(0,0,0,0.3); background-color: #ff007f; /* HIER SVG EINBAUEN Z.B.: background-image: url('pink.svg'); */ background-size: cover; background-position: center; }
+        .detail-content-scroll { width: 100%; height: 100%; overflow-y: auto; padding: 10% 15% 10% 10%; color: #ffffff; }
+        .detail-content-scroll h2 { font-size: 2.5rem; margin-bottom: 30px; border-bottom: 2px solid rgba(255,255,255,0.3); padding-bottom: 10px; }
+        .detail-section { margin-bottom: 25px; }
+        .detail-section h4 { font-size: 1.2rem; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.9); }
+        .detail-section p { font-size: 1rem; line-height: 1.6; color: #fff; }
+        .detail-close-btn { position: absolute; top: 20px; right: 20px; background: #fff; color: #ff007f; border: none; width: 45px; height: 45px; border-radius: 50%; font-size: 28px; cursor: pointer; z-index: 10000; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        
+        @media (max-width: 768px) {
+            .detail-container { flex-direction: column; }
+            .detail-left-pane { width: 100%; height: 50%; }
+            .detail-right-pane { width: 100%; height: 50%; }
+            .detail-hero-img { background-position: center bottom; width: 100%; height: 120%; transform: scale(1); }
+            .detail-content-scroll { padding: 20px; }
+        }
 
-            #gallery-slider .splide__slide {
-                width: 320px !important;
-                height: 568px !important;
-                max-width: 320px !important;
-                margin-left: 4px !important;
-                margin-right: 4px !important;
-            }
-            
-            .marquee-card {
-                width: 320px !important; 
-                height: 568px !important; 
-                min-height: 568px !important;
-                max-height: 568px !important;
-            }
-            
+        /* DESKTOP OPTIMIERUNG (Galerie) */
+        @media (min-width: 1024px) {
+            .gallery-section { justify-content: center; padding-top: 0; }
+            #gallery-slider .splide__slide { width: 320px !important; height: 568px !important; max-width: 320px !important; margin-left: 4px !important; margin-right: 4px !important; }
+            .marquee-card { width: 320px !important; height: 568px !important; min-height: 568px !important; max-height: 568px !important; }
             .card-info h4 { font-size: 22px; }
             .card-info p { font-size: 15px; }
         }
-
-        /* --- DER TABLET & DESKTOP LOCK (Ganz unten für höchste Priorität!) --- */
         @media (min-width: 768px) {
             .menu-headline { font-size: 30px !important; }
             .menu-subtitle { font-size: 14px !important; }
@@ -376,7 +217,7 @@
             </div>
         </section>
 
-                <section class="section gallery-section" id="galerie">
+        <section class="section gallery-section" id="galerie">
             <canvas id="plasma-canvas"></canvas>
             <div class="plasma-dimmer"></div>
 
@@ -396,200 +237,121 @@
             <div class="gallery-content-zone">
                 <div class="splide" id="gallery-slider">
                     <div class="splide__track">
-                        
                         <ul class="splide__list" id="gallery-list">
                             
-                            <!-- ==========================================
-                                 KATEGORIE: HERMANNPLATZ
-                                 ========================================== -->
-
-                            <!-- KACHEL 1: Lammspieß -->
+                            <!-- KATEGORIE: HERMANNPLATZ -->
                             <li class="splide__slide" data-category="hermannplatz">
-                                <div class="marquee-card" data-title="Lammspieß" data-desc="Zartes Lamm vom Grill, authentisch gewürzt." data-img="Foto: Lammspieß">
+                                <div class="marquee-card" data-title="Lammspieß" data-desc="Zartes Lamm vom Grill, authentisch gewürzt." data-zutaten="Lammfleisch, Knoblauch, Gewürze" data-allergene="Keine">
                                     <div class="food-photo" style="background-image: url('lamm.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Grill-Lamm</h4><p>Hermannplatz Klassiker</p></div>
-                                    </div>
+                                    <div class="marquee-card-inner"><div class="card-info"><h4>Grill-Lamm</h4><p>Hermannplatz Klassiker</p></div></div>
                                 </div>
                             </li>
-
-                            <!-- KACHEL 2: Hummus -->
                             <li class="splide__slide" data-category="hermannplatz">
-                                <div class="marquee-card" data-title="Hummus" data-desc="Samtiger Kichererbsen-Dip mit feinem Tahini, einem Schuss Olivenöl und gerösteten Pinienkernen." data-img="Foto: Hummus">
+                                <div class="marquee-card" data-title="Hummus" data-desc="Samtiger Kichererbsen-Dip mit feinem Tahini." data-zutaten="Kichererbsen, Tahini, Olivenöl" data-allergene="Sesam">
                                     <div class="food-photo" style="background-image: url('humus.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Hummus</h4><p>Cremig & Authentisch</p></div>
-                                    </div>
+                                    <div class="marquee-card-inner"><div class="card-info"><h4>Hummus</h4><p>Cremig & Authentisch</p></div></div>
                                 </div>
                             </li>
-
-                            <!-- KACHEL 3: Shakshuka -->
                             <li class="splide__slide" data-category="hermannplatz">
-                                <div class="marquee-card" data-title="Shakshuka" data-desc="Pochierte Eier in einer kräftigen, würzigen Tomaten-Paprika-Sauce mit orientalischen Gewürzen." data-img="Foto: Shakshuka">
+                                <div class="marquee-card" data-title="Shakshuka" data-desc="Pochierte Eier in würziger Tomaten-Paprika-Sauce." data-zutaten="Eier, Tomaten, Paprika, Kreuzkümmel" data-allergene="Eier">
                                     <div class="food-photo" style="background-image: url('shakhshuka.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Shakshuka</h4><p>Würzige Levante</p></div>
-                                    </div>
+                                    <div class="marquee-card-inner"><div class="card-info"><h4>Shakshuka</h4><p>Würzige Levante</p></div></div>
                                 </div>
                             </li>
-
-                            <!-- KACHEL 4: Baba Ghanoush -->
                             <li class="splide__slide" data-category="hermannplatz">
-                                <div class="marquee-card" data-title="Baba Ghanoush" data-desc="Rauchiges Auberginenpüree, verfeinert mit Granatapfelkernen, frischer Petersilie und Zitrone." data-img="Foto: Baba Ghanoush">
+                                <div class="marquee-card" data-title="Baba Ghanoush" data-desc="Rauchiges Auberginenpüree." data-zutaten="Aubergine, Tahini, Granatapfel" data-allergene="Sesam">
                                     <div class="food-photo" style="background-image: url('babaganoush.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Baba Ghanoush</h4><p>Rauchig & Frisch</p></div>
-                                    </div>
+                                    <div class="marquee-card-inner"><div class="card-info"><h4>Baba Ghanoush</h4><p>Rauchig & Frisch</p></div></div>
                                 </div>
                             </li>
-
-                            <!-- KACHEL 5: Falafel -->
                             <li class="splide__slide" data-category="hermannplatz">
-                                <div class="marquee-card" data-title="Falafel" data-desc="Goldbraun frittierte Bällchen aus Kichererbsen, frischen Kräutern und dem perfekten Crunch." data-img="Foto: Falafel">
+                                <div class="marquee-card" data-title="Falafel" data-desc="Goldbraun frittierte Bällchen aus Kichererbsen." data-zutaten="Kichererbsen, Kräuter, Öl" data-allergene="Keine">
                                     <div class="food-photo" style="background-image: url('falafel.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Falafel</h4><p>Knuspriger Klassiker</p></div>
-                                    </div>
+                                    <div class="marquee-card-inner"><div class="card-info"><h4>Falafel</h4><p>Knuspriger Klassiker</p></div></div>
                                 </div>
                             </li>
-
-                            <!-- KACHEL 6: Kunafa -->
                             <li class="splide__slide" data-category="hermannplatz">
-                                <div class="marquee-card" data-title="Kunafa" data-desc="Warmes Engelshaar-Dessert mit geschmolzenem Käse, Pistazien und süßem Zuckersirup." data-img="Foto: Kunafa">
+                                <div class="marquee-card" data-title="Kunafa" data-desc="Warmes Engelshaar-Dessert." data-zutaten="Kadaifi, Käse, Sirup, Pistazien" data-allergene="Milch, Schalenfrüchte, Gluten">
                                     <div class="food-photo" style="background-image: url('kunafa.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Kunafa</h4><p>Süße Versuchung</p></div>
-                                    </div>
+                                    <div class="marquee-card-inner"><div class="card-info"><h4>Kunafa</h4><p>Süße Versuchung</p></div></div>
                                 </div>
                             </li>
 
-                            <!-- ==========================================
-                                 KATEGORIE: PRENZLAUER BERG (100% Vegan / Pflanzlich)
-                                 ========================================== -->
-
-                            <!-- KACHEL 7: Seitan-Steak -->
+                            <!-- KATEGORIE: PRENZLAUER BERG -->
                             <li class="splide__slide" data-category="prenzlauerberg">
-                                <div class="marquee-card" data-title="Seitan-Steak" data-desc="Herzhaft mariniertes Seitan-Steak, scharf angebraten für beste Röstaromen." data-img="Foto: Seitan Steak">
+                                <div class="marquee-card" data-title="Seitan-Steak" data-desc="Herzhaft mariniertes Seitan-Steak." data-zutaten="Weizengluten, Sojasauce, Gewürze" data-allergene="Gluten, Soja">
                                     <div class="food-photo" style="background-image: url('seitansteak.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Seitan-Steak</h4><p>Deftig & Pflanzlich</p></div>
-                                    </div>
+                                    <div class="marquee-card-inner"><div class="card-info"><h4>Seitan-Steak</h4><p>Deftig & Pflanzlich</p></div></div>
                                 </div>
                             </li>
-
-                            <!-- KACHEL 8: Rote-Bete-Tatar -->
                             <li class="splide__slide" data-category="prenzlauerberg">
-                                <div class="marquee-card" data-title="Rote-Bete-Tatar" data-desc="Feines Tatar von der Roten Bete mit Kapern, Dijon-Senf und knusprigen Croûtons." data-img="Foto: Rote-Bete-Tatar">
+                                <div class="marquee-card" data-title="Rote-Bete-Tatar" data-desc="Feines Tatar von der Roten Bete." data-zutaten="Rote Bete, Kapern, Senf" data-allergene="Senf">
                                     <div class="food-photo" style="background-image: url('rotebeetetatar.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Rote-Bete-Tatar</h4><p>Fein & Erdig</p></div>
-                                    </div>
+                                    <div class="marquee-card-inner"><div class="card-info"><h4>Rote-Bete-Tatar</h4><p>Fein & Erdig</p></div></div>
                                 </div>
                             </li>
-
-                            <!-- KACHEL 9: Vegane Quiche -->
                             <li class="splide__slide" data-category="prenzlauerberg">
-                                <div class="marquee-card" data-title="Vegane Quiche" data-desc="Eine rein pflanzliche, französische Tarte mit einer herzhaften Füllung aus frischem Saisongemüse und feinen Kräutern." data-img="Foto: Quiche">
+                                <div class="marquee-card" data-title="Saisonale Quiche" data-desc="Französische Tarte mit Saisongemüse." data-zutaten="Mehl, Gemüse, pflanzliche Sahne" data-allergene="Gluten">
                                     <div class="food-photo" style="background-image: url('quiche.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Vegane Quiche</h4><p>Pflanzlich Gebacken</p></div>
-                                    </div>
+                                    <div class="marquee-card-inner"><div class="card-info"><h4>Quiche</h4><p>Herzhaft Gebacken</p></div></div>
                                 </div>
                             </li>
-                                                        <!-- KACHEL 9b: Ratatouille -->
                             <li class="splide__slide" data-category="prenzlauerberg">
-                                <div class="marquee-card" data-title="Ratatouille" data-desc="Der französische Klassiker: Schonend geschmortes Gemüse aus Auberginen, Zucchini, Paprika und sonnengereiften Tomaten." data-img="Foto: Ratatouille">
+                                <div class="marquee-card" data-title="Ratatouille" data-desc="Schonend geschmortes Gemüse." data-zutaten="Aubergine, Zucchini, Paprika, Tomaten" data-allergene="Keine">
                                     <div class="food-photo" style="background-image: url('ratatouille.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Ratatouille</h4><p>Geschmortes Gemüse</p></div>
-                                    </div>
+                                    <div class="marquee-card-inner"><div class="card-info"><h4>Ratatouille</h4><p>Geschmortes Gemüse</p></div></div>
                                 </div>
                             </li>
-
-                            <!-- KACHEL 9c: Semmelknödel -->
                             <li class="splide__slide" data-category="prenzlauerberg">
-                                <div class="marquee-card" data-title="Veganer Semmelknödel" data-desc="Klassischer Semmelknödel, rein pflanzlich zubereitet. Perfekt gebunden, fluffig und mit feinen Kräutern verfeinert." data-img="Foto: Semmelknödel">
+                                <div class="marquee-card" data-title="Semmelknödel" data-desc="Rein pflanzlich zubereitet." data-zutaten="Brötchen, Sojamilch, Petersilie" data-allergene="Gluten, Soja">
                                     <div class="food-photo" style="background-image: url('semmelknoedel.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Semmelknödel</h4><p>Veganer Klassiker</p></div>
-                                    </div>
+                                    <div class="marquee-card-inner"><div class="card-info"><h4>Semmelknödel</h4><p>Veganer Klassiker</p></div></div>
                                 </div>
                             </li>
-
-                            <!-- KACHEL 9d: Kokos Panna Cotta -->
                             <li class="splide__slide" data-category="prenzlauerberg">
-                                <div class="marquee-card" data-title="Kokos Panna Cotta" data-desc="Seidenweiches Dessert auf Basis von cremiger Kokosmilch, fruchtig abgerundet mit einem Hauch echter Vanille." data-img="Foto: Kokos Panna Cotta">
+                                <div class="marquee-card" data-title="Kokos Panna Cotta" data-desc="Dessert auf Basis von cremiger Kokosmilch." data-zutaten="Kokosmilch, Agar-Agar, Vanille" data-allergene="Keine">
                                     <div class="food-photo" style="background-image: url('kokospannacotta.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Kokos Panna Cotta</h4><p>Pflanzliche Süße</p></div>
-                                    </div>
+                                    <div class="marquee-card-inner"><div class="card-info"><h4>Kokos Panna Cotta</h4><p>Pflanzliche Süße</p></div></div>
                                 </div>
                             </li>
-                            
-                            <!-- ==========================================
-                                 KATEGORIE: ZEHLENDORF (Gourmet-Küche)
-                                 ========================================== -->
 
-                            <!-- KACHEL 10: Entrecôte -->
+                            <!-- KATEGORIE: ZEHLENDORF -->
                             <li class="splide__slide" data-category="zehlendorf">
-                                <div class="marquee-card" data-title="Entrecôte" data-desc="Zartes Premium-Rindersteak, perfekt auf den Punkt gegrillt und verfeinert mit edler Kräuterbutter." data-img="Foto: Entrecôte">
+                                <div class="marquee-card" data-title="Entrecôte" data-desc="Zartes Premium-Rindersteak." data-zutaten="Rindfleisch, Kräuterbutter" data-allergene="Milch">
                                     <div class="food-photo" style="background-image: url('entrecote.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Entrecôte</h4><p>Premium Rindfleisch</p></div>
-                                    </div>
+                                    <div class="marquee-card-inner"><div class="card-info"><h4>Entrecôte</h4><p>Premium Rindfleisch</p></div></div>
                                 </div>
                             </li>
-
-                            <!-- KACHEL 11: Boeuf Bourguignon -->
                             <li class="splide__slide" data-category="zehlendorf">
-                                <div class="marquee-card" data-title="Boeuf Bourguignon" data-desc="Klassischer französischer Rinderschmortopf, langsam gegart in kräftigem Burgunderwein mit Perlzwiebeln." data-img="Foto: Boeuf Bourguignon">
+                                <div class="marquee-card" data-title="Boeuf Bourguignon" data-desc="Französischer Rinderschmortopf." data-zutaten="Rind, Burgunderwein, Zwiebeln" data-allergene="Sulfite">
                                     <div class="food-photo" style="background-image: url('boeufbourguignon.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Boeuf Bourguignon</h4><p>Französischer Klassiker</p></div>
-                                    </div>
+                                    <div class="marquee-card-inner"><div class="card-info"><h4>Boeuf Bourguignon</h4><p>Klassiker</p></div></div>
                                 </div>
                             </li>
-
-                            <!-- KACHEL 12: Kartoffelgratin -->
                             <li class="splide__slide" data-category="zehlendorf">
-                                <div class="marquee-card" data-title="Kartoffelgratin" data-desc="Feine Kartoffelscheiben, gebacken in cremiger Sahne und mit würzigem Bergkäse goldbraun überbacken." data-img="Foto: Kartoffelgratin">
+                                <div class="marquee-card" data-title="Kartoffelgratin" data-desc="Feine Kartoffelscheiben in Sahne gebacken." data-zutaten="Kartoffeln, Sahne, Bergkäse" data-allergene="Milch">
                                     <div class="food-photo" style="background-image: url('kartoffelgratin.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Kartoffelgratin</h4><p>Cremig & Herzhaft</p></div>
-                                    </div>
+                                    <div class="marquee-card-inner"><div class="card-info"><h4>Kartoffelgratin</h4><p>Cremig & Herzhaft</p></div></div>
                                 </div>
                             </li>
-
-                            <!-- KACHEL 13: Pilzrisotto -->
                             <li class="splide__slide" data-category="zehlendorf">
-                                <div class="marquee-card" data-title="Pilzrisotto" data-desc="Cremiges Risotto mit edlen Waldpilzen, abgelöscht mit einem Hauch Weißwein und gehobeltem Parmesan." data-img="Foto: Pilzrisotto">
+                                <div class="marquee-card" data-title="Pilzrisotto" data-desc="Cremiges Risotto mit Waldpilzen." data-zutaten="Risottoreis, Pilze, Weißwein, Parmesan" data-allergene="Milch, Sulfite">
                                     <div class="food-photo" style="background-image: url('pilzrisotto.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Pilzrisotto</h4><p>Edle Waldpilze</p></div>
-                                    </div>
+                                    <div class="marquee-card-inner"><div class="card-info"><h4>Pilzrisotto</h4><p>Edle Waldpilze</p></div></div>
                                 </div>
                             </li>
-
-                            <!-- KACHEL 14: Tuna Tataki -->
                             <li class="splide__slide" data-category="zehlendorf">
-                                <div class="marquee-card" data-title="Tuna Tataki" data-desc="Kurz angebratener Thunfisch im Sesam-Mantel, serviert mit einer leichten Soja-Zitrus-Ponzu." data-img="Foto: Tuna Tataki">
+                                <div class="marquee-card" data-title="Tuna Tataki" data-desc="Kurz angebratener Thunfisch im Sesam-Mantel." data-zutaten="Thunfisch, Sesam, Soja-Zitrus-Ponzu" data-allergene="Fisch, Sesam, Soja, Gluten">
                                     <div class="food-photo" style="background-image: url('tunaataki.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Tuna Tataki</h4><p>Asiatische Eleganz</p></div>
-                                    </div>
+                                    <div class="marquee-card-inner"><div class="card-info"><h4>Tuna Tataki</h4><p>Asiatische Eleganz</p></div></div>
                                 </div>
                             </li>
-
-                            <!-- KACHEL 15: Profiterol -->
                             <li class="splide__slide" data-category="zehlendorf">
-                                <div class="marquee-card" data-title="Profiteroles" data-desc="Luftige Brandteigkrapfen, gefüllt mit feiner Vanillecreme und überzogen mit reichhaltiger Zartbitterschokolade." data-img="Foto: Profiteroles">
+                                <div class="marquee-card" data-title="Profiteroles" data-desc="Luftige Brandteigkrapfen mit Vanillecreme." data-zutaten="Brandteig, Vanillecreme, Schokolade" data-allergene="Gluten, Eier, Milch">
                                     <div class="food-photo" style="background-image: url('profiterol.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Profiteroles</h4><p>Süßer Abschluss</p></div>
-                                    </div>
+                                    <div class="marquee-card-inner"><div class="card-info"><h4>Profiteroles</h4><p>Süßer Abschluss</p></div></div>
                                 </div>
                             </li>
-
                         </ul>
                     </div>
                 </div>
@@ -597,17 +359,34 @@
         </section>
     </main>
 
-
-
-    <div class="glass-overlay" id="lightbox-overlay" onclick="closeLightbox(event)">
-        <div class="glass-sheet lightbox-layout" onclick="event.stopPropagation()">
-            <div class="lightbox-hero-img" id="lb-img">Lade...</div>
-            <h3 class="sheet-title" id="lb-title">Titel</h3>
-            <p style="font-size: 14px; line-height: 1.6; margin-bottom: 20px; color: #444;" id="lb-desc">Beschreibung</p>
-            <button class="glass-btn" onclick="closeLightbox(event)" style="background: var(--brand-green); color: #1a2e05; border-color: var(--brand-green);">Ausgezeichnet!</button>
-            <button class="sheet-close" onclick="closeLightbox(event)">Schließen</button>
+    <!-- NEU: SPLIT-SCREEN LIGHTBOX -->
+    <div id="food-detail-view" class="detail-overlay">
+        <button id="detail-close" class="detail-close-btn">&times;</button>
+        <div class="detail-container">
+            <div class="detail-left-pane">
+                <div id="detail-image" class="detail-hero-img"></div>
+            </div>
+            <div class="detail-right-pane" id="detail-text-bg">
+                <div class="detail-content-scroll">
+                    <h2 id="detail-title">Gericht Titel</h2>
+                    <div class="detail-section">
+                        <h4>Beschreibung</h4>
+                        <p id="detail-desc">Hier steht die Beschreibung.</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4>Zutaten</h4>
+                        <p id="detail-ingredients">Lade Daten...</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4>Allergene</h4>
+                        <p id="detail-allergens">Lade Daten...</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- KONTAKT OVERLAY -->
     <div class="glass-overlay" id="contact-overlay" onclick="closeContact(event)">
         <div class="glass-sheet contact-layout" onclick="event.stopPropagation()">
             <div class="sheet-half info-half" style="-webkit-user-select: text; user-select: text;">
@@ -633,7 +412,6 @@
         
         function openContact(e) { if(e) e.preventDefault(); document.getElementById('contact-overlay').classList.add('is-active'); }
         function closeContact(e) { if(e) e.preventDefault(); document.getElementById('contact-overlay').classList.remove('is-active'); }
-        function closeLightbox(e) { if(e) e.preventDefault(); document.getElementById('lightbox-overlay').classList.remove('is-active'); }
         
         function copyInfoText() {
             navigator.clipboard.writeText("Hallo Velo Gourmet,\nich interessiere mich für ein Catering...\nWann: \nWo: \nGästezahl: \nWünsche: ").then(() => {
@@ -650,7 +428,7 @@
             originalSlides = Array.from(list.children).map(li => li.cloneNode(true));
             
             const menuSplide = new Splide('#menu-slider', {
-                type: 'loop', focus: 'center', autoWidth: false, fixedWidth: 260, gap: 0, trimSpace: false,      
+                type: 'loop', focus: 'center', autoWidth: false, fixedWidth: 260, gap: 0, trimSpace: false,     
                 arrows: true, pagination: false, updateOnMove: true, drag: 'free', snap: true, flickMaxPages: 1,        
                 friction: 0.2, flickPower: 250, speed: 800, easing: 'cubic-bezier(0.25, 1, 0.35, 1)', clones: 9
             });
@@ -674,6 +452,47 @@
             });
 
             menuSplide.mount(); 
+            
+            // LIGHTBOX CLICK LOGIK
+            document.addEventListener('click', function(e) {
+                const card = e.target.closest('.marquee-card');
+                if (card) {
+                    if(card.closest('.splide__slide').classList.contains('is-moving')) return;
+                    
+                    const title = card.getAttribute('data-title') || 'Velo Gourmet';
+                    const desc = card.getAttribute('data-desc') || '';
+                    const ingredients = card.getAttribute('data-zutaten') || 'Keine Angabe';
+                    const allergens = card.getAttribute('data-allergene') || 'Keine Angabe';
+                    
+                    const photoDiv = card.querySelector('.food-photo');
+                    let bgImage = 'none';
+                    if (photoDiv) {
+                        bgImage = window.getComputedStyle(photoDiv).getPropertyValue('background-image');
+                    }
+
+                    document.getElementById('detail-title').textContent = title;
+                    document.getElementById('detail-desc').textContent = desc;
+                    document.getElementById('detail-ingredients').textContent = ingredients;
+                    document.getElementById('detail-allergens').textContent = allergens;
+                    document.getElementById('detail-image').style.backgroundImage = bgImage;
+
+                    document.getElementById('food-detail-view').classList.add('is-open');
+                    
+                    if(gallerySplide && gallerySplide.Components.AutoScroll) {
+                        gallerySplide.Components.AutoScroll.pause();
+                    }
+                }
+            });
+
+            const closeBtn = document.getElementById('detail-close');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function() {
+                    document.getElementById('food-detail-view').classList.remove('is-open');
+                    if(gallerySplide && gallerySplide.Components.AutoScroll) {
+                        gallerySplide.Components.AutoScroll.play();
+                    }
+                });
+            }
         });
 
         function filterGallery(category) {
@@ -709,57 +528,34 @@
                 const autoScroll = gallerySplide.Components.AutoScroll;
                 if(autoScroll) autoScroll.play();
             });
-
-            gallerySplide.on('click', function (slide) {
-                const card = slide.slide.querySelector('.marquee-card');
-                if (!card) return;
-                document.getElementById('lb-title').innerText = card.dataset.title;
-                document.getElementById('lb-desc').innerText = card.dataset.desc;
-                document.getElementById('lb-img').innerText = card.dataset.img;
-                document.getElementById('lightbox-overlay').classList.add('is-active');
-            });
         }
 
-/* --- HANDY-DREHUNG (Landscape-Fix & Splide-AutoScroll-Bugfix) --- */
+        /* --- HANDY-DREHUNG (Landscape-Fix & Splide-AutoScroll-Bugfix) --- */
         let resizeTimeout;
         window.addEventListener('orientationchange', function() {
-            
-            // 1. Sofortige Notbremse: Stoppt das Durchdrehen sofort!
             if (gallerySplide && gallerySplide.Components.AutoScroll) {
                 gallerySplide.Components.AutoScroll.pause();
             }
 
-            // 2. Warte, bis der Browser das Display im Querformat fertig gezeichnet hat
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(function() {
-                
-                // Bildschirm auf die richtige Sektion scrollen
                 const scrollContainer = document.getElementById('scroll-container');
                 const h = scrollContainer.clientHeight;
                 const currentScroll = scrollContainer.scrollTop;
                 let currentIndex = Math.round(currentScroll / h);
                 
-                scrollContainer.scrollTo({
-                    top: currentIndex * h,
-                    behavior: 'auto' 
-                });
+                scrollContainer.scrollTo({ top: currentIndex * h, behavior: 'auto' });
 
-                // 3. Den verbuggten Slider komplett vernichten und neu aufbauen
                 if (gallerySplide) {
                     let activeCategory = 'hermannplatz'; 
                     const activeMenuSlide = document.querySelector('#menu-slider .is-active');
-                    if (activeMenuSlide) {
-                        activeCategory = activeMenuSlide.dataset.category;
-                    }
+                    if (activeMenuSlide) { activeCategory = activeMenuSlide.dataset.category; }
                     
-                    // Zerstört den Slider und alle seine (falschen) Koordinaten
                     gallerySplide.destroy(true); 
-                    gallerySplide = null; // Speicher leeren
-                    
-                    // Baut den Slider im neuen Querformat sauber auf
+                    gallerySplide = null; 
                     filterGallery(activeCategory);
                 }
-            }, 300); // 300ms warten stellt sicher, dass das CSS im Querformat geladen ist
+            }, 300); 
         });
 
         /* --- PARALLAX HERO --- */
