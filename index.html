@@ -2,857 +2,498 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Velo Gourmet - Menü</title>
     
-    <title>VELO GOURMET — Uni Projekt</title>
-
+    <!-- Splide CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
-
+    
     <style>
         /* ==========================================
-           1. SETUP & CSS-VARIABLEN
+           1. GRUNDLAGEN & RESET
            ========================================== */
-        @font-face { font-family: 'Crackman'; src: local('Impact'), local('Arial Black'), sans-serif; }
-
-        :root {
-            --bg-sand: #f4f1ea; --bg-sage: #e2e8dd; --brand-green: #c1ff72; --brand-rose: #FFD6D8;
-            --text-dark: #1b241e; --card-white: rgba(255, 255, 255, 0.85);
-            --svg-bg-hero: url('cs.svg'); --svg-bg-content: url('st.svg');
-        }
-
         * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        html, body {
-            width: 100%; height: 100%; position: fixed; top: 0; left: 0; overflow: hidden;
-            background-color: var(--bg-sand);
+        body, html { 
+            width: 100%; height: 100%; overflow: hidden; 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            color: var(--text-dark); -webkit-text-size-adjust: 100%;
+            background-color: #f4f1ea; 
         }
 
-        .scroll-container { width: 100%; height: 100%; overflow-y: scroll; overflow-x: hidden; scroll-snap-type: y mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
-        .section { height: 100%; width: 100%; scroll-snap-align: start; scroll-snap-stop: always; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; overflow: hidden; }
+        #scroll-container {
+            width: 100%; height: 100vh; overflow-y: auto; overflow-x: hidden; scroll-snap-type: y mandatory;
+        }
+
+        .fullscreen-section {
+            width: 100%; height: 100vh; scroll-snap-align: start; position: relative;
+        }
 
         /* ==========================================
-           2. HERO SEKTION & LAYER
+           2. GALERIE SEKTION (Hoch- & Querformat)
            ========================================== */
-        .hero-section { 
-            background-color: var(--bg-sand); 
-            z-index: 1; 
+        .gallery-section {
+            display: flex; flex-direction: column; height: 100vh; overflow: hidden; position: relative;
         }
 
-        .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 120%; background-image: var(--svg-bg-hero); background-size: cover; background-position: center center; background-repeat: no-repeat; z-index: 1; will-change: transform; filter: contrast(95%) brightness(98%); }
-        .hero-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; width: 100%; display: flex; justify-content: center; align-items: center; will-change: transform, opacity; transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.25s ease-out; }
-        .logo-wrapper { display: flex; justify-content: center; align-items: center; width: 100%; padding: 0 10px; }
-        .logo-img { aspect-ratio: 1 / 1; width: clamp(250px, 80vw, 500px); height: auto; object-fit: contain; filter: drop-shadow(0 25px 45px rgba(0,0,0,0.22)); animation: fadeInMorph 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
-        
-        /* --- PFEILE NUR FÜR DESKTOP (Kugelsicher) --- */
-        @media (max-width: 767px) {
-            #menu-slider .splide__arrow { display: none !important; }
+        /* --- Menü Slider (Hermannplatz etc.) --- */
+        #menu-slider {
+            width: 100%; margin-top: 20px; z-index: 20; position: relative; flex-shrink: 0;
         }
-        
-       @media (min-width: 768px) { 
-            .hero-bg { background-size: contain; rotate: 0deg; scale: 1; }
-            .gallery-section { justify-content: center; padding-top: 0; }
-            #menu-slider { margin-bottom: clamp(20px, 4vh, 50px); }
+        #menu-slider .splide__slide {
+            padding: 10px; opacity: 0.5; transition: opacity 0.3s, transform 0.3s;
+            text-align: center; cursor: pointer;
+        }
+        #menu-slider .splide__slide.is-active {
+            opacity: 1; transform: scale(1.1);
+        }
+        .menu-title { font-size: 14px; font-weight: 700; color: #333; text-transform: uppercase; }
+        .menu-subtitle { font-size: 10px; color: #777; margin-top: 2px; }
+
+        /* --- Inhaltszone für die Kacheln --- */
+        .gallery-content-zone {
+            flex-grow: 1; display: flex; align-items: center; justify-content: center; width: 100%; position: relative; z-index: 10;
         }
 
-        .swipe-hint { position: absolute; bottom: max(30px, env(safe-area-inset-bottom)); z-index: 2; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; color: var(--text-dark); background: rgba(255, 255, 255, 0.85); padding: 10px 22px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); animation: floatBounce 2s infinite ease-in-out; will-change: transform, opacity; transition: opacity 0.25s ease-out; }
-        @supports (backdrop-filter: blur(8px)) { .swipe-hint { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px); } }
+        #gallery-slider { width: 100%; }
+        
+        .splide__slide { display: flex; justify-content: center; align-items: center; }
 
-        #navigation { position: relative; z-index: 2; overflow: hidden; }
+        /* --- Die Kacheln (Marquee Card) --- */
+        .marquee-card {
+            width: 260px; height: 462px; position: relative; border-radius: 20px;
+            overflow: hidden; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transform: scale(0.95); transition: transform 0.4s ease;
+        }
+        
+        /* Highlight-Effekt (Zoom) für das mittlere Bild */
+        .splide__slide.is-active .marquee-card {
+            transform: scale(1);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
 
-        .layer-bg-bleed { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            background-color: transparent; background-image: var(--svg-bg-content); background-size: cover; background-position: center top; background-repeat: no-repeat; z-index: 1; pointer-events: none; transform: translateZ(0);
+        .food-photo {
+            width: 100%; height: 100%; background-size: cover; background-position: center; background-repeat: no-repeat;
         }
 
-        /* --- DIE BUTTONS & SVG-KANTE (Sektion 2) --- */
-        .organic-edge-wrapper { 
-            position: absolute; top: -2px; left: 0; width: 100%; height: clamp(30px, 6vw, 60px); 
-            z-index: 5; transform: rotate(180deg); 
+        .marquee-card-inner {
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 20px; padding-bottom: 25px;
+            background: linear-gradient(to top, rgba(255,255,255,0.95) 20%, rgba(255,255,255,0.7) 60%, transparent);
+            backdrop-filter: blur(8px); text-align: center; color: #333;
         }
-        .liquid-path { fill: var(--bg-sand); }
-        
-        .actions { 
-            position: relative; z-index: 10; display: flex; flex-direction: column; 
-            gap: 20px; align-items: center; width: 100%; padding: 0 20px; 
-        }
-        
-        @media (min-width: 768px) {
-            .actions { flex-direction: row; justify-content: center; gap: 40px; }
-        }
-        
-        .artist-btn { 
-            display: block; width: clamp(260px, 80vw, 320px); 
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            text-decoration: none; -webkit-tap-highlight-color: transparent; 
-        }
-        .artist-btn:hover { transform: scale(1.05) rotate(-2deg); }
-        .artist-btn:active { transform: scale(0.95); }
-        .artist-btn svg { width: 100%; height: auto; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15)); }
-        
-        .btn-text { 
-            font-family: 'Crackman', Impact, sans-serif; 
-            font-size: 26px; text-transform: uppercase; letter-spacing: 2px; 
-        }
-        
+
+        .card-info h4 { font-size: 22px; font-weight: 800; margin-bottom: 5px; }
+        .card-info p { font-size: 14px; font-weight: 500; color: #555; margin: 0; }
+
         /* ==========================================
-           3. GALERIE ZONEN & PLASMA KORREKTUR
+           3. LANDSCAPE FIX (Querformat)
            ========================================== */
-        .gallery-section { position: relative; background-color: transparent; overflow: visible !important; z-index: 1; display: flex; flex-direction: column; justify-content: flex-start; padding-top: clamp(30px, 8vh, 80px); padding-bottom: 20px; height: 100%; }
-        .gallery-section::before { content: ''; position: absolute; top: -15vh; left: 0; width: 100%; height: calc(100% + 15vh); background-color: #121814; z-index: 0; pointer-events: none; }
-        #plasma-canvas { position: absolute; top: -15vh; left: 0; width: 100%; height: calc(100% + 15vh); z-index: 1; pointer-events: none; }
-        .plasma-dimmer { position: absolute; top: -15vh; left: 0; width: 100%; height: calc(100% + 15vh); z-index: 2; background: rgba(18, 24, 20, 0.15); backdrop-filter: blur(1px); -webkit-backdrop-filter: blur(1px); pointer-events: none; }
-        
-        .menu-swipe-pill, #menu-slider, .gallery-content-zone { position: relative; z-index: 10; }
-
-        /* --- DIE PULSIERENDE SWIPE-PILLE (Neutrales Glas) --- */
-        .menu-swipe-pill { background: rgba(255, 255, 255, 0.05); color: #ffffff; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8), 0 0 2px rgba(0, 0, 0, 0.9); border: 1px solid rgba(255, 255, 255, 0.15); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; padding: 8px 20px; border-radius: 30px; margin: 0 auto; margin-bottom: clamp(15px, 3vh, 30px); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); animation: breathePillNeutral 2.5s infinite ease-in-out; will-change: transform, box-shadow; display: inline-block; }
-        @supports (backdrop-filter: blur(15px)) { .menu-swipe-pill { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(15px) brightness(0.9); -webkit-backdrop-filter: blur(15px) brightness(0.9); } }
-        @keyframes breathePillNeutral { 0%, 100% { transform: scale(0.95); box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); } 50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(0, 0, 0, 0.5); } }
-        @media (min-width: 768px) { .menu-swipe-pill { display: none; } }
-
-        #menu-slider { width: 100%; padding: 10px 0 15px 0; margin-bottom: 0; overflow: visible; flex-shrink: 0; }
-        #menu-slider .splide__track { overflow: visible; -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%); mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%); }
-        @media (min-width: 768px) { #menu-slider .splide__track { -webkit-mask-image: linear-gradient(to right, transparent 0px, transparent 120px, black 350px, black calc(100% - 350px), transparent calc(100% - 120px), transparent 100%); mask-image: linear-gradient(to right, transparent 0px, transparent 120px, black 350px, black calc(100% - 350px), transparent calc(100% - 120px), transparent 100%); } }
-
-        .gallery-content-zone { 
-            flex-grow: 1; 
-            width: 100%; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            position: relative; 
-            overflow: visible !important; 
-        }
-
-     /* --- BILD-ANPASSUNG FÜR QUERFORMAT (Landscape) - REINE ZENTRIERUNG --- */
         @media (orientation: landscape) and (max-height: 600px) { 
             .gallery-section { 
-                padding-top: max(10px, env(safe-area-inset-top)) !important; /* Respektiert die Notch am iPhone! */
-                min-height: 100vh !important;
-                display: flex !important;
-                flex-direction: column !important;
-                justify-content: flex-start !important; /* Zwingt alles an den oberen Bildschirmrand */
-                overflow: hidden !important; 
+                padding-top: max(10px, env(safe-area-inset-top)) !important; 
+                flex-direction: column !important; justify-content: flex-start !important; 
             } 
-            
             #menu-slider { 
-                margin-bottom: 5px !important; 
-                flex-shrink: 0 !important; 
-                
-                /* Das Menü schwebt wie eine feste Statusleiste ÜBER den Kacheln */
-                position: relative !important;
-                z-index: 50 !important; 
-                
-                /* Ein leichter Schatten unter dem Menü, falls die Kachel direkt darunter herläuft */
+                margin-bottom: 5px !important; position: relative !important; z-index: 50 !important; 
                 filter: drop-shadow(0 4px 10px rgba(244, 241, 234, 0.9));
             } 
-            
-            .gallery-content-zone {
-                height: auto !important; 
-                flex-grow: 1 !important; /* Nimmt den restlichen Platz ein */
-                display: flex !important;
-                align-items: center !important; /* Zentriert die Kachel in dem Bereich UNTER dem Menü */
-                justify-content: center !important;
-                
-                /* Erlaubt den Kacheln, nach oben HINTER das Menü zu fließen */
-                position: relative !important;
-                z-index: 10 !important; 
-            }
-            
-            /* Kacheln behalten Originalgröße -> kein Splide-Scroll-Bug! */
-            #gallery-slider .splide__slide, 
-            .marquee-card {
-                width: 260px !important; 
-                height: 462px !important; 
-                min-height: 462px !important;
-                max-height: 462px !important;
-            }
-            
-            /* Text auf dem Milchglas nach oben schieben, damit er auf dem flachen Display lesbar bleibt */
-            .marquee-card-inner {
-                padding-bottom: max(20px, 8vh) !important; 
-            }
-        }
-  
-        
-        /* Feinabstimmung: Je flacher das Display im Querformat wird, desto weiter zoomen wir raus! */
-        @media (orientation: landscape) and (max-height: 450px) { 
-            #gallery-slider { transform: scale(0.70); } 
-        }
-        @media (orientation: landscape) and (max-height: 380px) { 
-            #gallery-slider { transform: scale(0.55); } 
-        }
-        
-        @media (orientation: portrait) { 
-            .gallery-section { padding-top: 0; justify-content: center; } 
-            .gallery-content-zone { flex-grow: 0; height: 55vh; } 
+            .gallery-content-zone { height: auto !important; position: relative !important; z-index: 10 !important; }
+            #gallery-slider .splide__slide, .marquee-card { width: 260px !important; height: 462px !important; }
+            .marquee-card-inner { padding-bottom: max(20px, 8vh) !important; }
         }
 
-        /* 4. DIE INNEREN EFFEKTE & TYPOGRAFIE-LOCK FÜR DAS MENÜ */
-        #menu-slider .splide__slide { width: 260px !important; max-width: 260px !important; min-width: 260px !important; display: flex !important; justify-content: center !important; align-items: center !important; margin: 0 !important; padding: 0 !important; cursor: pointer; -webkit-tap-highlight-color: transparent; }
-        .menu-item-content { width: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0; opacity: 0.35; filter: blur(2.5px) grayscale(50%); transform: scale(0.85); transition: opacity 0.02s linear 0.04s, filter 0.02s linear 0.04s, transform 0.04s ease-out 0.06s; }
-        
-        .menu-headline { font-family: 'Crackman', Impact, sans-serif; font-size: 26px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dark); position: relative; text-shadow: 0 0 10px rgba(0,0,0,0.5); transition: color 0.04s ease-out 0s, text-shadow 0.04s ease-out 0s; }
-        .menu-headline::before, .menu-headline::after { display: none !important; content: none !important; }
-        .menu-subtitle { font-size: 13px; color: #ddd; margin-top: 5px; font-weight: 500; font-family: -apple-system, sans-serif; }
+        /* ==========================================
+           4. SPLIT-SCREEN DETAILANSICHT (Lightbox)
+           ========================================== */
+        .detail-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); z-index: 9999;
+            opacity: 0; transition: opacity 0.4s ease;
+        }
+        .detail-overlay.is-open { display: block; opacity: 1; }
 
-        #menu-slider .splide__slide.is-active { z-index: 2; }
-        #menu-slider .splide__slide.is-active .menu-item-content { opacity: 1; filter: blur(0px) grayscale(0%); transform: scale(1.1); }
-        #menu-slider .splide__slide.is-active .menu-headline { color: #c1ff72; text-shadow: 0 0 15px rgba(193, 255, 114, 0.4); }
-        
-        #menu-slider.is-scrolling .splide__slide .menu-item-content, #menu-slider.is-scrolling .splide__slide.is-active .menu-item-content { opacity: 0.35 !important; filter: blur(2.5px) grayscale(50%) !important; transform: scale(0.85) !important; transition: opacity 0.05s ease, filter 0.05s ease, transform 0.05s ease !important; }
-        #menu-slider.is-scrolling .splide__slide .menu-headline, #menu-slider.is-scrolling .splide__slide.is-active .menu-headline { color: var(--text-dark) !important; text-shadow: 0 0 10px rgba(0,0,0,0.5) !important; transition: color 0.05s ease, text-shadow 0.05s ease !important; }
+        .detail-container {
+            display: flex; width: 100vw; height: 100vh; transform: scale(0.8);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .detail-overlay.is-open .detail-container { transform: scale(1); }
 
-        /* --- MENÜ PFEILE --- */
-        #menu-slider .splide__arrow { background: transparent !important; opacity: 0.5; width: 60px !important; height: 60px !important; transition: opacity 0.3s ease !important; top: 42% !important; transform: translateY(-50%) !important; -webkit-tap-highlight-color: transparent; outline: none; }
-        #menu-slider .splide__arrow--prev { left: clamp(5px, 4vw, 50px) !important; }
-        #menu-slider .splide__arrow--next { right: clamp(5px, 4vw, 50px) !important; }
-        #menu-slider .splide__arrow svg { fill: #c1ff72 !important; width: 32px !important; height: 32px !important; filter: drop-shadow(0 0 10px rgba(193, 255, 114, 0.3)); } 
-        #menu-slider .splide__arrow:hover { opacity: 1 !important; transform: translateY(-50%) !important; }
+        /* LINKE SEITE (Bild) */
+        .detail-left-pane {
+            width: 50%; height: 100%; position: relative; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .detail-hero-img {
+            width: 150%; height: 150%; background-size: contain; background-position: right center; background-repeat: no-repeat;
+            transform: scale(0.8) translateX(-20%); transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
+        }
+        .detail-overlay.is-open .detail-hero-img { transform: scale(1) translateX(0); }
 
-        /* --- FOOD KARTEN (Galerie - Insta-Story Style & Splide Fix) --- */
-        #gallery-slider .splide__track { overflow: visible !important; }
-        #gallery-slider { width: 100%; cursor: grab; padding: 20px 0; }
-        #gallery-slider:active { cursor: grabbing; }
+        /* RECHTE SEITE (Text & Hintergrund) */
+        .detail-right-pane {
+            width: 50%; height: 100%; position: relative; box-shadow: -10px 0 30px rgba(0,0,0,0.3);
+            background-color: #ff007f; /* Dein Logo-Pink */
+            /* background-image: url('dein-pinker-svg-hintergrund.svg'); <--- HIER DEIN SVG EINFÜGEN */
+            background-size: cover; background-position: center;
+        }
+        .detail-content-scroll {
+            width: 100%; height: 100%; overflow-y: auto; padding: 10% 15% 10% 10%; color: #ffffff;
+        }
+        .detail-content-scroll h2 { font-size: 2.5rem; margin-bottom: 30px; border-bottom: 2px solid rgba(255,255,255,0.3); padding-bottom: 10px; }
+        .detail-section { margin-bottom: 25px; }
+        .detail-section h4 { font-size: 1.2rem; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.9); }
+        .detail-section p { font-size: 1rem; line-height: 1.6; color: #fff; }
 
-        /* Zwingt den Splide Slide exakt in das 9:16 Format mit 8px Gesamtgap */
-        #gallery-slider .splide__slide {
-            width: 260px !important;
-            height: 462px !important;
-            max-width: 260px !important;
-            margin-left: 4px !important;
-            margin-right: 4px !important;
-            display: flex !important;
-            justify-content: center !important;
-            align-items: center !important;
-            box-sizing: border-box !important;
+        .detail-close-btn {
+            position: absolute; top: 20px; right: 20px; background: #fff; color: #ff007f; border: none;
+            width: 45px; height: 45px; border-radius: 50%; font-size: 28px; cursor: pointer; z-index: 10000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
         
-        .marquee-card { 
-            width: 260px !important; 
-            height: 462px !important; 
-            min-height: 462px !important;
-            max-height: 462px !important;
-            
-            border: none !important;
-            background: transparent !important;
-            
-            position: relative !important; 
-            display: block !important; 
-            
-            border-radius: 20px !important;
-            overflow: hidden !important; 
-            
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25) !important; 
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            user-select: none !important; 
-            -webkit-user-select: none !important; 
-        }
-        
-        /* RADIKALE LÖSUNG: Das Bild füllt als background-cover absolut lückenlos den Rahmen */
-        .food-photo { 
-            position: absolute !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100% !important; 
-            height: 100% !important; 
-            
-            background-size: cover !important;
-            background-position: center center !important;
-            background-repeat: no-repeat !important;
-            
-            z-index: 1 !important; 
-        }
-        
-        .marquee-card-inner {
-            position: absolute !important;
-            bottom: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            
-            z-index: 2 !important; 
-            
-            width: 100% !important;
-            height: auto !important; 
-            padding: 20px 15px !important;
-            
-            background: rgba(250, 245, 235, 0.75) !important; 
-            backdrop-filter: blur(15px) !important; 
-            -webkit-backdrop-filter: blur(15px) !important;
-            
-            display: flex !important;
-            flex-direction: column !important;
-            justify-content: flex-end !important;
-        }
-
-        #gallery-slider .splide__slide.is-active .marquee-card { 
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4) !important; 
-            transform: scale(1.03); 
-        }
-        
-        .card-info h4 { font-size: 20px; margin-bottom: 5px; color: var(--text-dark); padding-left: 0; font-weight: 700; } 
-        .card-info p { font-size: 14px; color: #222; line-height: 1.4; padding-left: 0; font-weight: 500; }
-
-        /* OVERLAYS (Kontakt & Lightbox) */
-        .glass-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(27, 36, 30, 0.45); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; display: flex; align-items: center; justify-content: center; }
-        .glass-overlay.is-active { opacity: 1; pointer-events: all; }
-        .glass-sheet { width: 92%; max-width: 800px; background: rgba(244, 241, 234, 0.75); backdrop-filter: blur(28px) saturate(180%); -webkit-backdrop-filter: blur(28px) saturate(180%); border: 1px solid rgba(193, 255, 114, 0.4); border-radius: 28px; box-shadow: 0 30px 60px rgba(0,0,0,0.2), 0 0 35px rgba(193, 255, 114, 0.12); overflow: hidden; transform: translateY(25px) scale(0.95); transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; flex-direction: column; }
-        .glass-overlay.is-active .glass-sheet { transform: translateY(0) scale(1); }
-        .contact-layout { flex-direction: column; } @media (min-width: 600px) { .contact-layout { flex-direction: row; } .contact-layout .sheet-half { width: 50%; padding: 40px 30px; } .contact-layout .info-half { border-right: 1px solid rgba(193, 255, 114, 0.25); } }
-        .sheet-half { width: 100%; padding: 25px 20px; display: flex; flex-direction: column; }
-        .lightbox-layout { padding: 30px 20px; text-align: center; align-items: center; }
-        .lightbox-hero-img { width: 100%; height: 250px; background: rgba(0,0,0,0.05); border-radius: 16px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #666; }
-        .sheet-title { font-size: 20px; font-weight: 700; text-align: center; margin-bottom: 12px; letter-spacing: -0.5px; }
-        .info-list { padding-left: 0; font-size: 14px; line-height: 1.7; margin-top: 5px; list-style: none; text-align: left;} .info-list li { margin-bottom: 12px; font-weight: 500; }
-        .glass-btn { background: rgba(255, 255, 255, 0.35); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 14px; color: var(--text-dark); font-weight: 600; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); -webkit-tap-highlight-color: transparent; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 12px 14px; font-size: 14px; cursor: pointer; text-decoration: none; margin-bottom: 10px; }
-        .glass-btn svg { margin-right: 8px; width: 18px; height: 18px; fill: currentColor; }
-        .glass-btn:hover { background: rgba(255, 255, 255, 0.5); transform: translateY(-2px); }
-        .glass-btn:active { transform: scale(0.97) translateY(0); background: rgba(193, 255, 114, 0.6); border-color: var(--brand-green); box-shadow: 0 0 15px rgba(193, 255, 114, 0.3); }
-        .glass-btn.is-copied { background: var(--brand-green); border-color: var(--brand-green); color: #1a2e05; }
-        .sheet-close { margin-top: 15px; background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02); border-radius: 20px; color: var(--text-dark); font-size: 13px; font-weight: 600; padding: 10px 24px; cursor: pointer; align-self: center; transition: all 0.2s; border: none; }
-        .sheet-close:active { background: rgba(0,0,0,0.08); transform: scale(0.96); }
-
-        /* =========================================================
-           DESKTOP OPTIMIERUNG (Große Bildschirme ab 1024px Breite)
-           ========================================================= */
-        @media (min-width: 1024px) {
-            
-            .gallery-section {
-                justify-content: center; 
-                padding-top: 0; 
-            }
-
-            #gallery-slider .splide__slide {
-                width: 320px !important;
-                height: 568px !important;
-                max-width: 320px !important;
-                margin-left: 4px !important;
-                margin-right: 4px !important;
-            }
-            
-            .marquee-card {
-                width: 320px !important; 
-                height: 568px !important; 
-                min-height: 568px !important;
-                max-height: 568px !important;
-            }
-            
-            .card-info h4 { font-size: 22px; }
-            .card-info p { font-size: 15px; }
-        }
-
-        /* --- DER TABLET & DESKTOP LOCK (Ganz unten für höchste Priorität!) --- */
-        @media (min-width: 768px) {
-            .menu-headline { font-size: 30px !important; }
-            .menu-subtitle { font-size: 14px !important; }
+        /* Mobile Split-Screen Fallback (Macht es übereinander, falls Screen zu schmal) */
+        @media (max-width: 768px) {
+            .detail-container { flex-direction: column; }
+            .detail-left-pane { width: 100%; height: 50%; }
+            .detail-right-pane { width: 100%; height: 50%; }
+            .detail-hero-img { background-position: center bottom; width: 100%; height: 120%; transform: scale(1); }
+            .detail-content-scroll { padding: 20px; }
         }
     </style>
 </head>
 <body>
-    <main class="scroll-container" id="scroll-container">
-        <section class="section hero-section" id="hero">
-            <div class="hero-bg" id="hero-bg"></div>
-            <div class="hero-content" id="hero-content">
-                <div class="logo-wrapper"><img src="lo.svg" alt="Velo Gourmet Berlin Logo" class="logo-img"></div>
+
+<div id="scroll-container">
+
+    <!-- PLATZHALTER: Landing Page -->
+    <section class="fullscreen-section" style="background-color: #111;">
+        <h1 style="color:white; text-align:center; padding-top:40vh;">Velo Gourmet (Startseite)</h1>
+        <p style="color:white; text-align:center;">Scrolle nach unten für das Menü</p>
+    </section>
+
+    <!-- GALERIE BEREICH -->
+    <section class="fullscreen-section gallery-section" id="galerie">
+        
+        <div class="splide" id="menu-slider">
+            <div class="splide__track">
+                <ul class="splide__list">
+                    <li class="splide__slide" data-category="hermannplatz">
+                        <div class="menu-title">Hermannplatz</div>
+                        <div class="menu-subtitle">Levantische Lebensart</div>
+                    </li>
+                    <li class="splide__slide" data-category="prenzlauerberg">
+                        <div class="menu-title">Prenzlauer Berg</div>
+                        <div class="menu-subtitle">100% Vegan</div>
+                    </li>
+                    <li class="splide__slide" data-category="zehlendorf">
+                        <div class="menu-title">Zehlendorf</div>
+                        <div class="menu-subtitle">Gourmet-Küche</div>
+                    </li>
+                    <li class="splide__slide" data-category="extrawuensche">
+                        <div class="menu-title">Geht da noch was</div>
+                        <div class="menu-subtitle">Extrawünsche</div>
+                    </li>
+                </ul>
             </div>
-            <div class="swipe-hint" id="swipe-hint">↓ Wischen</div>
-        </section>
+        </div>
 
-        <section class="section" id="navigation">
-            <div class="layer-bg-bleed"></div>
-            <div class="organic-edge-wrapper"><svg viewBox="0 0 500 60" preserveAspectRatio="none" style="width: 100%; height: 100%;"><path class="liquid-path"></path></svg></div>
-            <div class="actions">
-                <a href="javascript:void(0);" class="artist-btn" aria-label="Mach ma fertig!" onclick="openContact(event)">
-                    <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg"><path fill="var(--brand-green)" d="M 25,22 C 40,16 110,18 160,15 C 220,12 280,20 298,28 C 310,38 305,68 290,82 C 260,95 180,88 120,94 C 75,98 35,92 18,80 C 8,68 10,35 25,22 Z" /><text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#1a2e05" class="btn-text">Mach ma fertig!</text></svg>
-                </a>
-                <a href="#galerie" class="artist-btn" aria-label="Appetit holen">
-                    <svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg"><path fill="var(--brand-rose)" d="M 22,25 C 55,18 130,14 180,18 C 240,21 275,15 295,25 C 308,35 312,65 292,80 C 265,92 195,96 130,90 C 80,86 40,95 20,82 C 5,70 8,38 22,25 Z" /><text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#3A2325" class="btn-text">Appetit holen</text></svg>
-                </a>
-            </div>
-        </section>
-
-                <section class="section gallery-section" id="galerie">
-            <canvas id="plasma-canvas"></canvas>
-            <div class="plasma-dimmer"></div>
-
-            <div class="menu-swipe-pill">← Menü wischen →</div>
-            
-            <div class="splide" id="menu-slider">
+        <div class="gallery-content-zone">
+            <div class="splide" id="gallery-slider">
                 <div class="splide__track">
-                    <ul class="splide__list">
-                        <li class="splide__slide" data-category="hermannplatz"><div class="menu-item-content"><span class="menu-headline">Hermannplatz</span><span class="menu-subtitle">Levantische Lebensart</span></div></li>
-                        <li class="splide__slide" data-category="prenzlauerberg"><div class="menu-item-content"><span class="menu-headline">Prenzlauer Berg</span><span class="menu-subtitle">100% Vegan</span></div></li>
-                        <li class="splide__slide" data-category="zehlendorf"><div class="menu-item-content"><span class="menu-headline">Zehlendorf</span><span class="menu-subtitle">Gourmet-Küche</span></div></li>
-                        <li class="splide__slide" data-category="extrawuensche"><div class="menu-item-content"><span class="menu-headline">Geht da noch was</span><span class="menu-subtitle">Extrawünsche</span></div></li>
+                    <ul class="splide__list" id="gallery-list">
+                        
+                        <!-- ==========================================
+                             HERMANNPLATZ
+                             ========================================== -->
+                        <li class="splide__slide" data-category="hermannplatz">
+                            <div class="marquee-card" data-title="Grill-Lamm" data-desc="Zartes Lamm vom Grill, authentisch gewürzt." data-zutaten="Lammfleisch, Knoblauch, Gewürze" data-allergene="Keine">
+                                <div class="food-photo" style="background-image: url('lamm.svg');"></div>
+                                <div class="marquee-card-inner"><div class="card-info"><h4>Grill-Lamm</h4><p>Hermannplatz Klassiker</p></div></div>
+                            </div>
+                        </li>
+                        <li class="splide__slide" data-category="hermannplatz">
+                            <div class="marquee-card" data-title="Hummus" data-desc="Samtiger Kichererbsen-Dip mit feinem Tahini." data-zutaten="Kichererbsen, Tahini, Olivenöl" data-allergene="Sesam">
+                                <div class="food-photo" style="background-image: url('humus.svg');"></div>
+                                <div class="marquee-card-inner"><div class="card-info"><h4>Hummus</h4><p>Cremig & Authentisch</p></div></div>
+                            </div>
+                        </li>
+                        <li class="splide__slide" data-category="hermannplatz">
+                            <div class="marquee-card" data-title="Shakshuka" data-desc="Pochierte Eier in würziger Tomaten-Paprika-Sauce." data-zutaten="Eier, Tomaten, Paprika, Kreuzkümmel" data-allergene="Eier">
+                                <div class="food-photo" style="background-image: url('shakhshuka.svg');"></div>
+                                <div class="marquee-card-inner"><div class="card-info"><h4>Shakshuka</h4><p>Würzige Levante</p></div></div>
+                            </div>
+                        </li>
+                        <li class="splide__slide" data-category="hermannplatz">
+                            <div class="marquee-card" data-title="Baba Ghanoush" data-desc="Rauchiges Auberginenpüree." data-zutaten="Aubergine, Tahini, Granatapfel" data-allergene="Sesam">
+                                <div class="food-photo" style="background-image: url('babaganoush.svg');"></div>
+                                <div class="marquee-card-inner"><div class="card-info"><h4>Baba Ghanoush</h4><p>Rauchig & Frisch</p></div></div>
+                            </div>
+                        </li>
+                        <li class="splide__slide" data-category="hermannplatz">
+                            <div class="marquee-card" data-title="Falafel" data-desc="Goldbraun frittierte Bällchen aus Kichererbsen." data-zutaten="Kichererbsen, Kräuter, Öl" data-allergene="Keine">
+                                <div class="food-photo" style="background-image: url('falafel.svg');"></div>
+                                <div class="marquee-card-inner"><div class="card-info"><h4>Falafel</h4><p>Knuspriger Klassiker</p></div></div>
+                            </div>
+                        </li>
+                        <li class="splide__slide" data-category="hermannplatz">
+                            <div class="marquee-card" data-title="Kunafa" data-desc="Warmes Engelshaar-Dessert." data-zutaten="Kadaifi, Käse, Sirup, Pistazien" data-allergene="Milch, Schalenfrüchte, Gluten">
+                                <div class="food-photo" style="background-image: url('kunafa.svg');"></div>
+                                <div class="marquee-card-inner"><div class="card-info"><h4>Kunafa</h4><p>Süße Versuchung</p></div></div>
+                            </div>
+                        </li>
+
+                        <!-- ==========================================
+                             PRENZLAUER BERG
+                             ========================================== -->
+                        <li class="splide__slide" data-category="prenzlauerberg">
+                            <div class="marquee-card" data-title="Seitan-Steak" data-desc="Herzhaft mariniertes Seitan-Steak." data-zutaten="Weizengluten, Sojasauce, Gewürze" data-allergene="Gluten, Soja">
+                                <div class="food-photo" style="background-image: url('seitansteak.svg');"></div>
+                                <div class="marquee-card-inner"><div class="card-info"><h4>Seitan-Steak</h4><p>Deftig & Pflanzlich</p></div></div>
+                            </div>
+                        </li>
+                        <li class="splide__slide" data-category="prenzlauerberg">
+                            <div class="marquee-card" data-title="Rote-Bete-Tatar" data-desc="Feines Tatar von der Roten Bete." data-zutaten="Rote Bete, Kapern, Senf" data-allergene="Senf">
+                                <div class="food-photo" style="background-image: url('rotebeetetatar.svg');"></div>
+                                <div class="marquee-card-inner"><div class="card-info"><h4>Rote-Bete-Tatar</h4><p>Fein & Erdig</p></div></div>
+                            </div>
+                        </li>
+                        <li class="splide__slide" data-category="prenzlauerberg">
+                            <div class="marquee-card" data-title="Saisonale Quiche" data-desc="Französische Tarte mit Saisongemüse." data-zutaten="Mehl, Gemüse, pflanzliche Sahne" data-allergene="Gluten">
+                                <div class="food-photo" style="background-image: url('quiche.svg');"></div>
+                                <div class="marquee-card-inner"><div class="card-info"><h4>Quiche</h4><p>Herzhaft Gebacken</p></div></div>
+                            </div>
+                        </li>
+                        <li class="splide__slide" data-category="prenzlauerberg">
+                            <div class="marquee-card" data-title="Ratatouille" data-desc="Schonend geschmortes Gemüse." data-zutaten="Aubergine, Zucchini, Paprika, Tomaten" data-allergene="Keine">
+                                <div class="food-photo" style="background-image: url('ratatouille.svg');"></div>
+                                <div class="marquee-card-inner"><div class="card-info"><h4>Ratatouille</h4><p>Geschmortes Gemüse</p></div></div>
+                            </div>
+                        </li>
+                        <li class="splide__slide" data-category="prenzlauerberg">
+                            <div class="marquee-card" data-title="Semmelknödel" data-desc="Rein pflanzlich zubereitet." data-zutaten="Brötchen, Sojamilch, Petersilie" data-allergene="Gluten, Soja">
+                                <div class="food-photo" style="background-image: url('semmelknoedel.svg');"></div>
+                                <div class="marquee-card-inner"><div class="card-info"><h4>Semmelknödel</h4><p>Veganer Klassiker</p></div></div>
+                            </div>
+                        </li>
+                        <li class="splide__slide" data-category="prenzlauerberg">
+                            <div class="marquee-card" data-title="Kokos Panna Cotta" data-desc="Dessert auf Basis von cremiger Kokosmilch." data-zutaten="Kokosmilch, Agar-Agar, Vanille" data-allergene="Keine">
+                                <div class="food-photo" style="background-image: url('kokospannacotta.svg');"></div>
+                                <div class="marquee-card-inner"><div class="card-info"><h4>Kokos Panna Cotta</h4><p>Pflanzliche Süße</p></div></div>
+                            </div>
+                        </li>
+
+                        <!-- ==========================================
+                             ZEHLENDORF
+                             ========================================== -->
+                        <li class="splide__slide" data-category="zehlendorf">
+                            <div class="marquee-card" data-title="Entrecôte" data-desc="Zartes Premium-Rindersteak." data-zutaten="Rindfleisch, Kräuterbutter" data-allergene="Milch">
+                                <div class="food-photo" style="background-image: url('entrecote.svg');"></div>
+                                <div class="marquee-card-inner"><div class="card-info"><h4>Entrecôte</h4><p>Premium Rindfleisch</p></div></div>
+                            </div>
+                        </li>
+                        <li class="splide__slide" data-category="zehlendorf">
+                            <div class="marquee-card" data-title="Boeuf Bourguignon" data-desc="Französischer Rinderschmortopf." data-zutaten="Rind, Burgunderwein, Zwiebeln" data-allergene="Sulfite">
+                                <div class="food-photo" style="background-image: url('boeufbourguignon.svg');"></div>
+                                <div class="marquee-card-inner"><div class="card-info"><h4>Boeuf Bourguignon</h4><p>Klassiker</p></div></div>
+                            </div>
+                        </li>
+                        <li class="splide__slide" data-category="zehlendorf">
+                            <div class="marquee-card" data-title="Kartoffelgratin" data-desc="Feine Kartoffelscheiben in Sahne gebacken." data-zutaten="Kartoffeln, Sahne, Bergkäse" data-allergene="Milch">
+                                <div class="food-photo" style="background-image: url('kartoffelgratin.svg');"></div>
+                                <div class="marquee-card-inner"><div class="card-info"><h4>Kartoffelgratin</h4><p>Cremig & Herzhaft</p></div></div>
+                            </div>
+                        </li>
+                        <li class="splide__slide" data-category="zehlendorf">
+                            <div class="marquee-card" data-title="Pilzrisotto" data-desc="Cremiges Risotto mit Waldpilzen." data-zutaten="Risottoreis, Pilze, Weißwein, Parmesan" data-allergene="Milch, Sulfite">
+                                <div class="food-photo" style="background-image: url('pilzrisotto.svg');"></div>
+                                <div class="marquee-card-inner"><div class="card-info"><h4>Pilzrisotto</h4><p>Edle Waldpilze</p></div></div>
+                            </div>
+                        </li>
+                        <li class="splide__slide" data-category="zehlendorf">
+                            <div class="marquee-card" data-title="Tuna Tataki" data-desc="Kurz angebratener Thunfisch im Sesam-Mantel." data-zutaten="Thunfisch, Sesam, Soja-Zitrus-Ponzu" data-allergene="Fisch, Sesam, Soja, Gluten">
+                                <div class="food-photo" style="background-image: url('tunaataki.svg');"></div>
+                                <div class="marquee-card-inner"><div class="card-info"><h4>Tuna Tataki</h4><p>Asiatische Eleganz</p></div></div>
+                            </div>
+                        </li>
+                        <li class="splide__slide" data-category="zehlendorf">
+                            <div class="marquee-card" data-title="Profiteroles" data-desc="Luftige Brandteigkrapfen mit Vanillecreme." data-zutaten="Brandteig, Vanillecreme, Schokolade" data-allergene="Gluten, Eier, Milch">
+                                <div class="food-photo" style="background-image: url('profiterol.svg');"></div>
+                                <div class="marquee-card-inner"><div class="card-info"><h4>Profiteroles</h4><p>Süßer Abschluss</p></div></div>
+                            </div>
+                        </li>
+
                     </ul>
                 </div>
             </div>
+        </div>
+    </section>
+</div>
 
-            <div class="gallery-content-zone">
-                <div class="splide" id="gallery-slider">
-                    <div class="splide__track">
-                        
-                        <ul class="splide__list" id="gallery-list">
-                            
-                            <!-- ==========================================
-                                 KATEGORIE: HERMANNPLATZ
-                                 ========================================== -->
-
-                            <!-- KACHEL 1: Lammspieß -->
-                            <li class="splide__slide" data-category="hermannplatz">
-                                <div class="marquee-card" data-title="Lammspieß" data-desc="Zartes Lamm vom Grill, authentisch gewürzt." data-img="Foto: Lammspieß">
-                                    <div class="food-photo" style="background-image: url('lamm.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Grill-Lamm</h4><p>Hermannplatz Klassiker</p></div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <!-- KACHEL 2: Hummus -->
-                            <li class="splide__slide" data-category="hermannplatz">
-                                <div class="marquee-card" data-title="Hummus" data-desc="Samtiger Kichererbsen-Dip mit feinem Tahini, einem Schuss Olivenöl und gerösteten Pinienkernen." data-img="Foto: Hummus">
-                                    <div class="food-photo" style="background-image: url('humus.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Hummus</h4><p>Cremig & Authentisch</p></div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <!-- KACHEL 3: Shakshuka -->
-                            <li class="splide__slide" data-category="hermannplatz">
-                                <div class="marquee-card" data-title="Shakshuka" data-desc="Pochierte Eier in einer kräftigen, würzigen Tomaten-Paprika-Sauce mit orientalischen Gewürzen." data-img="Foto: Shakshuka">
-                                    <div class="food-photo" style="background-image: url('shakhshuka.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Shakshuka</h4><p>Würzige Levante</p></div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <!-- KACHEL 4: Baba Ghanoush -->
-                            <li class="splide__slide" data-category="hermannplatz">
-                                <div class="marquee-card" data-title="Baba Ghanoush" data-desc="Rauchiges Auberginenpüree, verfeinert mit Granatapfelkernen, frischer Petersilie und Zitrone." data-img="Foto: Baba Ghanoush">
-                                    <div class="food-photo" style="background-image: url('babaganoush.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Baba Ghanoush</h4><p>Rauchig & Frisch</p></div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <!-- KACHEL 5: Falafel -->
-                            <li class="splide__slide" data-category="hermannplatz">
-                                <div class="marquee-card" data-title="Falafel" data-desc="Goldbraun frittierte Bällchen aus Kichererbsen, frischen Kräutern und dem perfekten Crunch." data-img="Foto: Falafel">
-                                    <div class="food-photo" style="background-image: url('falafel.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Falafel</h4><p>Knuspriger Klassiker</p></div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <!-- KACHEL 6: Kunafa -->
-                            <li class="splide__slide" data-category="hermannplatz">
-                                <div class="marquee-card" data-title="Kunafa" data-desc="Warmes Engelshaar-Dessert mit geschmolzenem Käse, Pistazien und süßem Zuckersirup." data-img="Foto: Kunafa">
-                                    <div class="food-photo" style="background-image: url('kunafa.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Kunafa</h4><p>Süße Versuchung</p></div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <!-- ==========================================
-                                 KATEGORIE: PRENZLAUER BERG (100% Vegan / Pflanzlich)
-                                 ========================================== -->
-
-                            <!-- KACHEL 7: Seitan-Steak -->
-                            <li class="splide__slide" data-category="prenzlauerberg">
-                                <div class="marquee-card" data-title="Seitan-Steak" data-desc="Herzhaft mariniertes Seitan-Steak, scharf angebraten für beste Röstaromen." data-img="Foto: Seitan Steak">
-                                    <div class="food-photo" style="background-image: url('seitansteak.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Seitan-Steak</h4><p>Deftig & Pflanzlich</p></div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <!-- KACHEL 8: Rote-Bete-Tatar -->
-                            <li class="splide__slide" data-category="prenzlauerberg">
-                                <div class="marquee-card" data-title="Rote-Bete-Tatar" data-desc="Feines Tatar von der Roten Bete mit Kapern, Dijon-Senf und knusprigen Croûtons." data-img="Foto: Rote-Bete-Tatar">
-                                    <div class="food-photo" style="background-image: url('rotebeetetatar.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Rote-Bete-Tatar</h4><p>Fein & Erdig</p></div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <!-- KACHEL 9: Vegane Quiche -->
-                            <li class="splide__slide" data-category="prenzlauerberg">
-                                <div class="marquee-card" data-title="Vegane Quiche" data-desc="Eine rein pflanzliche, französische Tarte mit einer herzhaften Füllung aus frischem Saisongemüse und feinen Kräutern." data-img="Foto: Quiche">
-                                    <div class="food-photo" style="background-image: url('quiche.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Vegane Quiche</h4><p>Pflanzlich Gebacken</p></div>
-                                    </div>
-                                </div>
-                            </li>
-                                                        <!-- KACHEL 9b: Ratatouille -->
-                            <li class="splide__slide" data-category="prenzlauerberg">
-                                <div class="marquee-card" data-title="Ratatouille" data-desc="Der französische Klassiker: Schonend geschmortes Gemüse aus Auberginen, Zucchini, Paprika und sonnengereiften Tomaten." data-img="Foto: Ratatouille">
-                                    <div class="food-photo" style="background-image: url('ratatouille.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Ratatouille</h4><p>Geschmortes Gemüse</p></div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <!-- KACHEL 9c: Semmelknödel -->
-                            <li class="splide__slide" data-category="prenzlauerberg">
-                                <div class="marquee-card" data-title="Veganer Semmelknödel" data-desc="Klassischer Semmelknödel, rein pflanzlich zubereitet. Perfekt gebunden, fluffig und mit feinen Kräutern verfeinert." data-img="Foto: Semmelknödel">
-                                    <div class="food-photo" style="background-image: url('semmelknoedel.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Semmelknödel</h4><p>Veganer Klassiker</p></div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <!-- KACHEL 9d: Kokos Panna Cotta -->
-                            <li class="splide__slide" data-category="prenzlauerberg">
-                                <div class="marquee-card" data-title="Kokos Panna Cotta" data-desc="Seidenweiches Dessert auf Basis von cremiger Kokosmilch, fruchtig abgerundet mit einem Hauch echter Vanille." data-img="Foto: Kokos Panna Cotta">
-                                    <div class="food-photo" style="background-image: url('kokospannacotta.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Kokos Panna Cotta</h4><p>Pflanzliche Süße</p></div>
-                                    </div>
-                                </div>
-                            </li>
-                            
-                            <!-- ==========================================
-                                 KATEGORIE: ZEHLENDORF (Gourmet-Küche)
-                                 ========================================== -->
-
-                            <!-- KACHEL 10: Entrecôte -->
-                            <li class="splide__slide" data-category="zehlendorf">
-                                <div class="marquee-card" data-title="Entrecôte" data-desc="Zartes Premium-Rindersteak, perfekt auf den Punkt gegrillt und verfeinert mit edler Kräuterbutter." data-img="Foto: Entrecôte">
-                                    <div class="food-photo" style="background-image: url('entrecote.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Entrecôte</h4><p>Premium Rindfleisch</p></div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <!-- KACHEL 11: Boeuf Bourguignon -->
-                            <li class="splide__slide" data-category="zehlendorf">
-                                <div class="marquee-card" data-title="Boeuf Bourguignon" data-desc="Klassischer französischer Rinderschmortopf, langsam gegart in kräftigem Burgunderwein mit Perlzwiebeln." data-img="Foto: Boeuf Bourguignon">
-                                    <div class="food-photo" style="background-image: url('boeufbourguignon.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Boeuf Bourguignon</h4><p>Französischer Klassiker</p></div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <!-- KACHEL 12: Kartoffelgratin -->
-                            <li class="splide__slide" data-category="zehlendorf">
-                                <div class="marquee-card" data-title="Kartoffelgratin" data-desc="Feine Kartoffelscheiben, gebacken in cremiger Sahne und mit würzigem Bergkäse goldbraun überbacken." data-img="Foto: Kartoffelgratin">
-                                    <div class="food-photo" style="background-image: url('kartoffelgratin.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Kartoffelgratin</h4><p>Cremig & Herzhaft</p></div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <!-- KACHEL 13: Pilzrisotto -->
-                            <li class="splide__slide" data-category="zehlendorf">
-                                <div class="marquee-card" data-title="Pilzrisotto" data-desc="Cremiges Risotto mit edlen Waldpilzen, abgelöscht mit einem Hauch Weißwein und gehobeltem Parmesan." data-img="Foto: Pilzrisotto">
-                                    <div class="food-photo" style="background-image: url('pilzrisotto.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Pilzrisotto</h4><p>Edle Waldpilze</p></div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <!-- KACHEL 14: Tuna Tataki -->
-                            <li class="splide__slide" data-category="zehlendorf">
-                                <div class="marquee-card" data-title="Tuna Tataki" data-desc="Kurz angebratener Thunfisch im Sesam-Mantel, serviert mit einer leichten Soja-Zitrus-Ponzu." data-img="Foto: Tuna Tataki">
-                                    <div class="food-photo" style="background-image: url('tunaataki.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Tuna Tataki</h4><p>Asiatische Eleganz</p></div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <!-- KACHEL 15: Profiterol -->
-                            <li class="splide__slide" data-category="zehlendorf">
-                                <div class="marquee-card" data-title="Profiteroles" data-desc="Luftige Brandteigkrapfen, gefüllt mit feiner Vanillecreme und überzogen mit reichhaltiger Zartbitterschokolade." data-img="Foto: Profiteroles">
-                                    <div class="food-photo" style="background-image: url('profiterol.svg');"></div>
-                                    <div class="marquee-card-inner">
-                                        <div class="card-info"><h4>Profiteroles</h4><p>Süßer Abschluss</p></div>
-                                    </div>
-                                </div>
-                            </li>
-
-                        </ul>
-                    </div>
+<!-- ==========================================
+     SPLIT-SCREEN DETAILANSICHT (OVERLAY)
+     ========================================== -->
+<div id="food-detail-view" class="detail-overlay">
+    <button id="detail-close" class="detail-close-btn">&times;</button>
+    <div class="detail-container">
+        <div class="detail-left-pane">
+            <div id="detail-image" class="detail-hero-img"></div>
+        </div>
+        <div class="detail-right-pane" id="detail-text-bg">
+            <div class="detail-content-scroll">
+                <h2 id="detail-title">Gericht Titel</h2>
+                <div class="detail-section">
+                    <h4>Beschreibung</h4>
+                    <p id="detail-desc">Hier steht die Beschreibung.</p>
+                </div>
+                <div class="detail-section">
+                    <h4>Zutaten</h4>
+                    <p id="detail-ingredients">Lade Daten...</p>
+                </div>
+                <div class="detail-section">
+                    <h4>Allergene</h4>
+                    <p id="detail-allergens">Lade Daten...</p>
+                </div>
+                <!-- Rezeptbereich für die Zukunft (Kann in HTML noch als data-Attribut ergänzt werden) -->
+                <div class="detail-section">
+                    <h4>Zubereitungshinweis</h4>
+                    <p id="detail-recipe">Das exakte Rezept bleibt das Geheimnis der Velo Gourmet Küche.</p>
                 </div>
             </div>
-        </section>
-    </main>
-
-
-
-    <div class="glass-overlay" id="lightbox-overlay" onclick="closeLightbox(event)">
-        <div class="glass-sheet lightbox-layout" onclick="event.stopPropagation()">
-            <div class="lightbox-hero-img" id="lb-img">Lade...</div>
-            <h3 class="sheet-title" id="lb-title">Titel</h3>
-            <p style="font-size: 14px; line-height: 1.6; margin-bottom: 20px; color: #444;" id="lb-desc">Beschreibung</p>
-            <button class="glass-btn" onclick="closeLightbox(event)" style="background: var(--brand-green); color: #1a2e05; border-color: var(--brand-green);">Ausgezeichnet!</button>
-            <button class="sheet-close" onclick="closeLightbox(event)">Schließen</button>
         </div>
     </div>
-    <div class="glass-overlay" id="contact-overlay" onclick="closeContact(event)">
-        <div class="glass-sheet contact-layout" onclick="event.stopPropagation()">
-            <div class="sheet-half info-half" style="-webkit-user-select: text; user-select: text;">
-                <h3 class="sheet-title">Anfrage</h3>
-                <div style="font-size: 13px; font-weight: 500; margin-bottom: 15px; line-height: 1.4;">Kopiere diese Vorlage:</div>
-                <ul class="info-list"><li><strong style="color: #000;">Wann:</strong> [Datum/Uhrzeit]</li><li><strong style="color: #000;">Wo:</strong> [Ort]</li><li><strong style="color: #000;">Gäste:</strong> [Anzahl]</li><li><strong style="color: #000;">Details:</strong> [Allergien]</li></ul>
-                <button class="glass-btn" id="copy-btn" onclick="copyInfoText()">Vorlage kopieren</button>
-            </div>
-            <div class="sheet-half contact-half">
-                <h3 class="sheet-title">Kontakt</h3>
-                <a href="https://wa.me/4915100000000" target="_blank" class="glass-btn">WhatsApp</a>
-                <a href="mailto:hallo@velogourmet.berlin" class="glass-btn">E-Mail</a>
-                <button class="sheet-close" onclick="closeContact(event)">Schließen</button>
-            </div>
-        </div>
-    </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@0.5.3/dist/js/splide-extension-auto-scroll.min.js"></script>
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@0.5.3/dist/js/splide-extension-auto-scroll.min.js"></script>
 
-    <script>
-        window.swipeVelocity = 0; 
+<script>
+    let gallerySplide = null;
+    let originalSlides = []; 
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const list = document.getElementById('gallery-list');
+        // Kacheln als Master-Kopie sichern
+        originalSlides = Array.from(list.children).map(li => li.cloneNode(true));
         
-        function openContact(e) { if(e) e.preventDefault(); document.getElementById('contact-overlay').classList.add('is-active'); }
-        function closeContact(e) { if(e) e.preventDefault(); document.getElementById('contact-overlay').classList.remove('is-active'); }
-        function closeLightbox(e) { if(e) e.preventDefault(); document.getElementById('lightbox-overlay').classList.remove('is-active'); }
-        
-        function copyInfoText() {
-            navigator.clipboard.writeText("Hallo Velo Gourmet,\nich interessiere mich für ein Catering...\nWann: \nWo: \nGästezahl: \nWünsche: ").then(() => {
-                const btn = document.getElementById('copy-btn'); btn.innerText = 'Kopiert! ✓';
-                setTimeout(() => { btn.innerText = 'Vorlage kopieren'; }, 2500);
-            });
-        }
-
-        let gallerySplide = null;
-        let originalSlides = []; 
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const list = document.getElementById('gallery-list');
-            originalSlides = Array.from(list.children).map(li => li.cloneNode(true));
-            
-            const menuSplide = new Splide('#menu-slider', {
-                type: 'loop', focus: 'center', autoWidth: false, fixedWidth: 260, gap: 0, trimSpace: false,      
-                arrows: true, pagination: false, updateOnMove: true, drag: 'free', snap: true, flickMaxPages: 1,        
-                friction: 0.2, flickPower: 250, speed: 800, easing: 'cubic-bezier(0.25, 1, 0.35, 1)', clones: 9
-            });
-
-            menuSplide.on('click', function (slide) {
-                document.getElementById('menu-slider').classList.add('is-scrolling');
-                menuSplide.go(slide.index);
-            });
-
-            menuSplide.on('move drag', function () {
-                document.getElementById('menu-slider').classList.add('is-scrolling');
-                window.swipeVelocity = 2.5; 
-            });
-
-            menuSplide.on('moved scrolled', function () {
-                document.getElementById('menu-slider').classList.remove('is-scrolling');
-            });
-            
-            menuSplide.on('active', function (slide) {
-                filterGallery(slide.slide.dataset.category);
-            });
-
-            menuSplide.mount(); 
+        // 1. Das Auswahlmenü initialisieren
+        const menuSplide = new Splide('#menu-slider', {
+            type: 'loop', focus: 'center', autoWidth: false, fixedWidth: 260, gap: 0, trimSpace: false,      
+            arrows: true, pagination: false, updateOnMove: true, drag: 'free', snap: true, flickMaxPages: 1,        
+            friction: 0.2, flickPower: 250, speed: 800, easing: 'cubic-bezier(0.25, 1, 0.35, 1)', clones: 9
         });
+        menuSplide.mount();
 
+        // 2. Die Galerie filtern und aufbauen
         function filterGallery(category) {
-            const list = document.getElementById('gallery-list');
-            if (gallerySplide) gallerySplide.destroy(true);
-            list.innerHTML = ''; 
+            if (gallerySplide) { 
+                gallerySplide.destroy(true); 
+                gallerySplide = null; 
+            }
             
-            originalSlides.forEach(slide => { if (slide.dataset.category === category) list.appendChild(slide.cloneNode(true)); });
+            list.innerHTML = '';
+            
+            const filteredSlides = originalSlides.filter(slide => slide.getAttribute('data-category') === category);
+            filteredSlides.forEach(slide => list.appendChild(slide.cloneNode(true)));
             
             gallerySplide = new Splide('#gallery-slider', {
-                type: 'loop', 
-                drag: 'free', 
-                focus: 'center', 
-                autoWidth: false, 
-                fixedWidth: window.innerWidth >= 1024 ? 320 : 260, 
-                gap: '8px', 
-                arrows: false, 
-                pagination: false, 
-                friction: 0.05, 
-                clones: 15, 
-                autoScroll: { speed: 1.5, pauseOnHover: true, pauseOnFocus: false },
+                type: 'loop', focus: 'center', gap: '30px', autoWidth: true,
+                arrows: false, pagination: false, updateOnMove: true, drag: 'free', snap: true, flickMaxPages: 1,
+                friction: 0.15, flickPower: 400, speed: 1000, easing: 'cubic-bezier(0.25, 1, 0.35, 1)',
+                autoScroll: { speed: 1.5, pauseOnHover: true, pauseOnFocus: false }
             });
             gallerySplide.mount(window.splide.Extensions);
-
-            gallerySplide.on('move drag', function () { window.swipeVelocity = 1.5; });
-            
-            gallerySplide.on('drag', function() {
-                const autoScroll = gallerySplide.Components.AutoScroll;
-                if(autoScroll) autoScroll.pause();
-            });
-            
-            gallerySplide.on('dragged', function() {
-                const autoScroll = gallerySplide.Components.AutoScroll;
-                if(autoScroll) autoScroll.play();
-            });
-
-            gallerySplide.on('click', function (slide) {
-                const card = slide.slide.querySelector('.marquee-card');
-                if (!card) return;
-                document.getElementById('lb-title').innerText = card.dataset.title;
-                document.getElementById('lb-desc').innerText = card.dataset.desc;
-                document.getElementById('lb-img').innerText = card.dataset.img;
-                document.getElementById('lightbox-overlay').classList.add('is-active');
-            });
         }
 
-/* --- HANDY-DREHUNG (Landscape-Fix & Splide-AutoScroll-Bugfix) --- */
-        let resizeTimeout;
-        window.addEventListener('orientationchange', function() {
-            
-            // 1. Sofortige Notbremse: Stoppt das Durchdrehen sofort!
+        // Start mit Hermannplatz
+        filterGallery('hermannplatz');
+
+        // Auf Wisch-Bewegung im Menü reagieren
+        menuSplide.on('moved', function(newIndex) {
+            const activeSlide = menuSplide.Components.Elements.slides[newIndex];
+            if (activeSlide) {
+                const category = activeSlide.getAttribute('data-category');
+                filterGallery(category);
+            }
+        });
+
+        /* --- BOMB-PROOF RESIZE & LANDSCAPE FIX --- */
+        let resizeTimer;
+        function handleRotation() {
             if (gallerySplide && gallerySplide.Components.AutoScroll) {
                 gallerySplide.Components.AutoScroll.pause();
             }
-
-            // 2. Warte, bis der Browser das Display im Querformat fertig gezeichnet hat
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(function() {
-                
-                // Bildschirm auf die richtige Sektion scrollen
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function() {
                 const scrollContainer = document.getElementById('scroll-container');
-                const h = scrollContainer.clientHeight;
-                const currentScroll = scrollContainer.scrollTop;
-                let currentIndex = Math.round(currentScroll / h);
-                
-                scrollContainer.scrollTo({
-                    top: currentIndex * h,
-                    behavior: 'auto' 
-                });
-
-                // 3. Den verbuggten Slider komplett vernichten und neu aufbauen
+                if (scrollContainer) {
+                    const h = scrollContainer.clientHeight;
+                    const currentScroll = scrollContainer.scrollTop;
+                    let currentIndex = Math.round(currentScroll / h);
+                    scrollContainer.scrollTo({ top: currentIndex * h, behavior: 'auto' });
+                }
                 if (gallerySplide) {
                     let activeCategory = 'hermannplatz'; 
                     const activeMenuSlide = document.querySelector('#menu-slider .is-active');
-                    if (activeMenuSlide) {
-                        activeCategory = activeMenuSlide.dataset.category;
-                    }
-                    
-                    // Zerstört den Slider und alle seine (falschen) Koordinaten
+                    if (activeMenuSlide) { activeCategory = activeMenuSlide.dataset.category; }
                     gallerySplide.destroy(true); 
-                    gallerySplide = null; // Speicher leeren
-                    
-                    // Baut den Slider im neuen Querformat sauber auf
+                    gallerySplide = null; 
                     filterGallery(activeCategory);
                 }
-            }, 300); // 300ms warten stellt sicher, dass das CSS im Querformat geladen ist
-        });
-
-        /* --- PARALLAX HERO --- */
-        const scrollContainer = document.getElementById('scroll-container');
-        const heroBg = document.getElementById('hero-bg');
-        const heroContent = document.getElementById('hero-content');
-        const swipeHint = document.getElementById('swipe-hint');
-        let ticking = false;
-
-        scrollContainer.addEventListener('scroll', () => {
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    const scrolled = scrollContainer.scrollTop; 
-                    const h = scrollContainer.clientHeight;
-                    
-                    if (scrolled <= h) {
-                        const progress = scrolled / h;
-                        heroBg.style.transform = `translateY(${scrolled * 0.4}px)`;
-                        heroContent.style.transform = `translate(-50%, ${-50 + (progress * -8)}%) scale(${1 - progress * 0.05})`;
-                        heroContent.style.opacity = 1 - (progress * 0.8);
-                        swipeHint.style.opacity = 1 - (progress * 2.5);
-                    }
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        });
-
-        /* --- DESKTOP MAUSRAD-STEUERUNG --- */
-        let isWheelScrolling = false;
-        scrollContainer.addEventListener('wheel', (e) => {
-            if (isWheelScrolling) { e.preventDefault(); return; }
-            e.preventDefault();
-            isWheelScrolling = true;
-
-            const h = scrollContainer.clientHeight;
-            const currentScroll = scrollContainer.scrollTop;
-            let currentIndex = Math.round(currentScroll / h);
-            const direction = Math.sign(e.deltaY); 
-            let nextIndex = currentIndex + direction;
-
-            const sectionsCount = document.querySelectorAll('.section').length;
-            nextIndex = Math.max(0, Math.min(nextIndex, sectionsCount - 1));
-
-            scrollContainer.scrollTo({ top: nextIndex * h, behavior: 'smooth' });
-
-            setTimeout(() => { isWheelScrolling = false; }, 800);
-        }, { passive: false });
-
-        /* --- 3D PLASMA ENGINE --- */
-        const canvas = document.getElementById('plasma-canvas');
-        if(canvas) {
-            const ctx = canvas.getContext('2d');
-            let w, h;
-            
-            function resizeCanvas() { 
-                const gallery = document.getElementById('galerie');
-                w = canvas.width = gallery ? gallery.offsetWidth : window.innerWidth; 
-                h = canvas.height = gallery ? gallery.offsetHeight + (window.innerHeight * 0.15) : window.innerHeight * 1.15; 
-            }
-            window.addEventListener('resize', resizeCanvas);
-            resizeCanvas();
-
-            let time = 0;
-            let baseSpeed = 0.003;
-            const orbs = [ { r: 0.9, c: 0 }, { r: 0.8, c: 90 }, { r: 0.9, c: 180 }, { r: 0.7, c: 270 } ];
-
-            function drawPlasma() {
-                let currentSpeed = baseSpeed + (window.swipeVelocity * 0.02);
-                time += currentSpeed;
-                window.swipeVelocity *= 0.92; 
-
-                ctx.clearRect(0, 0, w, h);
-                ctx.globalCompositeOperation = 'lighter';
-                let colorShift = window.swipeVelocity * 15;
-
-                orbs.forEach((orb, i) => {
-                    let x = (Math.sin(time + i * 1.5) * 0.4 + 0.5) * w;
-                    let y = (Math.cos(time + i * 2.1) * 0.4 + 0.5) * h;
-                    let radius = Math.max(w, h) * orb.r;
-                    
-                    let gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
-                    let currentHue = (orb.c + colorShift) % 360;
-                    
-                    gradient.addColorStop(0, `hsla(${currentHue}, 80%, 55%, 0.6)`);
-                    gradient.addColorStop(1, `hsla(${currentHue}, 80%, 55%, 0)`);
-                    ctx.fillStyle = gradient;
-                    ctx.fillRect(0, 0, w, h);
-                });
-                requestAnimationFrame(drawPlasma);
-            }
-            drawPlasma();
+            }, 500); 
         }
-    </script>
+        window.addEventListener('resize', handleRotation);
+        window.addEventListener('orientationchange', handleRotation);
+
+        /* --- DETAIL-ANSICHT (SPLIT-SCREEN) LOGIK --- */
+        const detailOverlay = document.getElementById('food-detail-view');
+        const detailImg = document.getElementById('detail-image');
+        const detailTitle = document.getElementById('detail-title');
+        const detailDesc = document.getElementById('detail-desc');
+        const detailIngredients = document.getElementById('detail-ingredients');
+        const detailAllergens = document.getElementById('detail-allergens');
+        const closeBtn = document.getElementById('detail-close');
+
+        document.addEventListener('click', function(e) {
+            const card = e.target.closest('.marquee-card');
+            if (card) {
+                if(card.closest('.splide__slide').classList.contains('is-moving')) return;
+                
+                // Daten laden
+                const title = card.getAttribute('data-title') || 'Velo Gourmet';
+                const desc = card.getAttribute('data-desc') || '';
+                const ingredients = card.getAttribute('data-zutaten') || 'Keine Angabe';
+                const allergens = card.getAttribute('data-allergene') || 'Keine Angabe';
+                
+                const photoDiv = card.querySelector('.food-photo');
+                let bgImage = 'none';
+                if (photoDiv) {
+                    bgImage = window.getComputedStyle(photoDiv).getPropertyValue('background-image');
+                }
+
+                // Daten in die Maske einsetzen
+                detailTitle.textContent = title;
+                detailDesc.textContent = desc;
+                detailIngredients.textContent = ingredients;
+                detailAllergens.textContent = allergens;
+                detailImg.style.backgroundImage = bgImage;
+
+                // Öffnen
+                detailOverlay.classList.add('is-open');
+                
+                if(gallerySplide && gallerySplide.Components.AutoScroll) {
+                    gallerySplide.Components.AutoScroll.pause();
+                }
+            }
+        });
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function() {
+                detailOverlay.classList.remove('is-open');
+                if(gallerySplide && gallerySplide.Components.AutoScroll) {
+                    gallerySplide.Components.AutoScroll.play();
+                }
+            });
+        }
+    });
+</script>
+
 </body>
 </html>
