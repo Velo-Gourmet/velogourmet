@@ -173,52 +173,36 @@
         .detail-close-btn { position: absolute; top: 20px; right: 20px; background: #fff; color: #ff007f; border: none; width: 45px; height: 45px; border-radius: 50%; font-size: 28px; cursor: pointer; z-index: 10000; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         
     /* =========================================================
-           MOBILE SPLIT-SCREEN (Erzwingt 50/50 Links/Rechts auf dem Handy)
+           MOBILE SPLIT-SCREEN (Fokus-Zoom auf das Zentrum)
            ========================================================= */
         @media (max-width: 768px) {
             .detail-container { 
-                flex-direction: row; /* Zwingt die Boxen nebeneinander zu bleiben! */
+                flex-direction: row; 
             }
             
             .detail-left-pane { width: 50%; height: 100%; }
             .detail-right-pane { width: 50%; height: 100%; }
             
-            /* Das Bild gigantisch aufblasen und nach rechts an die Kante schieben */
+            /* Das Bild füllt die Spalte komplett aus und zentriert sich */
             .detail-hero-img { 
-                width: 250%; /* Extrem breit, damit es weit aus dem Bildschirm ragt */
-                height: 150%; 
-                background-position: right center; /* An die mittlere Trennlinie heften */
-                transform: scale(0.8) translateX(10%); 
+                width: 100%; 
+                height: 100%; 
+                background-size: cover; 
+                background-position: center center; 
+                transform: scale(0.9); 
             }
             .detail-overlay.is-open .detail-hero-img { 
-                transform: scale(1) translateX(0); /* Knallt wuchtig in die linke Hälfte */
+                transform: scale(1.1); 
             }
             
-            /* Die rechte Info-Spalte für den knappen Platz auf dem Handy optimieren */
-            .detail-content-scroll { 
-                padding: 15% 10px 10% 10px; /* Weniger unsichtbarer Rand */
-            }
-            .detail-content-scroll h2 { 
-                font-size: 1.5rem; /* Überschrift anpassen */
-                margin-bottom: 15px; 
-                padding-bottom: 5px;
-            }
+            /* Text-Formatierung */
+            .detail-content-scroll { padding: 15% 10px 10% 10px; }
+            .detail-content-scroll h2 { font-size: 1.5rem; margin-bottom: 15px; padding-bottom: 5px; }
             .detail-section { margin-bottom: 15px; }
-            .detail-section h4 { 
-                font-size: 0.9rem; 
-                letter-spacing: 1px; 
-            }
-            .detail-section p { 
-                font-size: 0.85rem; 
-                line-height: 1.4; 
-                word-wrap: break-word; /* WICHTIG: Bricht extrem lange Wörter um! */
-                hyphens: auto; /* Aktiviert automatische Silbentrennung */
-            }
+            .detail-section h4 { font-size: 0.9rem; letter-spacing: 1px; }
+            .detail-section p { font-size: 0.85rem; line-height: 1.4; word-wrap: break-word; hyphens: auto; }
             
-            /* Close-Button dezent verkleinern */
-            .detail-close-btn { 
-                width: 35px; height: 35px; font-size: 22px; top: 15px; right: 10px; 
-            }
+            .detail-close-btn { width: 35px; height: 35px; font-size: 22px; top: 15px; right: 10px; }
         }
 
         /* DESKTOP OPTIMIERUNG (Galerie) */
