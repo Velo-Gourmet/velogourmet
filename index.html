@@ -190,22 +190,49 @@
             margin-bottom: 30px; 
             border-bottom: 2px solid rgba(255,255,255,0.3); 
             padding-bottom: 10px; 
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5); 
+            text-shadow: none; /* Schatten abgeschaltet, weil wir jetzt den Hintergrund nutzen */
+            
+            /* CANVA EFFEKT (Texthintergrund) */
+            display: inline;
+            background-color: rgba(0, 0, 0, 0.4); /* Farbe und Transparenz (0.4) */
+            padding: 4px 10px; /* Wie weit die Farbe über den Text hinausragt (Größe) */
+            border-radius: 8px; /* Runde Ecken für den "Canva-Look" */
+            box-decoration-break: clone; /* Sorgt dafür, dass es bei mehrzeiligem Text sauber umbricht */
+            -webkit-box-decoration-break: clone;
         }
+
         .detail-section { margin-bottom: 25px; }
+        
         .detail-section h4 { 
             font-size: 1.2rem; 
             margin-bottom: 8px; 
             text-transform: uppercase; 
             letter-spacing: 2px; 
             color: rgba(255,255,255,0.95); 
-            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6); 
+            text-shadow: none;
+            
+            /* CANVA EFFEKT */
+            display: inline;
+            background-color: rgba(0, 0, 0, 0.4); 
+            padding: 2px 8px; 
+            border-radius: 6px;
+            box-decoration-break: clone;
+            -webkit-box-decoration-break: clone;
         }
+
         .detail-section p { 
             font-size: 1rem; 
-            line-height: 1.6; 
+            line-height: 1.8; /* Etwas mehr Zeilenabstand, damit die Hintergründe nicht überlappen */
             color: #fff; 
-            text-shadow: 0px 1px 4px rgba(0, 0, 0, 0.7); 
+            text-shadow: none;
+            
+            /* CANVA EFFEKT */
+            display: inline;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 2px 6px;
+            border-radius: 4px;
+            box-decoration-break: clone;
+            -webkit-box-decoration-break: clone;
         }
         .detail-close-btn { position: absolute; top: 20px; right: 20px; background: #fff; color: #ff007f; border: none; width: 45px; height: 45px; border-radius: 50%; font-size: 28px; cursor: pointer; z-index: 10000; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         
