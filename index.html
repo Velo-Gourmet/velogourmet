@@ -633,7 +633,10 @@
         
         function openContact(e) { if(e) e.preventDefault(); document.getElementById('contact-overlay').classList.add('is-active'); }
         function closeContact(e) { if(e) e.preventDefault(); document.getElementById('contact-overlay').classList.remove('is-active'); }
-        
+
+        // Impressum Dunkelglas öffnen/schließen
+        function openImpressum(e) { if(e) e.preventDefault(); document.getElementById('impressum-overlay').classList.add('is-active'); }
+        function closeImpressum(e) { if(e) e.preventDefault(); document.getElementById('impressum-overlay').classList.remove('is-active'); }        
         function copyInfoText() {
             navigator.clipboard.writeText("Hallo Velo Gourmet,\nich interessiere mich für ein Catering...\nWann: \nWo: \nGästezahl: \nWünsche: ").then(() => {
                 const btn = document.getElementById('copy-btn'); btn.innerText = 'Kopiert! ✓';
