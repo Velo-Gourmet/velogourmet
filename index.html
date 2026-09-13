@@ -185,19 +185,19 @@
         }   
         
         .detail-content-scroll { width: 100%; height: 100%; overflow-y: auto; padding: 10% 15% 10% 10%; color: #ffffff; }
-    .detail-content-scroll h2 { 
+   .detail-content-scroll h2 { 
             font-size: 2.5rem; 
             margin-bottom: 30px; 
             border-bottom: 2px solid rgba(255,255,255,0.3); 
             padding-bottom: 10px; 
-            text-shadow: none; /* Schatten abgeschaltet, weil wir jetzt den Hintergrund nutzen */
             
-            /* CANVA EFFEKT (Texthintergrund) */
+            /* KOMBIFILTER: Canva-Hintergrund + Feiner Drop Shadow */
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8); 
             display: inline;
-            background-color: rgba(0, 0, 0, 0.4); /* Farbe und Transparenz (0.4) */
-            padding: 4px 10px; /* Wie weit die Farbe über den Text hinausragt (Größe) */
-            border-radius: 8px; /* Runde Ecken für den "Canva-Look" */
-            box-decoration-break: clone; /* Sorgt dafür, dass es bei mehrzeiligem Text sauber umbricht */
+            background-color: rgba(0, 0, 0, 0.4); 
+            padding: 4px 10px; 
+            border-radius: 8px; 
+            box-decoration-break: clone; 
             -webkit-box-decoration-break: clone;
         }
 
@@ -209,13 +209,28 @@
             text-transform: uppercase; 
             letter-spacing: 2px; 
             color: rgba(255,255,255,0.95); 
-            text-shadow: none;
             
-            /* CANVA EFFEKT */
+            /* KOMBIFILTER: Canva-Hintergrund + Feiner Drop Shadow */
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8); 
             display: inline;
             background-color: rgba(0, 0, 0, 0.4); 
             padding: 2px 8px; 
             border-radius: 6px;
+            box-decoration-break: clone;
+            -webkit-box-decoration-break: clone;
+        }
+
+        .detail-section p { 
+            font-size: 1rem; 
+            line-height: 1.8; 
+            color: #fff; 
+            
+            /* KOMBIFILTER: Canva-Hintergrund + Feiner Drop Shadow */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9); 
+            display: inline;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 2px 6px;
+            border-radius: 4px;
             box-decoration-break: clone;
             -webkit-box-decoration-break: clone;
         }
