@@ -600,7 +600,26 @@
         </div>
     </div>
 
+
     <!-- KONTAKT OVERLAY -->
+    <div class="glass-overlay" id="contact-overlay" onclick="closeContact(event)">
+        <div class="glass-sheet contact-layout" onclick="event.stopPropagation()">
+            <div class="sheet-half info-half" style="-webkit-user-select: text; user-select: text;">
+                <h3 class="sheet-title">Anfrage</h3>
+                <div style="font-size: 13px; font-weight: 500; margin-bottom: 15px; line-height: 1.4;">Kopiere diese Vorlage:</div>
+                <ul class="info-list"><li><strong style="color: #000;">Wann:</strong> [Datum/Uhrzeit]</li><li><strong style="color: #000;">Wo:</strong> [Ort]</li><li><strong style="color: #000;">Gäste:</strong> [Anzahl]</li><li><strong style="color: #000;">Details:</strong> [Allergien]</li></ul>
+                <button class="glass-btn" id="copy-btn" onclick="copyInfoText()">Vorlage kopieren</button>
+            </div>
+            <div class="sheet-half contact-half">
+                <h3 class="sheet-title">Kontakt</h3>
+                <a href="https://wa.me/4915100000000" target="_blank" class="glass-btn">WhatsApp</a>
+                <a href="mailto:hallo@velogourmet.berlin" class="glass-btn">E-Mail</a>
+                <button class="sheet-close" onclick="closeContact(event)">Schließen</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- IMPRESSUM DUNKELGLAS-OVERLAY -->
  <!-- IMPRESSUM DUNKELGLAS-OVERLAY -->
     <div class="glass-overlay" id="impressum-overlay" onclick="closeImpressum(event)">
         <div class="dark-glass-sheet" style="max-height: 85vh; overflow-y: auto;" onclick="event.stopPropagation()">
