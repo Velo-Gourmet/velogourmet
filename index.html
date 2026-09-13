@@ -42,8 +42,31 @@
         .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 120%; background-image: var(--svg-bg-hero); background-size: cover; background-position: center center; background-repeat: no-repeat; z-index: 1; will-change: transform; filter: contrast(95%) brightness(98%); }
         .hero-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; width: 100%; display: flex; justify-content: center; align-items: center; will-change: transform, opacity; transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.25s ease-out; }
         .logo-wrapper { display: flex; justify-content: center; align-items: center; width: 100%; padding: 0 10px; }
-        .logo-img { aspect-ratio: 1 / 1; width: clamp(250px, 80vw, 500px); height: auto; object-fit: contain; filter: drop-shadow(0 25px 45px rgba(0,0,0,0.22)); animation: fadeInMorph 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+      .logo-img { aspect-ratio: 1 / 1; width: clamp(250px, 80vw, 500px); height: auto; object-fit: contain; filter: drop-shadow(0 25px 45px rgba(0,0,0,0.22)); animation: fadeInMorph 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+
+        /* --- STICKER EFFEKT --- */
+        .logo-container {
+            position: relative;
+            display: inline-block; /* Hält den Sticker exakt an den Rändern des Logos */
+        }
         
+        .hero-sticker {
+            position: absolute;
+            bottom: -15%; /* Hängt leicht unten über */
+            right: -10%;  /* Hängt leicht rechts über */
+            width: clamp(100px, 30vw, 160px); /* Skaliert perfekt auf dem Handy mit */
+            height: auto;
+            z-index: 10;
+            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.2));
+            transform: rotate(8deg); /* Leicht schief aufgeklebt für den organischen Look */
+            animation: floatSticker 6s ease-in-out infinite; /* Dezente Schwebe-Animation */
+            will-change: transform;
+        }
+
+        @keyframes floatSticker {
+            0%, 100% { transform: translateY(0) rotate(8deg); }
+            50% { transform: translateY(-12px) rotate(4deg); }
+        }      
         /* --- PFEILE NUR FÜR DESKTOP (Kugelsicher) --- */
         @media (max-width: 767px) { #menu-slider .splide__arrow { display: none !important; } }
         
@@ -408,7 +431,12 @@
         <section class="section hero-section" id="hero">
             <div class="hero-bg" id="hero-bg"></div>
             <div class="hero-content" id="hero-content">
-                <div class="logo-wrapper"><img src="lo.svg" alt="Velo Gourmet Berlin Logo" class="logo-img"></div>
+                <div class="logo-wrapper">
+                    <div class="logo-container">
+                        <img src="lo.svg" alt="Velo Gourmet Berlin Logo" class="logo-img">
+                        <img src="DEINE_DATEI.svg" alt="Velo Gourmet Sticker" class="hero-sticker">
+                    </div>
+                </div>
             </div>
             <div class="swipe-hint" id="swipe-hint">↓ Wischen</div>
         </section>
