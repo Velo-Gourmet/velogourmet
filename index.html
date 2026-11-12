@@ -644,7 +644,9 @@
         <div class="glass-sheet contact-layout" onclick="event.stopPropagation()">
             <div class="sheet-half info-half" style="-webkit-user-select: text; user-select: text;">
                 <h3 class="sheet-title">Anfrage</h3>
-                <div style="font-size: 13px; font-weight: 500; margin-bottom: 15px; line-height: 1.4;">Kopiere diese Vorlage:</div>
+                <div style="font-size: 13px; font-weight: 500; margin-bottom: 15px; line-height: 1.4;">Hallo Velo Gourmet,
+ich interessiere mich für ein Catering...
+</div>
               <ul class="info-list">
                     <li><strong style="color: #000;">Wann:</strong> [Datum/Uhrzeit]</li>
                     <li><strong style="color: #000;">Wo:</strong> [Ort]</li>
@@ -690,7 +692,11 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js">
+    <!-- 1. Externes Splide-Skript korrekt laden -->
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+
+    <!-- 2. Eigener JavaScript-Code für Barrierefreiheit -->
+    <script>
         // ==========================================
         // BARRIEREFREIHEIT: AUTO-PATCHER (Bereinigt)
         // ==========================================
@@ -714,6 +720,53 @@
                     
                     const card = activeElement.querySelector('.marquee-card');
                     if (card) card.click(); // Öffnet das Rezept!
+                }
+            }
+        });
+
+        // ==========================================
+        // BARRIEREFREIHEIT: FOKUS-FALLE (Focus Trap)
+        // Hält die Tab-Taste in den geöffneten Fenstern gefangen
+        // ==========================================
+        document.addEventListener('keydown', function(e) {
+            // ESC-Taste schließt die geöffneten Fenster sofort
+            if (e.key === 'Escape') {
+                if (typeof closeContact === 'function') closeContact();
+                if (typeof closeImpressum === 'function') closeImpressum();
+            }
+
+            // Nur bei TAB-Taste eingreifen
+            if (e.key === 'Tab') {
+                let activeOverlay = null;
+                const contact = document.getElementById('contact-overlay');
+                const impressum = document.getElementById('impressum-overlay');
+
+                // Prüfen, welches Fenster gerade offen ist
+                if (contact && contact.classList.contains('is-active')) activeOverlay = contact;
+                else if (impressum && impressum.classList.contains('is-active')) activeOverlay = impressum;
+
+                if (activeOverlay) {
+                    // Alle fokussierbaren Elemente im aktiven Fenster finden
+                    const focusable = activeOverlay.querySelectorAll('button, a[href], [tabindex]:not([tabindex="-1"])');
+                    if (focusable.length === 0) return;
+
+                    const first = focusable[0];
+                    const last = focusable[focusable.length - 1];
+
+                    // Wenn RÜCKWÄRTS getabbt wird (Shift + Tab) auf dem ersten Element
+                    if (e.shiftKey) { 
+                        if (document.activeElement === first) {
+                            e.preventDefault(); 
+                            last.focus(); // Springt ans Ende des Fensters
+                        }
+                    } 
+                    // Wenn VORWÄRTS getabbt wird (Tab) auf dem letzten Element
+                    else { 
+                        if (document.activeElement === last) {
+                            e.preventDefault(); 
+                            first.focus(); // Springt wieder zum Anfang des Fensters
+                        }
+                    }
                 }
             }
         });
