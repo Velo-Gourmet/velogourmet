@@ -746,9 +746,22 @@
             if(e) e.preventDefault(); 
             document.getElementById('impressum-overlay').classList.remove('is-active'); 
         }function copyInfoText() {
-            navigator.clipboard.writeText("Hallo Velo Gourmet,\nich interessiere mich für ein Catering...\nWann: \nWo: \nGästezahl: \nWünsche: ").then(() => {
-                const btn = document.getElementById('copy-btn'); btn.innerText = 'Kopiert! ✓';
-                setTimeout(() => { btn.innerText = 'Vorlage kopieren'; }, 2500);
+            const cateringText = `Hallo Velo Gourmet,
+ich interessiere mich für ein Catering...
+Wann: 
+Wo: 
+Gästezahl: 
+Wünsche: `;
+
+            navigator.clipboard.writeText(cateringText).then(() => {
+                const btn = document.getElementById('copy-btn'); 
+                btn.innerText = 'Kopiert! ✓';
+                btn.classList.add('is-copied'); // Aktiviert das grüne Leuchten
+                
+                setTimeout(() => { 
+                    btn.innerText = 'Vorlage kopieren'; 
+                    btn.classList.remove('is-copied'); // Schaltet das Leuchten wieder aus
+                }, 2500);
             });
         }
 
