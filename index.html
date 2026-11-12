@@ -160,9 +160,23 @@
         .card-info h4 { font-size: 20px; margin-bottom: 5px; color: var(--text-dark); padding-left: 0; font-weight: 700; } 
         .card-info p { font-size: 14px; color: #222; line-height: 1.4; padding-left: 0; font-weight: 500; }
 
-        /* OVERLAYS (Kontakt) */
-        .glass-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(27, 36, 30, 0.45); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; display: flex; align-items: center; justify-content: center; }
-        .glass-overlay.is-active { opacity: 1; pointer-events: all; }
+        /* OVERLAYS (Kontakt & Impressum) */
+        .glass-overlay { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(27, 36, 30, 0.45); 
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); 
+            z-index: 100; 
+            opacity: 0; 
+            visibility: hidden; /* NEU: Versteckt geschlossene Fenster vor der TAB-Taste */
+            pointer-events: none; 
+            transition: opacity 0.5s ease, visibility 0.5s ease; 
+            display: flex; align-items: center; justify-content: center; 
+        }
+        .glass-overlay.is-active { 
+            opacity: 1; 
+            visibility: visible; /* NEU: Macht sie beim Öffnen für TAB wieder greifbar */
+            pointer-events: all; 
+        }
         .glass-sheet { width: 92%; max-width: 800px; background: rgba(244, 241, 234, 0.75); backdrop-filter: blur(28px) saturate(180%); -webkit-backdrop-filter: blur(28px) saturate(180%); border: 1px solid rgba(193, 255, 114, 0.4); border-radius: 28px; box-shadow: 0 30px 60px rgba(0,0,0,0.2), 0 0 35px rgba(193, 255, 114, 0.12); overflow: hidden; transform: translateY(25px) scale(0.95); transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; flex-direction: column; }
         .glass-overlay.is-active .glass-sheet { transform: translateY(0) scale(1); }
         .contact-layout { flex-direction: column; } @media (min-width: 600px) { .contact-layout { flex-direction: row; } .contact-layout .sheet-half { width: 50%; padding: 40px 30px; } .contact-layout .info-half { border-right: 1px solid rgba(193, 255, 114, 0.25); } }
@@ -791,6 +805,23 @@ ich interessiere mich für ein Catering...
             document.getElementById('contact-overlay').classList.remove('is-active'); 
         }
 
+        // Kontakt-Fenster öffnen/schließen mit Fokus-Management
+        function openContact(e) { 
+            if(e) e.preventDefault(); 
+            document.getElementById('contact-overlay').classList.add('is-active');
+            setTimeout(() => {
+                const firstBtn = document.getElementById('copy-btn');
+                if(firstBtn) firstBtn.focus();
+            }, 100);
+        }
+        function closeContact(e) { 
+            if(e) e.preventDefault(); 
+            document.getElementById('contact-overlay').classList.remove('is-active'); 
+            // Fokus zurück auf den ersten Button ("Mach ma fertig!") setzen
+            const startBtn = document.querySelector('.artist-btn');
+            if(startBtn) startBtn.focus();
+        }
+
         // Impressum Dunkelglas öffnen/schließen mit Fokus-Management
         function openImpressum(e) { 
             if(e) e.preventDefault(); 
@@ -803,7 +834,12 @@ ich interessiere mich für ein Catering...
         function closeImpressum(e) { 
             if(e) e.preventDefault(); 
             document.getElementById('impressum-overlay').classList.remove('is-active'); 
-        }function copyInfoText() {
+            // Fokus zurück auf den Impressum-Link am Anfang der Galerie-Sektion setzen
+            const impLink = document.querySelector('.impressum-link');
+            if(impLink) impLink.focus();
+        }
+
+        function copyInfoText() {
             const cateringText = `Hallo Velo Gourmet,
 ich interessiere mich für ein Catering...
 Wann: [Datum/Uhrzeit]
@@ -820,19 +856,6 @@ Wünsche: [Details/Allergien]`;
                 setTimeout(() => { 
                     btn.innerText = 'Vorlage kopieren'; 
                     btn.classList.remove('is-copied'); // Schaltet das Leuchten wieder aus
-                }, 2500);
-            });
-        }
-
-        function copyEmail() {
-            navigator.clipboard.writeText("contact@velogourmet-berlin.de").then(() => {
-                const btn = document.getElementById('copy-email-btn'); 
-                btn.innerText = 'Kopiert! ✓';
-                btn.classList.add('is-copied');
-                
-                setTimeout(() => { 
-                    btn.innerText = 'E-Mail Adresse kopieren'; 
-                    btn.classList.remove('is-copied');
                 }, 2500);
             });
         }
