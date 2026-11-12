@@ -44,7 +44,7 @@
         .logo-wrapper { display: flex; justify-content: center; align-items: center; width: 100%; padding: 0 10px; }
       .logo-img { aspect-ratio: 1 / 1; width: clamp(250px, 80vw, 500px); height: auto; object-fit: contain; filter: drop-shadow(0 25px 45px rgba(0,0,0,0.22)); animation: fadeInMorph 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
 
-        /* --- STICKER EFFEKT --- */
+/* --- STICKER EFFEKT --- */
         .logo-container {
             position: relative;
             display: inline-block; /* Hält den Sticker exakt an den Rändern des Logos */
@@ -52,18 +52,28 @@
         
         .hero-sticker {
             position: absolute;
-            bottom: -18%; /* Hängt leicht unten über */
-            right: -12%;  /* Hängt leicht rechts über */
+            bottom: -18%; /* Position auf dem Handy */
+            right: -12%;  /* Position auf dem Handy */
             
-            /* NEU: Deutlich größer  */
-            width: clamp(200px, 55vw, 550px); 
+            /* Größe für Handy bis PC (maximal 500px) */
+            width: clamp(200px, 55vw, 500px); 
             
             height: auto;
             z-index: 10;
+            pointer-events: none; /* Verhindert, dass der große SVG-Rahmen Klicks blockiert */
             filter: drop-shadow(0 15px 25px rgba(0,0,0,0.2));
             transform: rotate(8deg); /* Leicht schief aufgeklebt für den organischen Look */
             animation: floatSticker 6s ease-in-out infinite; /* Dezente Schwebe-Animation */
             will-change: transform;
+        }
+
+        /* NEU: PC- & Laptop-Korrektur (schiebt den 500px-Sticker vom Logo herunter) */
+        @media (min-width: 768px) {
+            .hero-sticker {
+                width: 500px;
+                right: -45%;  /* Schiebt den Sticker weit nach rechts neben das Logo */
+                bottom: -28%; /* Schiebt den Sticker weiter nach unten */
+            }
         }
 
         @keyframes floatSticker {
