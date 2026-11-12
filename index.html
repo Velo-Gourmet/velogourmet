@@ -460,13 +460,18 @@
             </div>
         </section>
 
-        <section class="section gallery-section" id="galerie">
+       <section class="section gallery-section" id="galerie">
+            
+            <!-- NEU: Impressum ist im HTML ganz oben (wird per Tab direkt nach den Buttons anvisiert) -->
+            <a href="#" class="impressum-link" onclick="openImpressum(event)">Impressum</a>
+
             <canvas id="plasma-canvas"></canvas>
             <div class="plasma-dimmer"></div>
 
             <div class="menu-swipe-pill">← Menü wischen →</div>
             
             <div class="splide" id="menu-slider">
+                <!-- ... hier geht dein Menü los ... -->
                 <div class="splide__track">
                     <ul class="splide__list">
                         <li class="splide__slide" data-category="hermannplatz"><div class="menu-item-content"><span class="menu-headline">Hermannplatz</span><span class="menu-subtitle">Levantische Lebensart</span></div></li>
@@ -601,8 +606,7 @@
                 </div>
             </div>
             
-            <!-- EXAKT HIER FÜGST DU DEN LINK EIN -->
-            <a href="#" class="impressum-link" onclick="openImpressum(event)">Impressum</a>
+            
             
         </section>
     </main>
