@@ -201,93 +201,89 @@
         .detail-left-pane { width: 50%; height: 100%; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         .detail-hero-img { width: 150%; height: 150%; background-size: contain; background-position: right center; background-repeat: no-repeat; transform: scale(0.8) translateX(-20%); transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s; }
         .detail-overlay.is-open .detail-hero-img { transform: scale(1) translateX(0); }
-       /* RECHTE SEITE (Text & Custom SVG Hintergrund) */
-  .detail-right-pane {
+      /* RECHTE SEITE (Edles Dunkelglas ohne Textur, maximaler Kontrast) */
+        .detail-right-pane {
             width: 50%; 
             height: 100%; 
             position: relative; 
-            box-shadow: -10px 0 30px rgba(0,0,0,0.3);
-            background-color: transparent; 
-            background-image: url('rosatextbg.svg'); 
-            
-            /* NEU: Zwingt das Bild, die gesamte Höhe und Breite lückenlos zu füllen */
-            background-size: cover; 
-            
-            /* NEU: Nagelt das Bild an die linke Kante. 
-               Wenn das Bild zu breit ist, wird es rechts (außerhalb des Bildschirms) abgeschnitten.
-               Wenn es zu hoch ist, wird es oben/unten gleichmäßig abgeschnitten. */
-            background-position: left center; 
-            
-            background-repeat: no-repeat;
+            box-shadow: -15px 0 40px rgba(0, 0, 0, 0.5);
+            background-color: #121814; 
+            background-image: none;
+            border-left: 1px solid rgba(193, 255, 114, 0.2);
         }   
         
-        .detail-content-scroll { width: 100%; height: 100%; overflow-y: auto; padding: 10% 15% 10% 10%; color: #ffffff; }
- .detail-content-scroll h2 { 
-            font-size: 2.5rem; 
-            
-            /* NEU: Abstand nach unten um 4px erhöht (von 30px auf 34px) */
-            margin-bottom: 34px; 
-            
-            border-bottom: 2px solid rgba(255,255,255,0.3); 
-            padding-bottom: 10px; 
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8); 
-            display: inline;
-            background-color: rgba(0, 0, 0, 0.4); 
-            padding: 0px 4px; 
-            border-radius: 4px; 
-            box-decoration-break: clone; 
-            -webkit-box-decoration-break: clone;
+        .detail-content-scroll { 
+            width: 100%; 
+            height: 100%; 
+            overflow-y: auto; 
+            padding: 10% 12% 10% 10%; 
+            color: #f4f1ea; 
         }
 
-        .detail-section { margin-bottom: 25px; }
+        .detail-content-scroll h2 { 
+            font-size: 2.4rem; 
+            color: #ffffff;
+            margin-bottom: 28px; 
+            border-bottom: 2px solid rgba(193, 255, 114, 0.4); 
+            padding-bottom: 12px; 
+            display: block;
+            line-height: 1.2;
+        }
+
+        .detail-section { 
+            margin-bottom: 28px; 
+        }
         
         .detail-section h4 { 
-            font-size: 1.2rem; 
-            
-            /* NEU: Abstand nach unten um 4px erhöht (von 8px auf 12px) */
-            margin-bottom: 12px; 
-            
+            font-size: 1.05rem; 
+            margin-bottom: 10px; 
             text-transform: uppercase; 
             letter-spacing: 2px; 
-            color: rgba(255,255,255,0.95); 
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8); 
-            display: inline;
-            background-color: rgba(0, 0, 0, 0.4); 
-            padding: 0px 3px; 
-            border-radius: 3px;
-            box-decoration-break: clone;
-            -webkit-box-decoration-break: clone;
+            color: var(--brand-green); 
+            display: block;
+            font-weight: 700;
         }
 
-      .detail-section p { 
-            font-size: 1rem; 
-            line-height: 1.8; 
-            color: #fff; 
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9); 
-            display: inline;
-            background-color: rgba(0, 0, 0, 0.4);
-            padding: 0px 2px;
-            border-radius: 2px;
-            box-decoration-break: clone;
-            -webkit-box-decoration-break: clone;
-            
-            /* DIESE ZEILE RETTET DEINE ABSÄTZE: */
+        .detail-section p { 
+            font-size: 1.05rem; 
+            line-height: 1.75; 
+            color: #f4f1ea; 
+            display: block;
             white-space: pre-wrap;
         }
-        .detail-close-btn { position: absolute; top: 20px; right: 20px; background: #fff; color: #ff007f; border: none; width: 45px; height: 45px; border-radius: 50%; font-size: 28px; cursor: pointer; z-index: 10000; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+
+        .detail-close-btn { 
+            position: absolute; 
+            top: 20px; 
+            right: 20px; 
+            background: var(--brand-green); 
+            color: #121814; 
+            border: none; 
+            width: 45px; 
+            height: 45px; 
+            border-radius: 50%; 
+            font-size: 28px; 
+            font-weight: 700;
+            cursor: pointer; 
+            z-index: 10000; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); 
+            transition: transform 0.2s ease;
+        }
+        .detail-close-btn:hover {
+            transform: scale(1.08);
+        }
         
-    /* =========================================================
-           MOBILE SPLIT-SCREEN (Fokus-Zoom auf das Zentrum)
+        /* =========================================================
+           MOBILE SPLIT-SCREEN (Fokus-Zoom & hohe Lesbarkeit)
            ========================================================= */
         @media (max-width: 768px) {
             .detail-container { 
                 flex-direction: row; 
             }
             
-            .detail-left-pane { width: 50%; height: 100%; }
-            .detail-right-pane { width: 50%; height: 100%; }
+            .detail-left-pane { width: 45%; height: 100%; }
+            .detail-right-pane { width: 55%; height: 100%; }
             
-            /* Das Bild füllt die Spalte komplett aus und zentriert sich */
             .detail-hero-img { 
                 width: 100%; 
                 height: 100%; 
@@ -296,78 +292,35 @@
                 transform: scale(0.9); 
             }
             .detail-overlay.is-open .detail-hero-img { 
-                transform: scale(1.1); 
+                transform: scale(1.05); 
             }
             
-            /* Text-Formatierung */
-.detail-content-scroll h2 { 
-                font-size: 1.5rem; 
-                margin-bottom: 15px; 
-                padding-bottom: 5px; 
-                text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
-                display: inline;
-                background-color: rgba(0, 0, 0, 0.4); 
-                
-                /* NEU: Oben/Unten 0px, Links/Rechts 3px */
-                padding: 0px 3px; 
-                border-radius: 4px; 
-                
-                box-decoration-break: clone; 
-                -webkit-box-decoration-break: clone;
+            .detail-content-scroll {
+                padding: 55px 16px 30px 16px;
+            }
+
+            .detail-content-scroll h2 { 
+                font-size: 1.35rem; 
+                margin-bottom: 16px; 
+                padding-bottom: 8px; 
             }
             
-            .detail-section { margin-bottom: 15px; }
+            .detail-section { margin-bottom: 18px; }
             
             .detail-section h4 { 
+                font-size: 0.85rem; 
+                letter-spacing: 1.5px; 
+                margin-bottom: 6px;
+            }
+            
+            .detail-section p { 
                 font-size: 0.9rem; 
-                letter-spacing: 1px; 
-                text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
-                display: inline;
-                background-color: rgba(0, 0, 0, 0.4); 
-                
-                /* NEU: Hauteng */
-                padding: 0px 2px; 
-                border-radius: 2px;
-                
-                box-decoration-break: clone;
-                -webkit-box-decoration-break: clone;
-            }
-            
-            .detail-section p { 
-                font-size: 0.85rem; 
                 line-height: 1.6; 
                 word-wrap: break-word; 
                 hyphens: auto; 
-                text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
-                display: inline;
-                background-color: rgba(0, 0, 0, 0.4);
-                
-                /* NEU: Fast unsichtbar klein, schützt nur noch die Kanten */
-                padding: 0px 1px; 
-                border-radius: 2px;
-                
-                box-decoration-break: clone;
-                -webkit-box-decoration-break: clone;
             }
             
-            .detail-section p { 
-                font-size: 0.85rem; 
-                line-height: 1.6; 
-                word-wrap: break-word; 
-                hyphens: auto; 
-                text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
-                display: inline;
-                background-color: rgba(0, 0, 0, 0.4);
-                
-                /* NEU: Fast schon hauteng am Text */
-                padding: 0px 2px; 
-                border-radius: 2px;
-                
-                box-decoration-break: clone;
-                -webkit-box-decoration-break: clone;
-            }
-            
-            .detail-close-btn { width: 35px; height: 35px; font-size: 22px; top: 15px; right: 10px; }
+            .detail-close-btn { width: 38px; height: 38px; font-size: 22px; top: 12px; right: 12px; }
         }
 
         /* DESKTOP OPTIMIERUNG (Galerie) */
