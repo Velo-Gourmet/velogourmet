@@ -424,6 +424,12 @@
             background: rgba(255, 255, 255, 0.2); 
             transform: scale(0.96); 
         }
+        /* BARRIEREFREIHEIT FÜR DIE GALERIE */
+        #gallery-slider .splide__slide:focus-visible {
+            outline: 4px solid #c1ff72;
+            outline-offset: -2px; /* Zieht den Rahmen leicht nach innen */
+            border-radius: 24px;
+        }
     </style>
 </head>
 <body>
@@ -672,7 +678,50 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js">
+        // ==========================================
+        // BARRIEREFREIHEIT: AUTO-PATCHER
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // 1. Impressum unsichtbar nach oben schieben (damit es vor der Galerie im TAB-Fokus landet)
+            const impressumLink = document.querySelector('.impressum-link');
+            const galerieSection = document.getElementById('galerie');
+            if (impressumLink && galerieSection) {
+                galerieSection.insertBefore(impressumLink, galerieSection.firstChild);
+            }
+
+            // 2. Allen Original-Gerichten heimlich die TAB-Erlaubnis geben
+            const galleryList = document.getElementById('gallery-list');
+            if (galleryList) {
+                Array.from(galleryList.children).forEach(li => {
+                    li.setAttribute('tabindex', '0');
+                    li.setAttribute('role', 'button');
+                    li.setAttribute('aria-label', 'Rezept öffnen');
+                });
+                // Original-Klone updaten, damit es beim Kategoriewechsel bleibt
+                originalSlides = Array.from(galleryList.children).map(li => li.cloneNode(true));
+            }
+        });
+
+        // 3. Enter-Taste für die Galeriebilder aktivieren
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                const activeElement = document.activeElement;
+                
+                // Prüfen, ob gerade ein Galerie-Bild anvisiert ist
+                if (activeElement && activeElement.classList.contains('splide__slide') && activeElement.closest('#gallery-slider')) {
+                    e.preventDefault(); // Verhindert runterscrollen bei Leertaste
+                    
+                    const card = activeElement.querySelector('.marquee-card');
+                    if (card) {
+                        // Täuscht einen Mausklick vor und öffnet dein Detailfenster!
+                        card.click(); 
+                    }
+                }
+            }
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@0.5.3/dist/js/splide-extension-auto-scroll.min.js"></script>
 
     <script>
