@@ -651,7 +651,7 @@
             <div class="sheet-half contact-half">
                 <h3 class="sheet-title">Kontakt</h3>
                 <a href="https://wa.me/4915100000000" target="_blank" class="glass-btn">WhatsApp</a>
-                <a href="mailto:hallo@velogourmet.berlin" class="glass-btn">E-Mail</a>
+                <button class="glass-btn" id="copy-email-btn" onclick="copyEmail()">E-Mail Adresse kopieren</button>
                 <button class="sheet-close" onclick="closeContact(event)">Schließen</button>
             </div>
         </div>
@@ -749,6 +749,19 @@
             navigator.clipboard.writeText("Hallo Velo Gourmet,\nich interessiere mich für ein Catering...\nWann: \nWo: \nGästezahl: \nWünsche: ").then(() => {
                 const btn = document.getElementById('copy-btn'); btn.innerText = 'Kopiert! ✓';
                 setTimeout(() => { btn.innerText = 'Vorlage kopieren'; }, 2500);
+            });
+        }
+
+        function copyEmail() {
+            navigator.clipboard.writeText("contact@velogourmet-berlin.de").then(() => {
+                const btn = document.getElementById('copy-email-btn'); 
+                btn.innerText = 'Kopiert! ✓';
+                btn.classList.add('is-copied');
+                
+                setTimeout(() => { 
+                    btn.innerText = 'E-Mail Adresse kopieren'; 
+                    btn.classList.remove('is-copied');
+                }, 2500);
             });
         }
 
