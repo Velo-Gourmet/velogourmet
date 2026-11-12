@@ -444,6 +444,10 @@
             outline-offset: -2px; /* Zieht den Rahmen leicht nach innen */
             border-radius: 24px;
         }
+        #detail-close:focus-visible {
+            outline: 4px solid #c1ff72;
+            outline-offset: 3px;
+        }
     </style>
 </head>
 <body>
@@ -709,10 +713,12 @@ ich interessiere mich für ein Catering...
     <!-- 1. Externes Splide-Skript korrekt laden -->
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
 
-    <!-- 2. Eigener JavaScript-Code für Barrierefreiheit -->
+   <!-- 2. Eigener JavaScript-Code für Barrierefreiheit -->
     <script>
+        let currentRecipeSlide = null;
+
         // ==========================================
-        // BARRIEREFREIHEIT: AUTO-PATCHER (Bereinigt)
+        // BARRIEREFREIHEIT: AUTO-PATCHER & REZEPT-WEITERBLÄTTERN
         // ==========================================
         document.addEventListener('DOMContentLoaded', function() {
             // 1. Impressum unsichtbar nach oben schieben (damit es vor der Galerie im TAB-Fokus landet)
@@ -721,16 +727,60 @@ ich interessiere mich für ein Catering...
             if (impressumLink && galerieSection) {
                 galerieSection.insertBefore(impressumLink, galerieSection.firstChild);
             }
+
+            // 2. Beim Schließen der Rezeptansicht Fokus sauber auf das letzte Galeriebild zurücksetzen
+            const detailCloseBtn = document.getElementById('detail-close');
+            if (detailCloseBtn) {
+                detailCloseBtn.addEventListener('click', function() {
+                    if (currentRecipeSlide) {
+                        setTimeout(() => currentRecipeSlide.focus(), 50);
+                    }
+                });
+            }
         });
 
-        // 2. Enter-Taste für die Galeriebilder aktivieren
+        // 3. Enter- & Leertaste für Galeriebilder + Weiterblättern im offenen Rezept
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' || e.key === ' ') {
+                const detailView = document.getElementById('food-detail-view');
+                const detailCloseBtn = document.getElementById('detail-close');
                 const activeElement = document.activeElement;
-                
-                // Prüfen, ob gerade ein Galerie-Bild anvisiert ist
+
+                // FALL A: Rezeptfenster ist bereits offen
+                if (detailView && detailView.classList.contains('is-open')) {
+                    // Wenn der Schließen-Button per TAB anvisiert ist -> normal schließen lassen
+                    if (activeElement === detailCloseBtn) {
+                        return; 
+                    }
+
+                    // Sonst: Direkt zum nächsten Galerie-Objekt nach rechts wechseln!
+                    e.preventDefault();
+                    const realSlides = Array.from(document.querySelectorAll('#gallery-slider .splide__slide:not(.splide__slide--clone)'));
+                    if (realSlides.length === 0) return;
+
+                    let currentIndex = realSlides.indexOf(currentRecipeSlide);
+                    if (currentIndex === -1) currentIndex = 0;
+
+                    // Nächstes Bild rechts auswählen (am Ende fängt es wieder vorne an)
+                    const nextSlide = realSlides[(currentIndex + 1) % realSlides.length];
+                    currentRecipeSlide = nextSlide;
+                    nextSlide.focus();
+
+                    // Slider im Hintergrund passend mitbewegen
+                    if (typeof gallerySplide !== 'undefined' && gallerySplide) {
+                        gallerySplide.go((currentIndex + 1) % realSlides.length);
+                    }
+
+                    // Rezeptdaten des nächsten Gerichts in die offene Ansicht laden
+                    const nextCard = nextSlide.querySelector('.marquee-card');
+                    if (nextCard) nextCard.click();
+                    return;
+                }
+
+                // FALL B: Rezeptfenster ist noch zu -> Ausgewähltes Galerie-Bild öffnen
                 if (activeElement && activeElement.classList.contains('splide__slide') && activeElement.closest('#gallery-slider')) {
-                    e.preventDefault(); // Verhindert runterscrollen bei Leertaste
+                    e.preventDefault(); // Verhindert Runterscrollen bei Leertaste
+                    currentRecipeSlide = activeElement;
                     
                     const card = activeElement.querySelector('.marquee-card');
                     if (card) card.click(); // Öffnet das Rezept!
@@ -743,42 +793,51 @@ ich interessiere mich für ein Catering...
         // Hält die Tab-Taste in den geöffneten Fenstern gefangen
         // ==========================================
         document.addEventListener('keydown', function(e) {
-            // ESC-Taste schließt die geöffneten Fenster sofort
+            const detailView = document.getElementById('food-detail-view');
+            const detailCloseBtn = document.getElementById('detail-close');
+
+            // ESC-Taste schließt alle geöffneten Fenster sofort
             if (e.key === 'Escape') {
+                if (detailView && detailView.classList.contains('is-open') && detailCloseBtn) {
+                    detailCloseBtn.click();
+                }
                 if (typeof closeContact === 'function') closeContact();
                 if (typeof closeImpressum === 'function') closeImpressum();
             }
 
             // Nur bei TAB-Taste eingreifen
             if (e.key === 'Tab') {
+                // 1. Wenn das Rezeptfenster offen ist: TAB visiert direkt den Schließen-Button an!
+                if (detailView && detailView.classList.contains('is-open')) {
+                    e.preventDefault();
+                    if (detailCloseBtn) detailCloseBtn.focus();
+                    return;
+                }
+
+                // 2. Kontakt- und Impressum-Fenster prüfen
                 let activeOverlay = null;
                 const contact = document.getElementById('contact-overlay');
                 const impressum = document.getElementById('impressum-overlay');
 
-                // Prüfen, welches Fenster gerade offen ist
                 if (contact && contact.classList.contains('is-active')) activeOverlay = contact;
                 else if (impressum && impressum.classList.contains('is-active')) activeOverlay = impressum;
 
                 if (activeOverlay) {
-                    // Alle fokussierbaren Elemente im aktiven Fenster finden
                     const focusable = activeOverlay.querySelectorAll('button, a[href], [tabindex]:not([tabindex="-1"])');
                     if (focusable.length === 0) return;
 
                     const first = focusable[0];
                     const last = focusable[focusable.length - 1];
 
-                    // Wenn RÜCKWÄRTS getabbt wird (Shift + Tab) auf dem ersten Element
                     if (e.shiftKey) { 
                         if (document.activeElement === first) {
                             e.preventDefault(); 
-                            last.focus(); // Springt ans Ende des Fensters
+                            last.focus();
                         }
-                    } 
-                    // Wenn VORWÄRTS getabbt wird (Tab) auf dem letzten Element
-                    else { 
+                    } else { 
                         if (document.activeElement === last) {
                             e.preventDefault(); 
-                            first.focus(); // Springt wieder zum Anfang des Fensters
+                            first.focus();
                         }
                     }
                 }
