@@ -52,9 +52,12 @@
         
         .hero-sticker {
             position: absolute;
-            bottom: -15%; /* Hängt leicht unten über */
-            right: -10%;  /* Hängt leicht rechts über */
-            width: clamp(100px, 30vw, 160px); /* Skaliert perfekt auf dem Handy mit */
+            bottom: -18%; /* Hängt leicht unten über */
+            right: -12%;  /* Hängt leicht rechts über */
+            
+            /* NEU: Deutlich größer (Min: 160px auf Handy, Max: 280px auf Desktop) */
+            width: clamp(160px, 42vw, 280px); 
+            
             height: auto;
             z-index: 10;
             filter: drop-shadow(0 15px 25px rgba(0,0,0,0.2));
