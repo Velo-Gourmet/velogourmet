@@ -727,13 +727,34 @@
     <script>
         window.swipeVelocity = 0; 
         
-        function openContact(e) { if(e) e.preventDefault(); document.getElementById('contact-overlay').classList.add('is-active'); }
-        function closeContact(e) { if(e) e.preventDefault(); document.getElementById('contact-overlay').classList.remove('is-active'); }
+    
+        // Kontakt-Fenster öffnen/schließen mit Fokus-Management
+        function openContact(e) { 
+            if(e) e.preventDefault(); 
+            document.getElementById('contact-overlay').classList.add('is-active');
+            setTimeout(() => {
+                const firstBtn = document.getElementById('copy-btn');
+                if(firstBtn) firstBtn.focus();
+            }, 100);
+        }
+        function closeContact(e) { 
+            if(e) e.preventDefault(); 
+            document.getElementById('contact-overlay').classList.remove('is-active'); 
+        }
 
-        // Impressum Dunkelglas öffnen/schließen
-        function openImpressum(e) { if(e) e.preventDefault(); document.getElementById('impressum-overlay').classList.add('is-active'); }
-        function closeImpressum(e) { if(e) e.preventDefault(); document.getElementById('impressum-overlay').classList.remove('is-active'); }        
-        function copyInfoText() {
+        // Impressum Dunkelglas öffnen/schließen mit Fokus-Management
+        function openImpressum(e) { 
+            if(e) e.preventDefault(); 
+            document.getElementById('impressum-overlay').classList.add('is-active');
+            setTimeout(() => {
+                const closeBtn = document.querySelector('#impressum-overlay .dark-sheet-close');
+                if(closeBtn) closeBtn.focus();
+            }, 100);
+        }
+        function closeImpressum(e) { 
+            if(e) e.preventDefault(); 
+            document.getElementById('impressum-overlay').classList.remove('is-active'); 
+        }function copyInfoText() {
             navigator.clipboard.writeText("Hallo Velo Gourmet,\nich interessiere mich für ein Catering...\nWann: \nWo: \nGästezahl: \nWünsche: ").then(() => {
                 const btn = document.getElementById('copy-btn'); btn.innerText = 'Kopiert! ✓';
                 setTimeout(() => { btn.innerText = 'Vorlage kopieren'; }, 2500);
