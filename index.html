@@ -841,8 +841,11 @@
                 pagination: false, 
                 friction: 0.05, 
                 clones: 15, 
-                autoScroll: { speed: 1.5, pauseOnHover: true, pauseOnFocus: false },
-                slideFocus: true // Zwingt Splide, die Bilder für TAB freizugeben
+                
+                // HIER IST DER ZAUBERSCHALTER: pauseOnFocus auf true setzen!
+                autoScroll: { speed: 1.5, pauseOnHover: true, pauseOnFocus: true },
+                
+                slideFocus: true
             });
 
             // BARRIEREFREIHEIT: Sofort nach dem Aufbau den Klonen den Tab-Fokus entziehen!
