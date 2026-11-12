@@ -855,7 +855,23 @@
                 friction: 0.05, 
                 clones: 15, 
                 autoScroll: { speed: 1.5, pauseOnHover: true, pauseOnFocus: false },
+                slideFocus: true // Zwingt Splide, die Bilder für TAB freizugeben
             });
+
+            // BARRIEREFREIHEIT: Sofort nach dem Aufbau den Klonen den Tab-Fokus entziehen!
+            gallerySplide.on('mounted updated', function() {
+                // Echten Slides die Erlaubnis geben
+                document.querySelectorAll('#gallery-slider .splide__slide:not(.splide__slide--clone)').forEach(slide => {
+                    slide.setAttribute('tabindex', '0');
+                    slide.setAttribute('role', 'button');
+                    slide.setAttribute('aria-label', 'Rezept öffnen');
+                });
+                // Klone strengstens sperren (verhindert Endlos-Schleife)
+                document.querySelectorAll('#gallery-slider .splide__slide--clone').forEach(slide => {
+                    slide.setAttribute('tabindex', '-1');
+                });
+            });
+
             gallerySplide.mount(window.splide.Extensions);
 
             gallerySplide.on('move drag', function () { window.swipeVelocity = 1.5; });
