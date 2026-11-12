@@ -645,8 +645,13 @@
             <div class="sheet-half info-half" style="-webkit-user-select: text; user-select: text;">
                 <h3 class="sheet-title">Anfrage</h3>
                 <div style="font-size: 13px; font-weight: 500; margin-bottom: 15px; line-height: 1.4;">Kopiere diese Vorlage:</div>
-                <ul class="info-list"><li><strong style="color: #000;">Wann:</strong> [Datum/Uhrzeit]</li><li><strong style="color: #000;">Wo:</strong> [Ort]</li><li><strong style="color: #000;">Gäste:</strong> [Anzahl]</li><li><strong style="color: #000;">Details:</strong> [Allergien]</li></ul>
-                <button class="glass-btn" id="copy-btn" onclick="copyInfoText()">Vorlage kopieren</button>
+              <ul class="info-list">
+                    <li><strong style="color: #000;">Wann:</strong> [Datum/Uhrzeit]</li>
+                    <li><strong style="color: #000;">Wo:</strong> [Ort]</li>
+                  <li><strong style="color: #000;">Was:</strong> [Welches Menü?]</li>
+                    <li><strong style="color: #000;">Gästezahl:</strong> [Anzahl]</li>
+                    <li><strong style="color: #000;">Wünsche:</strong> [Details/Allergien]</li>
+                </ul><button class="glass-btn" id="copy-btn" onclick="copyInfoText()">Vorlage kopieren</button>
             </div>
             <div class="sheet-half contact-half">
                 <h3 class="sheet-title">Kontakt</h3>
@@ -748,10 +753,11 @@
         }function copyInfoText() {
             const cateringText = `Hallo Velo Gourmet,
 ich interessiere mich für ein Catering...
-Wann: 
-Wo: 
-Gästezahl: 
-Wünsche: `;
+Wann: [Datum/Uhrzeit]
+Wo: [Ort]
+Was: [Welches Menü?]
+Gästezahl: [Anzahl]
+Wünsche: [Details/Allergien]`;
 
             navigator.clipboard.writeText(cateringText).then(() => {
                 const btn = document.getElementById('copy-btn'); 
