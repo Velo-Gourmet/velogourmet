@@ -204,6 +204,38 @@
         .sheet-close { margin-top: 15px; background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02); border-radius: 20px; color: var(--text-dark); font-size: 13px; font-weight: 600; padding: 10px 24px; cursor: pointer; align-self: center; transition: all 0.2s; border: none; }
         .sheet-close:active { background: rgba(0,0,0,0.08); transform: scale(0.96); }
 
+        /* Sprach-Umschalter (DE / EN) im Bestellfenster */
+        .lang-switch {
+            display: inline-flex;
+            background: rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            border-radius: 20px;
+            padding: 3px;
+            margin: 0 auto 14px auto;
+        }
+        .lang-btn {
+            border: none;
+            background: transparent;
+            color: var(--text-dark);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 5px 14px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+        .lang-btn.is-active {
+            background: var(--brand-green);
+            color: #1a2e05;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+        }
+        .lang-btn:focus-visible,
+        .glass-btn:focus-visible,
+        .sheet-close:focus-visible {
+            outline: 3px solid #1b241e;
+            outline-offset: 2px;
+        }
         /* =========================================================
            NEU: SPLIT-SCREEN DETAILANSICHT (LIGHTBOX)
            ========================================================= */
@@ -632,26 +664,31 @@
 
 
     <!-- KONTAKT OVERLAY -->
-    <div class="glass-overlay" id="contact-overlay" onclick="closeContact(event)">
+    <!-- KONTAKT OVERLAY -->
+    <div class="glass-overlay" id="contact-overlay" role="dialog" aria-modal="true" aria-labelledby="contact-inquiry-title" onclick="closeContact(event)">
         <div class="glass-sheet contact-layout" onclick="event.stopPropagation()">
             <div class="sheet-half info-half" style="-webkit-user-select: text; user-select: text;">
-                <h3 class="sheet-title">Anfrage</h3>
-                <div style="font-size: 13px; font-weight: 500; margin-bottom: 15px; line-height: 1.4;">Hallo Velo Gourmet,
-ich interessiere mich für ein Catering...
-</div>
-              <ul class="info-list">
+                <div class="lang-switch" role="group" aria-label="Sprache wählen / Choose language">
+                    <button type="button" class="lang-btn is-active" id="lang-de-btn" aria-pressed="true" onclick="setContactLang('de')">DE</button>
+                    <button type="button" class="lang-btn" id="lang-en-btn" aria-pressed="false" onclick="setContactLang('en')">EN</button>
+                </div>
+                <h3 class="sheet-title" id="contact-inquiry-title">Anfrage</h3>
+                <div id="contact-intro" style="font-size: 13px; font-weight: 500; margin-bottom: 15px; line-height: 1.4; white-space: pre-line;">Hallo Velo Gourmet,
+ich interessiere mich für ein Catering...</div>
+                <ul class="info-list" id="contact-list">
                     <li><strong style="color: #000;">Wann:</strong> [Datum/Uhrzeit]</li>
                     <li><strong style="color: #000;">Wo:</strong> [Ort]</li>
-                  <li><strong style="color: #000;">Was:</strong> [Welches Menü?]</li>
+                    <li><strong style="color: #000;">Was:</strong> [Welches Menü?]</li>
                     <li><strong style="color: #000;">Gästezahl:</strong> [Anzahl]</li>
                     <li><strong style="color: #000;">Wünsche:</strong> [Details/Allergien]</li>
-                </ul><button class="glass-btn" id="copy-btn" onclick="copyInfoText()">Vorlage kopieren</button>
+                </ul>
+                <button type="button" class="glass-btn" id="copy-btn" onclick="copyInfoText()">Vorlage kopieren</button>
             </div>
             <div class="sheet-half contact-half">
-                <h3 class="sheet-title">Kontakt</h3>
-                <a href="https://wa.me/4915100000000" target="_blank" class="glass-btn">WhatsApp</a>
-                <button class="glass-btn" id="copy-email-btn" onclick="copyEmail()">E-Mail Adresse kopieren</button>
-                <button class="sheet-close" onclick="closeContact(event)">Schließen</button>
+                <h3 class="sheet-title" id="contact-right-title">Kontakt</h3>
+                <a href="https://wa.me/4915100000000" target="_blank" rel="noopener" class="glass-btn">WhatsApp</a>
+                <button type="button" class="glass-btn" id="copy-email-btn" onclick="copyEmail()">E-Mail Adresse kopieren</button>
+                <button type="button" class="sheet-close" id="contact-close-btn" onclick="closeContact(event)">Schließen</button>
             </div>
         </div>
     </div>
@@ -824,18 +861,77 @@ ich interessiere mich für ein Catering...
         window.swipeVelocity = 0; 
         
     
-        // Kontakt-Fenster öffnen/schließen mit Fokus-Management
-        function openContact(e) { 
-            if(e) e.preventDefault(); 
-            document.getElementById('contact-overlay').classList.add('is-active');
-            setTimeout(() => {
-                const firstBtn = document.getElementById('copy-btn');
-                if(firstBtn) firstBtn.focus();
-            }, 100);
-        }
-        function closeContact(e) { 
-            if(e) e.preventDefault(); 
-            document.getElementById('contact-overlay').classList.remove('is-active'); 
+       let currentContactLang = 'de';
+
+        const contactTranslations = {
+            de: {
+                inquiryTitle: 'Anfrage',
+                intro: 'Hallo Velo Gourmet,\nich interessiere mich für ein Catering...',
+                listHtml: `
+                    <li><strong style="color: #000;">Wann:</strong> [Datum/Uhrzeit]</li>
+                    <li><strong style="color: #000;">Wo:</strong> [Ort]</li>
+                    <li><strong style="color: #000;">Was:</strong> [Welches Menü?]</li>
+                    <li><strong style="color: #000;">Gästezahl:</strong> [Anzahl]</li>
+                    <li><strong style="color: #000;">Wünsche:</strong> [Details/Allergien]</li>`,
+                templateText: `Hallo Velo Gourmet,
+ich interessiere mich für ein Catering...
+Wann: [Datum/Uhrzeit]
+Wo: [Ort]
+Was: [Welches Menü?]
+Gästezahl: [Anzahl]
+Wünsche: [Details/Allergien]`,
+                copyBtn: 'Vorlage kopieren',
+                copiedFeedback: 'Kopiert! ✓',
+                contactTitle: 'Kontakt',
+                copyEmailBtn: 'E-Mail Adresse kopieren',
+                closeBtn: 'Schließen'
+            },
+            en: {
+                inquiryTitle: 'Inquiry',
+                intro: 'Hello Velo Gourmet,\nI’m interested in catering for an event...',
+                listHtml: `
+                    <li><strong style="color: #000;">When:</strong> [Date/Time]</li>
+                    <li><strong style="color: #000;">Where:</strong> [Location]</li>
+                    <li><strong style="color: #000;">What:</strong> [Which menu?]</li>
+                    <li><strong style="color: #000;">Guests:</strong> [Number]</li>
+                    <li><strong style="color: #000;">Requests:</strong> [Details/Allergies]</li>`,
+                templateText: `Hello Velo Gourmet,
+I’m interested in catering for an event...
+When: [Date/Time]
+Where: [Location]
+What: [Which menu?]
+Guests: [Number]
+Requests: [Details/Allergies]`,
+                copyBtn: 'Copy template',
+                copiedFeedback: 'Copied! ✓',
+                contactTitle: 'Contact',
+                copyEmailBtn: 'Copy email address',
+                closeBtn: 'Close'
+            }
+        };
+
+        function setContactLang(lang) {
+            currentContactLang = lang;
+            const t = contactTranslations[lang];
+
+            document.getElementById('lang-de-btn').classList.toggle('is-active', lang === 'de');
+            document.getElementById('lang-de-btn').setAttribute('aria-pressed', lang === 'de');
+            document.getElementById('lang-en-btn').classList.toggle('is-active', lang === 'en');
+            document.getElementById('lang-en-btn').setAttribute('aria-pressed', lang === 'en');
+
+            document.getElementById('contact-inquiry-title').textContent = t.inquiryTitle;
+            document.getElementById('contact-intro').textContent = t.intro;
+            document.getElementById('contact-list').innerHTML = t.listHtml;
+            document.getElementById('contact-right-title').textContent = t.contactTitle;
+            document.getElementById('contact-close-btn').textContent = t.closeBtn;
+
+            const copyBtn = document.getElementById('copy-btn');
+            copyBtn.classList.remove('is-copied');
+            copyBtn.textContent = t.copyBtn;
+
+            const emailBtn = document.getElementById('copy-email-btn');
+            emailBtn.classList.remove('is-copied');
+            emailBtn.textContent = t.copyEmailBtn;
         }
 
         // Kontakt-Fenster öffnen/schließen mit Fokus-Management
@@ -843,14 +939,13 @@ ich interessiere mich für ein Catering...
             if(e) e.preventDefault(); 
             document.getElementById('contact-overlay').classList.add('is-active');
             setTimeout(() => {
-                const firstBtn = document.getElementById('copy-btn');
+                const firstBtn = document.getElementById('lang-de-btn');
                 if(firstBtn) firstBtn.focus();
             }, 100);
         }
         function closeContact(e) { 
             if(e) e.preventDefault(); 
             document.getElementById('contact-overlay').classList.remove('is-active'); 
-            // Fokus zurück auf den ersten Button ("Mach ma fertig!") setzen
             const startBtn = document.querySelector('.artist-btn');
             if(startBtn) startBtn.focus();
         }
@@ -867,28 +962,34 @@ ich interessiere mich für ein Catering...
         function closeImpressum(e) { 
             if(e) e.preventDefault(); 
             document.getElementById('impressum-overlay').classList.remove('is-active'); 
-            // Fokus zurück auf den Impressum-Link am Anfang der Galerie-Sektion setzen
             const impLink = document.querySelector('.impressum-link');
             if(impLink) impLink.focus();
         }
 
         function copyInfoText() {
-            const cateringText = `Hallo Velo Gourmet,
-ich interessiere mich für ein Catering...
-Wann: [Datum/Uhrzeit]
-Wo: [Ort]
-Was: [Welches Menü?]
-Gästezahl: [Anzahl]
-Wünsche: [Details/Allergien]`;
-
-            navigator.clipboard.writeText(cateringText).then(() => {
+            const t = contactTranslations[currentContactLang];
+            navigator.clipboard.writeText(t.templateText).then(() => {
                 const btn = document.getElementById('copy-btn'); 
-                btn.innerText = 'Kopiert! ✓';
-                btn.classList.add('is-copied'); // Aktiviert das grüne Leuchten
+                btn.innerText = t.copiedFeedback;
+                btn.classList.add('is-copied');
                 
                 setTimeout(() => { 
-                    btn.innerText = 'Vorlage kopieren'; 
-                    btn.classList.remove('is-copied'); // Schaltet das Leuchten wieder aus
+                    btn.innerText = contactTranslations[currentContactLang].copyBtn; 
+                    btn.classList.remove('is-copied');
+                }, 2500);
+            });
+        }
+
+        function copyEmail() {
+            const t = contactTranslations[currentContactLang];
+            navigator.clipboard.writeText("contact@velogourmet-berlin.de").then(() => {
+                const btn = document.getElementById('copy-email-btn'); 
+                btn.innerText = t.copiedFeedback;
+                btn.classList.add('is-copied');
+                
+                setTimeout(() => { 
+                    btn.innerText = contactTranslations[currentContactLang].copyEmailBtn; 
+                    btn.classList.remove('is-copied');
                 }, 2500);
             });
         }
