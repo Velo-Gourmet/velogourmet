@@ -27,6 +27,20 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
 
     <style>
+
+       /* Visuell unsichtbar, aber für Google & Screenreader voll lesbar */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            clip-path: inset(50%);
+            white-space: nowrap;
+            border: 0;
+        }
         /* ==========================================
            1. SETUP & CSS-VARIABLEN
            ========================================== */
@@ -464,14 +478,15 @@
     </style>
 </head>
 <body>
-    <main class="scroll-container" id="scroll-container">
+   <main class="scroll-container" id="scroll-container">
         <section class="section hero-section" id="hero">
             <div class="hero-bg" id="hero-bg"></div>
             <div class="hero-content" id="hero-content">
                 <div class="logo-wrapper">
                     <div class="logo-container">
+                        <h1 class="sr-only">Velo Gourmet Berlin – Catering für Firmen &amp; private Feiern: Levante, Vegan &amp; Gourmet</h1>
                         <img src="lo.svg" alt="Velo Gourmet Berlin Logo" class="logo-img">
-                        <img src="aztec.svg" alt="Velo Gourmet Sticker" class="hero-sticker">
+                        <img src="aztec.svg" alt="" aria-hidden="true" class="hero-sticker">
                     </div>
                 </div>
             </div>
