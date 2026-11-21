@@ -272,7 +272,7 @@
         .sheet-close { margin-top: 15px; background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02); border-radius: 20px; color: var(--text-dark); font-size: 13px; font-weight: 600; padding: 10px 24px; cursor: pointer; align-self: center; transition: all 0.2s; border: none; }
         .sheet-close:active { background: rgba(0,0,0,0.08); transform: scale(0.96); }
 
-        /* Sprach-Umschalter (DE / EN) im Bestellfenster */
+        /* Sprach-Umschalter (DE / EN) im Bestellfenster & Rezept-Overlay */
         .lang-switch {
             display: inline-flex;
             background: rgba(0, 0, 0, 0.06);
@@ -304,6 +304,24 @@
             outline: 3px solid #1b241e;
             outline-offset: 2px;
         }
+        /* Dunkle Variante des Sprach-Umschalters für die Rezeptansicht */
+        .lang-switch--dark {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(193, 255, 114, 0.35);
+            margin: 0 0 18px 0;
+        }
+        .lang-switch--dark .lang-btn {
+            color: #f4f1ea;
+        }
+        .lang-switch--dark .lang-btn.is-active {
+            background: var(--brand-green);
+            color: #121814;
+        }
+        .lang-switch--dark .lang-btn:focus-visible {
+            outline: 3px solid #c1ff72;
+            outline-offset: 2px;
+        }
+
         /* =========================================================
            NEU: SPLIT-SCREEN DETAILANSICHT (LIGHTBOX)
            ========================================================= */
@@ -410,6 +428,10 @@
             
             .detail-content-scroll {
                 padding: 55px 16px 30px 16px;
+            }
+
+            .lang-switch--dark {
+                margin: 0 0 12px 0;
             }
 
             .detail-content-scroll h2 { 
@@ -717,25 +739,29 @@
     </main>
 
     <!-- NEU: SPLIT-SCREEN LIGHTBOX -->
-    <div id="food-detail-view" class="detail-overlay">
-        <button id="detail-close" class="detail-close-btn">&times;</button>
+    <div id="food-detail-view" class="detail-overlay" role="dialog" aria-modal="true" aria-labelledby="detail-title">
+        <button id="detail-close" class="detail-close-btn" aria-label="Rezept schließen">&times;</button>
         <div class="detail-container">
             <div class="detail-left-pane">
                 <div id="detail-image" class="detail-hero-img"></div>
             </div>
             <div class="detail-right-pane" id="detail-text-bg">
                 <div class="detail-content-scroll">
+                    <div class="lang-switch lang-switch--dark" role="group" aria-label="Rezeptsprache wählen / Choose recipe language">
+                        <button type="button" class="lang-btn is-active" id="detail-lang-de-btn" aria-pressed="true" onclick="setRecipeLang('de')">DE</button>
+                        <button type="button" class="lang-btn" id="detail-lang-en-btn" aria-pressed="false" onclick="setRecipeLang('en')">EN</button>
+                    </div>
                     <h2 id="detail-title">Gericht Titel</h2>
                     <div class="detail-section">
-                        <h4>Beschreibung</h4>
+                        <h4 id="detail-label-desc">Beschreibung</h4>
                         <p id="detail-desc">Hier steht die Beschreibung.</p>
                     </div>
                     <div class="detail-section">
-                        <h4>Zutaten</h4>
+                        <h4 id="detail-label-ingredients">Zutaten</h4>
                         <p id="detail-ingredients">Lade Daten...</p>
                     </div>
                     <div class="detail-section">
-                        <h4>Allergene</h4>
+                        <h4 id="detail-label-allergens">Allergene</h4>
                         <p id="detail-allergens">Lade Daten...</p>
                     </div>
                 </div>
@@ -839,8 +865,8 @@ ich interessiere mich für ein Catering...</div>
 
                 // FALL A: Rezeptfenster ist bereits offen
                 if (detailView && detailView.classList.contains('is-open')) {
-                    // Wenn der Schließen-Button per TAB anvisiert ist -> normal schließen lassen
-                    if (activeElement === detailCloseBtn) {
+                    // Wenn der Schließen-Button oder DE/EN-Schalter per TAB anvisiert ist -> normal auslösen lassen
+                    if (activeElement === detailCloseBtn || (activeElement && activeElement.closest('.lang-switch--dark'))) {
                         return; 
                     }
 
@@ -898,10 +924,31 @@ ich interessiere mich für ein Catering...</div>
 
             // Nur bei TAB-Taste eingreifen
             if (e.key === 'Tab') {
-                // 1. Wenn das Rezeptfenster offen ist: TAB visiert direkt den Schließen-Button an!
+                // 1. Wenn das Rezeptfenster offen ist: TAB wechselt sauber zwischen Schließen, DE und EN
                 if (detailView && detailView.classList.contains('is-open')) {
-                    e.preventDefault();
-                    if (detailCloseBtn) detailCloseBtn.focus();
+                    const focusable = detailView.querySelectorAll('button, a[href], [tabindex]:not([tabindex="-1"])');
+                    if (focusable.length === 0) return;
+
+                    const first = focusable[0];
+                    const last = focusable[focusable.length - 1];
+
+                    if (!detailView.contains(document.activeElement)) {
+                        e.preventDefault();
+                        first.focus();
+                        return;
+                    }
+
+                    if (e.shiftKey) {
+                        if (document.activeElement === first) {
+                            e.preventDefault();
+                            last.focus();
+                        }
+                    } else {
+                        if (document.activeElement === last) {
+                            e.preventDefault();
+                            first.focus();
+                        }
+                    }
                     return;
                 }
 
@@ -940,8 +987,280 @@ ich interessiere mich für ein Catering...</div>
     <script>
         window.swipeVelocity = 0; 
         
-    
-       let currentContactLang = 'de';
+        let currentContactLang = 'de';
+        let currentRecipeData = null;
+
+        const recipeLabels = {
+            de: {
+                desc: 'Beschreibung',
+                ingredients: 'Zutaten',
+                allergens: 'Allergene',
+                closeAria: 'Rezept schließen'
+            },
+            en: {
+                desc: 'Description',
+                ingredients: 'Ingredients',
+                allergens: 'Allergens',
+                closeAria: 'Close recipe'
+            }
+        };
+
+        const recipeTranslationsEN = {
+            'Grill-Lamm': {
+                title: 'Grilled Lamb',
+                desc: `Tender premium grilled lamb, authentically seasoned for true Levantine flavor.`,
+                ingredients: `Lamb, olive oil, garlic, cumin, paprika`,
+                allergens: `None`
+            },
+            'Humus': {
+                title: 'Hummus',
+                desc: `Enjoy our velvety chickpea dip refined with tahini and garlic—best served at a summer barbecue.
+
+Prepare the chickpeas: Rinse and drain thoroughly.
+Prep the garlic: Peel and roughly chop.
+Blend: Add chickpeas, tahini, garlic, lemon juice, and cumin to a blender.
+Add liquid: Pour in olive oil and cold water. The cold water creates an extra creamy texture.
+Purée: Blend for several minutes until smooth and velvety.
+Season: Adjust to taste with salt and more lemon juice if needed.
+Serve: Transfer to a bowl and drizzle with a little olive oil.
+
+Variation: Blend with green peas for green, sweet corn for yellow, or beetroot for vibrant red hummus.`,
+                ingredients: `400 g chickpeas (drained), 2 tbsp tahini, 2 garlic cloves, 3 tbsp olive oil, juice of 1 lemon, 50 ml cold water, 1 tsp cumin, salt to taste`,
+                allergens: `Sesame`
+            },
+            'Shakshuka': {
+                title: 'Shakshuka',
+                desc: `A warming skillet dish of poached eggs nestled in a rich, Middle Eastern spiced tomato and bell pepper sauce.
+
+Sauté the base: Slice the onion and bell pepper into strips and sauté in olive oil until soft. Briefly cook the garlic until fragrant.
+Simmer the sauce: Stir in the spices, add the tomatoes, and simmer for about 10 minutes until thickened.
+Poach the eggs: Use a spoon to make four wells in the sauce and crack an egg into each.
+Cook: Cover the pan and cook for 5–8 minutes until the egg whites are set while the yolks remain runny.
+Garnish: Sprinkle with fresh cilantro and serve straight from the skillet.
+
+Variation: Crumble feta cheese into the tomato sauce or stir in spicy harissa paste.`,
+                ingredients: `1 onion, 1 red bell pepper, 2 garlic cloves, 400 g diced tomatoes, 1 tsp cumin, 1 tsp sweet paprika, 4 eggs, olive oil, salt, pepper, fresh cilantro`,
+                allergens: `Eggs`
+            },
+            'Baba Ghanoush': {
+                title: 'Baba Ghanoush',
+                desc: `A smoky, creamy roasted eggplant dip that gets its unmistakable, deep character from oven roasting.
+
+Roast: Prick the eggplants several times with a fork and roast in the oven at 220 °C (425 °F) for about 45 minutes until soft and wrinkled.
+Cool: Halve the eggplants and scoop out the tender flesh with a spoon.
+Mash: Mash the flesh in a bowl with a fork (for rustic texture) or blend lightly.
+Mix: Stir in tahini, minced garlic, lemon juice, and olive oil.
+Season: Season with salt and pepper and garnish with fresh parsley.
+
+Variation: Top with pomegranate seeds for a fruity burst, or finish with a bold oil such as walnut oil.`,
+                ingredients: `2 medium eggplants, 2 tbsp tahini, 1 garlic clove, juice of half a lemon, 2 tbsp olive oil, salt, pepper, fresh parsley`,
+                allergens: `Sesame`
+            },
+            'Falafel': {
+                title: 'Falafel',
+                desc: `Golden-brown, crispy patties made from chickpeas and fresh herbs—the ultimate street food classic.
+
+Prepare: Drain the soaked chickpeas and pat dry thoroughly.
+Pulse: Process chickpeas, onion, garlic, and fresh herbs in a food processor until crumbly (do not purée into a smooth paste!).
+Season: Mix in spices, salt, and baking powder. Let the mixture rest for 30 minutes.
+Shape: With damp hands, form small, firm balls.
+Fry: Deep-fry in hot oil for 3–4 minutes until golden brown, then drain on paper towels.
+
+Variation: Coat with sesame seeds before frying, or bake in the oven for a lighter version.`,
+                ingredients: `250 g dried chickpeas (soaked overnight), 1 onion, 2 garlic cloves, 1 bunch parsley, 1 bunch cilantro, 1 tsp cumin, 1 tsp ground coriander, 1/2 tsp baking powder, oil for frying, salt`,
+                allergens: `None (check frying oil)`
+            },
+            'Kunafa': {
+                title: 'Kunafa',
+                desc: `A heavenly warm Middle Eastern dessert: crispy shredded pastry meets melted cheese and fragrant sweet syrup.
+
+Make the syrup: Bring water and sugar to a boil, add lemon juice, simmer for 5 minutes, and let cool.
+Prep the pastry: Shred the kataifi strands and coat thoroughly with melted butter.
+Layer: Press half of the pastry into a greased pan, spread the cheese evenly on top, cover with the remaining pastry, and press down firmly.
+Cook: Fry or bake over medium heat for about 10 minutes per side until golden brown.
+Serve: Pour the cold syrup over the hot kunafa and garnish with chopped pistachios.
+
+Variation: Add a splash of orange blossom water to the syrup for a citrus note—rose water also pairs wonderfully.`,
+                ingredients: `200 g kataifi pastry (shredded phyllo), 100 g melted butter, 200 g Dil Peyniri or mozzarella, 100 ml water, 100 g sugar, 1 tsp lemon juice, chopped pistachios`,
+                allergens: `Gluten, Milk, Tree nuts (pistachios)`
+            },
+            'Seitan-Steak': {
+                title: 'Seitan Steak',
+                desc: `A hearty, protein-rich wheat-based steak that develops an irresistible crust from bold seasoning and high-heat searing.
+
+Dry ingredients: Mix vital wheat gluten, nutritional yeast, and smoked paprika.
+Wet ingredients: Whisk together vegetable broth, soy sauce, and tomato paste.
+Knead: Add the liquid to the dry mix and knead vigorously until a firm, elastic dough forms. Shape into steaks.
+Steam: Steam the steaks for about 20 minutes until firm.
+Sear: Pan-fry in hot oil on both sides until deeply browned with a rich crust.
+
+Variation: Marinate in BBQ sauce or teriyaki marinade before searing.`,
+                ingredients: `200 g vital wheat gluten, 2 tbsp nutritional yeast, 1 tsp smoked paprika, 150 ml vegetable broth, 2 tbsp soy sauce, 1 tbsp tomato paste, oil for frying`,
+                allergens: `Gluten, Soy`
+            },
+            'Rote-Bete-Tatar': {
+                title: 'Beetroot Tartare',
+                desc: `A refined vegan delicacy reminiscent of classic beef tartare in look and depth, yet wonderfully earthy and fresh.
+
+Dice: Cut the beetroot into very fine, uniform cubes (tip: wear disposable gloves!).
+Finely chop: Mince the shallot, gherkin, and capers very finely.
+Combine: Mix all chopped ingredients in a bowl.
+Dress: Gently fold in olive oil, mustard, and lemon juice.
+Season: Season boldly with salt and pepper and plate using a ring mold.
+
+Variation: Elevate with freshly grated horseradish or fold in chopped walnuts for extra crunch.`,
+                ingredients: `300 g precooked beetroot, 1 shallot, 1 gherkin, 1 tsp capers, 1 tbsp olive oil, 1 tsp Dijon mustard, salt, pepper, a splash of lemon juice`,
+                allergens: `Mustard`
+            },
+            'Vegane Pilz-Quiche': {
+                title: 'Vegan Mushroom Quiche',
+                desc: `Tart Crust
+For the flax egg, place 1 tbsp ground flaxseeds in a small bowl, add 3 tbsp water, and whisk together. Set aside for 5 minutes.
+Add all crust ingredients to a food processor and pulse until the dough clumps together. If it seems too dry, add a splash of cold water.
+Shape the dough into a ball, wrap in plastic wrap, and chill in the refrigerator for about 30 minutes.
+Remove from the fridge, roll out, and carefully press into a round tart pan (20–23 cm diameter), forming a 5–6 cm high rim. Return the pan to the fridge.
+
+Vegetables
+While the crust chills, prepare the vegetables. Heat a little vegetable oil in a pot, add the onion, and sauté over medium heat for about 1 minute. Add garlic, bell pepper, leek, mushrooms, and salt to taste. Cook for several minutes until all water has evaporated, then let cool. If any liquid remains, squeeze it out as thoroughly as possible.
+
+Preheat the oven to 220 °C (425 °F).
+
+Chickpea Batter
+Whisk the chickpea flour, plant milk (or water), and spice mix together in a bowl.
+Bring the vegetable broth (or water) to a boil in a pot. Slowly pour in the chickpea mixture while whisking continuously.
+Simmer over low heat for 5–6 minutes, stirring regularly. The mixture thickens quickly—this is completely normal.
+
+Assembly
+Spread the vegetables evenly over the tart crust.
+Pour the chickpea batter on top and arrange halved cherry tomatoes over the surface.
+Bake in the oven for 25–30 minutes.`,
+                ingredients: `Crust: 140 g (gluten-free) flour, 60 g almonds, 1 flax egg, 56 g margarine, salt, water. Batter: 120 g chickpea flour, 240 ml plant milk, 480 ml vegetable broth, onion powder, nutritional yeast, paprika, turmeric. Vegetables: 1/2 onion, 1 garlic clove, 1/2 bell pepper, 250 g mushrooms, leek, sun-dried & cherry tomatoes.`,
+                allergens: `Tree nuts (almonds), Celery`
+            },
+            'Ratatouille': {
+                title: 'Ratatouille',
+                desc: `A classic French vegetable stew that brings the gently braised aromas of Provence straight to your plate.
+
+Chop: Dice all vegetables into even, bite-sized cubes.
+Sauté: Sweat the onions and garlic in olive oil.
+Braise: Add the remaining vegetables, sauté briefly, and deglaze with passata. Stir in the herbs.
+Simmer: Gently braise over medium heat for about 20 minutes.
+Season: Adjust to taste with salt and pepper.
+
+Variation: Add a pinch of chili for gentle heat or serve topped with vegan feta.`,
+                ingredients: `1 eggplant, 1 zucchini, 1 red and 1 yellow bell pepper, 400 g passata (strained tomatoes), 1 onion, 2 garlic cloves, 3 tbsp olive oil, Herbes de Provence, salt, pepper`,
+                allergens: `None`
+            },
+            'Vegane Semmelknödel': {
+                title: 'Vegan Bread Dumplings (Semmelknödel)',
+                desc: `Hearty comfort food reimagined—our light, fluffy plant-based bread dumplings are the ideal companion for rich sauces.
+
+Prep the bread: Cut the stale bread rolls into thin slices or small cubes.
+Sauté the aromatics: Finely dice the onion and sweat in margarine until translucent; briefly sauté the parsley with it.
+Mix the dough: Pour the onion mix, hot soy milk, and chickpea flour over the bread.
+Season: Season with salt, pepper, and freshly grated nutmeg. Let rest for 15 minutes.
+Shape and poach: With wet hands, form round dumplings and simmer gently (do not boil) in salted water for 15–20 minutes.
+
+Variation: Pairs wonderfully with either our creamy vegan wild mushroom sauce or creamed spinach.`,
+                ingredients: `250 g stale bread rolls, 200 ml unsweetened soy milk, 1 onion, 2 tbsp margarine, 2 tbsp fresh parsley, 2 tbsp chickpea flour, salt, pepper, nutmeg`,
+                allergens: `Gluten, Soy`
+            },
+            'Kokos Panna Cotta': {
+                title: 'Coconut Panna Cotta',
+                desc: `A tropical dream made from silky coconut milk that melts effortlessly on the tongue with a light, refreshing finish.
+
+Prepare the vanilla: Split the vanilla bean lengthwise and scrape out the seeds.
+Heat: Combine coconut milk, sugar, vanilla seeds, and agar-agar in a saucepan.
+Boil: Bring to a boil while stirring constantly and keep at a rolling boil for about 2 minutes (essential for agar-agar).
+Pour: Divide into small ramekins or glasses and let cool slightly.
+Chill: Refrigerate for at least 3 hours until set.
+Sauce: Purée thawed frozen berries and pass through a fine sieve into a bowl. Bring the strained juice to a boil and thicken with a starch-water slurry.
+
+Variation: Instead of berries, top with tangy passion fruit syrup or fresh ripe mango.`,
+                ingredients: `400 ml full-fat coconut milk, 50 g sugar, 1 vanilla bean, 1 tsp agar-agar, frozen berries for the sauce, fresh berries, coconut flakes for garnish`,
+                allergens: `None`
+            },
+            'Entrecôte': {
+                title: 'Entrecôte (Ribeye Steak)',
+                desc: `A noble, beautifully marbled beef steak with intense natural flavor that needs little more than high heat and good salt to shine.
+
+Temper: Remove the steak from the fridge at least 30 minutes before cooking.
+Sear: Heat oil in a heavy cast-iron skillet until smoking hot. Sear the steaks for 2–3 minutes per side (for medium-rare).
+Aromatize: Reduce heat. Add butter, rosemary, and the crushed garlic clove to the pan.
+Baste (Arroser): Continuously spoon the foaming butter over the steak for about 1 minute.
+Rest: Remove from the pan, season with coarse salt and pepper, and let rest for 5 minutes before slicing.
+
+Variation: Classic with Sauce Béarnaise or a rich red wine shallot jus—though a well-seared entrecôte also pairs brilliantly with teriyaki or BBQ sauce.`,
+                ingredients: `2 entrecôte (ribeye) steaks, 2 tbsp high-heat oil, 1 sprig rosemary, 1 garlic clove, 1 tbsp butter, coarse sea salt, freshly cracked black pepper`,
+                allergens: `Milk (butter)`
+            },
+            'Boeuf Bourguignon': {
+                title: 'Boeuf Bourguignon',
+                desc: `A legendary, deeply rich Burgundian beef stew braised slowly in red wine for hours until the meat melts on the tongue.
+
+Render the bacon: Fry diced bacon in a large Dutch oven until crisp, then remove.
+Sear the beef: Brown the beef in batches in the bacon fat, season with salt and pepper, and set aside.
+Sauté vegetables: Brown the carrots and pearl onions, then return the beef to the pot.
+Braise: Deglaze with red wine, add the bouquet garni, cover, and braise gently over low heat for 2.5 to 3 hours.
+Add mushrooms: Sauté the mushrooms separately and stir into the stew 15 minutes before the end.
+
+Variation: For a thicker sauce, knead cold butter with a little flour and stir in at the end. Also delicious with goose or duck.`,
+                ingredients: `500 g beef stew meat, 100 g smoked bacon, 1 bottle dry red wine, 200 g button mushrooms, 150 g pearl onions, 2 carrots, 1 bouquet garni, oil, salt, pepper`,
+                allergens: `Sulfites (wine)`
+            },
+            'Kartoffelgratin': {
+                title: 'Potato Gratin (Gratin Dauphinois)',
+                desc: `The classic French side dish of wafer-thin potato slices baked in a decadently creamy garlic-cream sauce.
+
+Prepare: Grease a baking dish with butter and rub it thoroughly with the halved garlic clove.
+Slice: Peel the potatoes and slice about 2 mm thin (do NOT rinse afterward—the starch thickens the sauce).
+Mix the sauce: Combine heavy cream and milk, seasoning generously with salt, pepper, and nutmeg.
+Layer: Fan the potato slices evenly into the dish and pour the sauce over them.
+Bake: Bake at 180 °C (350 °F, fan) for 45–50 minutes until the surface forms a golden-brown crust.
+
+Variation: Sprinkle the cheese over the gratin during the final 15 minutes. Feel free to use your favorite cheese plus a touch of good Parmesan, or try toppings like herb pesto or sun-dried tomato strips.`,
+                ingredients: `800 g waxy potatoes, 250 ml heavy cream, 150 ml whole milk, 1 garlic clove, 1 tbsp butter, 250 g cheese (Gruyère and Comté blend), salt, pepper, freshly grated nutmeg`,
+                allergens: `Milk`
+            },
+            'Pilzrisotto': {
+                title: 'Wild Mushroom Risotto',
+                desc: `A creamy, flowing risotto with intense forest mushroom aroma—a dish that rewards patience and constant stirring.
+
+Sweat the base: Finely dice the shallot and sweat in olive oil until translucent. Add the rice and toast briefly.
+Deglaze: Pour in the white wine and let it reduce until the liquid evaporates.
+Stir and ladle: Add hot broth one ladle at a time, stirring continuously until absorbed before adding the next (about 20 minutes).
+Sauté mushrooms: Meanwhile, sear the mushrooms over high heat in a separate pan.
+Finish (Mantecatura): Remove from the heat and vigorously stir in the mushrooms, cold butter, and Parmesan. Let rest for 2 minutes.
+
+Variation: Different risotto rice varieties, beetroot juice, or squid ink create unforgettable culinary variations.`,
+                ingredients: `250 g risotto rice, 300 g fresh mushrooms, 1 shallot, 1 garlic clove, 100 ml dry white wine, 800 ml hot vegetable broth, 50 g freshly grated Parmesan, 2 tbsp cold butter, olive oil, salt, pepper`,
+                allergens: `Milk, Sulfites (wine)`
+            },
+            'Tuna Tataki': {
+                title: 'Tuna Tataki',
+                desc: `A Japanese delicacy: fresh tuna is briefly seared on the outside while remaining raw inside, melting on the tongue.
+
+Marinate: Mix soy sauce, rice vinegar, and grated ginger. Marinate the tuna for 15 minutes.
+Crust: Remove the fish from the marinade (drain well) and roll firmly in the sesame seeds to coat all sides.
+Sear: Heat sesame oil in a pan until very hot. Sear each side for a maximum of 30 seconds (the center MUST stay raw!).
+Cool: Remove from the pan immediately and let cool briefly so it does not crumble when slicing.
+Serve: Slice about 0.5 cm thick and drizzle with the remaining marinade.
+
+Variation: Different sauces give great variety—try ponzu, honey-mustard, or sriracha sauce.`,
+                ingredients: `300 g fresh sushi-grade tuna, 3 tbsp soy sauce, 1 tbsp sesame oil, 1 tbsp rice vinegar, 1 tsp fresh ginger, black and white sesame seeds`,
+                allergens: `Fish, Soy, Sesame`
+            },
+            'Profiteroles': {
+                title: 'Profiteroles',
+                desc: `Delicate, airy choux pastry puffs filled with ice-cold ice cream and chocolate mousse.
+
+Make the choux pastry: Bring water, butter, and salt to a boil. Remove from the heat, add the flour all at once, and stir. Return to the heat and stir until a smooth dough ball forms and a white film coats the bottom of the pot.
+Work in the eggs: Let the dough cool briefly. Beat in the eggs one at a time with a hand mixer until the dough is glossy.
+Bake: Pipe small mounds onto a baking sheet and bake at 200 °C (400 °F) for about 20 minutes (do NOT open the oven door!).`,
+                ingredients: `125 ml water, 50 g butter, 1 pinch salt, 75 g all-purpose flour, 2 eggs`,
+                allergens: `Gluten, Milk, Eggs`
+            }
+        };
 
         const contactTranslations = {
             de: {
@@ -990,14 +1309,53 @@ Requests: [Details/Allergies]`,
             }
         };
 
+        function renderRecipeDetail() {
+            if (!currentRecipeData) return;
+            const lang = currentContactLang;
+            const labels = recipeLabels[lang] || recipeLabels.de;
+            const enData = recipeTranslationsEN[currentRecipeData.key];
+            const activeData = (lang === 'en' && enData) ? enData : currentRecipeData.de;
+
+            document.getElementById('detail-label-desc').textContent = labels.desc;
+            document.getElementById('detail-label-ingredients').textContent = labels.ingredients;
+            document.getElementById('detail-label-allergens').textContent = labels.allergens;
+            document.getElementById('detail-close').setAttribute('aria-label', labels.closeAria);
+
+            document.getElementById('detail-title').textContent = activeData.title;
+            document.getElementById('detail-desc').textContent = activeData.desc;
+            document.getElementById('detail-ingredients').textContent = activeData.ingredients;
+            document.getElementById('detail-allergens').textContent = activeData.allergens;
+        }
+
+        function updateLanguageButtons(lang) {
+            const deContact = document.getElementById('lang-de-btn');
+            const enContact = document.getElementById('lang-en-btn');
+            const deRecipe = document.getElementById('detail-lang-de-btn');
+            const enRecipe = document.getElementById('detail-lang-en-btn');
+
+            if (deContact) {
+                deContact.classList.toggle('is-active', lang === 'de');
+                deContact.setAttribute('aria-pressed', lang === 'de');
+            }
+            if (enContact) {
+                enContact.classList.toggle('is-active', lang === 'en');
+                enContact.setAttribute('aria-pressed', lang === 'en');
+            }
+            if (deRecipe) {
+                deRecipe.classList.toggle('is-active', lang === 'de');
+                deRecipe.setAttribute('aria-pressed', lang === 'de');
+            }
+            if (enRecipe) {
+                enRecipe.classList.toggle('is-active', lang === 'en');
+                enRecipe.setAttribute('aria-pressed', lang === 'en');
+            }
+        }
+
         function setContactLang(lang) {
             currentContactLang = lang;
             const t = contactTranslations[lang];
 
-            document.getElementById('lang-de-btn').classList.toggle('is-active', lang === 'de');
-            document.getElementById('lang-de-btn').setAttribute('aria-pressed', lang === 'de');
-            document.getElementById('lang-en-btn').classList.toggle('is-active', lang === 'en');
-            document.getElementById('lang-en-btn').setAttribute('aria-pressed', lang === 'en');
+            updateLanguageButtons(lang);
 
             document.getElementById('contact-inquiry-title').textContent = t.inquiryTitle;
             document.getElementById('contact-intro').textContent = t.intro;
@@ -1012,6 +1370,12 @@ Requests: [Details/Allergies]`,
             const emailBtn = document.getElementById('copy-email-btn');
             emailBtn.classList.remove('is-copied');
             emailBtn.textContent = t.copyEmailBtn;
+
+            renderRecipeDetail();
+        }
+
+        function setRecipeLang(lang) {
+            setContactLang(lang);
         }
 
         // Kontakt-Fenster öffnen/schließen mit Fokus-Management
@@ -1124,10 +1488,13 @@ Requests: [Details/Allergies]`,
                         bgImage = window.getComputedStyle(photoDiv).getPropertyValue('background-image');
                     }
 
-                    document.getElementById('detail-title').textContent = title;
-                    document.getElementById('detail-desc').textContent = desc;
-                    document.getElementById('detail-ingredients').textContent = ingredients;
-                    document.getElementById('detail-allergens').textContent = allergens;
+                    currentRecipeData = {
+                        key: title,
+                        de: { title, desc, ingredients, allergens }
+                    };
+
+                    renderRecipeDetail();
+                    updateLanguageButtons(currentContactLang);
                     document.getElementById('detail-image').style.backgroundImage = bgImage;
 
                     document.getElementById('food-detail-view').classList.add('is-open');
