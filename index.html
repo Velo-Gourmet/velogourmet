@@ -35,7 +35,7 @@
       "description": "Catering in Berlin für Firmen & private Feiern von Velo Gourmet: Große Auswahl, an deine Wünsche angepasst. Frisch, nachhaltig, flexibel.",
       "url": "https://velogourmet.de/",
       "image": "https://velogourmet.de/OG.jpg",
-      "logo": "https://velogourmet.de/lo.svg",
+      "logo": "https://velogourmet.de/lo.webp",
       "servesCuisine": [
         "Levantinisch",
         "Vegan",
@@ -88,7 +88,7 @@
         :root {
             --bg-sand: #f4f1ea; --bg-sage: #e2e8dd; --brand-green: #c1ff72; --brand-rose: #FFD6D8;
             --text-dark: #1b241e; --card-white: rgba(255, 255, 255, 0.85);
-            --svg-bg-hero: url('cs.svg'); --svg-bg-content: url('st.svg');
+            --svg-bg-hero: url('cs.webp'); --svg-bg-content: url('st.webp');
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -110,9 +110,9 @@
         .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 120%; background-image: var(--svg-bg-hero); background-size: cover; background-position: center center; background-repeat: no-repeat; z-index: 1; will-change: transform; filter: contrast(95%) brightness(98%); }
         .hero-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; width: 100%; display: flex; justify-content: center; align-items: center; will-change: transform, opacity; transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.25s ease-out; }
         .logo-wrapper { display: flex; justify-content: center; align-items: center; width: 100%; padding: 0 10px; }
-      .logo-img { aspect-ratio: 1 / 1; width: clamp(250px, 80vw, 500px); height: auto; object-fit: contain; filter: drop-shadow(0 25px 45px rgba(0,0,0,0.22)); animation: fadeInMorph 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+        .logo-img { aspect-ratio: 1 / 1; width: clamp(250px, 80vw, 500px); height: auto; object-fit: contain; filter: drop-shadow(0 25px 45px rgba(0,0,0,0.22)); animation: fadeInMorph 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
 
-/* --- STICKER EFFEKT --- */
+        /* --- STICKER EFFEKT --- */
         .logo-container {
             position: relative;
             display: inline-block; /* Hält den Sticker exakt an den Rändern des Logos */
@@ -128,7 +128,7 @@
             
             height: auto;
             z-index: 10;
-            pointer-events: none; /* Verhindert, dass der große SVG-Rahmen Klicks blockiert */
+            pointer-events: none; /* Verhindert, dass der große Bild-Rahmen Klicks blockiert */
             filter: drop-shadow(0 15px 25px rgba(0,0,0,0.2));
             transform: rotate(8deg); /* Leicht schief aufgeklebt für den organischen Look */
             animation: floatSticker 6s ease-in-out infinite; /* Dezente Schwebe-Animation */
@@ -314,7 +314,7 @@
         .detail-left-pane { width: 50%; height: 100%; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         .detail-hero-img { width: 150%; height: 150%; background-size: contain; background-position: right center; background-repeat: no-repeat; transform: scale(0.8) translateX(-20%); transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s; }
         .detail-overlay.is-open .detail-hero-img { transform: scale(1) translateX(0); }
-      /* RECHTE SEITE (Edles Dunkelglas ohne Textur, maximaler Kontrast) */
+        /* RECHTE SEITE (Edles Dunkelglas ohne Textur, maximaler Kontrast) */
         .detail-right-pane {
             width: 50%; 
             height: 100%; 
@@ -451,7 +451,7 @@
         /* ==========================================
            IMPRESSUM & DUNKLES GLAS-OVERLAY
            ========================================== */
-     .impressum-link {
+        .impressum-link {
             position: absolute;
             bottom: 4px; /* Text bleibt optisch auf alter Höhe trotz größerer Klickfläche */
             left: 16px; /* + 4px padding-left = exakt 20px Abstand wie vorher */
@@ -536,8 +536,8 @@
                 <div class="logo-wrapper">
                     <div class="logo-container">
                         <h1 class="sr-only">Velo Gourmet Berlin – Catering für Firmen &amp; private Feiern: Levante, Vegan &amp; Gourmet</h1>
-                        <img src="lo.svg" alt="Velo Gourmet Berlin Logo" class="logo-img">
-                        <img src="aztec.svg" alt="" aria-hidden="true" class="hero-sticker">
+                        <img src="lo.webp" alt="Velo Gourmet Berlin Logo" class="logo-img">
+                        <img src="aztec.webp" alt="" aria-hidden="true" class="hero-sticker">
                     </div>
                 </div>
             </div>
@@ -596,37 +596,37 @@
                             <!-- KATEGORIE: HERMANNPLATZ -->
                             <li class="splide__slide" data-category="hermannplatz">
                                 <div class="marquee-card" data-title="Grill-Lamm" data-desc="Zartes Premium-Lamm vom Grill, authentisch gewürzt für den echten Levante-Geschmack." data-zutaten="Lammfleisch, Olivenöl, Knoblauch, Kreuzkümmel, Paprika" data-allergene="Keine">
-                                    <div class="food-photo" style="background-image: url('lamm.svg');"></div>
+                                    <div class="food-photo" style="background-image: url('lamm.webp');"></div>
                                     <div class="marquee-card-inner"><div class="card-info"><h4>Grill-Lamm</h4><p>Hermannplatz Klassiker</p></div></div>
                                 </div>
                             </li>
                             <li class="splide__slide" data-category="hermannplatz">
                                 <div class="marquee-card" data-title="Humus" data-desc="Genieße unseren samtigen Kichererbsen Dip mit Tahin und Knoblauch verfeinert am besten auf einer sommerlichen Grillparty.&#10;&#10;Kichererbsen vorbereiten: Abspülen und gut abtropfen lassen.&#10;Knoblauch schneiden: Schälen und grob zerkleinern.&#10;Mixen: Kichererbsen, Tahini, Knoblauch, Zitronensaft und Kreuzkümmel in den Mixer geben.&#10;Flüssigkeit zugeben: Olivenöl und kaltes Wasser hinzufügen. Das kalte Wasser sorgt für eine besonders cremige Konsistenz.&#10;Pürieren: Mehrere Minuten mixen, bis die Masse glatt und cremig ist.&#10;Abschmecken: Mit Salz und ggf. mehr Zitronensaft verfeinern.&#10;Servieren: In eine Schale geben und mit etwas Olivenöl toppen.&#10;&#10;Variation: Grün mit Erbsen, Gelb mit Mais, Rot mit Roter Bete püriert." data-zutaten="400 g Kichererbsen (abgetropft), 2 EL Tahini, 2 Knoblauchzehen, 3 EL Olivenöl, Saft einer Zitrone, 50 ml kaltes Wasser, 1 TL Kreuzkümmel, Salz nach Geschmack" data-allergene="Sesam">
-                                    <div class="food-photo" style="background-image: url('humus.svg');"></div>
+                                    <div class="food-photo" style="background-image: url('humus.webp');"></div>
                                     <div class="marquee-card-inner"><div class="card-info"><h4>Humus</h4><p>Cremig & Authentisch</p></div></div>
                                 </div>
                             </li>
                             <li class="splide__slide" data-category="hermannplatz">
                                 <div class="marquee-card" data-title="Shakshuka" data-desc="Ein wärmendes Pfannengericht pochierten Eiern in einer kräftigen, orientalisch gewürzten Tomaten-Paprika-Soße.&#10;&#10;Basis anbraten: Zwiebel und Paprika in Streifen schneiden und in Olivenöl weich dünsten. Knoblauch kurz mitrösten.&#10;Soße kochen: Gewürze einrühren, Tomaten hinzugeben und ca. 10 Minuten einköcheln lassen, bis die Soße andickt.&#10;Eier pochieren: Mit einem Löffel vier Mulden in die Soße drücken und je ein Ei hineinschlagen.&#10;Garen: Bei geschlossener Pfanne ca. 5-8 Minuten garen, bis das Eiweiß gestockt, das Eigelb aber noch flüssig ist.&#10;Garnieren: Mit frischem Koriander bestreuen und direkt aus der Pfanne servieren.&#10;&#10;Variation: Feta-Käse in die Tomatensoße bröseln oder scharfe Harissa-Paste unterrühren." data-zutaten="1 Zwiebel, 1 rote Paprika, 2 Knoblauchzehen, 400 g stückige Tomaten, 1 TL Kreuzkümmel, 1 TL Paprikapulver (edelsüß), 4 Eier, Olivenöl, Salz, Pfeffer, frischer Koriander" data-allergene="Eier">
-                                    <div class="food-photo" style="background-image: url('shakhshuka.svg');"></div>
+                                    <div class="food-photo" style="background-image: url('shakhshuka.webp');"></div>
                                     <div class="marquee-card-inner"><div class="card-info"><h4>Shakshuka</h4><p>Würzige Levante</p></div></div>
                                 </div>
                             </li>
                             <li class="splide__slide" data-category="hermannplatz">
                                 <div class="marquee-card" data-title="Baba Ghanoush" data-desc="Ein rauchiger, cremiger Auberginen-Dip, der durch das Rösten im Ofen seinen unverwechselbaren, tiefen Charakter erhält.&#10;&#10;Rösten: Auberginen mehrfach mit einer Gabel einstehen und im Ofen bei 220°C ca. 45 Minuten backen, bis sie weich und schrumpelig sind.&#10;Auskühlen: Halbieren und das weiche Fruchtfleisch mit einem Löffel herauskratzen.&#10;Zerstampfen: Das Fruchtfleisch in einer Schale mit einer Gabel zerdrücken (für Textur) oder leicht mixen.&#10;Mischen: Tahini, gepressten Knoblauch, Zitronensaft und Olivenöl unterrühren.&#10;Abschmecken: Mit Salz und Pfeffer würzen und mit Petersilie garnieren.&#10;&#10;Variation: Ein paar Granatapfelkerne als fruchtiges Topping darüberstreuen oder ein anderes kräftiges Öl zum Garnieren nehmen wie Walnussöl." data-zutaten="2 mittelgroße Auberginen, 2 EL Tahini, 1 Knoblauchzehe, Saft einer halben Zitrone, 2 EL Olivenöl, Salz, Pfeffer, frische Petersilie" data-allergene="Sesam">
-                                    <div class="food-photo" style="background-image: url('babaganoush.svg');"></div>
+                                    <div class="food-photo" style="background-image: url('babaganoush.webp');"></div>
                                     <div class="marquee-card-inner"><div class="card-info"><h4>Baba Ghanoush</h4><p>Rauchig & Frisch</p></div></div>
                                 </div>
                             </li>
                             <li class="splide__slide" data-category="hermannplatz">
                                 <div class="marquee-card" data-title="Falafel" data-desc="Goldbraune, knusprige Bällchen aus Kichererbsen und frischen Kräutern – der ultimative Streetfood-Klassiker.&#10;&#10;Vorbereiten: Eingeweichte Kichererbsen abgießen und gut abtropfen lassen.&#10;Zerkleinern: Kichererbsen, Zwiebel, Knoblauch und frische Kräuter in einem Food Processor krümelig mixen (nicht zu Mus pürieren!).&#10;Würzen: Gewürze, Salz und Backpulver untermischen. Die Masse 30 Minuten ruhen lassen.&#10;Formen: Mit angefeuchteten Händen kleine, feste Bällchen formen.&#10;Frittieren: In heißem Öl ca. 3-4 Minuten goldbraun ausbacken, auf Küchenpapier abtropfen lassen.&#10;&#10;Variation: Mit Sesamkörnern panieren oder für eine leichtere Variante im Ofen backen." data-zutaten="250 g getrocknete Kichererbsen (über Nacht eingeweicht), 1 Zwiebel, 2 Knoblauchzehen, 1 Bund Petersilie, 1 Bund Koriander, 1 TL Kreuzkümmel, 1 TL Korianderpulver, 1/2 TL Backpulver, Öl zum Frittieren, Salz" data-allergene="Keine (Achtung beim Frittieröl)">
-                                    <div class="food-photo" style="background-image: url('falafel.svg');"></div>
+                                    <div class="food-photo" style="background-image: url('falafel.webp');"></div>
                                     <div class="marquee-card-inner"><div class="card-info"><h4>Falafel</h4><p>Knuspriger Klassiker</p></div></div>
                                 </div>
                             </li>
                             <li class="splide__slide" data-category="hermannplatz">
                                 <div class="marquee-card" data-title="Kunafa" data-desc="Eine himmlische, warme Süßspeise aus dem Nahen Osten: Knusprige Teigfäden treffen auf geschmolzenen Käse und süßen Sirup.&#10;&#10;Sirup kochen: Wasser und Zucker aufkochen, Zitronensaft zugeben, 5 Minuten köcheln lassen und abkühlen.&#10;Teig vorbereiten: Kadaifi-Fäden zerkleinern und gründlich mit der flüssigen Butter vermengen.&#10;Schichten: Die Hälfte des Teigs in eine gefettete Pfanne drücken, Käse darauf verteilen, mit restlichem Teig abdecken und festdrücken.&#10;Backen/Braten: Bei mittlerer Hitze ca. 10 Minuten pro Seite goldbraun backen.&#10;Servieren: Noch heiß mit dem kalten Sirup übergießen und mit Pistazien bestreuen.&#10;&#10;Variation: Für eine Orangen-Note etwas Orangenblütenwasser in den Sirup geben, auch Rosenblütenwasser passt hervorragend." data-zutaten="200 g Kadaifi-Teig (Engelshaar), 100 g geschmolzene Butter, 200 g Dil Peyniri oder Mozzarella, 100 ml Wasser, 100 g Zucker, 1 TL Zitronensaft, gehackte Pistazien" data-allergene="Gluten, Milch, Schalenfrüchte (Pistazien)">
-                                    <div class="food-photo" style="background-image: url('kunafa.svg');"></div>
+                                    <div class="food-photo" style="background-image: url('kunafa.webp');"></div>
                                     <div class="marquee-card-inner"><div class="card-info"><h4>Kunafa</h4><p>Süße Versuchung</p></div></div>
                                 </div>
                             </li>
@@ -634,37 +634,37 @@
                             <!-- KATEGORIE: PRENZLAUER BERG -->
                             <li class="splide__slide" data-category="prenzlauerberg">
                                 <div class="marquee-card" data-title="Seitan-Steak" data-desc="Ein herzhaftes, proteinreiches Steak auf Weizenbasis, das durch kräftige Marinade und scharfes Anbraten eine tolle Kruste bekommt.&#10;&#10;Trockene Zutaten: Seitan-Pulver, Hefeflocken und Paprikapulver mischen.&#10;Flüssigkeit mischen: Brühe, Sojasauce und Tomatenmark verrühren.&#10;Kneten: Flüssigkeit zum Pulver geben und kräftig kneten, bis ein zäher Teig entsteht. In Steak-Formen drücken.&#10;Dämpfen: Die Steaks ca. 20 Minuten im Dampfgarer garen, damit sie fest werden.&#10;Braten: In einer Pfanne mit Öl von beiden Seiten scharf anbraten, bis sie eine dunkle Kruste haben.&#10;&#10;Variation: Vor dem Braten in einer BBQ-Soße oder Teriyaki-Marinade einlegen." data-zutaten="200 g Seitan-Pulver, 2 EL Hefeflocken, 1 TL Paprikapulver geräuchert, 150 ml Gemüsebrühe, 2 EL Sojasauce, 1 EL Tomatenmark, Öl zum Braten" data-allergene="Gluten, Soja">
-                                    <div class="food-photo" style="background-image: url('seitansteak.svg');"></div>
+                                    <div class="food-photo" style="background-image: url('seitansteak.webp');"></div>
                                     <div class="marquee-card-inner"><div class="card-info"><h4>Seitan-Steak</h4><p>Deftig & Pflanzlich</p></div></div>
                                 </div>
                             </li>
                             <li class="splide__slide" data-category="prenzlauerberg">
                                 <div class="marquee-card" data-title="Rote-Bete-Tatar" data-desc="Eine vegane Delikatesse, die optisch und geschmacklich an klassisches Rindertatar erinnert, aber wunderbar erdig und frisch schmeckt.&#10;&#10;Würfeln: Rote Bete in sehr feine, gleichmäßige Würfel schneiden (Tipp: Einmalhandschuhe tragen!).&#10;Feinhacken: Schalotte, Gewürzgurke und Kapern extrem fein hacken.&#10;Vermengen: Alle zerkleinerten Zutaten in einer Schüssel mischen.&#10;Marinieren: Olivenöl, Senf und Zitronensaft unterheben.&#10;Abschmecken: Kräftig mit Salz und Pfeffer abschmecken und in einem Servierring anrichten.&#10;&#10;Variation: Mit etwas geriebenem Meerrettich verfeinern oder Walnussstückchen für den Crunch untermischen." data-zutaten="300 g vorgekochte Rote Bete, 1 Schalotte, 1 Gewürzgurke, 1 TL Kapern, 1 EL Olivenöl, 1 TL Dijon-Senf, Salz, Pfeffer, ein Spritzer Zitronensaft" data-allergene="Senf">
-                                    <div class="food-photo" style="background-image: url('rotebeetetatar.svg');"></div>
+                                    <div class="food-photo" style="background-image: url('rotebeetetatar.webp');"></div>
                                     <div class="marquee-card-inner"><div class="card-info"><h4>Rote-Bete-Tatar</h4><p>Fein & Erdig</p></div></div>
                                 </div>
                             </li>
                             <li class="splide__slide" data-category="prenzlauerberg">
                                 <div class="marquee-card" data-title="Vegane Pilz-Quiche" data-desc="Tartboden&#10;Für das Leinsamen-Ei, 1 EL gemahlene Leinsamen in eine kleine Schüssel geben, 3 EL Wasser hinzufügen und mit einem Schneebesen vermischen. Für 5 Minuten beiseite stellen.&#10;Nun alle Zutaten für den Tartboden in eine Küchenmaschine geben und so lange mixen, bis der Teig zusammenklumpt. Wenn der Teig zu trocken erscheint, ein wenig kaltes Wasser hinzugeben.&#10;Den Teig zu einer Kugel formen, in Plastikfolie wickeln und für ca. 30 Minuten in den Kühlschrank stellen.&#10;Den Teig nach 30 Minuten aus dem Kühlschrank nehmen, ausrollen und vorsichtig in eine runde Tartform legen (20-23 cm Durchmesser). Dabei einen ca. 5-6 cm hohen Rand formen. Die Form in den Kühlschrank stellen.&#10;&#10;Gemüse&#10;Während der Teig im Kühlschrank ruht, kannst du das Gemüse vorbereiten. Ein wenig Pflanzenöl in einem Topf erhitzen, die Zwiebel hinzufügen und bei mittlerer Hitze etwa 1 Minute anbraten. Knoblauch, Paprika, Lauch, Pilze und nach belieben Salz dazugeben. Einige Minuten in der Pfanne anbraten, bis das Wasser verdunstet ist. Danach abkühlen lassen. Wenn noch Wasser vorhanden ist, dann dieses so gut es geht auswringen.&#10;&#10;Ofen auf 220 Grad C vorheizen.&#10;&#10;Kichererbsen-Teig&#10;In einer Schüssel das Kichererbsenmehl, die Pflanzenmilch (oder Wasser) und die Gewürzmischung mit einem Schneebesen verrühren.&#10;In einem Topf die Gemüsebrühe (oder Wasser) zum Kochen bringen. Sobald es kocht, die Kichererbsenmischung langsam unter Rühren zu der Gemüsebrühe gießen.&#10;Bei schwacher Hitze 5-6 Minuten köcheln lassen und regelmäßig umrühren. Die Mischung dickt schnell an, was normal ist.&#10;&#10;Zusammenstellen&#10;Das Gemüse auf dem Tartboden verteilen.&#10;Nun den Kichererbsenteig darüber gießen und die halbierten Kirschtomaten obendrauf geben.&#10;Im Ofen für 25-30 Minuten backen." data-zutaten="Boden: 140g (glutenfreies) Mehl, 60g Mandeln, 1 Leinsamen-Ei, 56g Margarine, Salz, Wasser. Teig: 120g Kichererbsenmehl, 240ml Pflanzenmilch, 480ml Gemüsebrühe, Zwiebelpulver, Hefeflocken, Paprika, Kurkuma. Gemüse: 1/2 Zwiebel, 1 Knoblauch, 1/2 Paprika, 250g Pilze, Lauch, getr. Tomaten." data-allergene="Mandeln, Sellerie">
-                                    <div class="food-photo" style="background-image: url('quiche.svg');"></div>
+                                    <div class="food-photo" style="background-image: url('quiche.webp');"></div>
                                     <div class="marquee-card-inner"><div class="card-info"><h4>Pilz-Quiche</h4><p>Herzhaft Gebacken</p></div></div>
                                 </div>
                             </li>
                             <li class="splide__slide" data-category="prenzlauerberg">
                                 <div class="marquee-card" data-title="Ratatouille" data-desc="Ein klassischer französischer Gemüseeintopf, der die Aromen der Provence schonend gegart direkt auf deinen Teller bringt.&#10;&#10;Gemüse schneiden: Alles in gleichmäßige, mundgerechte Würfel schneiden.&#10;Anbraten: Zwiebeln und Knoblauch in Olivenöl andünsten.&#10;Schmoren: Das restliche Gemüse zugeben, kurz anrösten und mit den passierten Tomaten ablöschen. Kräuter unterrühren.&#10;Köcheln: Bei mittlerer Hitze ca. 20 Minuten sanft schmoren lassen.&#10;Abschmecken: Mit Salz und Pfeffer verfeinern.&#10;&#10;Variation: Mit etwas Chili für eine leichte Schärfe oder mit veganem Feta bestreut servieren." data-zutaten="1 Aubergine, 1 Zucchini, 1 rote und 1 gelbe Paprika, 400 g passierte Tomaten, 1 Zwiebel, 2 Knoblauchzehen, 3 EL Olivenöl, Kräuter der Provence, Salz, Pfeffer" data-allergene="Keine">
-                                    <div class="food-photo" style="background-image: url('ratatouille.svg');"></div>
+                                    <div class="food-photo" style="background-image: url('ratatouille.webp');"></div>
                                     <div class="marquee-card-inner"><div class="card-info"><h4>Ratatouille</h4><p>Geschmortes Gemüse</p></div></div>
                                 </div>
                             </li>
                             <li class="splide__slide" data-category="prenzlauerberg">
                                 <div class="marquee-card" data-title="Vegane Semmelknödel" data-desc="Deftige Hausmannskost neu gedacht – unsere luftigen Knödel auf pflanzlicher Basis sind der perfekte Begleiter für herzhafte Saucen.&#10;&#10;Brot vorbereiten: Brötchen in feine Scheiben oder Würfel schneiden.&#10;Zwiebeln rösten: Zwiebel fein würfeln und in Margarine glasig dünsten, Petersilie kurz mitbraten.&#10;Teig mischen: Zwiebelmischung, heiße Sojamilch und Kichererbsenmehl über das Brot geben.&#10;Würzen: Mit Salz, Pfeffer und frisch geriebener Muskatnuss abschmecken. 15 Minuten ziehen lassen.&#10;Formen und Kochen: Mit nassen Händen Knödel formen und in siedendem (nicht kochendem) Salzwasser 15-20 Minuten garziehen lassen.&#10;&#10;Variation: Dazu passt hervorragend entweder unsere cremige vegane Waldpilzrahmsoße, oder ein cremiger Spinat." data-zutaten="250 g altbackene Brötchen, 200 ml ungesüßte Sojamilch, 1 Zwiebel, 2 EL Margarine, 2 EL frische Petersilie, 2 EL Kichererbsenmehl, Salz, Pfeffer, Muskatnuss" data-allergene="Gluten, Soja">
-                                    <div class="food-photo" style="background-image: url('semmelknoedel.svg');"></div>
+                                    <div class="food-photo" style="background-image: url('semmelknoedel.webp');"></div>
                                     <div class="marquee-card-inner"><div class="card-info"><h4>Semmelknödel</h4><p>Veganer Klassiker</p></div></div>
                                 </div>
                             </li>
                             <li class="splide__slide" data-category="prenzlauerberg">
                                 <div class="marquee-card" data-title="Kokos Panna Cotta" data-desc="Ein karibischer Traum aus seidiger Kokosmilch, der leicht auf der Zunge zergeht und wunderbar erfrischend wirkt.&#10;&#10;Vanille vorbereiten: Schote längs aufschneiden und das Mark herauskratzen.&#10;Aufkochen: Kokosmilch, Zucker, Vanillemark und Agar-Agar in einem Topf verrühren.&#10;Köcheln: Unter ständigem Rühren aufkochen und ca. 2 Minuten sprudelnd kochen lassen (wichtig für Agar-Agar).&#10;Abfüllen: In kleine Förmchen oder Gläser gießen und abkühlen lassen.&#10;Kühlen: Für mindestens 3 Stunden in den Kühlschrank stellen.&#10;Sauce: TK-Beeren aufgetaut pürieren und über einer Schüssel durch ein Sieb streichen. Aufgefangener Saft aufkochen und mit Stärke-Wasser-Mix andicken.&#10;&#10;Variation: Statt Beeren ein Topping aus säuerlichem Maracuja-Sirup oder reifer Mango verwenden." data-zutaten="400 ml vollfette Kokosmilch, 50 g Zucker, 1 Vanilleschote, 1 TL Agar-Agar, TK-Beeren für die Sauce, Frische Beeren, Kokosflocken als Garnitur" data-allergene="Keine">
-                                    <div class="food-photo" style="background-image: url('kokospannacotta.svg');"></div>
+                                    <div class="food-photo" style="background-image: url('kokospannacotta.webp');"></div>
                                     <div class="marquee-card-inner"><div class="card-info"><h4>Kokos Panna Cotta</h4><p>Pflanzliche Süße</p></div></div>
                                 </div>
                             </li>
@@ -672,37 +672,37 @@
                             <!-- KATEGORIE: ZEHLENDORF -->
                             <li class="splide__slide" data-category="zehlendorf">
                                 <div class="marquee-card" data-title="Entrecôte" data-desc="Ein edles, marmoriertes Rindersteak mit intensivem Eigengeschmack, das nur Hitze und gutes Salz braucht, um zu glänzen.&#10;&#10;Temperieren: Das Fleisch mindestens 30 Minuten vor dem Braten aus dem Kühlschrank nehmen.&#10;Anbraten: Öl in einer schweren Gusseisenpfanne sehr stark erhitzen. Steaks pro Seite 2-3 Minuten scharf anbraten (für Medium Rare).&#10;Aromatisieren: Hitze reduzieren. Butter, Rosmarin und die angedrückte Knoblauchzehe in die Pfanne geben.&#10;Arrosieren: Das Fleisch mit der schäumenden Butter immer wieder übergießen (ca. 1 Minute).&#10;Ruhen: Fleisch aus der Pfanne nehmen, salzen, pfeffern und 5 Minuten ruhen lassen, bevor es aufgeschnitten wird.&#10;&#10;Variation: Dazu passt eine klassische Sauce Béarnaise oder eine kräftige Rotwein-Schalotten-Jus, im Prinzip passen tatsächlich ein Vielzahl von Saucen zu einem gut gebratenen Entrecôte-Steak, wie z.B. Teriyaki- oder BBQ-Sauce." data-zutaten="2 Entrecôte-Steaks, 2 EL hitzebeständiges Öl, 1 Zweig Rosmarin, 1 Knoblauchzehe, 1 EL Butter, Grobes Meersalz, frisch gemahlener schwarzer Pfeffer" data-allergene="Milch (Butter)">
-                                    <div class="food-photo" style="background-image: url('entrecote.svg');"></div>
+                                    <div class="food-photo" style="background-image: url('entrecote.webp');"></div>
                                     <div class="marquee-card-inner"><div class="card-info"><h4>Entrecôte</h4><p>Premium Rindfleisch</p></div></div>
                                 </div>
                             </li>
                             <li class="splide__slide" data-category="zehlendorf">
                                 <div class="marquee-card" data-title="Boeuf Bourguignon" data-desc="Ein legendäres, tiefdunkles Rinderragout aus dem Burgund, das stundenlang bei niedriger Hitze in Rotwein geschmort wird, bis das Fleisch auf der Zunge zerfällt.&#10;&#10;Speck auslassen: Speckwürfel in einem großen Bräter knusprig braten und herausnehmen.&#10;Fleisch anrösten: Das Rindfleisch portionsweise im Speckfett scharf anbraten, salzen, pfeffern und herausnehmen.&#10;Gemüse anbraten: Karotten und Perlzwiebeln anrösten, dann das Fleisch wieder hinzugeben.&#10;Schmoren: Mit Rotwein ablöschen, Kräuterstrauß zugeben und bei schwacher Hitze zugedeckt 2,5 bis 3 Stunden sanft schmoren.&#10;Pilze zugeben: Champignons separat anbraten und 15 Minuten vor Ende der Garzeit zum Ragout geben.&#10;&#10;Variation: Für eine dickere Soße am Ende kalte Butterstücke mit etwas Mehl verkneten und einrühren. Auch lecker mit Gans oder Ente." data-zutaten="500 g Rindergulasch, 100 g geräucherter Speck, 1 Flasche trockener Rotwein, 200 g Champignons, 150 g Perlzwiebeln, 2 Karotten, 1 Bund Bouquet Garni, Öl, Salz, Pfeffer" data-allergene="Sulfite (Wein)">
-                                    <div class="food-photo" style="background-image: url('boeufbourguignon.svg');"></div>
+                                    <div class="food-photo" style="background-image: url('boeufbourguignon.webp');"></div>
                                     <div class="marquee-card-inner"><div class="card-info"><h4>Boeuf Bourguignon</h4><p>Klassiker</p></div></div>
                                 </div>
                             </li>
                             <li class="splide__slide" data-category="zehlendorf">
                                 <div class="marquee-card" data-title="Kartoffelgratin" data-desc="Der französische Beilagen-Traum aus hauchdünnen Kartoffelscheiben, gebacken in einer sündhaft cremigen Knoblauch-Sahne-Soße.&#10;&#10;Vorbereiten: Form mit Butter ausstreichen und mit der halbierten Knoblauchzehe kräftig ausreiben.&#10;Schneiden: Kartoffeln schälen und in ca. 2 mm dünne Scheiben hobeln (danach NICHT mehr waschen, die Stärke bindet die Soße).&#10;Soße mischen: Sahne und Milch mischen, kräftig mit Salz, Pfeffer und Muskat würzen.&#10;Schichten: Kartoffelscheiben fächerförmig in der Form auslegen und mit der Soße übergießen.&#10;Backen: Bei 180°C Umluft ca. 45-50 Minuten backen, bis die Oberfläche eine goldbraune Kruste bildet.&#10;&#10;Variation: Den Käse in den letzten 15 Minuten über das Gratin streuen. Unbedingt auch den eigenen Lieblingskäse ausprobieren und auch hier passt immer eine Spur guter Parmesan. Mehr Abwechslung bringen auch verschiedene Toppings wie Kräuterpesto oder Streifen von getrockneten Tomaten." data-zutaten="800 g festkochende Kartoffeln, 250 ml Sahne, 150 ml Vollmilch, 1 Knoblauchzehe, 1 EL Butter, 250g Käse (Mix aus Gruyere und Comte), Salz, Pfeffer, frisch geriebene Muskatnuss" data-allergene="Milch">
-                                    <div class="food-photo" style="background-image: url('kartoffelgratin.svg');"></div>
+                                    <div class="food-photo" style="background-image: url('kartoffelgratin.webp');"></div>
                                     <div class="marquee-card-inner"><div class="card-info"><h4>Kartoffelgratin</h4><p>Cremig & Herzhaft</p></div></div>
                                 </div>
                             </li>
                             <li class="splide__slide" data-category="zehlendorf">
                                 <div class="marquee-card" data-title="Pilzrisotto" data-desc="Ein cremiges, fließendes Risotto mit intensivem Waldpilz-Aroma – ein Gericht, das Zuwendung und rühren erfordert.&#10;&#10;Basis schwitzen: Schalotte fein würfeln und in Olivenöl glasig dünsten. Reis zugeben und kurz mitrösten.&#10;Ablöschen: Mit Weißwein ablöschen und einkochen lassen, bis die Flüssigkeit verdampft ist.&#10;Rühren und Gießen: Schöpfkelle für Schöpfkelle die heiße Brühe zugeben. Immer rühren, bis die Flüssigkeit aufgesogen ist (ca. 20 Minuten).&#10;Pilze braten: In der Zwischenzeit die Pilze in einer separaten Pfanne scharf anbraten.&#10;Vollenden (Mantecatura): Pfanne vom Herd nehmen. Pilze, kalte Butter und Parmesan kräftig unterrühren. 2 Minuten ruhen lassen.&#10;&#10;Variation: Verschiedene Risottoreissorten, Rote Beete Saft oder Sepiatinte sorgen für unvergessliche Erlebnisse aus dem Kochtopf." data-zutaten="250 g Risottoreis, 300 g frische Pilze, 1 Schalotte, 1 Knoblauchzehe, 100 ml trockener Weißwein, 800 ml heiße Gemüsebrühe, 50 g frisch geriebener Parmesan, 2 EL kalte Butter, Olivenöl, Salz, Pfeffer" data-allergene="Milch, Sulfite (Wein)">
-                                    <div class="food-photo" style="background-image: url('pilzrisotto.svg');"></div>
+                                    <div class="food-photo" style="background-image: url('pilzrisotto.webp');"></div>
                                     <div class="marquee-card-inner"><div class="card-info"><h4>Pilzrisotto</h4><p>Edle Waldpilze</p></div></div>
                                 </div>
                             </li>
                             <li class="splide__slide" data-category="zehlendorf">
                                 <div class="marquee-card" data-title="Tuna Tataki" data-desc="Eine japanische Delikatesse: Der Thunfisch wird nur von außen kurz angebrannt, bleibt innen roh und schmilzt auf der Zunge.&#10;&#10;Marinieren: Sojasauce, Reisessig und geriebenen Ingwer mischen. Den Thunfisch für 15 Minuten darin einlegen.&#10;Panieren: Den Fisch aus der Marinade nehmen (gut abtropfen) und rundherum fest in den Sesamsamen wälzen.&#10;Braten: Sesamöl in einer Pfanne sehr stark erhitzen. Den Fisch von jeder Seite maximal 30 Sekunden anbraten (er MUSS innen roh bleiben!).&#10;Kühlen: Sofort aus der Pfanne nehmen und kurz abkühlen lassen, damit er beim Schneiden nicht zerfällt.&#10;Servieren: In etwa 0,5 cm dicke Scheiben schneiden und mit der restlichen Marinade beträufeln.&#10;&#10;Variation: Verschiedene Sauce geben dem Gericht große Abwechslung. Probiere mal Ponzu-, Honig-Senf-, oder Sirachasauce." data-zutaten="300 g frischer Thunfisch, 3 EL Sojasauce, 1 EL Sesamöl, 1 EL Reisessig, 1 TL frischer Ingwer, Schwarzer und weißer Sesam" data-allergene="Fisch, Soja, Sesam">
-                                    <div class="food-photo" style="background-image: url('tunaataki.svg');"></div>
+                                    <div class="food-photo" style="background-image: url('tunaataki.webp');"></div>
                                     <div class="marquee-card-inner"><div class="card-info"><h4>Tuna Tataki</h4><p>Asiatische Eleganz</p></div></div>
                                 </div>
                             </li>
                             <li class="splide__slide" data-category="zehlendorf">
                                 <div class="marquee-card" data-title="Profiteroles" data-desc="Kleine, luftige Windbeutel, gefüllt mit eiskalter Eiscrem und Schokoladenmousse.&#10;&#10;Brandteig abbrennen: Wasser, Butter und Salz aufkochen. Topf vom Herd nehmen, das Mehl auf einmal hineinschütten und rühren. Topf wieder auf den Herd stellen und rühren, bis ein dicker Kloß entsteht und sich ein weißer Belag am Topfboden bildet.&#10;Eier einarbeiten: Teig kurz abkühlen lassen. Eier einzeln mit dem Handmixer unterrühren, bis der Teig glänzt.&#10;Backen: Kleine Tupfen auf ein Backblech spritzen und bei 200°C ca. 20 Minuten backen (Ofentür NICHT öffnen!)." data-zutaten="125 ml Wasser, 50 g Butter, 1 Prise Salz, 75 g Mehl, 2 Eier" data-allergene="Gluten, Milch, Eier">
-                                    <div class="food-photo" style="background-image: url('profiterol.svg');"></div>
+                                    <div class="food-photo" style="background-image: url('profiterol.webp');"></div>
                                     <div class="marquee-card-inner"><div class="card-info"><h4>Profiteroles</h4><p>Süßer Abschluss</p></div></div>
                                 </div>
                             </li>
@@ -744,7 +744,6 @@
     </div>
 
 
-    <!-- KONTAKT OVERLAY -->
     <!-- KONTAKT OVERLAY -->
     <div class="glass-overlay" id="contact-overlay" role="dialog" aria-modal="true" aria-labelledby="contact-inquiry-title" onclick="closeContact(event)">
         <div class="glass-sheet contact-layout" onclick="event.stopPropagation()">
