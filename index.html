@@ -597,7 +597,7 @@
                     </div>
                 </div>
             </div>
-            <div class="swipe-hint" id="swipe-hint">↓ Wischen</div>
+            <a href="#navigation" class="swipe-hint" id="swipe-hint" aria-label="Nach unten scrollen" onclick="event.preventDefault(); const sc = document.getElementById('scroll-container'); sc.scrollTo({ top: sc.clientHeight, behavior: 'smooth' });">↓ Scrollen!</a>
         </section>
 
         <section class="section" id="navigation">
